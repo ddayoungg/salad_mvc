@@ -1,0 +1,148 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ------------- 이용약관, 개인정보 처리방침  ------------- */
+.service_tit{margin:0 0 50px 0; padding:0 0 30px 0; border-bottom:1px solid #e2e2e2;  }
+.service_tit h2{ font-size:28px; line-height:28px; letter-spacing:-0.03em;     font-size: 28px;
+    color: #222222;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+.service_cont{}
+/* 회사소개 */
+.service_cont .service_company{}
+/* 이용안내 */
+.service_cont .service_guide{}
+
+/* 고객센터 메인 */
+.service_main{}
+.service_main .board_zone_list{min-height:500px;}
+.service_main_cont{float:left; position:relative; width:100%; margin:50px 0 0 0;}
+.service_main_cont:after{display:block; clear:both; content:"";}
+
+/* ------------- 공지사항,이벤트 공통 ------------- */
+.service_main_cont h3{padding:0 0 10px 0; font-size:18px; border-bottom:1px solid #999999;}
+.service_main_cont ul{margin:-1px 0 0 0; border-top:1px solid #999999;}
+.service_main_cont li{position:relative; padding:0 10px 0 0; border-bottom:1px solid #dbdbdb; line-height:1;}
+.service_main_cont li span{float:right; padding:10px 0 0 0; color:#acacac;}
+.service_main_cont li a{display:block; overflow:hidden; padding:10px 15px 9px 20px; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; 
+background:url(../../img/icon/etc/icon_board_list.png) no-repeat 7px 15px;}
+.service_main_cont li a:hover{text-decoration:underline;}
+/* 공지사항 영역 위치 */
+.service_main_notice{float:left; position:relative; width:47%;}
+/* 이벤트 영역 위치 */
+.service_main_event{float:right; position:relative; width:47%;}
+
+/* ------------- 설문조사 ------------- */
+.poll_sec{}
+.poll_sec .poll_tit{margin:0 0 20px 0; padding:0 0 10px 0; font-size:16px; border-bottom:1px solid #999999;}
+.poll_cont{}
+.poll_list_box{}
+.poll_list_box input[type="text"]{width:100%; margin:0 0 0 10px;}
+.poll_list_box textarea{width:100%; height:100px; margin:0 0 0 10px;}
+.poll_list_box + .btn_center_box{margin:20px 0 0 0;}
+/* 설문조사 제목 + 리스트 */
+.poll_list_tit{padding:10px 0 5px 0; font-size:14px;}
+.poll_list_tit strong{color:#00af85;}
+.poll_list_cont{padding:0 0 30px 10px;}
+.poll_list_cont ul{width:100%;}
+.poll_list_cont li{width:100%; margin:10px 0 10px 0;}
+/* 설문조사 input 셋팅 */
+.poll_list_cont .form_element{display:block; padding:0 0 0 25px;}
+.poll_list_cont .form_element label{margin:0 0 0 -20px;}
+.poll_list_cont .form_element label + input[type="text"]{display:block; position:static; width:60%; margin:5px 0 0 0;}
+
+/* 설문조사 완료 */
+.poll_end_cont{padding:80px 0 0 0; text-align:center; line-height:2.8;}
+.poll_end_cont strong{display:block; font-size:28px;}
+.poll_end_cont span{display:block; font-size:16px;}
+.poll_end_cont a{font-size:14px;}
+.poll_end_cont a em,
+.poll_end_cont a em:hover{border-bottom:1px solid #333333;}
+.poll_end_cont + .btn_center_box{margin:30px 0 0 0;}
+
+/* 설문조사 결과보기 */
+.poll_info_box{margin:0 0 30px 0; padding:20px 20px 20px 20px; border:1px solid #eeeeee; background:#f8f8f8;}
+.poll_info_box dl{overflow:hidden; padding:5px 0 5px 0;}
+.poll_info_box dt{float:left; width:80px; font-weight:bold;}
+.poll_info_box dd{float:left; width:400px;}
+
+/* 설문조사 결과 제목 + 리스트 */
+.poll_result_tit{padding:5px 0 5px 0; font-size:14px;}
+.poll_result_tit strong{color:#00af85;}
+.poll_result_cont{padding:0 0 30px 10px;}
+.poll_result_cont ul{width:100%;}
+.poll_result_cont li{display:table; width:100%; margin:15px 0 15px 0; padding:0 0 10px 0; vertical-align:middle; border-bottom:1px solid #eeeeee;}
+.poll_result_cont .poll_result_view{padding:10px 10px 10px 10px; border:1px solid #cecece; box-sizing:border-box; word-break:break-all;}
+
+.poll_result_txt{display:block; width:auto; padding:0 10px 0 0;}
+.poll_stick{display:inline-block; width:400px; height:15px; margin:10px 0 0 0; background:#f9f9f9;}
+.poll_stick em{display:inline-table; height:15px; background:#00af85;}
+.poll_percent{display:inline-block; padding:0 0 0 15px; vertical-align:middle;}
+
+/* ------------- FAQ ------------- */
+/* 게시판 기본 */
+.board_zone_sec{position:relative;}
+.board_zone_tit{margin:0 0 10px 0; padding:0 0 10px 0; }
+.board_zone_tit > h3{ font-size:18px; font-weight:600; }
+.board_zone_cont{}
+.board_list_table{width:100%; margin:0 0 20px 0; border:0; border-spacing:0; border-collapse:collapse; border-top:1px solid #3c3c3c; text-align:center;}
+.board_list_table th{padding:10px 10px 10px 14px; border-bottom:1px solid #dbdbdb; background:#fbfbfb;}
+.board_list_table td{padding:13px 10px 15px 10px; border-bottom:1px solid #dbdbdb;}
+/* 게시판 이미지 */
+.board_list_table .board_img{overflow:hidden; position:relative; text-align:center; border:1px solid #ebebeb;}
+.board_list_table .board_img a{display:table-cell; height:100%; vertical-align:middle;}
+/* 게시판 제목 */
+.board_list_table .board_tit{text-align:left; vertical-align:middle;}
+.board_list_table .board_tit strong{font-weight:normal;}
+.board_list_table .board_tit strong > span{color:#00af85;}
+.board_list_table .board_tit.on strong{font-weight:bold;}
+.board_list_table .board_tit img{margin:0 2px 0 2px; vertical-align:middle;}
+.board_list_table .board_tit strong:hover{text-decoration:underline;}
+/* 게시판 제목 답글 */
+.board_list_table .board_tit .reply{}
+.board_list_table .board_tit .reply{margin:0 0 0 15px; padding:0 0 0 20px; background:url(../../img/icon/board/icon_comment_reply.png) no-repeat 8px 4px;}
+
+/* 자주묻는 질문 검색 */
+.date_check_box{margin:0 0 35px 0; padding:20px 20px 20px 30px; border:1px solid #ebebeb;}
+.date_check_box:after{display:block; clear:both; content:"";}
+.date_check_box h3{float:left; padding:6px 15px 0 0; color:#777777; font-size:13px;}
+.date_check_list{float:left;}
+.date_check_list button{float:left; width:54px; height:31px; margin:0 0 0 -1px; color:#777777; font-size:12px; border:1px solid #d6d6d6;}
+.date_check_list button:hover,
+.date_check_list button.on{color:#ffffff; background:#aeaeae;}
+.date_check_calendar{float:left; margin:0 10px 0 10px;}
+.date_check_calendar .anniversary{background:url(../../img/member/icon_calendar.png) no-repeat right center;}
+.date_faq_list{display:inline-block; width:70%;}
+.date_faq_list h2{padding:0 0 10px 0;}
+.date_faq_list input[type="text"]{width:70%;}
+.date_faq_txt{display:inline-block; width:23%; padding:10px 0 10px 50px; border-left:1px solid #dbdbdb;}
+.date_faq_txt strong{display:block; padding:0 0 10px 0;}
+/* FAQ 질문 리스트 */
+.board_hot_list{padding:10px 0 50px 0; font-size:0; text-align:left; border-top:1px solid #999999;font-size:0;}
+.board_hot_list ul{display:inline-block; font-size:16px;  font-size:0;  }
+.board_hot_list ul li{display:inline-block; width:auto; margin:0; vertical-align:middle; width:160px; padding:10px 0;}
+.board_hot_list ul li.on{font-weight:bold;}
+.board_hot_list ul li.on span {color:#00af85;}
+.board_hot_list ul li a{display:block; height:11px; padding:0 14px 0 10px;position:relative; font-size:16px; text-align:center; }
+.board_hot_list ul li a:after{content:"";display:block; position:absolute;top:3px;right:0;width:1px;height:11px;background:#ebebeb;}
+.board_hot_list ul li a span{position:relative; top:-5px; font-size:16px;}
+.board_hot_list ul li a span:hover{font-weight:bold; border-bottom:1px solid #00af85; color:#00af85;}
+.board_hot_list ul li:first-child a{border-left:none 0;}
+.board_hot_list ul li:last-child a:after{display:none; }
+/* FAQ 게시판 */
+.board_list_faq{position:relative;}
+.board_list_faq .board_hot_list{}
+.board_list_faq .board_list_table{border-top:1px solid #dbdbdb;}
+.board_list_faq .board_list_table .board_tit{padding-left:42px;}
+.board_list_faq .board_list_table .board_tit a{display:block; padding:0 30px 0 0; background:url(../../img/icon/board/icon_toggle_open.png) no-repeat right center;}
+.board_list_faq .board_list_table .board_tit.on a{background:url(../../img/icon/board/icon_toggle_close.png) no-repeat right center;}
+.board_list_faq .icon_qan{margin:0 0 0 -31px; padding:0 10px 0 0;}
+.board_list_faq .icon_qan.q{ font-weight:bold; color:#000; font-size:16px;}
+.board_list_faq .icon_qan.a{ font-weight:bold; color:#00af85; font-size:16px; }
+.board_faq{text-align:left; background:#f8f8f8;}
+.board_faq_cont{position:relative; max-width:730px; min-height:70px; margin:0 0 0 20px;}
+.board_faq_cont .icon_qan{position:absolute; top:0px; left:0px; margin:0;}
+.board_faq_cont_a{ margin-top:10px; padding-left:20px;   }
+
+.board_list_faq .board_hot_list{padding: 10px 0 20px 0;}

@@ -1,0 +1,185 @@
+/*!
+ * Datetimepicker for Bootstrap 3
+ * version : 4.17.37
+ * https://github.com/Eonasdan/bootstrap-datetimepicker/
+ */
+/*@font-face {*/
+    /*font-family: 'Glyphicons Halflings';*/
+    /*src: url('../fonts/glyphicons-halflings-regular.eot');*/
+    /*src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');*/
+/*}*/
+
+/*.glyphicon {*/
+    /*position: relative;*/
+    /*top: 1px;*/
+    /*display: inline-block;*/
+    /*font-family: 'Glyphicons Halflings';*/
+    /*font-style: normal;*/
+    /*font-weight: normal;*/
+    /*line-height: 1;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*-moz-osx-font-smoothing: grayscale;*/
+/*}*/
+
+/*.glyphicon-time:before {*/
+    /*content: "\e023";*/
+/*}*/
+
+/*.glyphicon-chevron-left:before {*/
+    /*content: "\e079";*/
+/*}*/
+
+/*.glyphicon-chevron-right:before {*/
+    /*content: "\e080";*/
+/*}*/
+
+/*.glyphicon-chevron-up:before {*/
+    /*content: "\e113";*/
+/*}*/
+
+/*.glyphicon-chevron-down:before {*/
+    /*content: "\e114";*/
+/*}*/
+
+/*.glyphicon-calendar:before {*/
+    /*content: "\e109";*/
+/*}*/
+
+/*.btn {*/
+    /*display: inline-block;*/
+    /*padding: 6px 12px;*/
+    /*margin-bottom: 0;*/
+    /*font-size: 14px;*/
+    /*font-weight: normal;*/
+    /*line-height: 1.42857143;*/
+    /*text-align: center;*/
+    /*white-space: nowrap;*/
+    /*vertical-align: middle;*/
+    /*-ms-touch-action: manipulation;*/
+    /*touch-action: manipulation;*/
+    /*cursor: pointer;*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+    /*background-image: none;*/
+    /*border: 1px solid transparent;*/
+    /*border-radius: 4px;*/
+/*}*/
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+    padding: 4px 5px;
+    border-radius: 0;
+}
+.collapse {
+    display: none;
+}
+
+    .collapse.in {
+        display: block;
+    }
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 12px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.bootstrap-datetimepicker-widget table td.weekend:first-child {
+    color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover,
+.bootstrap-datetimepicker-widget table td span.active {
+    background-color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    border-bottom-color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td{
+    width: 42px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+    width: 42px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 0;
+}
+
+.picker-switch {
+    padding: 6px auto;
+}
+
+.datepicker-days {
+    padding: 22px;
+}
+.datepicker-days .picker-switch {
+    color: #333;
+    font-size: 16px;
+}
+
+.datepicker-months,
+.datepicker-years,
+.datepicker-decades {
+    padding: 20px 10px;
+}
+.datepicker-months .picker-switch {
+    color: #333;
+    font-size: 24px;
+}
+.bootstrap-datetimepicker-widget .datepicker-months .month {
+    width: 45px;
+}
+
+.datepicker-years .picker-switch,
+.datepicker-decades .picker-switch {
+    color: #333;
+    font-size: 20px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker-decades .decade {
+    width: 54px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 0;
+    margin: 0 2px;
+}
+
+.bootstrap-datetimepicker-widget th:hover {
+    background-color: transparent;
+}
+.bootstrap-datetimepicker-widget .prev {
+    background: transparent url('../../img/btn/gv-thumbnail-prev.png') no-repeat 50% 50%;
+}
+
+.bootstrap-datetimepicker-widget .next {
+    background: transparent url('../../img/btn/gv-thumbnail-next.png') no-repeat 50% 50%;
+}

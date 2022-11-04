@@ -1,0 +1,434 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 공통 버튼 - 회색버튼 */
+.btn_gray_list{}
+.btn_gray_list a,
+.btn_gray_list button{display:inline-block; padding:0 15px 0 15px;background:#fff;  border:1px solid #e2e2e2; vertical-align:middle; height:38px; line-height:38px; box-sizing:border-box; }
+.btn_gray_list a em,
+.btn_gray_list button em{display:inline-block; /* padding:0px 20px 0 0; background:url('../img/common/btn/btn_gray_bg.png') no-repeat right top; */ } 
+.btn_gray_list a span,
+.btn_gray_list button span{display:inline-block; padding:0px 0px 0 0;   font-size:14px;}
+/* .btn_gray_list a:hover,
+.btn_gray_list button:hover{background:#f8f8f8;} */
+.btn_gray_list button em{/* margin-top:-2px; */}
+
+.btn_gray_list .btn_gray_small{font-size:14px; background:url('../img/common/btn/btn_gray_bg_02.png') repeat-x bottom;}
+.btn_gray_list .btn_gray_small em{background-position:right 1px; line-height:22px;}
+.btn_gray_list .btn_gray_small em.icon_download{padding:0px 0px 0 0; background-position:right -22px;}
+.btn_gray_list .btn_gray_small span{line-height:38px;}
+.btn_gray_list .btn_gray_mid{height:51px; line-height:51px; }
+.btn_gray_list .btn_gray_mid em{background-position:right -69px; line-height:26px; font-size:16px;}
+.btn_gray_list .btn_gray_mid span{line-height:26px; letter-spacing:-0.03em;}
+.btn_gray_list .btn_gray_mid em.icon_download{padding:0px 30px 0 0; background-position:right -93px;}
+.btn_gray_list .btn_gray_big{height:38px; background-position:0 -140px;}
+.btn_gray_list .btn_gray_big em{background-position:right -139px; line-height:31px;}
+.btn_gray_list .btn_gray_big span{line-height:38px;}
+.btn_gray_list .style-none { border: 0px; padding: 0px; vertical-align: baseline; background: none !important; }
+
+.receipt .btn_gray_list .btn_gray_mid{ height:auto; line-height:38px; }
+.receipt .btn_gray_list .btn_gray_mid span{ line-height:38px; }
+.btn_gray_list .btn_gray_small{ background-color:#fff;  background-image:none; }
+.btn_center_box button{/*margin:0 2px 0 3px;*/}
+
+.btn_center_box button + button,
+.btn_left_box button + button,
+.btn_right_box button + button{margin-left:10px;}
+
+/* --------------------------------
+    상품상세 버튼
+-------------------------------- */
+/* 장바구니,찜하기 공통 버튼 */
+.btn_add_cart,
+.btn_add_wish{display:inline-block; width:278px; height:70px; line-height:70px;  margin:0 0 0 6px; padding:0 10px 0 10px; color:#3e3d3c; font-size:16px; border:1px solid #cccccc; background:#ffffff; text-align:center; font-weight:bold;}
+
+
+.btn_add_cart{ float:left; background:#fff; border:1px solid #00af85; color:#00af85; font-size:20px; }
+.btn_add_order{ float:right;}
+/* 바로구매 버튼 */
+.btn_add_order{display:inline-block; width:278px; height:70px; margin:0 0 0 6px; padding:0 10px 0 10px; color:#fff; font-size:20px; border:1px solid #00af85; background:#00af85; text-align:center; font-weight:bold; line-height:70px; }
+.btn_add_order:hover{border:1px solid #00af85; background:#00af85;}
+/* 구매불가 버튼 */
+.btn_add_soldout{display:initial; width:390px; height:52px; margin:0 auto; padding:0 10px 0 10px; color:#ffffff; font-size:20px; font-weight:bold; border:1px solid #666666; background:#666666; text-align:center; cursor:default;}
+/* .btn_add_soldout:hover{border:1px solid #829c00; background:#829c00;} */
+/* 장바구니 버튼 */
+.btn_add_cart{margin:0;}
+/* 재입고알림 버튼 */
+.btn_restock_notice_v1{display:inline-block; width:128px; height:52px; margin:0; padding:0 10px 0 34px; color:#00af85; font-size:16px; font-weight:bold; border:1px solid #00af85; background:#ffffff url('../img/icon/goods_icon/ico_restock_moment.png') no-repeat 8px center; text-align:center;}
+.btn_restock_notice_v1:hover{color:#829c00; border:1px solid #829c00;}
+.btn_restock_notice_v2{display:inline-block; width:156px; height:52px; margin:0 5px 0 0; padding:0 10px 0 34px; color:#00af85; font-size:16px; font-weight:bold; border:1px solid #00af85; background:#ffffff url('../img/icon/goods_icon/ico_restock_moment.png') no-repeat 18px center; text-align:center;}
+.btn_restock_notice_v2:hober{color:#829c00; border:1px solid #829c00;}
+/* 재입고알림 버튼 있을 때 변경되는 버튼 */
+.btn_choice_box .restock{display:inline-block;}
+.btn_choice_box .restock .btn_add_cart,
+.btn_choice_box .restock .btn_add_wish{width:115px; margin:0 0 0 3px;}
+.btn_choice_box .restock .btn_add_order{width:176px; margin:0 0 0 3px;}
+/* 상품후기 전체보기, 상품문의 전체보기 */
+.btn_reviews_more,
+.btn_qna_more{display:inline-block; min-width:120px; padding:10px 10px 10px 10px; color:#00af85; font-weight:400; border:1px solid #00af85; background:#ffffff; text-align:center;}
+.btn_reviews_more:hover,
+/* .btn_qna_more:hover{color:#333333; border:1px solid #bbbbbb;} */
+/* 상품후기 글쓰기, 상품문의 글쓰기 */
+.btn_reviews_write,
+.btn_qna_write{display:inline-block; min-width:120px; padding:10px 10px 10px 10px; color:#ffffff; font-weight:400; border:1px solid #00af85; background:#00af85; text-align:center; margin-left:7px; }
+.btn_reviews_write:hover,
+.btn_qna_write:hover{}
+/* 상품후기 전체보기, 상품후기 글쓰기, 상품문의 전체보기, 상품문의 글쓰기 버튼 박스 */
+.btn_reviews_box{}
+.btn_qna_box{}
+/* 추천하기 */
+.btn_comment_best{display:inline-block; min-width:50px; margin:0 0 0 10px; padding:1px 5px 2px 5px; color:#ffffff; font-size:11px; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_comment_best:hover{border:1px solid #829c00; background:#829c00;}
+/* 검색결과 페이지 검색버튼 */
+.btn_goods_search{display:inline-block; min-width:100px; height:38px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_goods_search em{padding:0 20px 0 0;
+    background-image:url("../img/common/btn/btn_goods_search.png");
+    background-position:right 3px;
+    background-repeat:no-repeat;}
+/* 더보기 */
+.btn_goods_main_more{height:1px; border-top:1px solid #dbdbdb;}
+.btn_goods_main_more .btn_goods_main_view_more{position:absolute; top:4px; right:5px; padding:2px 5px 3px 5px; font-size:11px; font-weight:bold; border:1px solid #dbdbdb;}
+
+
+/* --------------------------------
+    회원가입 버튼
+-------------------------------- */
+/* 이전, 다음 버튼 */
+.btn_member_prev{
+    width: 240px;
+    height: 60px;
+    margin: 60px 0 0 0;
+    color: #00af85;
+    font-size: 20px;
+    border: 1px solid #00af85;
+    background: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn_member_prev:hover{color:#00af85; border:1px solid #00af85;}
+.btn_member_next{width:240px;height:60px;margin:60px 0 0 0;color:#ffffff;font-size:20px;border:1px solid #00af85;background:#00af85;cursor:pointer;font-weight: bold;}
+.btn_member_next:hover{border:1px solid #00af85; background:#00af85;}
+/* 로그인, 확인 버튼 */
+.btn_member_ok,
+.btn_member_login{width:150px; height:45px; margin:35px 0 0 0; color:#ffffff; font-size:14px; border:1px solid #00af85; background:#00af85; cursor:pointer;}
+.btn_member_ok:hover,
+.btn_member_login:hover{border:1px solid #829c00; background:#829c00;}
+
+.body-find-password-reset .btn_member_ok,
+.body-find-password-reset .btn_member_login{width: 240px;
+    height: 60px;
+    margin: 60px 0 0 0;
+    color: #ffffff;
+    font-size: 20px;
+    border: 1px solid #00af85;
+    background: #00af85;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.body-find-password-reset .btn_member_ok:hover,
+.body-find-password-reset .btn_member_login:hover{}
+.body-find-password-reset .member_cont .btn_center_box, .body-find-password-reset .member_warning + .btn_center_box{margin:0 0 0 0; }
+
+/* 아이디 찾기 버튼 */
+.btn_member_id{float:none; width:100%; height:58px; margin:15px 0 0 0; color:#ffffff; font-size:20px; font-weight:400; border:1px solid #00af85; background:#00af85; cursor:pointer;}
+.btn_member_id:hover{border:1px solid #00af85; background:#00af85;}
+
+
+
+
+/* 비밀번호 찾기, 로그인하기 버튼 */
+/* .btn_member_white{width:150px; height:45px; color:#3e3d3c; font-weight:bold; font-size:13px; border:1px solid #cccccc; background:#fff; cursor:pointer;}
+.btn_member_white:hover{color:#333333; border:1px solid #bbbbbb;} */
+/* 회원가입 등등 */
+.btn_member_black{width:500px; height:60px; line-height:60px; margin:15px 0 0 0; border:1px solid #00af85; background:#00af85; color:#f1f1f1; font-size: 20px; font-weight:bold; cursor:pointer;}
+/* .btn_member_black:hover{border:1px solid #829c00; background:#829c00;} */
+/* 취소*/
+.btn_member_cancel{width:238px; height:58px; color:#00af85; font-weight:400; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer;}
+.btn_member_cancel:hover{color:#00af85; border:1px solid #00af85;}
+/* 회원가입, 휴먼 해제하기 */
+.btn_member_join{width:238px; height:58px; margin:0; color:#ffffff; font-size:20px; border:1px solid #00af85; background:#666666; cursor:pointer; font-weight:400;}
+.btn_member_join:hover{border:1px solid #00af85; color: #fff; background:#00af85;}
+.btn_comfirm{width:238px; height:58px; margin:0; color:#ffffff; font-size:20px; border:1px solid #00af85; background:#00af85; cursor:pointer; font-weight:400;}
+.btn_comfirm:hover{border:1px solid #00af85; color: #fff; background:#00af85;}
+
+
+
+.find_id_box .btn_comfirm{width:100%; height:58px; margin:0; color:#00af85; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer; font-weight:400;}
+.find_id_box .btn_comfirm:hover{border:1px solid #00af85; color: #00af85; background:#fff;}
+.find_id_box .btn_member_white {width:100%; height:58px; margin:0; color:#00af85; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer; font-weight:400;}
+.find_id_box .btn_member_white:hover{border:1px solid #00af85; color: #00af85; background:#fff;}
+
+
+/* --------------------------------
+    마이페이지 버튼
+-------------------------------- */
+/* 더보기 버튼 */
+.mypage_lately_info .btn_board_more{position:absolute; top:7px; right:5px; font-size:12px;}
+.mypage_lately_info .btn_board_more:hover{text-decoration:underline;}
+/* 구매확정, 리뷰쓰기 */
+.btn_buy_ok,
+.btn_review_write{display:inline-block; min-width:46px; margin:2px 1px 2px 1px; color:#fff; border:1px solid #00af85; background:#00af85; text-align:center;
+padding:0px 0 0px 0; margin-top:3px; height:38px; line-height:38px; font-weight:400; width:81px;
+}
+.btn_buy_ok em,
+.btn_review_write em{font-size:14px;font-weight:400;     letter-spacing: -0.03em; }
+.btn_buy_ok:hover,
+.btn_review_write:hover{border:1px solid #00af85; background:#00af85;}
+
+.reorder-btn-nw{ width:79px; border:1px solid #00af85; background:#fff; color:#00af85; padding:0px 0 0px 0; margin-top:3px; height:38px; line-height:38px; font-weight:400; font-weight:400; } 
+.reorder-btn-nw em{ font-size:14px;font-weight:400 !important;     letter-spacing: -0.03em;}
+.reorder-btn-nw:hover{border:1px solid #00af85; background:#fff; color:#00af85; } 
+.btn_buy_ok em,
+.btn_review_write em{font-weight:bold;}
+/* 쇼핑정보 > 취소,확인 */
+.btn_claim_cancel{display:inline-block; min-width:80px; height:42px; padding:0 10px 0 10px; line-height:40px; color:#3e3d3c; font-size:14px; border:1px solid #cccccc; background:#ffffff; text-align:center;}
+/* .btn_claim_cancel:hover{color:#333333; border:1px solid #00af85;} */
+.btn_claim_cancel em{font-weight:bold;}
+.btn_claim_ok{min-width:100px; height:44px; padding:0 10px 0 10px; color:#ffffff; font-size:14px; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center; vertical-align:top;}
+/* .btn_claim_ok:hover{border:1px solid #829c00; background:#829c00;} */
+.btn_claim_ok em{font-weight:bold;}
+
+/* 찜리스트 장바구니,삭제하기, 선택상품 삭제 */
+.btn_wish_cart{display:inline-block; min-width:46px; margin:2px 1px 2px 1px; padding:0px 10px 0px 10px; color:#fff; border:1px solid #00af85; background:#00af85; text-align:center; font-size:14px; height:38px; line-height:38px; }
+.btn_wish_cart:hover{}
+.btn_wish_del{display:inline-block; min-width:46px; min-height:18px; margin:5px 0 0 0; padding:0px 10px 0px 10px; color:#00af85; border:1px solid #00af85; background:#ffffff; text-align:center;font-size:14px; height:38px; line-height:38px; }
+.btn_wish_del:hover{color:#333333; border:1px solid #bbbbbb;}
+.btn_wish_choice_del, .btn_wish_choice_cart{display:inline-block; min-width:46px; min-height:38px; margin:5px 0 0 0; padding:3px 10px 4px 10px; color:#00af85; border:1px solid #00af85; background:#ffffff; text-align:center; letter-spacing:-0.03em; font-size:14px; }
+
+/* 회원 비밀번호 검증 > 취소, 인증하기 */
+.btn_pw_cancel{display:inline-block; min-width:80px; height:42px; padding:0 10px 0 10px; line-height:42px; color:#3e3d3c; font-size:14px; border:1px solid #cccccc; background:#ffffff; text-align:center; cursor:pointer;}
+.btn_pw_cancel:hover{color:#333333; border:1px solid #bbbbbb;}
+.btn_pw_cancel em{font-weight:bold;}
+.btn_pw_certify{min-width:100px; height:44px; padding:0 10px 0 10px; color:#ffffff; font-size:14px; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center; vertical-align:top;}
+
+.btn_pw_certify em{font-weight:bold;}
+/* 배송지 관리 > 새 배송지 추가 */
+.btn_add_shipping{position:absolute; top:-58px; right:0; height:38px; padding:0 10px; line-height:38px; color:#00af85; border:1px solid #00af85; background:#fff; text-align:center; font-size:14px;} 
+.btn_add_shipping:hover{border:1px solid #00af85; background:#fff;}
+/* 쿠폰 > 쿠폰등록 */
+.btn_coupon_register{position:absolute; top:-5px; right:0px; width:70px; height:28px; line-height:26px; color:#fff; border:1px solid #3f393b; background:#3f393b; text-align:center;  font-size:14px;}
+.btn_coupon_register:hover{border:1px solid #3f393b; background:#3f393b;}
+.btn_coupon_register em{ font-size:12px;}
+/* 1:1 문의 조회버튼 */
+.mypage_cont .btn_date_check{/*display:inline-block;*/ min-width:100px; height:38px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center; display:inline-block;vertical-align:top; }
+.mypage_cont .btn_date_check:hover{border:1px solid #00af85; background:#00af85;}
+.mypage_cont .btn_date_check em{padding:0 20px 0 0;
+    background-image:url("../img/common/btn/btn_goods_search.png");
+    background-position:right 3px;
+    background-repeat:no-repeat;}
+
+/* --------------------------------
+    주문페이지 버튼
+-------------------------------- */
+/* 장바구니 > 쇼핑 계속하기 */
+.shop_go_link{display:inline-block; border-bottom:1px solid #333333;}
+/* 선택 상품 삭제, 선택 상품 찜 */
+.btn_order_choice_del,
+.btn_order_choice_wish{display:inline-block;/*  min-width:198px; height:36px; padding:0 15px 0 15px; color:#626262; border:1px solid #dbdbdb; text-align:center; line-height:26px; color:#333333; font-size:20px; font-weight:400;  */
+vertical-align:top;font-size:18px;font-weight:500; line-height:50px;
+}
+.btn_order_choice_del{ color:#afafaf; font-weight:500; position:relative;padding-left:22px;line-height:50px;} 
+.btn_order_choice_wish{ margin-right:40px;  font-weight:500; position:relative;padding-left:24px;}
+.btn_order_choice_del:before{content:"";display:block;vertical-align:top;width:15px;height:19px;background:url('../img/new/ncart_del_bul.png') no-repeat 0 0;margin-right:13px; position:relative; top:50%; margin-top:-11.5px; position:absolute;left:0;}
+.btn_order_choice_wish:before{content:"";display:block;vertical-align:top;width:20px;height:17px;background:url('../img/new/ncart_zzim_bul.png') no-repeat 0 0; margin-right:12px; position:relative; top:50%; margin-top:-9.5px; position:absolute;left:0;}
+
+.btn_order_box .btn_order_choice_del,
+.btn_order_box .btn_order_choice_wish{display:inline-block; min-width:127px; height:38px; padding:0 15px 0 15px; color:#626262; border:1px solid #dbdbdb; text-align:center; line-height:38px; color:#333333; font-size:14px; font-weight:400; }
+/*.btn_order_choice_del:hover,
+ .btn_order_choice_wish:hover{color:#484848; border:1px solid #777777;}
+
+ */
+/* 선택 상품 주문 */
+.shop_go_link{min-width:218px; height:53px; color:#00af85; font-weight:400; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer; margin-right:8px; vertical-align:top; line-height:55px; }
+.btn_order_choice_buy{min-width:218px; height:55px; color:#00af85; font-weight:400; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer; margin-right:8px; }
+/* .btn_order_choice_buy:hover{color:#333333; border:1px solid #bbbbbb;} */
+/* 전체 상품 주문 */
+.btn_order_whole_buy{min-width:218px; height:55px;  color:#fff; font-size:20px; border:1px solid #00af85; background:#00af85; cursor:pointer; font-weight:400;}
+.btn_order_whole_buy:hover{}
+/* 결제하기 */
+.btn_order_buy{display:inline-block; width:220px; height:61px; line-height:59px; color:#fff; font-size:20px; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_order_buy em{font-weight:400;}
+.btn_order_buy:hover{}
+/* 주문완료 > 확인 */
+.btn_order_end_ok{display:inline-block; width:220px; height:61px; line-height:59px; color:#fff; font-size:20px; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_order_end_ok em{font-weight:400; font-size:20px; font-weight:500; }
+.btn_order_end_ok:hover{border:1px solid #00af85; background:#00af85;}
+
+
+/* --------------------------------
+    고객센터 버튼
+-------------------------------- */
+/* 버튼 */
+.btn_board_more{position:absolute; top:7px; right:5px; font-size:12px;}
+.btn_board_more:hover{text-decoration:underline;}
+.board_list_faq .btn_board_more{position:absolute; top:-34px; right:5px; font-size:12px;}
+.board_list_faq .btn_board_more:hover{text-decoration:underline;}
+.btn_poll_finish,/* 설문 완료 */
+.btn_main_go/* 홈바로가기 */
+{display:inline-block; min-width:150px; height:42px; padding:0 10px 0 10px; color:#ffffff; font-size:14px; border:1px solid #00af85; background:#00af85; text-align:center; line-height:40px;}
+/* 자주묻는 질문 검색버튼 */
+.btn_date_check{display:inline-block; min-width:100px; height:38px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_date_check:hover{border:1px solid #00af85; background:#00af85;}
+.btn_date_check em{padding:0 20px 0 0;
+background-image:url("../img/common/btn/btn_goods_search.png");
+background-position:right 3px;
+background-repeat:no-repeat; font-weight:bold;}
+
+
+/* --------------------------------
+    레이어 버튼
+-------------------------------- */
+/* 검정 버튼 */
+.btn_ly_download, /* 쿠폰 전체 다운받기 버튼 */
+.btn_ly_coupon_apply, /* 쿠폰 적용 */
+.btn_ly_write_ok, /* 등록 */
+.btn_ly_ok, /* 확인 */
+.btn_ly_save, /* 저장 */
+.btn_escrow_go /* 에스크로 구매확인창 열기 */
+ /* 결제창 열기 */
+{display:inline-block; min-width:100px; height:40px !important; line-height:42px !important;  padding:0 10px 0 10px; color:#ffffff; font-size:14px; border:1px solid #00af85; background:#00af85; text-align:center; cursor:pointer;}
+.btn_pg_go {display:inline-block; min-width:115px; height:42px !important; line-height:42px !important;  padding:0 5px 0 5px; color: #3e3d3c; font-size:16px; border:1px solid #ccc; background:#fff; text-align:center; cursor:pointer;}
+.btn_ly_write_ok strong{ line-height:42px !important; }
+.btn_ly_download:hover, /* 쿠폰 전체 다운받기 버튼 */
+.btn_ly_coupon_apply:hover, /* 쿠폰 적용 */
+.btn_ly_write_ok:hover, /* 등록 */
+.btn_ly_ok:hover, /* 확인 */
+.btn_ly_save:hover, /* 저장 */
+.btn_escrow_go:hover, /* 에스크로 구매확인창 열기 */
+.btn_pg_go:hover /* 결제창 열기 */
+{border:1px solid #00af85; background:#00af85;}
+/* 취소 버튼  */
+.btn_ly_cancel{display:inline-block; width:100px; height:42px; padding:0 5px 0 5px; color:#3e3d3c; font-size:14px; border:1px solid #cccccc; text-align:center; cursor:pointer;}
+.btn_ly_cancel:hover{color:#333333; border:1px solid #bbbbbb;}
+/* 회원가입 */
+.btn_ly_join{display:inline-block; min-width:150px; height:42px; margin:0 5px 0 0; color:#ffffff; font-size:14px; border:1px solid #6b6b6b; background:#6b6b6b; line-height:40px}
+/* 로그인 */
+.btn_ly_login{display:inline-block; min-width:150px; height:42px; padding:0 10px 0 10px; color:#ffffff; font-size:14px; border:1px solid #3e3d3c; background:#3e3d3c; text-align:center; line-height:40px;}
+/* 비밀번호 인증 확인 버튼 */
+.btn_ly_password{display:inline-block; width:70px; height:28px; padding:0 5px 0 5px; color:#ffffff; border:1px solid #3e3d3c; background:#3e3d3c; text-align:center; cursor:pointer;}
+/* 1:1 문의 조회버튼, 미확인 입금자 리스트 검색버튼 */
+.btn_ly_date_check,
+.btn_ly_depositor{display:inline-block; min-width:100px; height:31px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_ly_date_check:hover,
+.btn_ly_depositor:hover{border:1px solid #00af85; background:#00af85;}
+.btn_ly_date_check em,
+.btn_ly_depositor em{padding:0 20px 0 0; font-weight:bold;
+    background-image:url("../img/common/btn/btn_goods_search.png");
+    background-position:right 3px;
+    background-repeat:no-repeat;}
+
+/* 추천하기 */
+.plus_review_look .btn_comment_best{display:inline-block; min-width:50px; margin:0 0 0 10px; padding:1px 5px 2px 5px; color:#ffffff; font-size:11px; border:1px solid #00af85; background:#00af85; text-align:center;}
+.plus_review_look .btn_comment_best:hover{border:1px solid #829c00; background:#829c00;}
+/* 세금계산서 발행 */
+.bnt_tax_invoice{display:inline-block; min-width:100px; height:31px; padding:5px 20px 5px 20px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center; line-height:30px;}
+.bnt_tax_invoice:hover{border:1px solid #829c00; background:#829c00;}
+.bnt_tax_invoice em{font-size:14px; font-weight:bold;}
+.bnt_cash_receipt{display:inline-block; min-width:100px; height:31px; padding:5px 20px 5px 20px; color:#ffffff; font-weight:bold; border:1px solid #00af85; background:#00af85; text-align:center; line-height:30px;}
+.bnt_cash_receipt:hover{border:1px solid #829c00; background:#829c00;}
+.bnt_cash_receipt em{font-size:14px; font-weight:bold;}
+/* 배송지 관리 > 새 배송지 추가 */
+.btn_ly_add_shipping{position:absolute; top:-42px; right:0; width:121px; height:38px; line-height:38px; color:#fff; border:1px solid #00af85; background:#00af85; text-align:center; font-size:14px; }
+.btn_ly_add_shipping:hover{border:1px solid #00af85; background:#00af85;}
+/* PG 결제 취소, 장바구니 이동 */
+.btn_pg_cancel{display:inline-block; min-width:115px; height:30px; margin:0 0px 0 5px; line-height:42px !important; color:#3e3d3c; border:1px solid #cccccc; background:#ffffff; text-align:center;}
+.btn_pg_cancel:hover{color:#333333; border:1px solid #bbbbbb;}
+.btn_pg_cartmove{display:inline-block; min-width:240px; height:42px; margin:0 5px 0 5px; line-height:42px; color:#ffffff; border:1px solid #00af85; background:#00af85; text-align:center;}
+.btn_pg_cartmove:hover{border:1px solid #829c00; background:#829c00;}
+/* 재입고 알림 레이어 */
+.btn_select,
+.btn_select_cancel{display:inline-block; width:19%; height:42px; padding:0 3px; margin:0 0 0 5px; color:#3e3d3c; font-size:13px; border:1px solid #cccccc; text-align:center; font-weight:bold; cursor:pointer;}
+.btn_select:hover,
+.btn_select_cancel:hover{border:1px solid #bbbbbb; color:#333333;}
+.btn_goods_restock{display:inline-block; width:34%; height:42px; padding:0 3px; margin:0 0 0 5px; color:#fff; background:#00af85; font-size:14px; border:1px solid #00af85; text-align:center; cursor:pointer; font-weight:bold;}
+.btn_goods_restock:hover{border:1px solid #829c00; background:#829c00;}
+
+
+.deli_goods_info_1 .btn_gray_list .btn_gray_small{
+    font-size: 0;
+    width: 15px;
+    height: 15px;
+    background: url(../img/main/s_detail_caution_icn1.png) no-repeat 0 0 !important;
+    background-size: 100%;
+    padding: 0 0 0 0;
+    border: 0 none;
+}
+
+.deli_goods_info_1 .btn_gray_list .btn_gray_small em{ background:0 none; }
+.option_layer_cont .option_tit_box dd{ border-bottom:0 none;}
+#last-price-all-con  th{vertical-align:top; }
+#last-price-all-con  td{ padding-top:15px;vertical-align:top; }
+#last-price-all-con .will-point { line-height:18px;margin-top:5px;  }
+#last-price-all-con .will-point .tobe_mileage {
+ height:18px; line-height:18px; background:#fff; border:1px solid #00af85;  box-sizing: border-box;
+width:49px; padding:0 0 0 0;    font-family: Dotum;
+    font-size: 11px;text-align:center; 
+
+    color: #00af85; display:inline-block;vertical-align:top; 
+}
+#last-price-all-con .will-point > .addpoint{color:#333333 !important; font-size:15px !important; font-weight:400 !important; margin-left:6px; }
+#last-price-all-con .will-point > .won{color:#333333 !important; font-size:15px !important; font-weight:400 !important; }
+.option_layer_cont  .goods_qty span .down { float:left; width:31px;height:30px;background:url('../img/main/sb_detail_mbtn.jpg') no-repeat 0 0;margin:0 -4px 0 0;}
+.option_layer_cont  .goods_qty span .up{ float:left; width:31px;height:30px;background:url('../img/main/sb_detail_pbtn.jpg') no-repeat 0 0; margin:0 0 0 -1px; }
+.option_layer_cont .goods_qty .text{ height:28px; border:1px solid #e0e0e0; vertical-align:top; }
+.option_layer_cont .count{ padding:10px 0 0 0 !important; }
+.option_layer_cont  .count{ padding:10px 0 0 0 !important; }
+/* .option_layer_cont .item_choice_list table tbody tr td.item_choice_price div .oriprice { color: #afafaf;
+    text-decoration: line-through;
+    font-size: 16px;
+    margin-left: 2px;} */
+
+.member_cont .btn_member_join{width:100%; height:58px; margin:0; color:#00af85; font-size:20px; border:1px solid #00af85; background:#fff; cursor:pointer; font-weight:400;}
+.member_cont .btn_member_join:hover{border:1px solid #00af85; color: #00af85; background:#fff;}
+
+.board_write_popup .btn_ly_write_ok{ padding:0 0 0 0; }
+.cpbtn_app_btn .btn_gray_mid{ /* height:38px; line-height:38px; */  height:25px; line-height:18px; background:#00af85; border:1px solid #00af85;  box-sizing: border-box;
+width:65px; padding:0 0 0 0;
+}
+.cpbtn_app_btn .btn_gray_mid span{ padding:0 0 0 0; font-family:Dotum; font-size:14px; line-height:1; color:#fff; letter-spacing:-0.08px; }
+
+.shipping_info_table .btn_gray_list .btn_gray_small span{ padding:0 0 0 0;}
+
+.date_faq_txt .btn_gray_list .btn_gray_mid{ height:38px; line-height:38px; }
+
+.btn_common_box .btn_gray_list .btn_gray_mid{ padding:0 20px 0 20px; }
+.npay_button{ }
+
+.board_write_layer .board_write_box .btn_gray_list .btn_gray_small{ border:1px solid #00af85; color:#00af85; width:205px; }
+.board_write_layer .board_write_box .btn_gray_list .btn_gray_small span img{ display:none; }
+
+
+.numcon{ display:block;margin-top:7px; width:109px; margin:7px auto;  line-height:30px; }
+.item_tit_detail_cont dd .numcon{ margin:0px auto; }
+
+.numcon:after{content:"";display:block;clear:both;}
+.numcon input[type=text]{ float:left; height: 28px !important;
+    border: 1px solid #e0e0e0; line-height:28px !important; 
+    vertical-align: top; width:49px !important; border-radius:0px !important; position:relative;top:0;left:0;z-index:1;visibility:visible; text-align:center; font-size:14px; }
+.numcon  .down {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: url(../img/main/sb_detail_mbtn.jpg) no-repeat 0 0;
+    margin: 0 -3px 0 0;
+		font-size:0;
+}
+.numcon .up {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: url(../img/main/sb_detail_pbtn.jpg) no-repeat 0 0;
+    margin: 0 0 0 -1px;
+	font-size:0;
+}
+
+.password_change .btn_member_sec li .btn_member_white{width: 238px;
+    height: 58px;
+    margin: 0;
+    color: #00af85;
+    font-size: 20px;
+    border: 1px solid #00af85;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 400;}

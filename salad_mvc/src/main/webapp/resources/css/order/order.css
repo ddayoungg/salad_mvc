@@ -1,0 +1,586 @@
+@charset "utf-8";
+/* CSS Document */
+
+.order_zone_tit{margin:0 0 0 0; padding:0 0 20px 0; font-size:16px;border-bottom:1px solid #333333; padding-bottom:20px; margin-bottom:20px; }
+.order_zone_tit h3{font-size:18px; font-weight:700;line-height:18px;}
+.order_zone_tit h4{font-size:24px; font-weight:700; color:#333333;line-height:24px;}
+.order_zone_tit span{padding:0 0 0 10px; color:#777777; font-size:12px; font-weight:normal;}
+
+
+.order_table_type + .btn_left_box{margin:10px 0 30px 0;}
+
+
+.order_wrap .order_tit{overflow:hidden; border-bottom:1px solid #dbdbdb;}
+.order_wrap .order_tit h2{float:left; font-size:28px; color:#222222; letter-spacing:-0.02em; font-weight:700; }
+.order_wrap .order_tit ol{float:right; line-height: 62px;}
+.order_wrap .order_tit ol li{float:left; font-size:14px; color:#d1d1d1;}
+.order_wrap .order_tit .page_on{color:#00af85; font-weight:400;}
+.order_wrap .order_tit li span{font-size:16px; font-weight:400;}
+.order_wrap .order_tit li span > img{padding:0 14px; vertical-align: -1px;}
+.order_wrap .cart_cont .no_data{padding:60px 0; margin:0 0 20px 0; text-align:center; border-bottom:1px solid #dbdbdb; color:#444;}
+
+/* ------------- 테이블 공통(텍스트 센터 기본) ------------- */
+.order_table_type{ }
+.order_table_type .td_left{text-align:left;}
+.order_table_type table{width:100%; border:0; border-spacing:0; border-collapse:collapse; text-align:center; }
+.order_table_type table.bdt_type1{border-top:1px solid #000;}
+.order_table_type th{padding:0px 10px 0px 20px;  border-bottom:1px solid #dbdbdb; background:#fff; font-size:15px; font-weight:500; color:#333333; border-top:1px solid #000000; vertical-align:middle; }
+.order_table_type td{height:31px; padding:20px 10px 20px 20px; color:#777777; border-bottom:1px solid #dbdbdb; background:#ffffff; font-size:15px; font-weight:400; }
+.order_table_type td.cart_deli_intable_td{border-bottom:0 none; }
+
+.order_table_type td.first{ padding:20px 15px 20px 20px; }
+.order_table_type td.cknone{ padding:10px 15px 10px 50px !important; }
+.order_table_type td.img_td{ padding:20px 20px 20px 0px; }
+.order_table_type td a{ font-size:18px; font-weight:400; letter-spacing:-0.03em; color:#333; }
+.order_table_type td > strong{color:#00af85; font-size:26px !important; font-weight:700; }
+.order_table_type td > strong .won{color:#00af85; font-weight:400; font-size:22px;  font-style:normal; }
+
+.order_table_type td .order_payment_sum{ font-size:22px !important; color:#333333; }
+.order_table_type td .order_payment_sum + em{ font-size:16px; color:#333; }
+
+.order_table_type #last-price-all-con td .order_payment_sum{ color:#00af85 !important; }
+.order_table_type #last-price-all-con td .order_payment_sum + i{ color:#00af85 !important; }
+.order_table_type td .money_use_sum em{ color:#333333; font-size:16px;}
+.order_table_type td #totalDeliveryCharge{ font-size:22px !important; color:#333333; }
+.order_table_type td .addpoint{ font-size:22px !important; color:#333333; }
+.order_table_type td  .won{ font-size:18px !important; color:#333333; font-style:normal; }
+.order_table_type td  #totalSettlePriceLast + .won{ font-size:22px !important; color:#333333; font-style:normal; font-weight:600;  }
+.order_table_type td .order_delitop_txt{ color:#333333; font-size:22px;font-weight:500;display:block; }
+.order_table_type td.right_a1{text-align:right; padding-right:50px; }
+.order_table_type .btn_down_box{}
+.order_table_type th .form_element{vertical-align:middle;}
+.order_table_type .text_info{display:block; padding:2px 0 2px 0; color:#999999; font-size:11px;}
+.order_table_type .coupon_price{color:#333333; font-size:15px;}
+.order_table_type .coupon_price b{padding:0 2px 0 0; font-size:16px;}
+.order_table_type .row_line td{border-bottom:1px solid #ebebeb;}
+.order_table_type table td.order_day_num{border-right:1px dotted #ededed; border-bottom:1px solid #dbdbdb;}/* 날짜/주문번호 */
+.order_table_type .btn_claim > span{display:inline-block; margin:7px 0 0 0;}
+.order_table_type .order_sum_txt{font-size:15px; color: #f5634b;}
+
+.order_table_type .order_sum_txt .won{ color:#f5634b; }
+.order_table_type .time_sale_cost{display:inline-block; padding:7px 0 5px 20px; font-size:13px; background:url('../../img/icon/goods_icon/icon_time_sale_cost.png') no-repeat left 10px;}
+.order_table_type .pick_add_cont .pick_add_info .normal_btn em{font-weight:normal;}
+.order_table_type .pick_add_cont .pick_add_info.on .pick_option_box{ margin-top:10px;  }
+.order_table_type_detail table tr:nth-last-of-type(1) td{border-bottom:0 none !important; }
+/* left type */
+.order_table_type .table_left{}
+.order_table_type .table_left th{padding:15px 10px 14px 20px; border-top:none 0; background:#fff; text-align:left; border-bottom:0 none; }
+.order_table_type .table_left td{ padding:7px 10px 7px 15px; text-align:left; border-bottom:0 none; font-size:16px;  line-height:30px; }
+.order_table_type .table_left td .money_use_sum{ color:#000; font-size:22px; line-height:28px; display:inline-block;vertical-align:top; margin-left:6px; }
+.order_table_type .table_left td.member_email input[name='orderEmail']{margin-right:9px; }
+.order_table_type .table_left textarea{width:95%;}
+.order_table_type .table_left th.dcandpoint{vertical-align:top; }
+.order_table_type .table_left td.dcandpoint{vertical-align:top;  padding-top:15px; }
+.order_table_type .table_left th.cp_use_tit{vertical-align:top; }
+.order_table_type .table_left td.cp_use_con{vertical-align:top; padding-top:15px; }
+.order_table_type .table_left td .order_benefit_list.order_coupon_benefits {}
+
+.order_end .order_table_type .table_left{ border-bottom:1px solid #dbdbdb;}
+.order_end .order_table_type .table_left th{ font-size:18px; font-weight:600; vertical-align:top;padding:15px 10px 14px 0px;min-width:168px;color:#333;}
+.order_end .order_table_type .table_left td{ font-size:18px; font-weight:400; vertical-align:top;padding:15px 10px 14px 0px;color:#333;}
+.order_end .order_table_type .table_left td .order_benefit_mileage{ font-size:16px; }
+.order_end .order_table_type .table_left td .grn-font-txt{ color:#00af85; }
+.order_end .order_table_type .table_left td .gray-font-txt{ color:#afafaf; font-size:18px; font-weight:400; font-style:normal;margin-left:5px;}
+.order_end .order_table_type .table_left td .won-txt{ color:#00af85; font-size:22px;font-weight:400; }
+.order_end .order_table_type .table_left td strong{color:#00af85;font-size:26px;font-weight:600; }
+.order_end .order_table_type td .order_payment_sum{ color:#333 !important; }
+.order_end .order_table_type td .order_payment_sum2{ color:#00af85 !important; }
+.order_end .order_table_type .table_left tr:last-of-type td{ padding-bottom:30px;}
+.order_end .order_table_type .table_left tr:last-of-type th{ padding-bottom:30px;}
+/* 반드시 입력 표시 */
+th > .important{margin: 0 0 0 -10px; padding:0 0 0 10px; background:url('../../img/member/icon_dot_03.png') no-repeat 0 center;}
+
+/* 업체 리스트 */
+.cart_cont_list{margin:50px 0 0px 0;}
+.cart_cont_list .order_cart_tit{padding:0 0 10px 0; }
+.cart_cont_list .order_cart_tit > h3{ font-size:18px; font-weight:700; }
+
+/* 상품 리스트 이미지 + 내용 */
+.order_table_type .pick_add_cont{display:table; position:relative; width:100%;}
+.order_table_type .td_left_add{ padding:10px 10px 10px 10px;}
+.order_table_type .td_left_add .pick_add_cont{ }
+.order_table_type .pick_add_cont .pick_add_img{display:table-cell; width:118px; padding:0 20px 0 0; vertical-align:top;}
+.order_table_type .pick_add_cont .pick_add_img img{ vertical-align:middle;}
+.order_table_type .pick_add_cont .pick_add_img img { width:118px; height:118px; }
+.order_table_type .pick_add_cont .pick_btn_box{padding:0 0 5px 0;}
+.order_table_type .pick_add_cont .pick_add_info{display:table-cell; padding:0; text-align:left; vertical-align:middle; padding: 15px 0;}
+
+/* .order_table_type .pick_add_cont:last-of-type .pick_add_info{  padding-bottom:0px; } */
+.order_table_type .pick_add_cont + .pick_add_cont {   border-top: 1px dotted #dbdbdb;}
+
+.order_table_type .pick_add_cont .pick_add_info b.add_gds_nm{display:block; color:#333333; font-weight:400; line-height:1;}
+.order_table_type .pick_add_cont .pick_add_info b.add_gds_nm + span{ line-height:1; margin-top:10px; }
+.order_table_type .pick_add_cont .pick_add_info em{display:block; color:#333333; font-weight:bold;}
+.order_table_type .pick_add_cont .text_type_cont{display:block; padding:0px 0 0px 0; color:#afafaf; font-size:16px; line-height:1;}
+
+.order_table_type .pick_add_cont .text_type_cont +  .text_type_cont { margin-top:7px; }
+/* 아이콘 > 무,예,마,PG */
+.pick_add_info .icon_pick_list{}
+.pick_add_info .icon_pick_list div{display:inline-block;}
+.pick_add_info .icon_pick_list .icon_pg_over{display:inline-block; position:relative; z-index:10;}
+.pick_add_info .icon_pick_list .icon_pg_over:hover{display:inline-block;}
+.pick_add_info .icon_pick_list .icon_pg_over:hover .icon_pg_cont{display:block;}
+.pick_add_info .icon_pick_list .icon_pg_cont{display:none; position:absolute; top:13px; left:0px; width:68px; text-align:center; border:1px solid #666666; background:#ffffff;}
+.pick_add_info .icon_pick_list .icon_pg_cont strong{display:block; padding:4px 5px 5px 5px; color:#333333; background:#f4f4f4;}
+.pick_add_info .icon_pick_list .icon_pg_cont ul{width:90%; margin:0 auto; background:#ffffff;}
+.pick_add_info .icon_pick_list .icon_pg_cont ul li{padding:4px 5px 5px 5px; border-top:1px solid #e8e8e8;}
+.pick_add_info .icon_pick_list .icon_pg_cont ul li:first-child{border-top:none 0;}
+/* 구매불가 */
+.pick_add_info .chk_none{margin:0; text-align:left; display:block; padding-left:0px; }
+
+/* 일반 레이어팝업 (구매 이용 조건안내) */
+.pick_add_info .caution_msg1 {min-height:17px; margin:15px 0 0; padding: 0 0 0 19px; background:#fff url('../../img/icon/caution-1.png') no-repeat left 0px; color:#3e3d3c; line-height:20px;  display:none; }
+.nomal_layer {position:absolute; top:0px; left:30px; z-index:10;  background:#ffffff; }
+.nomal_layer .wrap {position:relative; border:1px solid #999999; }
+.nomal_layer .wrap > strong {display:block; height:27px; padding:13px 0 0 17px; background:#f4f4f4; color:#222222; }
+.nomal_layer .wrap .list {overflow-x:hidden; overflow-y:auto; min-height:50px; max-height:210px;}
+.nomal_layer .wrap .list table {width:250px;}
+.nomal_layer .wrap .list table tr td.strong { font-weight:bold; text-align: left; border-left: none;}
+.nomal_layer .wrap .list table th {padding: 0 5px 0 3px ; border-bottom: 1px solid #e8e8e8; color: #444; font-size: 11px; text-align:left; }
+.nomal_layer .wrap .list table td {padding: 8px 0 8px 18px !important; color: #666; font-size: 11px; border-bottom: 1px solid #e8e8e8; height:15px !important; }
+.nomal_layer .wrap .close {display:block; position:absolute; top:11px; right:12px; width:18px; height:18px; text-indent:-9999px; background: url('../../img/btn/layer-close.png') no-repeat left top;}
+.normal_btn {display:inline-block; width:auto; padding:0 10px !important; border:1px solid #dbdbdb; color:#6c6c6c; text-align:center; vertical-align:top; box-sizing:border-box; cursor:pointer;}
+.normal_btn img {margin:0 0 0 5px; vertical-align:middle;}
+.cart_cont_list > table .img {float:left; border:1px solid #dbdbdb; margin:0 10px 0 0; }
+
+/* 추가 박스 */
+.order_table_type .pick_add_cont .pick_add_plus{display:table-cell; width:38px; padding:0 10px 0 0; vertical-align:middle;}
+.order_table_type .pick_add_cont .pick_add_plus em{color:#ffffff; font-size:11px; background:#959595; display:inline-block;vertical-align:top; height:20px; line-height:20px;  width:42px; padding:0 0 0 0; text-align:center; }
+.order_table_type .order_num_link{color:#329cff; font-weight:bold; border-bottom:1px solid #329cff;}
+.order_table_type em + .btn_gray_list,
+.order_table_type strong + .btn_gray_list{margin:5px 0 0 0;}
+.order_table_type .pick_add_cont .pick_option_box{width:100%; padding:0px 0 0 0;}
+.order_table_type .pick_add_cont .pick_option_box .btn_gray_list{margin:5px 0 0 0;}
+
+
+
+/* 체크박스 */
+.order_table_type thead .form_element, .order_table_type .td_chk .form_element{/*  line-height:50px; */ height:16px; }
+
+
+
+.order_table_type .form_element label.check_s{padding: 0 0 0 5px;}
+.order_table_type .td_chk{vertical-align:middle;}
+/* 수량 */
+.order_table_type .td_order_amount{}
+.order_table_type .td_order_amount .order_goods_num{width:100%;}
+.order_table_type .td_order_amount .order_goods_num .btn_gray_list .btn_gray_small{ display:block; }
+.order_table_type .td_order_amount .order_goods_num .btn_gray_list .btn_gray_small span{display:inline; padding:0 0 0 0;}
+.order_table_type .td_order_amount .order_goods_num strong{display:block; width:100px; color:#333333; font-size:18px; text-align:center; margin:0 auto; font-weight:400; }
+.order_table_type .td_order_amount input{width:49px; height:26px; text-align:center;}
+.order_table_type .td_order_amount .btn_gray_list{margin:5px 0 0 0; display:inline-block;}
+/* 배송비 */
+.order_table_type .td_delivery{ }
+/* 할인/적립 */
+.order_table_type .td_benefit{}
+.order_table_type .td_option{padding:5px 10px 14px 10px; text-align:left;}
+
+/* 추가 상품 */
+.pick_add_list{margin:20px 5px 0 0; padding:0px 0 0 0; border-top:1px dotted #dbdbdb;}
+.pick_add_list .pick_add_cont{margin:6px 0 0 0;}
+.pick_add_list .pick_add_cont .pick_add_img{vertical-align:top;}
+.pick_add_list .pick_add_cont .pick_add_info em{display:inline-block; font-weight:normal; vertical-align:top; }
+.pick_add_list .pick_add_cont .pick_add_info em > a > img{margin:2px 0 0 0;}
+.pick_add_list .pick_add_cont .pick_add_info .chk_none{margin:0; }
+
+/* 테이블 총가격 */
+.order_table_type tfoot td{padding:0; background:#fff;}
+.order_table_type .price_sum{margin-top:0;}
+.order_table_type .price_sum .price_shop_neme{float:left; padding:0 0 10px 0; font-size:18px;}
+.order_table_type .price_sum_cont .price_sum_list dl{font-size:14px;}
+.order_table_type .price_sum_cont .price_sum_list dd strong{font-size:26px;color:#333333;}
+.order_table_type .price_sum_cont .price_sum_list .price_total dd{font-size:22px;color:#333333;}
+
+/* 총가격 */
+.price_sum{margin:0px 0 0 0; padding:30px 60px 30px 60px;  border-top:1px solid #dbdbdb; border-bottom:10px solid #fafafa; text-align:center; } 
+.price_sum:after{display:block; clear:both; content:"";}
+.price_sum_cont{ text-align:center;}
+.price_sum_cont .price_sum_list{position:relative; text-align:Center; }
+.price_sum_cont .price_sum_list dl{display:inline-block;vertical-align:middle; padding:5px 10px 5px 10px; font-size:16px; text-align:center;}
+.price_sum_cont .price_sum_list dt{font-size:18px;line-height:18px;margin-bottom:11px; color:#333; }
+.price_sum_cont .price_sum_list dd{color:#333; font-size:22px; }
+.price_sum_cont .price_sum_list dd strong{font-weight:700; font-size:26px; color:#333333;}
+.price_sum_cont .price_sum_list .price_total{padding-right:0;}
+.price_sum_cont .price_sum_list .price_total dd{font-size:20px;}
+.price_sum_cont .price_sum_list > span{display:inline-block;vertical-align:middle; padding:0 70px 0 70px; text-align:center; vertical-align:middle;}
+.price_sum_cont .tobe_mileage{display:inline-block;vertical-align:top; width:100%; color:#333; font-size:15px; font-weight:400;  line-height:1;  display:none !important; }
+
+/* 장바구니 버튼 영역 */
+.btn_order_box{overflow:hidden; padding:30px 0 0 0; text-align:right;}
+.btn_order_box .btn_left_box{float:left;}
+.btn_order_box .btn_right_box{float:right;}
+.btn_order_box  + .chk_none{display:inline-block; float:right;}
+
+/* 페이고페이,네이버 페이 */
+.pay_box{display:block; float:left; width:100%; margin:60px 0 0px 0; text-align:center; }
+.pay_box .payco_pay,
+.pay_box .naver_pay{display:inline-block; vertical-align:top; margin:0 0 0 10px;}
+
+/* ------------- 주문서작성/결제 ------------- */
+.order_view_info h4{margin:50px 0 0 0;}
+
+.order_cont .member_email select{width:120px;}
+.order_cont input[type="text"]{width:320px; width:auto; }
+
+/* --------- 사은품 선택 --------- */
+.order_freebie{}
+.order_freebie .order_zone_tit{margin:50px 0 0 0;}
+.order_freebie_list{}
+.order_freebie_list dl{font-size:0; vertical-align:top; border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb;}
+.order_freebie_list dt{display:inline-block; width:150px; padding:20px 10px 10px 0; font-size:12px; vertical-align:top; text-align:center;}
+.order_freebie_list dt span{display:block;}
+.order_freebie_list dd{display:inline-block; width:auto; padding:0 0 0 20px; font-size:12px; border-left:1px solid #dbdbdb;}
+.order_freebie_list dd .form_element{display:inline-block; border-top:none 0;}
+.order_freebie_list dd .form_element ul{width:auto;}
+.order_freebie_list dl + dl{margin-top:-1px;}
+/* 사은품 상품 리스트 */
+.order_freebie_list .form_element{display:block; padding:10px 0 0 0; border-top:1px solid #dbdbdb;}
+.order_freebie_list ul{display:inline-block; width:100%; font-size:0; /*border-bottom:1px solid #dbdbdb;*/}
+.order_freebie_list ul li{display:inline-block; width:100px; padding:0 20px 20px 0; font-size:12px; vertical-align:top;}
+.order_freebie_list ul li b{display:block; overflow:hidden; width:78px; height:78px; border:1px solid #ffffff; cursor:default;}
+.order_freebie_list ul li b img{width:76px; height:76px; border:1px solid #dbdbdb;}
+.order_freebie_list ul li em{display:block; padding:5px 0 0 0;}
+.order_freebie_list ul li span{font-size:11px;}
+/* 사은품 선택 */
+.order_freebie_list .form_element label{cursor:pointer; width:80px; height:80px; text-align:center; position:relative; z-index:1;}
+.order_freebie_list .form_element label span{display:block;}
+.order_freebie_list .form_element label.on b,
+.order_freebie_list .form_element label.on b img{border:1px solid #3e3d3c;}
+.order_freebie_list .form_element label.on em{font-weight:bold;}
+.order_freebie_list .form_element label.check_s{padding-left:0; background:none 0;}
+/* 사은품 오버 시 ,사은품 선택 시 */
+.order_freebie_list .form_element label:hover .icon_freebie_check,
+.order_freebie_list .form_element label.on .icon_freebie_check{position:absolute; top:2px; left:2px; width:76px; height:76px;
+    background:url("../../img/order/icon_freebie_check.png") no-repeat 50%;
+    background-color:#ffffff;
+    filter:alpha(opacity=60);
+    background-color:rgba(255, 255, 255, 0.6);}
+
+/* 이용약관 동의 */
+.order_agree{margin:70px 0 0 0; border-bottom:1px solid #e2e2e2; padding-bottom:17px;}
+.order_agree h4{margin-top:0;}
+.order_agree_cont .agreement_box{overflow-x:hidden; overflow-y:auto; margin:0 0 10px 0; padding:10px 0px; line-height:18px; height:100px; resize:none; }
+.order_agree_cont strong{color:#00af85;}
+
+/* --------- 배송정보 --------- */
+/* 배송지확인 */
+.order_cont table ul{display:inline-block; vertical-align:middle;}
+.order_cont table li{display:inline-block; padding:0 45px 0 0;}
+.order_cont table ul .btn_gray_list{display:inline-block;}
+/* 받으실 곳 */
+#contents .member_address .address_postcode{overflow:hidden; position:relative;}
+#contents .member_address .address_postcode input{float:left;}
+#contents .member_address .address_postcode .old_post_code{position:absolute; top:9px; left:55px; color:#333333;}
+#contents .member_address .address_postcode .btn_post_search{float:left; margin:0 0 0 10px; padding:0px 10px 0px 10px; border:1px solid #00af85; height:50px; line-height:50px; font-size:16px; width:180px; background:#00af85; border-radius:4px; color:#fff;}
+#myShippingListLayer .member_address .address_postcode .btn_post_search{float:left; margin:0 0 0 10px; padding:0px 10px 0px 10px; border:1px solid #00af85; height:37px; line-height:37px; font-size:16px; width:180px; background:#00af85; border-radius:4px; color:#fff;}
+#contents .member_address .address_input{float:left; width:98%;}
+#contents .member_address .address_input input:first-child{width:510px;}
+#contents .member_address .address_input input{width:250px; margin:10px 0 0 0;}
+#contents .member_address .address_input input + input{ margin-left:7px; }
+/* 남기실 말씀 */
+.td_last_say input[type="text"]{width:510px;}
+/* 회원정보 반영 */
+.order_cont .order_table_type .form_element label.check_s{padding-left:22px;}
+.order_cont .order_table_type .member_info_delivery em{color:#00af85;}
+.order_cont .order_table_type .member_info_apply span{color:#00af85;}
+
+/* --------- 추가 정보 --------- */
+.order_cont .addition_info{}
+.order_cont .addition_info td{padding-left:30px; padding-right:30px;}
+
+/* --------- 결제 정보 > 할인 및 적립 --------- */
+.order_payment_sum{color:#444444; font-size:18px;}
+.order_cont .order_benefit_list{color:#333333;}
+.order_cont .order_benefit_list li{display:block;}
+.order_cont .order_benefit_list li span{color:#afafaf;  line-height:30px;}
+.order_cont .order_benefit_list li strong{font-weight:500;  line-height:30px;}
+.order_cont .order_benefit_list .order_benefit_sale{padding:0 0 0px 0;}
+.order_cont .order_benefit_list .order_benefit_mileage{}
+.order_cont .order_benefit_list .order_benefit_sale em{padding:0 5px 1px 0px; /* background:url("../../img/icon/goods_icon/icon_discount.gif") no-repeat 0 0px; */ color:#333333; font-size:16px;}
+.order_cont .order_benefit_list .order_benefit_sale em b{ font-weight:400; }
+.order_cont .order_benefit_list .order_benefit_mileage em{padding:0 5px 1px 0px; /* background:url("../../img/icon/goods_icon/icon_mileage.gif") no-repeat 0 0px; */ color:#333333; font-size:16px;}
+.order_cont .order_coupon_benefits{ margin-bottom:10px; }
+/* 마일리지사용, 예치금 사용 */
+.order_money_use{}
+.order_money_use > b{font-weight:normal;}
+.order_money_use > b input[type="text"]{text-align:right;}
+.order_money_use .form_element{padding:0 0 0 0px; vertical-align:middle;}
+.order_money_use .money_use_sum{color:#00af85;}
+.order_money_use .money_use_txt{display:block; padding:5px 0 0 0; color:#00af85;}
+
+/* --------- 결제수단 선택/결제 --------- */
+.payment_progress{}
+.payment_progress .order_zone_tit > p{padding:10px 0 0 0; color:#00af85; font-size:12px; line-height:12px; }
+.payment_progress_list dd .form_element{ vertical-align:top; }
+.payment_progress_list dl{display:block; padding:15px 0 15px 0; font-size:0; border-bottom:1px solid #dbdbdb; vertical-align:top; }
+.payment_progress_list dt{display:inline-block; width:180px; padding:0 0 0 24px; font-size:16px; font-weight:bold; vertical-align:top}
+.payment_progress_list dd{display:inline-block; font-size:16px; letter-spacing:-0.03em;}
+.payment_progress_cont{}
+/* 라디오 버튼  선택 */
+.payment_progress .payment_progress_select{font-size:0;}
+.payment_progress .payment_progress_select li{display:inline-block; margin:0 30px 0 0; font-size:16px;}
+
+/* ----- 페이코결제 ----- */
+.payco_payment{margin-top:-10px;}
+.payco_payment dl{padding:30px 0 25px 0; background:#f9f9f9;}
+.payco_payment dt{display:block; width:100%;}
+.payco_payment dd{display:block; padding:20px 0 0 0;}
+.payco_payment ul{display:inline-block; font-size:0;}
+.payco_payment li{display:inline-block;}
+.payco_payment .form_element label{display:block; cursor:pointer;}
+.payco_payment .form_element label.choice_payco{min-width:13px; padding:0 0 30px 22px; background:url('../../img/order/payco_radio_off.png') no-repeat 65px 85px;}
+.payco_payment .form_element label.choice_payco:hover{background:url('../../img/order/payco_radio_over.png') no-repeat 65px 85px;}
+.payco_payment .form_element label.choice_payco.on{background:url('../../img/order/payco_radio_on.png') no-repeat 65px 85px;}
+.payco_payment .form_element label.choice_payco span{display:block; overflow:hidden; width:100px; height:74px; cursor:default;}
+.payco_payment .form_element label.choice_payco.on span img{margin-top:-75px;}
+
+
+/* ----- 일반결제 ----- */
+.general_payment{}
+.general_payment dd{min-width:520px;}
+/* 무통장 입금 */
+.pay_bankbook_box{}
+.pay_bankbook_box .form_element{width:100%;}
+.pay_bankbook_box .pay_bankbook_txt{color:#777777;}
+.pay_bankbook_box ul{padding:10px 0 10px 0;}
+.pay_bankbook_box ul li{padding:10px 0 10px 0;}
+.pay_bankbook_box ul li strong{display:inline-block; width:70px; font-size:16px; font-weight:400; }
+.pay_bankbook_box ul li select{width:350px; margin-top:-5px;}
+#wrap .pay_bankbook_box .chosen-container{vertical-align:middle;}
+
+/* ----- 에스크로 결제 ----- */
+.escrow_payment{}
+
+/* ----- 해외PG ----- */
+.pg_payment{}
+.pg_payment dd{min-width:520px;}
+.pay_pg_box{margin:10px 0 0 0; padding:10px 0 0 0; border-top:1px dotted #dbdbdb;}
+.pay_pg_box .form_element{width:100%;}
+.pay_pg_box ul{padding:0 0 10px 0;}
+.pay_pg_box ul li{padding:10px 0 10px 0;}
+.pay_pg_box ul li strong{display:inline-block; width:160px;}
+.pay_pg_box ul li select{width:350px; margin-top:-5px;}
+#wrap .pay_pg_box .chosen-container{vertical-align:middle;}
+
+
+/* ----- 현금영수증 / 계산서 발행 ----- */
+.cash_tax_get{}
+.cash_tax_get > dl{background:#fff;}
+.cash_tax_get .btn_reset{display:inline-block; padding:2px 7px;  margin:0 0 0 10px; background:#fff; border:1px solid #989898;}
+/* 현금영수증 */
+.cash_receipt_box{padding:20px 0 20px 0; border-bottom:1px solid #dbdbdb;}
+.cash_receipt_box .form_element{display:block;}
+.cash_receipt_box .payment_progress_select{display:block; padding:0 0 20px 24px; font-size:0; border-bottom:1px dotted #dbdbdb;}
+.cash_receipt_box .cash_receipt_list dl{display:block; padding:20px 0 0 0; font-size:0; border-bottom:none 0;}
+.cash_receipt_box .cash_receipt_list dt{display:inline-block; width:117px; padding:0px 0 0 24px; font-size:16px; font-weight:bold; line-height:50px; }
+.cash_receipt_box .cash_receipt_list dd{display:inline-block; font-size:12px;}
+/* 세금계산서 */
+.tax_invoice_box {padding:20px 0 20px 0; border-bottom:1px solid #dbdbdb;}
+.tax_invoice_box .order_table_type{}
+.tax_invoice_box .order_table_type .table_left{width:100%; border-top:none 0;}
+.tax_invoice_box .order_table_type th{padding:16px 10px 10px 24px;border-bottom:none 0; background:#fff; vertical-align:top;}
+.tax_invoice_box .order_table_type td{padding:10px 10px 9px 15px; border-bottom:none 0; background:#fff;}
+.tax_invoice_box .order_table_type .cash_receipt_email select{width:140px;}
+
+
+/* 결제금액, 필수체크 */
+.payment_final{margin:80px 0 0 0;}
+.payment_final_total{padding:24px 46px 24px 0; border:2px solid #00af85; text-align:center;}
+.payment_final_total dl{display:inline-block; font-size:0;vertical-align:top; line-height:24px; }
+.payment_final_total dt{display:inline-block; padding:0 15px 0 0; font-size:24px; font-weight:500; color:#00af85; vertical-align:top; line-height:24px; }
+.payment_final_total dd{display:inline-block; font-size:24px; color:#00af85;vertical-align:top; line-height:24px; }
+.payment_final_total dd strong{ font-size:30px; }
+.payment_final_total dd span{ }
+.payment_final .payment_final_check{padding:40px 0 80px 0; text-align:center;}
+.payment_final .payment_final_check .form_element{ vertical-align:top; }
+.payment_final .payment_final_check{}
+.payment_final .form_element label.check_s em b{color:#00af85; font-weight:400; }
+
+/* ------------- 주문완료 ------------- */
+.order_end{ width:780px; margin:0 auto; }
+.order_end_completion{padding:80px 0 80px 0; text-align:center;}
+.order_end_completion p{padding:0px 0 0 0; line-height:1; }
+.order_end_completion strong{font-size:42px; font-weight:500; letter-spacing:-0.05em; }
+.order_end_completion strong b{ font-size:42px; color:#00af85;  font-weight:500;  letter-spacing:-0.05em; }
+.order_end_completion em{font-size:18px; color:#333; font-weight:400; display:block; line-height:18px; margin-top:20px; }
+.order_end .order_table_type{margin:0 0 80px 0;}
+/* 결제수단 */
+.pay_with_list{color:#333333;}
+.pay_with_list > strong{display:block; font-size:13px;}
+.pay_with_list ul{margin:5px 0 0 0;}
+.pay_with_list ul li{display:block; padding:2px 0 2px 0;}
+.pay_with_list .deposit_money{}
+.order_end .pay_with_list ul li {color:#333333; font-weight:400; font-size:18px; line-height:30px;}
+
+
+#memberinfoApplyTr1{ margin-bottom:10px; }
+.chk_none_right{ text-align:right; } 
+.chk_none_right em{ display:inline-block;vertical-align:top; color: #333333;    font-size: 16px;    font-weight: 300;   padding:0 0 0 0; margin:18px 0 0 0;} 
+.cart_btn_center_box{ text-align:center; margin-top:80px; line-height:1; }
+.order_cont .order_table_type .form_element label.check_s{ font-size:16px; line-height:21px; padding-left:24px; }
+.order_table_type th.first{ min-width:60px; padding: 0px 50px 0px 20px; height:50px; line-height:50px; }
+.deli_extra_txt_1{ color:#333333; font-size:14px; font-weight:400; line-height:36px; display:block; }
+.order_table_type .delicount_num{ display:block; }
+.order_table_type td.line_right{ border-right:1px solid #e2e2e2; }
+.order_table_type .crt_pdt_price{ color:#333333; font-weight:700; font-size:16px; }
+.order_table_type .crt_dc_price{ color:#00af85;  font-weight:700; font-size:16px; }
+.order_table_type .crt_all_price{ color:#333;  font-weight:700; font-size:16px; }
+.order_table_type td.dcount_cell{ color:#afafaf; }
+.order_table_type td.dcount_cell strong{ font-weight:700; }
+.order_table_type .f_won{ font-size:14px;font-weight:400; font-style:normal; }
+.order_table_type .cart_deli_intable{}
+.order_table_type .cart_deli_intable th{ border-top:0 none; }
+.order_table_type .cart_deli_intable th.left_con{text-align:left; padding-left:55px; }
+.order_table_type .cart_deli_intable th.right_con{ text-align:right; padding-right:55px; }
+.order_table_type .cart_deli_intable th.cart_deli_tit2{ font-size:18px; color:#333; font-weight:600; line-height:50px; height:50px; }
+.order_table_type .cart_deli_intable tbody td{ background:#fff; padding:6px 0 6px 0; color:#000000; font-size:16px; border-bottom:0 none;  letter-spacing:-0.04em;  }								
+.order_table_type .cart_deli_intable tbody tr:nth-of-type(1) td{ padding-top:6px ; padding-bottom:6px;}
+.order_table_type .cart_deli_intable tbody tr:nth-of-type(1) td:first-child{ padding:6px 0px 6px 50px;}
+.order_table_type .cart_deli_intable tbody tr:nth-of-type(1) td:last-child{ padding:6px 50px 6px 0px;}
+.order_table_type .cart_deli_intable tbody td.deli_completed_date{padding-top:40px; padding-bottom:40px; }
+.order_table_type .cart_deli_intable tbody td:first-child{padding-left:50px; }
+.order_table_type .cart_deli_intable tbody td:last-child{padding-right:50px;}
+.order_table_type .cart_deli_intable tbody td .d_date_con{text-align:center;}
+.order_table_type .cart_deli_intable tbody td .d_date_con .unit{ display:inline-block;vertical-align:top; width:248px;margin:0 9px;  border-right:1px solid #dbdbdb;}
+.order_table_type .cart_deli_intable tbody td .d_date_con .unit .d_count{display:block; color:#333333;font-size:16px;}
+.order_table_type .cart_deli_intable tbody td .d_date_con .unit .d_date{ margin-top:8px; display:block; font-size:22px; color:#00af85; font-weight:500; }
+.order_table_type .cart_deli_intable tbody td .d_date_con .unit:nth-last-of-type(1){border-right:0 none; }
+.order_table_type .cart_deli_intable tbody td.subj{ text-align:left; padding-left:74px; }								
+.order_table_type .cart_deli_intable tbody td.ori_con{ text-align:center;  color:#afafaf;text-decoration:line-through; }								
+.order_wrap .order_table_type .cart_deli_intable tbody td.ori_con{ text-align:center; color:#afafaf;text-decoration:line-through; }								
+.order_table_type .cart_deli_intable tbody td.dc_con{ text-align:right;  font-weight:500; }								
+.order_table_type .cart_deli_intable tbody td.dc_con > b{ color:#00af85;margin-left:5px;}								
+.order_table_type .cart_deli_intable tbody td.dc_con .per_c_txt{  color:#f5634b; font-size:15px;font-weight:400; }	
+
+.order_table_type .cart_deli_intable th.right_con .deli_all_topprice{ color:#00af85; font-size:18px;}		
+.order_table_type .cart_deli_intable th.right_con .deli_all_topprice em{ color:#00af85; font-weight:400; font-size:15px; font-style:normal; }		
+.order_table_type .cart_deli_intable .deli_caution_txt_1{ color:#00af85; font-weight:300; }
+
+.deli_order_top_tit{ margin-bottom:20px; }
+.deli_order_top_tit > h3{ color:#333333; font-size:24px; font-weight:600;line-height:24px; }
+.btn_order_box2{ padding:0px 0 0 0;}
+.price_txt1{ padding:20px 0; text-align:right; }
+.price_txt1 p{ color:#333333; font-size:16px; font-weight:300; }
+
+
+.order_table_type .left_con_th{ float:left; line-height:50px; height:50px;}
+.order_table_type .left_con_th .form_element input{ top:50%; margin-top:-8px; }
+.order_table_type .right_con_th{ float:right;  line-height:50px; line-height:50px;}
+.cart_deli_intable_wrap{ overflow-y:auto; height:220px; }
+.cart_etc_bottom_txt{ text-align:center; margin-top:20px; margin-bottom:80px; }
+.cart_etc_bottom_txt .txt1{ color:#333333; font-weight:300; line-height:16px;}
+.cart_etc_bottom_txt .bold_txt1{ color:#333333; font-weight:400;line-height:16px;margin-top:10px;  }
+
+.order_cont .table_left th{padding:15px 0px 14px 16px; width:200px !important; color:#333333; font-size:18px; font-weight:500; }
+.order_cont .table_left th .tobe_mileage{color:#333333; font-size:18px; font-weight:500;  }
+.order_cont .table_left th.point_th{ vertical-align:top; padding-top:15px; }
+.order_cont input[type="text"]{ height:50px; line-height:50px; border:1px solid #e2e2e2; border-radius:5px; }
+
+.order_wrap .order_cont input[type="text"]{ width:320px; }
+.order_wrap .order_cont input[name="orderMemo"]{ width:510px; }
+.order_table_type .table_left{}
+.order_table_type .table_left td .chosen-container-single .chosen-single{ height:50px !important; line-height:50px !important; font-size:14px; border-radius:5px; }
+.order_table_type .table_left td .chosen-container-single .chosen-single span{ height:50px !important; line-height:50px !important; font-size:14px;}
+.order_table_type .table_left td .chosen-single div b{ background-position:0 20px !important; }
+.shipping_info{border-bottom:10px solid #fafafa; padding-bottom:15px;}
+.order_table_type_bottom{border-bottom:10px solid #fafafa; padding-bottom:15px;}
+.order_cont table ul{ display:block !important; }
+.pay_bankbook_box ul li .chosen-container-single .chosen-single{ height:51px !important; line-height:51px !important;border-radius:5px; }
+.pay_bankbook_box ul li .chosen-container-single .chosen-single span{  height:51px !important; line-height:51px !important;}
+.pay_bankbook_box ul li  .chosen-container-single .chosen-single div b{ background-position:0 20px !important; }
+.join_agreement_box{ margin-top:30px; }
+.order_wrap .form_element label.choice_s{ padding:0 0 0 30px; }
+
+.order_end .order-end-tit{ padding-bottom:20px;  border-bottom:1px solid #333; margin-bottom:18px; }
+.order_end .order-end-tit > h3{ color:#333333; font-size:24px; font-weight:700; line-height:24px; }
+.order_end .order_table_type{}
+.payment_final .payment_final_check .form_element label.check_s{ font-size:16px; background-position:0 50%; }
+
+.order_table_type .mCSB_scrollTools .mCSB_dragger{  height:50px !important; }
+.body-order.body-order  .order_table_type td.td_order_amount{ padding-left:5px; }
+.order_table_type  th.first .form_element label.check_s { padding:0 0 0 0; background-position:0 50%;  width:16px; height:16px; }
+.order_table_type .form_element label.check_s{vertical-align:top; background-position:0 0;}
+.order_table_type .form_element label.check_s b{color:#333333; font-size:18px; font-weight:500;padding-left:30px;   }
+
+.body-order.body-order .order_table_type .td_order_amount .order_goods_num strong{ padding-left:30px; }
+.body-order.body-cart .order_table_type .td_order_amount .order_goods_num strong{ padding-left:0px; }
+
+#memberinfoApplyTr td{ padding: 15px 0px 14px 16px; vertical-align:middle; } 
+#memberinfoApplyTr td .form_element{  } 
+#memberinfoApplyTr td .form_element  label.check_s{ line-height:40px; background-position:0 11px; }
+
+input[name='useMileage']{ margin-right:10px;}
+.cpbtn_app_btn{ line-height:26px; display:inline-block;vertical-align:top;  }
+.order_table_type .table_left td .form_element.order_money_use_sideAll_con{  display:inline-block;vertical-align:top;  width:auto; line-height:50px; margin-left:9px;}
+.order_table_type .table_left td .form_element.order_money_use_sideAll_con .check_s{line-height:50px !important; background-position:0 16px; font-size:16px; }
+.order_table_type .table_left td .form_element.order_money_use_sideAll_con .money_use_sum{line-height:50px; font-size:16px; }
+.order_wrap .order_cont input[name="useMileage"]{ width:220px; }
+.order_wrap .order_cont input[name="useMileage"] + em{ font-size:16px; }
+.order_table_type_bottom .order_money_use > b{ line-height:50px;}
+.order_cont .table_left th.point_uder_th{ vertical-align:top; }
+
+#myShippingListLayer input[type="text"]{ width:320px; }
+.dev_cart_regular .order_table_type td.cart_deli_intable_con_up { border-top:1px solid #dbdbdb; } 
+#couponOrderApplyLayer .order_table_type .order_sum_txt{ color:#222;font-size:16px !important; }
+#couponOrderApplyLayer .order_table_type .td_order_amount.pick_add_list .price{ color:#222;font-size:16px !important; }
+#couponOrderApplyLayer  .order_table_type td { padding-left:10px;padding-right:10px; }
+#couponOrderApplyLayer .order_table_type th{ letter-spacing:-0.05em; padding:16px 10px; }
+#couponOrderApplyLayer  .order_table_type td a{ color:#222;font-size:16px !important; }
+#couponOrderApplyLayer  .order_table_type td b{ color:#222;font-size:16px !important; }
+#couponOrderApplyLayer  .order_table_type td span{ color:#222;font-size:16px !important; }
+
+#couponOrderApplyLayer  .order_table_type td .chosen-container span{ color:#222;font-size:16px !important;  font-weight:300; }
+#couponOrderApplyLayer  .order_table_type td.bnf{  color:#222;font-size:16px !important; }
+#couponOrderApplyLayer  .order_table_type td.bnf .goods-coupon-dc-priceSum{}
+#couponOrderApplyLayer  .order_table_type td.bnf .goods-coupon-add-mileageSum{}
+#couponOrderApplyLayer  .order_table_type .pick_add_cont .text_type_cont{font-size:16px !important; line-height:1.5; }
+#couponOrderApplyLayer  .goodsCouponBenefit_t{}
+#couponOrderApplyLayer  .goodsCouponBenefit_t td.prc{ color:#00af85; text-align:right; padding-right:10px; font-weight:600;}
+#couponOrderApplyLayer  .goodsCouponBenefit_t td{text-align:left; padding:0 0 0 0;border-bottom:0 none; font-weight:400; min-width:35px; }
+#couponOrderApplyLayer  .goodsCouponBenefit_t td b{ font-weight:600; }
+#couponOrderApplyLayer  .goodsCouponBenefit_t td.prc span{ color:#00af85 !important; font-weight:600; }
+#couponOrderApplyLayer .top_table_type th{    border-bottom: 1px solid #dbdbdb;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333333;
+    border-top: 1px solid #000000;
+    vertical-align: middle;
+	padding:16px 10px; 
+}
+#couponOrderApplyLayer .top_table_type .text_info{    color: #222;
+    font-size: 14px }
+#couponOrderApplyLayer .top_table_type .coupon_price b{ font-size:14px; }
+.top_table_type:last-of-type tr:last-child td{border-bottom:0 none; }
+
+.cart_cont_list.dev_cart_regular .order_table_type td.td_order_amount { }
+.cart_cont_list.dev_cart_general .order_table_type td.td_order_amount { text-align:center; }
+.cart_cont_list.dev_cart_general .order_table_type td.td_order_amount  .order_goods_num{ text-align:center; }
+.cart_cont_list.dev_cart_general .order_table_type td.td_order_amount  .numcon{ width:105px; margin:0 auto;  }
+/* #couponOrderApplyLayer .order_table_type td .chosen-container + .chosen-container{ margin-top:10px; } */
+
+.goods_coupon_box table td select + .chosen-container{ margin-top:10px; }
+@media all and (-ms-high-contrast:none)
+     {
+    .payment_final .payment_final_check .form_element label.check_s{ line-height:18px; height:18px; }
+     *::-ms-backdrop,  .payment_final .payment_final_check .form_element label.check_s{ line-height:18px; height:18px; }
+
+
+	#memberinfoApplyTr td .form_element  label.check_s{ background-position:0 14px; }
+	 *::-ms-backdrop,  #memberinfoApplyTr td .form_element  label.check_s{ background-position:0 14px; }
+
+	.payment_final .payment_final_check .form_element label.check_s{ background-position:0 2px;}
+	 *::-ms-backdrop, .payment_final .payment_final_check .form_element label.check_s{ background-position:0 2px;}
+
+}
+
+/* 주문서페이지 옵션 선택(일회용품) */
+.disposable {border-bottom: 1px solid #dbdbdb;}
+.disposable .disposable_info {margin: 0 0 0 0; padding: 0 0 20px 0; font-size: 16px; border-bottom: 1px solid #333333; padding-bottom: 20px;
+    margin-bottom: 20px;}
+.disposable .disposable_info h4 {margin: 50px 0 0 0; font-size: 24px; font-weight: 700; color: #333333; line-height: 24px;}
+.disposable .form_element {margin-left: 20px; margin-bottom: 20px;}
+.disposable .form_element .disposable_top {margin-top: 20px;}
+.disposable .form_element .disposable_top .check_s {color:#00af85; font-size:17px; cursor:pointer;}
+.disposable .form_element .disposable_top .disposable_img {display: inline-block;}
+.disposable .form_element .disposable_top .disposable_img img {width: 24px; position: relative; top: -3px;}

@@ -1,0 +1,192 @@
+@charset "utf-8";
+
+/* 회원가입 */
+.body-join-method .member_cont{
+    border:none;
+}
+.body-join-method .member_sns_login .inside > .tit{
+    font-size:24px;
+    font-weight:500;
+    color:#000000;
+}
+.body-join-method .member_sns_login .inside .sub-tit{
+    display:block;
+    text-align:center;
+    font-size:18px;
+    font-weight:400;
+    color:#000000;
+    padding-top:30px;
+}
+.body-join-method .member_sns_login .inside .sub-tit .font-big{
+    font-size:25px;
+    font-weight:450;
+    color:#000000;
+    line-height:1.1;
+    margin-bottom:20px;
+}
+.body-join-method .member_sns_login .inside .sub-tit .font{
+    font-size:20px;
+}
+.body-join-method .member_sns_login .inside > ul{
+    padding:0;
+    margin-top:40px;
+}
+.body-join-method .member_sns_login .inside ul > li{
+    display:block;
+    float:none;
+    width:100%;
+    height:60px;
+    text-align:center;
+    font-size:18px;
+    font-weight:400;
+    padding:0;
+}
+.body-join-method .member_sns_login .inside ul > li:after{
+    display:none;
+}
+.body-join-method .member_sns_login .inside ul > li a{
+    display:block;
+    width:100%;
+    height:100%;
+    border-radius:8px;
+}
+.body-join-method .member_sns_login .inside ul > li a img{
+    display:none;
+}
+.body-join-method .member_sns_login .inside > ul li span{
+    font-size:20px;
+    font-weight:400;
+    color:#000000;
+    line-height:60px;
+    margin-top:0;
+}
+/* 카카오 */
+.body-join-method .member_sns_login .inside ul > li .js_btn_kakao_login_app,
+.body-join-method .member_sns_login .inside ul > li .js_btn_kakao_login{
+    background:url("../img/onimg/ico_login_kakao.png")no-repeat left 13px center #fee500;
+    background-size:24px;
+}
+/* 네이버 */
+.body-join-method .member_sns_login .inside ul > li .js_btn_naver_login{
+    background:url("../img/onimg/ico_login_naver.png")no-repeat left 13px center #06be34;
+    background-size:28px;
+    margin-top:40px;
+}
+.body-join-method .member_sns_login .inside ul > li .js_btn_naver_login span{
+    color:#ffffff;
+}
+/* 애플 */
+.body-join-method .member_sns_login .inside ul > li .js_btn_apple_login{
+    background:url("../img/onimg/ico_login_apple.png")no-repeat left 5px center #0a0a05;
+    background-size:40px;
+    margin-top:15px;
+}
+.body-join-method .member_sns_login .inside ul > li .js_btn_apple_login span{
+    color:#ffffff;
+}
+/* 일반 */
+.body-join-method .member_sns_login .inside ul > li .shop_mall_join{
+    background:url("../img/onimg/ico_login_normal.png")no-repeat left 12px center;
+    background-size:25px;
+    margin-top:15px;
+    box-sizing:border-box;
+}
+.body-join-method .member_sns_login .inside ul > li .js_btn_apple_login span{
+    color:#ffffff;
+}
+
+/* 로그인 */
+.member_sns_login_in{
+    margin-top:30px!important;
+}
+.member_sns_login_in ul{
+    padding:0;
+}
+.member_sns_login_in ul > li{
+    float:none;
+    margin-right:0;
+    padding-right:0;
+    display:block;
+    width:100%;
+    height:60px;
+    text-align:center;
+    font-size:18px;
+    font-weight:400;
+}
+.member_sns_login_in ul > li:after{
+    display:none;
+}
+.member_sns_login_in ul > li a{
+    display:block;
+    width:100%;
+    height:100%;
+    border-radius:8px;
+    margin-top:15px;
+}
+.member_sns_login_in ul > li a img{
+    display:none;
+}
+.member_sns_login_in ul > li a span{
+    font-size:20px;
+    font-weight:400;
+    color:#000000;
+    line-height:60px;
+    margin-top:0;
+}
+/* 카카오 */
+.member_sns_login_in ul > li .js_btn_kakao_login_app,
+.member_sns_login_in ul > li .js_btn_kakao_login{
+    background:url("../img/onimg/ico_login_kakao.png")no-repeat left 13px center #fee500;
+    background-size:24px;
+}
+/* 네이버 */
+.member_sns_login_in ul > li .js_btn_naver_login{
+    background:url("../img/onimg/ico_login_naver.png")no-repeat left 13px center #06be34;
+    background-size:28px;
+}
+.member_sns_login_in ul > li .js_btn_naver_login span{
+    color:#ffffff;
+}
+/* 애플 */
+.member_sns_login_in ul > li .js_btn_apple_login{
+    background:url("../img/onimg/ico_login_apple.png")no-repeat left 5px center #0a0a05;
+    background-size:40px;
+}
+.member_sns_login_in ul > li .js_btn_apple_login span{
+    color:#ffffff;
+}
+
+/* 약관동의 */
+.body-join .join_base_wrap .nd-agreement{position:relative; width:100%; padding-top: 44px; margin-top: 40px; border-top: 1px solid #3333;}
+.body-join .join_base_wrap .nd-agreement table{width:600px; margin:0 auto;}
+.body-join .join_base_wrap .nd-agreement th{width:180px; padding:0; font-size:15px; color:#777; font-weight:400; text-align:left; vertical-align:top;}
+/*.body-join .join_base_wrap .nd-agreement td{padding: 0 0 0 35px;}*/
+.body-join .join_base_wrap .nd-agreement .nd-all-agree label em{font-size:14px; font-weight:400; letter-spacing: -0.25px; line-height: 1; vertical-align:middle;}
+.body-join .join_base_wrap .nd-agreement .nd-all-agree span{display: block; padding-left: 26px; font-size: 13px!important; letter-spacing: -0.25px; color: #717171; line-height: 1; padding-top: 10px;}
+.body-join .nd-agreement .join_agreement_cont .js_terms_view .form_element{width:auto;}
+.body-join .nd-agreement .join_agreement_cont .js_terms_view .form_element > span{position:relative; top:auto; right:auto;}
+.body-join .nd-agreement .join_agreement_cont .join_agreement_box.nd-all-agree{margin:0 0 30px 0;}
+.body-join .nd-agreement .join_agreement_cont .join_agreement_box{margin: 0 0 20px 0; font-size:0;}
+.body-join .nd-agreement .nd-sms-mail{margin: 0 0 15px 0;}
+/*.body-join .nd-agreement .join_agreement_cont .join_agreement_box.nd-all-agree{background:#f1f1f1; padding:10px; border:1px solid #cccccc; box-sizing:border-box;}*/
+/*.body-join .nd-agreement .form_element label.check_s{min-width: 20px; vertical-align: bottom; padding: 0 0 0 27px; background:url('../img/onimg/icon_chk.svg') no-repeat 1px top; background-size:18px; font-size: 14px; line-height: 1;}*/
+/*.body-join .nd-agreement .form_element label.check_s.on{background: url("../img/onimg/icon_chk_on.svg") no-repeat 1px top; background-size:18px;}*/
+.body-join .nd-agreement .form_element label.check_s strong{vertical-align: middle; font-size:13px; font-weight: 300; color:#211815!important;}
+.body-join .nd-agreement .form_element label.check_s b{vertical-align: middle; font-size:13px; font-weight: 300; color:#211815;}
+
+.body-join .nd-agreement .form_element span a{font-weight: 500; font-size: 14px; letter-spacing: -0.25px;}
+/*.body-join .base_info_sec table{width: 87.5%; margin: 0 auto;}*/
+/*.body-join .addition_info_sec table{width: 87.5%; margin: 0 auto;}*/
+/*.body-join .nd-agreement .nd-sms-mail{padding: 0 0 15px 0;}*/
+.body-join .nd-agreement .nd-sms-mail .form_element{line-height: 1;}
+.body-join .nd-agreement .nd-sms-mail label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("../img/common/input/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
+.body-join .nd-agreement .nd-sms-mail label.on{background:url("../img/common/input/check_on.png") no-repeat 1px top;}
+.body-join .nd-agreement .nd-sms-mail label b{font-weight: 400;}
+.body-join .nd-agreement .nd-sms-mail .nd-check-area{line-height: 1; padding: 15px 0 15px 15px;}
+.body-join .nd-agreement .nd-sms-mail .nd-check-area .form_element{padding-right: 20px;}
+.body-join .nd-agreement .nd-sms-mail .nd-check-area p {padding: 20px 0 0 28px; line-height: 1; color:#0d856a; letter-spacing: -0.25px; }
+.body-join .nd-agreement .nd-sms-mail .nd-check-area p img {padding-right:10px;}
+.body-join .nd-agreement .join_agreement_box label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("../img/common/input/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
+.body-join .nd-agreement .join_agreement_box label.on{background:url("../img/common/input/check_on.png") no-repeat 1px top;}
+.body-join .nd-agreement .join_agreement_box label em{font-weight: 400;}
+.body-join .nd-agreement .join_agreement_box #termsAgreeDiv label em{font-size:13px; font-weight:300; color:#211815; vertical-align:middle;}

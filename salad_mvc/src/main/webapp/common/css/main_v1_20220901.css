@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, input,
+	legend, li, ol, p, select, table, td, textarea, th, ul {
+	margin: 0;
+	padding: 0
+}
+
+body, button, input, select, table, textarea {
+	font-size: 12px;
+	line-height: 16px;
+	color: #302030;
+	font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif
+}
+
+button, input {
+	border-radius: 0;
+	border: 0
+}
+
+button {
+	background-color: transparent
+}
+
+fieldset, img {
+	border: 0
+}
+
+img {
+	vertical-align: top
+}
+
+ol, ul, li {
+	list-style: none
+}
+
+address, i {
+	font-style: normal
+}
+
+a {
+	color: #302030;
+	text-decoration: none
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #7076FF
+}
+
+.inputBox {
+	border: 1px solid #7F92B9;
+	background-color: #FFFFFF;
+	padding-left: 5px;
+	height: 24px
+}
+
+.inputBtn {
+	border: 1px solid #7F92B9;
+	background-color: #FFFFFF;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	height: 26px;
+	cursor: pointer;
+}
+
+.red {
+	color: #FF0000
+}
