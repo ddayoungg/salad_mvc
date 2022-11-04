@@ -66,6 +66,18 @@
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
     
+    <!-- 전체 카테고리 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#allMenuToggle").click(function(){
+    		$("#gnbAllMenu").toggle();
+    	});//click
+    	
+    });//ready
+    
+</script>
+    
     <script type="text/javascript">
         // 고도몰5 통화정책
         var gdCurrencyDecimal = 0;
@@ -481,22 +493,83 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
 <!-- Google Shopping -->
 
-	
-	
-	
-
-        <div class="gnb">
-			<div class="gnb_in">
-            <!-- 전체 카테고리 출력 레이어 시작 -->
-            <div class="gnb_all">
-    <strong>ALL CATEGORY</strong>
-    <a href="#;" class="btn_all_menu_open"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
+<div class="gnb">
+<div class="gnb_in">
+<!-- 전체 카테고리 출력 레이어 시작 -->
+<div class="gnb_all">
+<strong>ALL CATEGORY</strong>
+<a href="#void" id="allMenuToggle"><img src="http://localhost/pocket/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-<div class="gnb_allmenu_wrap">
-
+	<div class="gnb_allmenu_wrap">
+<div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
+<div class="gnb_allmenu_box">
+<ul>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
+				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
+				</ul>
+		</div>
+	</li>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
+				<ul class="all_depth1">
+					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
+				</ul>
+		</div>
+	</li>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
+				<ul class="all_depth1">
+					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
+				</ul>
+		</div>
+	</li>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
+				<ul class="all_depth1">
+					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
+				</ul>
+		</div>
+	</li>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
+				<ul class="all_depth1">
+					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
+					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
+				</ul>
+		</div>
+	</li>
+	<li style="width:20%;">
+		<div class="all_menu_cont">
+			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
+		</div>
+	</li>
+</ul>
+</div>
+</div>
 </div>
 
-            <!-- 전체 카테고리 출력 레이어 끝 -->
+<!-- 전체 카테고리 출력 레이어 끝 -->
 
 			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
