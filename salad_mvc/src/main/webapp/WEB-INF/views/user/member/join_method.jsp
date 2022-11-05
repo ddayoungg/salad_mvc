@@ -445,7 +445,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- 전체 카테고리 출력 레이어 시작 -->
 <div class="gnb_all">
 <strong>ALL CATEGORY</strong>
-<a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/imagescommon/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
+<a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
 	<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
