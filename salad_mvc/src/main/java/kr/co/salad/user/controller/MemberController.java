@@ -1,4 +1,4 @@
-package kr.co.sist.user.controller;
+package kr.co.salad.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
