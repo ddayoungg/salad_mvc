@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html>
@@ -13,7 +15,6 @@
     <meta name="csrf-token" content="MTY2NjcwNTY4NjAwNDU1MjEwNTk2ODIzNjQzNTM5Njc3MzA3NTAxMTU4" />
    <meta name="facebook-domain-verification" content="l8vlpgoyq5exc97dfww64gqzmnialy" />
 	
-
     <meta property="og:type" content="website">
     <meta property="og:title" content="포켓샐러드">
     <meta property="og:image" content="https://pocketsalad.co.kr/data/common/snsRepresentImage.jpg">
@@ -43,7 +44,6 @@
     <!-- 온노마드 css 추가 -->
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/nd_custom.css?ts=1662983189" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/swiper.css?ts=1610501674" />
-
 
     <script type="text/javascript">
         var json_locale_data = {"domain":"messages","locale_data":{"messages":{"":{"lang":"ATF","plural-forms":"nplurals=1; plural=0"}}}}
@@ -211,7 +211,114 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'AW-955276942');
 </script>
 
-	
+<!-- 소현 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('receiverZipcode').value = data.zonecode;
+                document.getElementById("receiverAddress").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("receiverAddressSub").focus();
+            }
+        }).open();
+    }
+</script>
+<script type="text/javascript">
+	$(function () {
+		setTotalPrice();
+		
+		$("#shippingNew").on("click", function () {
+			$(".newShip").val("");
+		});//shippingNew
+		
+		$("#shippingBasic").on("click", function () {
+			var shipName = $(".shipName").val();
+			var shipZipcode = $(".shipZipcode").val();
+			var shipAddr = $(".shipAddr").val();
+			var shipDeAddr = $(".shipDeAddr").val();
+			var shipPhone = $(".shipPhone").val();
+			
+			$("input[name='receiverName']").val(shipName);
+			$("input[name='receiverZipcode']").val(shipZipcode);
+			$("input[name='receiverAddress']").val(shipAddr);
+			$("input[name='receiverAddressSub']").val(shipDeAddr);
+			$("input[name='receiverCellPhone']").val(shipPhone);
+		});//shippingBasic
+		
+		// 결제하기 버튼 클릭 시
+		$(".orderPayBtn").on("click", function (index, element) {
+			$(".existAddrFlagInput").val("0");
+			$(".deliZipcodeInput").val($("input[name='receiverZipcode']").val());
+			$(".deliAddrInput").val($("input[name='receiverAddress']").val());
+			$(".deliDetailAddrInput").val($("input[name='receiverAddressSub']").val());
+			$(".deliPhoneInput").val($("input[name='receiverCellPhone']").val());
+			$(".receiverInput").val($("input[name='receiverName']").val());
+			$(".deliReqInput").val($("input[name='receiverRequest']").val());
+			
+			if($('#shippingNew').is(":checked") === true){ // 체크여부
+				$(".existAddrFlagInput").val("1");
+			}//if
+			
+			var formContents = '';
+			
+			$(".td_left").each(function (index, element) {
+				
+				var prdNum = $(element).find(".prdNum").val();
+				var cartPrdCnt = $(element).find(".cartPrdCnt").val();
+				var orderPrice = $(element).find(".prdTotal").val();
+				
+				var prdNumInput = "<input name='orders[" + index + "].prdNum' type='hidden' value='" + prdNum + "'>";
+				formContents += prdNumInput;
+				
+				var cartPrdCntInput = "<input name='orders[" + index + "].cartPrdCnt' type='hidden' value='" + cartPrdCnt + "'>";
+				formContents += cartPrdCntInput;
+				
+				var orderPriceInput = "<input name='orders[" + index + "].orderPrice' type='hidden' value='" + orderPrice + "'>";
+				formContents += orderPriceInput;
+				
+			});//td_left
+			
+			$(".addOrderFrm").append(formContents);
+			$(".addOrderFrm").submit();
+			
+		});//orderPayBtn
+		
+	});//ready
+
+	function setTotalPrice() {
+		var totalPrice = 0;
+		var totalDis = 0;
+		
+		$(".td_left").each(function (index, element) {
+			totalPrice += parseInt($(element).find(".prdTotal").val());//총 가격
+			totalDis += parseInt($(element).find(".prdPriceDis").val());//총 할인가격
+		});//checkTd
+		
+		$(".totalPriceSpan").text(totalPrice.toLocaleString());
+		$(".totalDisSpan").text(totalDis.toLocaleString());
+		$(".totalOrderPrice").text((totalPrice-totalDis).toLocaleString());
+		$(".orderTotalPriceInput").val(totalPrice-totalDis);
+		
+    }//setTotalPrice
+	    
+</script>
 
 </head>
 	
@@ -331,7 +438,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
+                    <input type="text" id="search_form" id="keyword" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off" value="">
                     <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
                 </div>
                 <!-- //top_text_cont -->
@@ -394,21 +501,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="recent_box">
                         <dl class="js_recent_area">
                             <dt>최근검색어</dt>
-                            <dd>
-                                <ul class="js_recent_list">
-                                    <li>
-                                        <a href="../goods/goods_search.jsp?keyword=%EB%8B%AD%EA%B0%80%EC%8A%B4">닭가슴</a>
-                                        <span><button type="button" class="btn_top_search_del" data-recent-keyword="닭가슴">
-                                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_top_search_del.png" alt="삭제"></button>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </dd>
+                            <dd>최근 검색어가 없습니다.</dd>
                         </dl>
                     </div>
                     <!-- //recent_box -->
                     <div class="seach_top_all">
-<button type="button" class="btn_top_search_all_del"><strong>전체삭제</strong></button>                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
+                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
                     </div>
                     <!-- //seach_top_all -->
 
@@ -427,34 +525,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<!-- //header_search -->
 			<div class="top_member_box">
-			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">테스터(포켓탐색 Lv.1)님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="../member/logout.jsp?returnUrl=">로그아웃</a></li>
+					<li><a href="../member/join_method.jsp">회원가입</a></li>
+					<li><a href="../member/login.jsp">로그인</a></li>
+
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
 						<a href="../service/faq.jsp">고객센터</a>
 						<div class="cs_in">
 							<ul >
 								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="../board/list.jsp?&bdId=goodsreview">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
 							</ul>
 						</div>
-
-
 					</li>
-
-				</ul>
-				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
-
-                      <strong><b><a href="../order/cart.jsp">2</a></b></strong>
-
-                    </li>
-
 				</ul>
 			</div>
         </div>
@@ -467,6 +551,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
 <!-- Google Shopping -->
 
+
 <div class="gnb">
 <div class="gnb_in">
 <!-- 전체 카테고리 출력 레이어 시작 -->
@@ -474,70 +559,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -545,87 +583,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
@@ -633,7 +598,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- 상단 카테고리 출력 시작 -->
 
             </div>
-
 
         </div>
         <!-- //gnb -->
@@ -663,73 +627,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		});
 	</script>
 </div>
-
-
-
-
-
 <!-- //header -->
     </div>
     <!-- //header_warp -->
 
     <div id="container">
         <div id="contents">
-        <!-- 본문 시작 -->
-
             <div class="location_wrap">
                 <div class="location_cont">
                     <em><a href="#" class="local_home">HOME</a> > 주문서 작성 / 결제</em>
                 </div>
             </div>
-            <!-- //location_wrap -->
-
             <div class="sub_content">
-
-                <!-- //side_cont -->
-
 <style>
 	#morningSelectDay_chosen { width: 320px !important;}
 	#parcelSelectDay_chosen { width: 320px !important;}
 </style>
 
 <div class="content_box">
-    <form id="frmOrder" name="frmOrder" action="./order_ps.jsp" method="post" target="ifrmProcess">
-        <input type="hidden" name="regularFl" value="y" /><!-- regularFl -->
-
-        <input type="hidden" name="csrfToken" value="MTY2NjcwNTY4NjAwNDU1MjEwNTk2ODIzNjQzNTM5Njc3MzA3NTAxMTU4" />
-        <input type="hidden" name="orderChannelFl" value="shop" />
-        <input type="hidden" name="orderCountryCode" value="" />
-        <input type="hidden" name="orderZipcode" value="" />
-        <input type="hidden" name="orderZonecode" value="" />
-        <input type="hidden" name="orderState" value="" />
-        <input type="hidden" name="orderCity" value="" />
-        <input type="hidden" name="orderAddress" value="" />
-        <input type="hidden" name="orderAddressSub" value="" />
-        <input type="hidden" name="orderPhonePrefixCode" value="kr" />
-        <input type="hidden" name="orderPhonePrefix" value="82" />
-        <input type="hidden" name="orderCellPhonePrefixCode" value="kr" />
-        <input type="hidden" name="orderCellPhonePrefix" value="82" />
-        <input type="hidden" name="receiverCountryCode" value="kr" />
-        <input type="hidden" name="receiverPhonePrefixCode" value="kr" />
-        <input type="hidden" name="receiverPhonePrefix" value="82" />
-        <input type="hidden" name="receiverCellPhonePrefixCode" value="kr" />
-        <input type="hidden" name="receiverCellPhonePrefix" value="82" />
-        <input type="hidden" name="receiverState" value="" />
-        <input type="hidden" name="receiverCity" value="" />
-        <input type="hidden" name="chooseMileageCoupon" value="n" />
-        <input type="hidden" name="chooseCouponMemberUseType" value="all" />
-        <input type="hidden" name="totalCouponGoodsDcPrice" value="0" />
-        <input type="hidden" name="totalCouponGoodsMileage" value="0" />
-        <input type="hidden" name="totalMemberDcPrice" value="0" />
-        <input type="hidden" name="totalMemberOverlapDcPrice" value="0" />
-        <input type="hidden" name="deliveryFree" value="n" />
-        <input type="hidden" name="totalDeliveryFreePrice" value="" />
-        <input type="hidden" name="cartGoodsCnt" value="2" />
-        <input type="hidden" name="cartAddGoodsCnt" value="0" />
-        <input type="hidden" name="productCouponChangeLimitType" value="n" />
-        <input type="hidden" name="deliveryVisit" value="n" />
-        <input type="hidden" name="returnUrl" value="/order/order.jsp" />
-
         <div class="order_wrap">
             <div class="order_tit">
                 <h2>주문서/결제</h2>
@@ -742,1147 +657,290 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- //order_tit -->
 
             <div class="order_cont">
-
-                <!-- 정기배송 area start -->
-                <div class="cart_cont_list">
-                    <div class="deli_order_top_tit">
-                        <h3>정기배송</h3>
-                    </div>
-
-                    <div class="order_table_type">
-                        <table class="bdt_type1" >
-                            <colgroup>
-                                <col style="width:60%">					<!-- 상품명/옵션 -->
-                                <col style="width:14%">  <!-- 수량 -->
-                                <col style="width:23%"> <!-- 상품금액 -->
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                                <td  class="img_td cknone">
-                                    <div class="pick_add_cont">
-                                            <span class="pick_add_img">
-                                                <a href="../goods/goods_view.jsp?goodsNo=1000000376">
-                                                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000376/1000000376_list_016.jpg" width="40" alt="하루에 한 끼를 샐러드로 5일" title="하루에 한 끼를 샐러드로 5일" class="middle" class="imgsize-s" />
-                                                </a>
-                                            </span>
-                                        <div class="pick_add_info">
-                                            <em><a href="../goods/goods_view.jsp?goodsNo=1000000376">하루에 한 끼를 샐러드로 5일</a></em>
-
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="td_order_amount">
-                                    <div class="order_goods_num">
-                                        <!-- 20201218 -->
-                                        <strong>1개</strong>
-                                    </div>
-                                </td>
-                                <td class="right_a1">
-                                    <!--  -->
-                                    <!-- 20201218 -->
-                                    <b class="order_delitop_txt">5팩×1회 총 5팩</b>
-                                    <!--  -->
-                                    <strong class="order_sum_txt">29,820<i class="won">원</i></strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="cart_deli_intable_td" >
-                                    <div class="cart_deli_intable_wrap">
-                                        <table class="cart_deli_intable">
-                                            <colgroup>
-                                                <col style="width:10%;">
-                                                <col style="width:51%;">
-                                                <col style="width:19%;">
-                                                <col style="width:20%;">
-                                            </colgroup>
-                                            <tbody>
-<!-- 20201218 [[ -->
-                                            <input type="hidden" name="cartSno[]" value="726581" />
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726581" />1일차 1식 -->
-                                                    1
-                                                </td>
-
-                                                <td class="subj">닭가슴살 샐러드 x1</td>
-                                                <td class="ori_con">8,300원</td>
-                                                <td class="dc_con">6,660원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726581" />1일차 1식 -->
-                                                    2
-                                                </td>
-
-                                                <td class="subj">크래미 샐러드 x1</td>
-                                                <td class="ori_con">9,000원</td>
-                                                <td class="dc_con">6,860원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726581" />1일차 1식 -->
-                                                    3
-                                                </td>
-
-                                                <td class="subj">그린 샐러드 x1</td>
-                                                <td class="ori_con">6,200원</td>
-                                                <td class="dc_con">4,670원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726581" />1일차 1식 -->
-                                                    4
-                                                </td>
-
-                                                <td class="subj">채소만 샐러드 x1</td>
-                                                <td class="ori_con">5,400원</td>
-                                                <td class="dc_con">3,380원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726581" />1일차 1식 -->
-                                                    5
-                                                </td>
-
-                                                <td class="subj">레드칠리 로스트 닭가슴살 샐러드 x1</td>
-                                                <td class="ori_con">10,300원</td>
-                                                <td class="dc_con">8,250원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-                                            </tr>
-
-<!-- 20201218 ]] -->
-
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td  class="img_td cknone">
-                                    <div class="pick_add_cont">
-                                            <span class="pick_add_img">
-                                                <a href="../goods/goods_view.jsp?goodsNo=260">
-                                                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_list_06.jpg" width="40" alt="2주 정기배송 샐러드 주 5일" title="2주 정기배송 샐러드 주 5일" class="middle" class="imgsize-s" />
-                                                </a>
-                                            </span>
-                                        <div class="pick_add_info">
-                                            <em><a href="../goods/goods_view.jsp?goodsNo=260">2주 정기배송 샐러드 주 5일</a></em>
-
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="td_order_amount">
-                                    <div class="order_goods_num">
-                                        <!-- 20201218 -->
-                                        <strong>1개</strong>
-                                    </div>
-                                </td>
-                                <td class="right_a1">
-                                    <!--  -->
-                                    <!-- 20201218 -->
-                                    <b class="order_delitop_txt">5팩×2회 총 10팩</b>
-                                    <!--  -->
-                                    <strong class="order_sum_txt">68,260<i class="won">원</i></strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="cart_deli_intable_td" >
-                                    <div class="cart_deli_intable_wrap">
-                                        <table class="cart_deli_intable">
-                                            <colgroup>
-                                                <col style="width:10%;">
-                                                <col style="width:51%;">
-                                                <col style="width:19%;">
-                                                <col style="width:20%;">
-                                            </colgroup>
-                                            <tbody>
-<!-- 20201218 [[ -->
-                                            <input type="hidden" name="cartSno[]" value="726582" />
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726582" />1일차 1식 -->
-                                                    1
-                                                </td>
-
-                                                <td class="subj">크래미 샐러드 x2</td>
-                                                <td class="ori_con">18,000원</td>
-                                                <td class="dc_con">13,660원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726582" />1일차 1식 -->
-                                                    2
-                                                </td>
-
-                                                <td class="subj">닭가슴살 비엔나 샐러드 x2</td>
-                                                <td class="ori_con">18,000원</td>
-                                                <td class="dc_con">14,040원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726582" />1일차 1식 -->
-                                                    3
-                                                </td>
-
-                                                <td class="subj">치즈 샐러드 x2</td>
-                                                <td class="ori_con">16,200원</td>
-                                                <td class="dc_con">12,860원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726582" />1일차 1식 -->
-                                                    4
-                                                </td>
-
-                                                <td class="subj">닭가슴살볼 옥수수톡 샐러드 x2</td>
-                                                <td class="ori_con">18,000원</td>
-                                                <td class="dc_con">13,660원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <!-- <input type="hidden" name="cartSno[]" value="726582" />1일차 1식 -->
-                                                    5
-                                                </td>
-
-                                                <td class="subj">훈제오리 샐러드 x2</td>
-                                                <td class="ori_con">18,000원</td>
-                                                <td class="dc_con">14,040원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-                                            </tr>
-
-<!-- 20201218 ]] -->
-
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </td>
-                            </tr>
-
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="7">
-                                    <div class="price_sum">
-                                        <div class="price_sum_cont">
-                                            <div class="price_sum_list">
-                                                <dl>
-                                                    <dt>총 상품금액</dt>
-                                                    <dd><strong id="regularTotalGoodsPrice">127,400</strong>원</dd>
-                                                </dl>
-                                                <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_minus.png" alt="더하기"></span>
-                                                <dl>
-                                                    <dt>총 할인금액</dt>
-                                                    <dd><strong id="regularTotalDcPrice">29,320</strong>원</dd>
-                                                </dl>
-                                                <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_plus.png" alt="합계"></span>
-                                                <dl>
-                                                    <input type="hidden" id="regularTotalDeliveryCharge" value="9000"><!-- 20210316 -->
-                                                    <dt>총 배송비</dt>
-                                                    <dd id="regularTotalDeliveryCharge123">
-
-                                                        <strong id="regularTotalDeliveryCharge11">4,500</strong>원 X <strong>2</strong>회
-
-                                                    </dd>
-                                                </dl>
-                                                <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_total.png" alt="합계"></span>
-                                                <dl class="price_total">
-                                                    <dt>결제금액</dt>
-                                                    <!-- <dd><strong id="regularTotalSettlePrice">107,080</strong>원 -->
-                                                    <dd><strong id="regularTotalSettlePrice">107,080</strong>원
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                        </div>
-                                        <!-- //price_sum_cont -->
-                                    </div>
-                                    <!-- <table class="cart_deli_intable cart_deli_intable2">
-                                        <tbody>
-                                            <tr>
-                                                <th colspan="2" class="left_con cart_deli_tit2">수령예정일 안내</th>
-                                                <th colspan="2" class="right_con cart_deli_tit2" ><span class="deli_caution_txt_1">*월요일 · 일요일 및 공휴일 택배 수령 불가</span></th>
-                                            </tr>
-                                            <tr>
-                                                <td class="deli_completed_date" colspan="4">
-                                                    <div class="d_date_con">
-                                                        <p class="unit">
-                                                                <span class="d_count">1회차</span>
-                                                                <span class="d_date">10/27(목)</span>
-                                                        </p>
-                                                        <p class="unit">
-                                                                <span class="d_count">2회차</span>
-                                                                <span class="d_date">11/03(목)</span>
-                                                            </p>
-                                                            <p class="unit">
-                                                                <span class="d_count">3회차</span>
-                                                                <span class="d_date">11/10(목)</span>
-                                                            </p>
-                                                            <p class="unit">
-                                                                <span class="d_count">4회차</span>
-                                                                <span class="d_date">11/17(목)</span>
-                                                            </p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table> -->
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                        <div class="cart_etc_bottom_txt" style="display:none;">                             <p class="txt1">
-                                * 샐러드의 경우 당일제작 가능 수량이 한정되어 있어
-                                실제 수령일과 1~2일 차이가 있을 수 있습니다.
-                            </p>
-                            <p class="bold_txt1">
-                                샐러드 출고 당일, 제작 안내 문자 발송
-                            </p>
-                        </div>
-                    </div>
-                    <!-- 정기배송 area end -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <!-- 주문 간단 가입 시작 -->
-                    <input type="hidden" name="simpleJoin" value="" />
-
-
-                    <!-- 주문 간단 가입 끝 -->
-
-
-                    <!-- //일회용품 제외 필드-->
-                    <div class="disposable">
-                        <div class="disposable_info">
-                            <h4>옵션 선택</h4>
-                        </div>
-                        <div class="form_element">
-                            <span>샐러드ㆍ라이스 상품에서 일회용품을 제외하실 수 있어요.</span>
-                            <div class="disposable_top">
-                                <input type="checkbox" id="checkDisposable" name="disposable" value="y">
-                                <label for="checkDisposable" class="check_s">일회용품 제외하기(포크,수저)</label>
-                                <div class="disposable_img">
-                                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/disposable.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- // END-->
-
-                    <div class="order_view_info">
-
-
-
-                        <div class="order_info">
-                            <div class="order_zone_tit">
-                                <h4>주문자 정보</h4>
-                            </div>
-
-                            <div class="order_table_type order_table_type_bottom">
-                                <table class="table_left">
-                                    <colgroup>
-                                        <col style="width:15%;">
-                                        <col style="width:85%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><span class="important">주문하시는 분</span></th>
-                                        <td><input type="text" name="orderName" id="orderName" value="테스터" data-pattern="gdEngKor" maxlength="20"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="important">휴대폰 번호</span></th>
-                                        <td>
-                                            <input type="text" id="mobileNum" name="orderCellPhone" value="010-8968-4952" maxlength="20" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="important">이메일</span></th>
-                                        <td class="member_email">
-                                            <input type="text" name="orderEmail" value="alfkdlej5@gmail.com" />
-
-                                            <select id="emailDomain" class="chosen-select" style="width:178px;">
-                                                <option value="self">직접입력</option>
-                                                <option value="naver.com">naver.com</option>
-                                                <option value="hanmail.net">hanmail.net</option>
-                                                <option value="daum.net">daum.net</option>
-                                                <option value="nate.com">nate.com</option>
-                                                <option value="hotmail.com">hotmail.com</option>
-                                                <option value="gmail.com">gmail.com</option>
-                                                <option value="icloud.com">icloud.com</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- //order_info -->
-
-                        <div class="delivery_info">
-                            <div class="order_zone_tit">
-                                <h4>배송정보</h4>
-                            </div>
-
-                            <div class="order_table_type shipping_info">
-                                <table class="table_left shipping_info_table">
-                                    <colgroup>
-                                        <col style="width:15%;">
-                                        <col style="width:85%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">배송지 확인</th>
-                                        <td class="shpg_con">
-                                            <div class="form_element" style="width:560px;">                                                 <ul>
-                                                    <li>
-                                                        <input type="radio" name="shipping" id="shippingBasic">
-                                                        <label for="shippingBasic" class="choice_s">기본 배송지</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="radio" name="shipping" id="shippingNew">
-                                                        <label for="shippingNew" class="choice_s">직접 입력</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="radio" name="shipping" id="shippingSameCheck">
-                                                        <label for="shippingSameCheck" class="choice_s">주문자정보와 동일</label>
-                                                    </li>
-                                                </ul>
-                                                <span class="btn_gray_list"><a href="#myShippingListLayer" class="btn_gray_small btn_open_layer js_shipping"><span>배송지 관리</span></a></span>
-                                                <input type="hidden" class="shipping-delivery-visit" value="n" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="important">받으실분</span></th>
-                                        <td><input type="text" name="receiverName" data-pattern="gdEngKor" maxlength="20"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="important">받으실 곳</span></th>
-                                        <td class="member_address">
-                                            <div class="address_postcode">
-                                                <input type="text" name="receiverZonecode" readonly="readonly" />
-                                                <input type="hidden" name="receiverZipcode"/>
-                                                <span id="receiverZipcodeText" class="old_post_code"></span>
-                                                <button type="button" class="btn_post_search" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');">우편번호검색</button>
-                                            </div>
-                                            <div class="address_input">
-                                                <input type="text" name="receiverAddress" readonly="readonly"/>
-
-                                            </div>
-                                            <div class="address_input">
-                                                <input type="text" name="receiverAddressSub" />
-                                            </div>
-                                            <div class="delivery_type_info" style="float:left;">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="important">휴대폰 번호</span></th>
-                                        <td>
-                                            <input type="text" id="receiverCellPhone" name="receiverCellPhone"/>
-                                        </td>
-                                    </tr>
-
-                                    <tr id="memberinfoApplyTr">
-                                        <th scope="row">회원정보 반영</th>
-                                        <td>
-                                            <div class="form_element">
-                                                <div id="memberinfoApplyTr1" class="member_info_delivery">
-                                                    <input type="checkbox" id="reflectApplyDelivery" name="reflectApplyDelivery" value="y" >
-                                                    <label for="reflectApplyDelivery" class="check_s"><em>나의 배송지에 추가합니다.</em></label>
-                                                </div>
-                                                <div id="memberinfoApplyTr2" class="member_info_apply">
-                                                    <input type="checkbox" id="reflectApplyMember" name="reflectApplyMember" value="y">
-                                                    <label for="reflectApplyMember" class="check_s">위 내용을 회원정보에 반영합니다. <span>(주소/전화번호/휴대폰번호)</span></label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="orderVisitTr dn">
-                                        <th scope="row">방문수령 정보</th>
-                                        <td>
-                                            <div class="table1">
-                                                <table>
-                                                    <colgroup>
-                                                        <col style="width:150px;">
-                                                        <col>
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th scope="row">방문 수령지 주소</th>
-                                                        <td>
-                                                            <span class="delivery-method-visit-area-txt"></span>
-                                                            <input type="hidden" name="visitAddress" value="">
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><span class="important">방문자 정보</span></th>
-                                                        <td>
-                                                            방문자명 <input type="text" name="visitName" value="" class="text"> 방문자연락처 <input type="text" name="visitPhone" value="" class="text">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">메모</th>
-                                                        <td class="td_last_say">
-                                                            <input type="text" name="visitMemo" maxlength="250">
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- //delivery_info -->
-
-                        <!-- //addition_info -->
-
-                        <div class="delivery_info">
-                            <div class="order_zone_tit">
-                                <h4>배송방법 및 수령일 선택</h4>
-                            </div>
-                            <div class="order_table_type shipping_info">
-                                <table class="table_left shipping_info_table">
-                                    <colgroup>
-                                        <col style="width:15%;">
-                                        <col style="width:85%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><span class="important">배송방법</span></th>
-                                        <td>
-                                            <div class="form_element" style='height: 100%; width: 400px;'>
-                                                <ul>
-                                                    <li style="display:none;">
-                                                        <input type="radio" name="deliveryType" id="deliveryMorning" value="morning">
-                                                        <label for="deliveryMorning" class="choice_s" style='font-size:17px; font-weight: bold;'>새벽배송</label>
-                                                        <span style='margin-left: 10px; color: #333;'></span>
-                                                    </li>
-                                                    <!--<Br>-->
-                                                    <li>
-                                                        <input type="radio" name="deliveryType" id="deliveryParcel" value="parcel">
-                                                        <label for="deliveryParcel" class="choice_s" style='font-size:17px; font-weight: bold;'>일반택배</label>
-                                                        <span style='margin-left: 10px; color: #333;'></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <!-- <div style='display:inline-block;'>
-                                                <div><p style='font-size: 14px; line-height: 20px; background: url(/data/skin/front/kaimen_pc_n/img/member/icon_dot_03.png) no-repeat 0 center; margin: 0 0 0 -10px; padding: 0 0 0 10px; color: #00af85;'>결제 완료 후 1~2일 이내 순차 출고</p><p style='font-size: 14px; line-height: 20px; color: #00af85;'>출고 당일 오전 제작안내 알림톡 발송</p></div>
-                                            </div> -->
-
-                                        </td>
-                                    </tr>
-									
-									<!-- 배송일 선택한 상품이 있을때만 노출 -->
-                                    <tr id="delivery_morning_date" style="display:none;">
-                                        <th scope="row"><span class="important">수령일</span></th>
-                                        <td>
-											<div style='display: inline-block;'>
-												<select name='morningSelectDay' class="chosen-select" id="morningSelectDay">
-													<option value=''>수령일을 선택해주세요</option>
-													<!--<option value='9999'>가장 빠른 일</option>-->
-													<option value="1666796400" >10월 27일 (목)  </option>
-													<option value="1666882800" >10월 28일 (금)  </option>
-													<option value="1666969200" >10월 29일 (토)  </option>
-													<option value="1667228400" >11월 01일 (화)  </option>
-													<option value="1667314800" >11월 02일 (수)  </option>
-													<option value="1667401200" >11월 03일 (목)  </option>
-													<option value="1667487600" >11월 04일 (금)  </option>
-													<option value="1667574000" >11월 05일 (토)  </option>
-													<option value="1667833200" >11월 08일 (화)  </option>
-													<option value="1667919600" >11월 09일 (수)  </option>
-													<option value="1668006000" >11월 10일 (목)  </option>
-													<option value="1668092400" >11월 11일 (금)  </option>
-												</select>
-											</div>
-											<div style='display: inline-block; margin-left: 20px; position: relative; top: 8px;'>
-												<span style='color: #00af85;'> 정기배송 상품은 선택한 수령일과 매주 같은 요일에 배송됩니다.</span>
-											</div>
-                                        </td>
-                                    </tr>
-									
-                                    <tr id="delivery_parcel_date" style="display:none;">
-                                        <th scope="row"><span class="important">수령일</span></th>
-                                        <td>
-											<div style='display: inline-block;'>
-												<select name='parcelSelectDay' class="chosen-select" id="parcelSelectDay">
-													<option value=''>수령일을 선택해주세요</option>
-													<!--<option value='9999'>가장 빠른 일</option>-->
-													<option value="1666882800" >10월 28일 (금) </option>
-													<option value="1666969200" >10월 29일 (토) </option>
-													<option value="1667228400" >11월 01일 (화) </option>
-													<option value="1667314800" >11월 02일 (수) </option>
-													<option value="1667401200" >11월 03일 (목) </option>
-													<option value="1667487600" >11월 04일 (금) </option>
-													<option value="1667574000" >11월 05일 (토) </option>
-													<option value="1667833200" >11월 08일 (화) </option>
-													<option value="1667919600" >11월 09일 (수) </option>
-													<option value="1668006000" >11월 10일 (목) </option>
-													<option value="1668092400" >11월 11일 (금) </option>
-													<option value="1668178800" >11월 12일 (토) </option>
-												</select>
-											</div>
-											<div style='display: inline-block; margin-left: 20px; position: relative; top: 8px;'>
-												<span style='color: #00af85;'> 정기배송 상품은 선택한 수령일과 매주 같은 요일에 배송됩니다.</span>
-											</div>
-                                        </td>
-                                    </tr>
-									
-                                    <tr id ="delivery_morning_arrive" style='display:none;'>
-                                        <th scope ="row"><span class="important">받으실 장소</span></th>
-                                        <td>
-                                            <div class="form_element">
-                                                <ul>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_arrive" class="morning_delivery_arrive" id="morning_delivery_door" value="door">
-                                                        <label for="morning_delivery_door" class="choice_s">문 앞</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_arrive" class="morning_delivery_arrive" id="morning_delivery_security_office" value="security_office">
-                                                        <label for="morning_delivery_security_office" class="choice_s">경비실</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_arrive" class="morning_delivery_arrive" id="morning_delivery_courier_box" value="courier_box">
-                                                        <label for="morning_delivery_courier_box" class="choice_s">택배함</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_arrive" class="morning_delivery_arrive" id="morning_delivery_place" value="place">
-                                                        <label for="morning_delivery_place" class="choice_s">기타 장소</label>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="security_text" style='display:none;'>
-                                        <th scope="row" style='vertical-align: top;'><span class="important">경비실 특이사항</span></th>
-                                        <td>
-                                            <input type="text" name="security_text" style="visibility:unset;position:unset;" placeholder="경비실 위치 등 특이사항이 있을 경우 작성해주세요.">
-                                            <p style='font-size: 14px; color: #333;'>경비실 호출/보관이 어려울 경우 부득이하게 공동현관 앞에 배송될 수 있습니다.</p>
-                                        </td>
-                                    </tr>
-                                    <tr id="courier_text" style="display:none;">
-                                        <th scope="row" style='vertical-align: top;'><span class="important">택배함 정보</span></th>
-                                        <td>
-                                            <input type="text" name="courier_text" style="visibility:unset;position:unset;" placeholder="택배함 위치/ 택배함 번호 (비밀번호)">
-                                            <p style='font-size: 14px; color: #333;'>택배함 보관이 어려울 경우 부득이하게 공동현관 앞에 배송될 수 있습니다.</p>
-                                        </td>
-                                    </tr>
-                                    <tr id="morning_etc_text" style="display:none;">
-                                        <th scope="row" style='vertical-align: top;'><span class="important">기타 장소 세부 사항</span></th>
-                                        <td>
-                                            <input type="text" name="etc_text" style="visibility:unset;position:unset;" placeholder="개인 주택의 경우 / 예 : 대문 앞 자전거 옆, 계단 밑 등">
-                                            <p style='font-size: 14px; color: #333;'>요청 장소에 보관이 어려울 경우 부득이하게 공동현관 앞에 배송될 수 있습니다.</p>
-                                        </td>
-                                    </tr>
-                                    <tr id="delivery_morning_come" style='display: none'>
-                                        <th scope="row" style='vertical-align:top;'><span class="important">공동현관 출입방법</span></th>
-                                        <td>
-                                            <div class="form_element" style='height:100%;'>
-                                                <ul>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_method" class="morning_delivery_method" id="morning_delivery_method_password" value="password">
-                                                        <label for="morning_delivery_method_password" class="choice_s">비밀번호</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_method" class="morning_delivery_method" id="morning_delivery_method_security_come" value="security_come">
-                                                        <label for="morning_delivery_method_security_come" class="choice_s">경비실 호출</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_method" class="morning_delivery_method" id="morning_delivery_method_free" value="free">
-                                                        <label for="morning_delivery_method_free" class="choice_s">자유출입</label>
-                                                    </li>
-                                                    <li style='width: 100px;'>
-                                                        <input type="radio" name="morning_delivery_method" class="morning_delivery_method" id="morning_delivery_method_etc" value="etc">
-                                                        <label for="morning_delivery_method_etc" class="choice_s">기타방법</label>
-                                                    </li>
-                                                </ul>
-                                                <div id="pass_text" style='display : none;'>
-                                                    <input type="text" name="morning_delivery_pass" style="visibility:unset;position:unset;" placeholder="예 : #1234#1234">
-                                                </div>
-                                                <div id="etc_text" style='display:none;'>
-                                                    <input type="text" name="morning_delivery_etc" style="visibility:unset;position:unset;" placeholder="기타방법을 작성해주세요.">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!--// 회원만 가능-->
-                                    <tr id="delivery_morning_save" style='display:none;'>
-                                        <th scope="row">출입 정보 저장</th>
-                                        <td>
-                                            <div class="form_element">
-                                                <ul>
-                                                    <li style='line-height: 1'>
-                                                        <input type="checkbox" name="door_information_save" id="door_information_save" value="door_save">
-                                                        <label for="door_information_save" class="check_s" style="color:orangered;">다음 주문에도 계속사용</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr id="delivery_info" style="display:none;">
-                                        <th scope="row" style='vertical-align:top; padding-top: 25px;'>배송 요청사항</th>
-                                        <td class="td_last_say" style='height:100%; padding-top: 25px;'>
-                                            <input type="text" name="orderMemo" placeholder="배송 요청 사항을 입력해 주세요."/>
-                                            <div id="delivery_info_morning" class="form_element" style="display:none; width: 100%; height: 100%;">
-                                            </div>
-                                            <div id="delivery_info_parcel" style="display:none;">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-                        <div class="payment_info">
-                            <div class="order_zone_tit">
-                                <h4>할인혜택</h4>
-                            </div>
-
-                            <div class="order_table_type order_table_type_bottom">
-                                <table class="table_left">
-                                    <colgroup>
-                                        <col style="width:15%;">
-                                        <col style="width:85%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><!-- 상품 합계 금액 -->총 결제예정금액</th>
-                                        <td>
-                                            <!-- <strong id="totalGoodsPrice" class="order_payment_sum">98,080원</strong> -->
-                                            <strong id="totalGoodsPrice" class="order_payment_sum">107,080원</strong>
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none;">
-                                        <th scope="row">배송비</th>
-                                        <td>
-                                            <span id="totalDeliveryCharge">9,000</span><i class="won">원</i>
-                                            <span class="multi_shipping_text"></span>
-                                        </td>
-                                    </tr>
-                                    <tr id="rowDeliveryInsuranceFee" class="dn">
-                                        <th scope="row">해외배송 보험료</th>
-                                        <td>
-                                            <span id="deliveryInsuranceFee">0</span>원
-                                            <input type="hidden" name="deliveryInsuranceFee" value="0">
-                                        </td>
-                                    </tr>
-                                    <tr id="rowDeliverAreaCharge" class="dn">
-                                        <th scope="row">지역별 배송비</th>
-                                        <td>
-                                            <span id="deliveryAreaCharge">0</span>원
-                                            <input type="hidden" name="totalDeliveryCharge" value="9000">
-                                            <input type="hidden" name="deliveryAreaCharge" value="0">
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none;">
-                                        <th scope="row" class="dcandpoint">할인 및 적립</th>
-                                        <td class="dcandpoint" >
-                                            <ul class="order_benefit_list">
-                                                <li class="order_benefit_sale">
-                                                    <em id="saleDefault">
-                                                        할인 <strong>(-) <b class="total-member-dc-price">0</b>원</strong>
-                                                        <span>(
-                                                    상품 0원
-                                                    , 회원 <span class="member-dc-price">0원</span>
-                                                    , 쿠폰 <span class="goods-coupon-dc-price">0</span>원
-                                                    )</span>
-                                                    </em>
-                                                    <em id="saleWithoutMember" class="dn">
-                                                        할인 : <strong>(-) <b class="total-member-dc-price-without-member">0</b>원</strong>
-                                                        <span>(
-                                                    상품 0원
-                                                    , 회원 0원
-                                                    , 쿠폰 <span class="goods-coupon-dc-price-without-member">0</span>원</span>
-                                                        )</span>
-                                                    </em>
-                                                </li>
-                                                <li class="order_benefit_mileage js_mileage">
-                                                    <em id="mileageDefault">
-                                                        적립 포인트 <strong>(-) <b class="total-member-mileage">980</b>원</strong>
-                                                        <span>
-                                                        (
-                                                        상품 <span class="goods-mileage">0</span>원,
-                                                        회원 <span class="member-mileage">980</span>원,
-                                                        쿠폰 <span class="goods-coupon-add-mileage">0</span>원
-                                                        )
-                                                    </span>
-                                                    </em>
-                                                    <em id="mileageWithoutMember" class="js_mileage dn">
-                                                        적립 포인트 <strong>(-) <b class="total-member-mileage-without-member">0</b>원</strong>
-                                                        <span>
-                                                        (
-                                                        상품 0원,
-                                                        회원 0원,
-                                                        쿠폰 <span class="goods-coupon-add-mileage-without-member">0</span>원
-                                                        )
-                                                    </span>
-                                                    </em>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="cp_use_tit">쿠폰 사용</th>
-                                        <td class="cp_use_con">
-                                            <input type="hidden" name="couponApplyOrderNo" value="" />
-                                            <input type="hidden" name="totalCouponOrderDcPrice" value="" />
-                                            <input type="hidden" name="totalCouponOrderPrice" value="" />
-                                            <input type="hidden" name="totalCouponOrderMileage" value="" />
-                                            <input type="hidden" name="totalCouponDeliveryDcPrice" value="" />
-                                            <input type="hidden" name="totalCouponDeliveryPrice" value="" />
-                                            <span class="btn_gray_list cpbtn_app_btn">
-                                            <button type="button" href="#couponOrderApplyLayer" class="btn_gray_mid btn_open_layer" ><span>쿠폰적용</span></button>
-                                        </span>
-
-                                            <ul class="order_benefit_list order_coupon_benefits  dn">
-                                                <li class="order_benefit_sale">
-                                                    <em>
-                                                        쿠폰할인 <strong>- <b id="useDisplayCouponDcPrice">0</b>원</strong>
-                                                    </em>
-                                                </li>
-                                                <!-- <li class="order_benefit_sale" >
-                                                    <em>
-                                                        배송비할인 <strong>- <b id="useDisplayCouponDelivery">0</b>원</strong>
-                                                    </em>
-                                                </li> -->
-                                                <li class="order_benefit_mileage js_mileage" style="display:none;">
-                                                    <em>
-                                                        적립 포인트 <strong>- <b id="useDisplayCouponMileage">0</b>원</strong>
-                                                    </em>
-                                                </li>
-                                            </ul>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"  class="point_th">적립금 사용</th>
-                                        <td>
-                                            <div class="order_money_use">
-                                                <b><input type="text" name="useMileage" onblur="gd_mileage_use_check('y', 'y', 'y');" /><em>원</em></b>
-
-                                                <div class="form_element order_money_use_sideAll_con">
-                                                    <input type="checkbox" id="useMileageAll" onclick="gd_mileage_use_all();">
-                                                    <label for="useMileageAll" class="check_s">전액 사용하기</label>
-                                                    <span class="money_use_sum">(보유 적립금 : 0<em>원</em>)</span>
-                                                </div>
-
-                                                <em class="money_use_txt js-mileageInfoArea" style="display:none;"></em>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr id="last-price-all-con">
-                                        <th scope="row">최종 결제 금액</th>
-                                        <td>
-                                            <input type="hidden" name="settlePrice" value="107080">
-                                            <input type="hidden" name="overseasSettlePrice" value="0" />
-                                            <input type="hidden" name="overseasSettleCurrency" value="KRW" />
-                                            <strong id="totalSettlePriceLast" class="order_payment_sum">107,080</strong><i class="won">원</i>
-                                            <div class="will-point">
-                                                <em class="tobe_mileage js_mileage">적립예정</em>
-                                                <span class="addpoint total-member-mileage">980</span><i class="won">원</i>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- //payment_info -->
-
-                        <div class="payment_progress">
-                            <div class="order_zone_tit">
-                                <h4>결제정보 선택 / 결제</h4>
-                            </div>
-
-                            <div class="payment_progress_list">
-                                <div class="js_pay_content">
-
-                                    <!-- N : 일반결제 시작 -->
-                                    <div id="settlekind_general" class="general_payment">
-                                        <dl>
-                                            <dt>일반결제</dt>
-                                            <dd>
-                                                <div class="form_element">
-                                                    <ul class="payment_progress_select">
-
-
-                                                        <li id="settlekindType_pc">
-                                                            <input type="radio" id="settleKind_pc" name="settleKind" value="pc"/>
-                                                            <label for="settleKind_pc" class="choice_s">신용카드</label>
-                                                        </li>
-
-
-                                                        <li id="settlekindType_gb">
-                                                            <input type="radio" id="settleKind_gb" name="settleKind" value="gb"/>
-                                                            <label for="settleKind_gb" class="choice_s">무통장 입금</label>
-                                                        </li>
-
-
-                                                        <li id="settlekindType_ph">
-                                                            <input type="radio" id="settleKind_ph" name="settleKind" value="ph"/>
-                                                            <label for="settleKind_ph" class="choice_s">휴대폰결제</label>
-                                                        </li>
-
-
-
-
-                                                    </ul>
-                                                </div>
-
-                                                <!-- N : 무통장입금 -->
-                                                <div id="settlekind_general_gb" class="pay_bankbook_box">
-                                                    <ul>
-                                                        <li>
-                                                            <strong>입금자명</strong>
-                                                            <input type="text" name="bankSender" style="width:350px;">
-                                                        </li>
-                                                        <li>
-                                                            <strong>입금은행</strong>
-                                                            <select name="bankAccount" class="chosen-select">
-                                                                <option value="">선택하세요</option>
-                                                                <option value="1">신한은행 100031681034 (주)에이타워</option>
-                                                                <option value="2">농협 3010197022371 (주)에이타워</option>
-                                                                <option value="3">국민은행 43183701013928 (주)에이타워</option>
-                                                                <option value="4">우리은행 1005003043705 (주)에이타워</option>
-                                                            </select>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <!-- //pay_bankbook_box -->
-
-                                                <!-- 신용카드 컨텐츠 -->
-                                                <div class="card" id="settlekind_general_pc"></div>
-                                                <!-- //신용카드 컨텐츠 -->
-
-
-
-                                                <!-- 휴대폰 컨텐츠 -->
-                                                <div class="cellphone" id="settlekind_general_ph"></div>
-                                                <!-- //휴대폰 컨텐츠 -->
-
-
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <!-- //general_payment -->
-                                    <!-- N : 일반결제 끝 -->
-
-                                    <!-- N : 간편결제 시작 -->
-                                    <div id="settlekind_simple" class="general_payment" style="margin-bottom:50px;">
-                                        <dl>
-                                            <dt>간편결제</dt>
-                                            <dd>
-                                                <div class="form_element">
-                                                    <ul class="payment_progress_select">
-                                                        <li id="settlekindType_pk">
-                                                            <input type="radio" id="settleKind_pk" name="settleKind" value="pk"/>
-                                                            <label for="settleKind_pk" class="choice_s">카카오페이</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="settleKind_payco_fc" name="settleKind" value="fc" onclick="gd_payco_toggle('fc');">
-                                                            <label for="settleKind_payco_fc" class="choice_s">
-                                                                페이코
-                                                            </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <!-- //general_payment -->
-                                    <!-- N : 일반결제 끝 -->
-
-
-                                </div>
-                                <!-- N : 현금영수증/계산서 발행 시작 -->
-                                <div id="receiptSelect" class="cash_tax_get">
-                                    <dl>
-                                        <dt>현금영수증/계산서 발행</dt>
-                                        <dd>
-                                            <div class="form_element">
-                                                <ul class="payment_progress_select">
-                                                    <li id="nonReceiptView">
-                                                        <input type="radio" id="receiptNon" name="receiptFl" value="n" onclick="gd_receipt_display();" />
-                                                        <label for="receiptNon" class="choice_s on">
-                                                            <div class="cash_receipt_non">신청안함</div>
-                                                            <div class="cash_receipt_pg">현금영수증 (※ 결제창에서 신청)</div>
-                                                        </label>
-                                                    </li>
-                                                    <li id="cashReceiptView">
-                                                        <input type="radio" id="receiptCash" name="receiptFl" value="r" onclick="gd_receipt_display();" />
-                                                        <label for="receiptCash" class="choice_s">현금영수증</label>
-                                                    </li>
-                                                    <li id="taxReceiptView">
-                                                        <input type="radio" id="receiptTax" name="receiptFl" value="t" onclick="gd_receipt_display();" />
-                                                        <label for="receiptTax" class="choice_s">세금계산서</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </dd>
-                                    </dl>
-
-                                    <!-- N : 현금영수증 시작 -->
-                                    <div id="cash_receipt_info" class="cash_receipt_box js_receipt dn">
-                                        <div class="form_element">
-                                            <ul class="payment_progress_select">
-                                                <input type="hidden" name="cashCertFl" value="c" />
-                                                <li>
-                                                    <input type="radio" id="cashCert_d" name="cashUseFl" value="d" onclick="gd_cash_receipt_toggle();" checked="checked" />
-                                                    <label class="choice_s" for="cashCert_d">소득공제용</label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" id="cashCert_e" name="cashUseFl" value="e" onclick="gd_cash_receipt_toggle();" />
-                                                    <label class="choice_s" for="cashCert_e">지출증빙용</label>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="cash_receipt_list">
-                                            <dl id="certNoHp">
-                                                <dt>휴대폰번호</dt>
-                                                <dd><input type="text" name="cashCertNo[c]" class="number_only" value="01089684952" maxlength="11" /></dd>
-                                            </dl>
-                                            <dl id="certNoBno">
-                                                <dt>사업자번호</dt>
-                                                <dd><input type="text" name="cashCertNo[b]" class="number_only" value="" maxlength="10" /></dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                    <!-- //cash_receipt_box -->
-
-                                    <!-- N : 세금 계산서 -->
-                                    <div id="tax_info" class="tax_invoice_box js_receipt dn">
-                                        <div class="order_table_type">
-                                            <table summary="세금계산서 입력폼입니다." class="table_left">
-                                                <colgroup>
-                                                    <col style="width:15%;">
-                                                    <col style="width:35%;">
-                                                    <col style="width:15%;">
-                                                    <col style="width:35%;">
-                                                </colgroup>
-                                                <tbody>
-                                                <tr>
-                                                    <th scope="row">사업자번호</th>
-                                                    <td colspan="3"><input type="text" name="taxBusiNo" placeholder="- 없이 입력하세요" value="" maxlength="10"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">회사명</th>
-                                                    <td><input type="text" name="taxCompany" value="" maxlength="50" data-pattern="gdMemberNmGlobal"/></td>
-                                                    <th scope="row">대표자명</th>
-                                                    <td><input type="text" name="taxCeoNm" value=""/></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">업태</th>
-                                                    <td><input type="text" name="taxService" value=""/></td>
-                                                    <th scope="row">종목</th>
-                                                    <td><input type="text" name="taxItem" value=""/></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">사업장주소</th>
-                                                    <td colspan="3" class="member_address">
-                                                        <div class="address_postcode">
-                                                            <input type="text" name="taxZonecode" value="" readonly="readonly" >
-                                                            <input type="hidden" name="taxZipcode" value="">
-                                                            <span id="taxrZipcodeText" class="old_post_code"></span>
-                                                            <button type="button" onclick="gd_postcode_search('taxZonecode', 'taxAddress', 'taxZipcode');" class="btn_post_search">우편번호 검색</button>
-                                                        </div>
-                                                        <div class="address_input">
-                                                            <input type="text" name="taxAddress" value=""/>
-                                                            <input type="text" name="taxAddressSub" value=""/>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">발행 이메일</th>
-                                                    <td colspan="3" class="cash_receipt_email">
-                                                        <input type="text" name="taxEmail" placeholder="미입력 시 주문자의 이메일로 발행" value="" />
-                                                        <select id="taxEmailDomain" class="chosen-select">
-                                                            <option value="self">직접입력</option>
-                                                            <option value="naver.com">naver.com</option>
-                                                            <option value="hanmail.net">hanmail.net</option>
-                                                            <option value="daum.net">daum.net</option>
-                                                            <option value="nate.com">nate.com</option>
-                                                            <option value="hotmail.com">hotmail.com</option>
-                                                            <option value="gmail.com">gmail.com</option>
-                                                            <option value="icloud.com">icloud.com</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!-- //tax_invoice_box -->
-
-                                </div>
-                                <!-- //cash_tax_get -->
-                                <!-- N : 현금영수증/계산서 발행 끝-->
-
-                            </div>
-                            <!-- //payment_progress_list -->
-                            <div class="payment_final">
-                                <div class="payment_final_total">
-                                    <dl>
-                                        <dt>최종 결제 금액</dt>
-                                        <dd><span><strong id="totalSettlePriceView">107,080</strong>원</span></dd>
-                                    </dl>
-                                </div>
-                                <div class="payment_final_check">
-                                    <div class="form_element">
-                                        <input type="checkbox" id="termAgree_orderCheck" class="require">
-                                        <label for="termAgree_orderCheck" class="check_s"><em><b>(필수)</b> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.</em></label>
-                                    </div>
-                                </div>
-                                <div class="btn_center_box">
-                                    <button class="btn_order_buy order-buy"><em>결제하기</em></button>
-                                </div>
-                            </div>
-                            <!-- //payment_final -->
-
-                        </div>
-                        <!-- //payment_progress -->
-
-                    </div>
-                    <!-- //order_view_info -->
-                </div>
-                <!-- //order_cont -->
-            </div>
-            <!-- //order_wrap -->
-    </form>
+	           <div class="cart_cont_list">
+	               <div class="deli_order_top_tit">
+	                   <h3>일반배송</h3>
+	               </div>
+	
+	               <div class="order_table_type order_table_type_detail">
+	                   <!-- 장바구니 상품리스트 시작 -->
+	                   <table  class="bdt_type1" >
+	                       <colgroup>
+	                           <col style="width:60%">					<!-- 상품명/옵션 -->
+	                           <col style="width:14%">  <!-- 수량 -->
+	                           <col style="width:23%"> <!-- 상품금액 -->
+	                       </colgroup>
+	                       <thead style="display:none;">
+	                       <tr>
+	                           <th>상품/옵션 정보</th>
+	                           <th>수량</th>
+	                           <th>상품금액</th>
+	                           <th>할인/적립</th>
+	                           <th>합계금액</th>
+	                           <th>배송비</th>
+	                       </tr>
+	                       </thead>
+	                       <tbody>
+	                       
+	                       <c:forEach var="cart" items="${ cartList }">
+	                       <tr class="order-goods-layout">
+	                           <td class="td_left cknone">
+	                               	<input type="hidden" class="prdNum" value="${ cart.prdNum }">
+	                               	<input type="hidden" class="prdPrice" value="${ cart.prdPrice }">
+	                               	<input type="hidden" class="prdPriceDis" value="${ cart.prdPrice * cart.prdDiscount * 0.01 }">
+	                               	<input type="hidden" class="cartPrdCnt" value="${ cart.cartPrdCnt }">
+	                               	<input type="hidden" class="prdTotal" value="${ cart.prdPrice * cart.cartPrdCnt }">
+	                               
+	                               <div class="pick_add_cont">
+										<span class="pick_add_img">
+	                                   		<img src="${ cart.thum }" width="40" alt="${ cart.prdName }" title="${ cart.prdName }" class="middle" class="imgsize-s" />
+	                               		</span>
+	                                   	<div class="pick_add_info">
+	                                    	<em><a href="../goods/goods_view.php?goodsNo=540">${ cart.prdName }</a></em>
+	                                   	</div>
+	                               </div>
+	                           </td>
+	                           <td class="td_order_amount">
+	                               <div class="order_goods_num">
+	                                   <strong><c:out value="${ cart.cartPrdCnt }"/>개</strong>
+	                               </div>
+	                           </td>
+	                           <td>
+	                               <strong class="order_sum_txt"><fmt:formatNumber value="${ cart.prdPrice * cart.cartPrdCnt }" pattern="#,###"/>원</strong>
+	                           </td>
+	                       </tr>
+	                       </c:forEach>
+	                       
+	                       </tbody>
+	                   </table>
+	               </div>
+	
+	           </div>
+	
+	           <div class="price_sum">
+	               <div class="price_sum_cont">
+	                   <div class="price_sum_list">
+	                       <dl>
+	                           <dt>총 상품금액</dt>
+	                           <dd><strong class="totalPriceSpan"></strong>원</dd>
+	                       </dl>
+	
+	                       <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_minus.png" alt="빼기" /></span>
+	                       <dl>
+	                           <dt>총 할인금액</dt>
+	                           <dd><strong class="totalDisSpan"></strong>원</dd>
+	                       </dl>
+	
+	                       <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_plus.png" alt="더하기" /></span>
+	                       <dl>
+	                           <dt>배송비</dt>
+	                           <dd><strong id="totalDeliveryCharge">0</strong>원</dd>
+	                       </dl>
+	                       <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_total.png" alt="합계" /></span>
+	                       <dl class="price_total">
+	                           <dt>합계</dt>
+	                           <dd><strong class="totalOrderPrice"></strong>원
+	                           </dd>
+	                       </dl>
+	                   </div>
+	                   <em class="tobe_mileage js_mileage">적립예정 적립금 : <span>1,963</span> 원</em>
+	               </div>
+	               <!-- //price_sum_cont -->
+	           </div>
+	           <!-- //price_sum -->
+	
+	           <div class="order_view_info">
+	
+	               <div class="order_info">
+	                   <div class="order_zone_tit">
+	                       <h4>주문자 정보</h4>
+	                   </div>
+	
+	                   <div class="order_table_type order_table_type_bottom">
+	                       <table class="table_left">
+	                           <colgroup>
+	                               <col style="width:15%;">
+	                               <col style="width:85%;">
+	                           </colgroup>
+	                           <tbody>
+	                           <tr>
+	                               <th scope="row"><span class="important">주문하시는 분</span></th>
+	                               <td><input type="text" name="orderName" id="orderName" value="${ orderInfo.name }" data-pattern="gdEngKor" maxlength="20"/>
+	                               </td>
+	                           </tr>
+	                           <tr>
+	                               <th scope="row"><span class="important">휴대폰 번호</span></th>
+	                               <td>
+	                                   <input type="text" id="mobileNum" name="orderCellPhone" value="${ orderInfo.phone }" maxlength="20" />
+	                               </td>
+	                           </tr>
+	                           <tr>
+	                               <th scope="row"><span class="important">이메일</span></th>
+	                               <td class="member_email">
+	                                   <input type="text" name="orderEmail" value="${ orderInfo.email }" />
+	
+	                                   <select id="emailDomain" class="chosen-select" style="width:178px;">
+	                                       <option value="self">직접입력</option>
+	                                       <option value="naver.com">naver.com</option>
+	                                       <option value="hanmail.net">hanmail.net</option>
+	                                       <option value="daum.net">daum.net</option>
+	                                       <option value="nate.com">nate.com</option>
+	                                       <option value="hotmail.com">hotmail.com</option>
+	                                       <option value="gmail.com">gmail.com</option>
+	                                       <option value="icloud.com">icloud.com</option>
+	                                   </select>
+	                               </td>
+	                           </tr>
+	                           </tbody>
+	                       </table>
+	                   </div>
+	               </div>
+	               <!-- //order_info -->
+	
+	               <div class="delivery_info">
+	                   <div class="order_zone_tit">
+	                       <h4>배송정보</h4>
+	                   </div>
+	
+	                   <div class="order_table_type shipping_info">
+	                       <table class="table_left shipping_info_table">
+	                           <colgroup>
+	                               <col style="width:15%;">
+	                               <col style="width:85%;">
+	                           </colgroup>
+	                           <tbody>
+	                           <tr>
+	                               <th scope="row">배송지 확인</th>
+	                               <td class="shpg_con">
+	                                   <div style="width:560px;">     
+	                                   	   <ul>
+	                                           <li>
+	                                               <input type="radio" name="shipping" id="shippingBasic" style="vertical-align: baseline;">
+	                                               <label for="shippingBasic" class="">기본 배송지</label>
+	                                               <input type="hidden" class="shipName" value="${ orderInfo.name }">
+	                                               <input type="hidden" class="shipZipcode" value="${ orderInfo.zipcode }">
+	                                               <input type="hidden" class="shipAddr" value="${ orderInfo.addr }">
+	                                               <input type="hidden" class="shipDeAddr" value="${ orderInfo.deAddr }">
+	                                               <input type="hidden" class="shipPhone" value="${ orderInfo.phone }">
+	                                           </li>
+	                                           <li>
+	                                               <input type="radio" name="shipping" id="shippingNew" style="vertical-align: baseline;">
+	                                               <label for="shippingNew" class="">직접 입력</label>
+	                                           </li>
+	                                       </ul>
+	                                       <input type="hidden" class="shipping-delivery-visit" value="n" />
+	                                   </div>
+	                               </td>
+	                           </tr>
+	                           <tr>
+	                               <th scope="row"><span class="important">받으실분</span></th>
+	                               <td><input type="text" class="newShip" name="receiverName" value="${ orderInfo.name }" data-pattern="gdEngKor" maxlength="20"/></td>
+	                           </tr>
+	                           <tr>
+	                               <th scope="row"><span class="important">받으실 곳</span></th>
+	                               <td class="member_address">
+	                                   <div class="address_postcode">
+	                                       <input type="text" class="newShip" id="receiverZipcode" name="receiverZipcode" value="${ orderInfo.zipcode }" readonly="readonly" />
+	                                       <button type="button" class="btn_post_search" onclick="execDaumPostcode()">우편번호검색</button>
+	                                   </div>
+	                                   <div class="address_input">
+	                                       <input type="text" class="newShip" id="receiverAddress" name="receiverAddress" value="${ orderInfo.addr }" readonly="readonly"/>
+	                                   </div>
+	                                   <div class="address_input">
+	                                       <input type="text" class="newShip" id="receiverAddressSub" name="receiverAddressSub" value="${ orderInfo.deAddr }"/>
+	                                   </div>
+	                                   <div class="delivery_type_info" style="float:left;">
+	                                   </div>
+	                               </td>
+	                           </tr>
+	                           <tr>
+	                               <th scope="row"><span class="important">휴대폰 번호</span></th>
+	                               <td>
+	                                   <input type="text" class="newShip" id="receiverCellPhone" value="${ orderInfo.phone }" name="receiverCellPhone"/>
+	                               </td>
+	                           </tr>
+	                           </tbody>
+	                       </table>
+	                   </div>
+	               </div>
+	
+	               <div class="delivery_info">
+	                   <div class="order_zone_tit">
+	                       <h4>배송방법 및 수령일 선택</h4>
+	                   </div>
+	                   <div class="order_table_type shipping_info">
+	                       <table class="table_left shipping_info_table">
+	                           <colgroup>
+	                               <col style="width:15%;">
+	                               <col style="width:85%;">
+	                           </colgroup>
+	                           <tbody>
+	                           <tr>
+	                               <th scope="row"><span class="important">배송방법</span></th>
+	                               <td>
+	                                   <div class="" style='height: 100%; width: 400px;'>
+	                                       <ul>
+	                                           <li>
+	                                               <label for="deliveryParcel" class="choice_s" style='font-size:17px; font-weight: bold;'>일반택배</label>
+	                                               <span style='margin-left: 10px; color: #333;'></span>
+	                                           </li>
+	                                       </ul>
+	                                   </div>
+	                               </td>
+	                           </tr>
+	                           <tr id="delivery_info">
+	                               <th scope="row" style='vertical-align:top; padding-top: 25px;'>배송 요청사항</th>
+	                               <td class="td_last_say" style='height:100%; padding-top: 25px;'>
+	                                   <input type="text" name="receiverRequest" placeholder="배송 요청 사항을 입력해 주세요."/>
+	                               </td>
+	                           </tr>
+	                           </tbody>
+	                       </table>
+	                   </div>
+	               </div>
+				   <div>
+	                   <div class="payment_final">
+	                       <div class="payment_final_total">
+	                           <dl>
+	                               <dt>최종 결제 금액</dt>
+	                               <dd><span><strong class="totalOrderPrice"></strong>원</span></dd>
+	                           </dl>
+	                       </div>
+	                       <div class="payment_final_check">
+	                           <div>
+	                               <input type="checkbox" id="termAgree_orderCheck" class="require" style="vertical-align: baseline;">
+	                               <label for="termAgree_orderCheck" class="check_s"><em><b>(필수)</b> 구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.</em></label>
+	                           </div>
+	                       </div>
+	                       <div class="btn_center_box">
+	                           <button class="orderPayBtn btn_order_whole_buy"><em>결제하기</em></button>
+	                       </div>
+	                       
+	                       <form action="add_order_process.do" method="get" class="addOrderFrm">
+	                       	<input type="hidden" name="id" value="test">
+	                       	<input type="hidden" name="deliZipcode" class="deliZipcodeInput">
+	                       	<input type="hidden" name="deliAddr" class="deliAddrInput">
+	                       	<input type="hidden" name="deliDetailAddr" class="deliDetailAddrInput">
+	                       	<input type="hidden" name="receiver" class="receiverInput">
+	                       	<input type="hidden" name="deliPhone" class="deliPhoneInput">
+	                       	<input type="hidden" name="existAddrFlag" class="existAddrFlagInput">
+	                       	<input type="hidden" name="deliReq" class="deliReqInput">
+	                       	<input type="hidden" name="orderTotalPrice" class="orderTotalPriceInput">
+	                       	<input type="hidden" name="prdName" value="${ cartList[0].prdName }">
+	                       	<input type="hidden" name="name" value="${ orderInfo.name }">
+	                       </form>
+	                   </div>
+	                   <!-- //payment_final -->
+	
+	               </div>
+	               <!-- //payment_progress -->
+	
+	           </div>
+	           <!-- //order_view_info -->
+	       </div>
+	       <!-- //order_cont -->
+	   </div>
+	   <!-- //order_wrap -->
 </div>
 <!-- //content_box -->
 
@@ -2126,75 +1184,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 }
 
 
-            <!--// 2020.12.10 웹앤모바일 새벽배송 검증 -->
-                if(!$('input:radio[name="deliveryType"]').is(':checked')){
-                    alert(__('배송방법을 선택해주세요.'));
-                    return false;
-                }
-                $deliveryType = $('input:radio[name="deliveryType"]:checked').val();
-                if($deliveryType=='morning'){
- 
-                    if($('#morningSelectDay').val() == ''){
-                        alert(__('수령일을 선택해주세요.'));
-                        return false;
-                    }
-
-                    if(!$('input:radio[name="morning_delivery_arrive"]').is(':checked')){
-                        alert(__('받으실 장소를 선택해 주세요.'));
-                        return false;
-                    }
- 
-                    $deliveryArrive = $('input:radio[name="morning_delivery_arrive"]:checked').val();
-
-                    if($deliveryArrive == 'door'){
-
-                        $deliveryMethod = $('input:radio[name="morning_delivery_method"]:checked').val();
-                        if(typeof $deliveryMethod == 'undefined'){
-                            alert(__('공동현관 출입방법을 선택해주세요.'));
-                            return false;
-                        }else{
-                            if($deliveryMethod == 'password'){
-                                if(!$('input:radio[name="morning_delivery_method"]').is(':checked')){
-                                    alert(__('공동현관 출입방법을 선택해주세요.'));
-                                    return false;
-                                }
-                                if(!$('input:text[name="morning_delivery_pass"]').val()){
-                                    if($('input:radio[name="morning_delivery_method"]:checked').val()!='free'){
-                                        alert(__('현관비밀번호를 입력해주세요.'));
-                                        return false;
-                                    }
-                                }
-                            }else if($deliveryMethod == 'etc'){
-                                if(!$('input:text[name="morning_delivery_etc"]').val()){
-                                    if($('input:radio[name="morning_delivery_method"]:checked').val()!='free'){
-                                        alert(__('기타방법을 입력해주세요.'));
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }else if($deliveryArrive == 'security_office'){
-                        if(!$('input:text[name="security_text"]').val()){
-                            alert("경비실 특이사항을 입력해주세요.");
-                            return false;
-                        }
-                    }else if($deliveryArrive == 'courier_box'){
-                        if(!$('input:text[name="courier_text"]').val()){
-                            alert("택배함 정보를 입력해주세요.");
-                            return false;
-                        }
-                    }else if($deliveryArrive == 'place'){
-                        if(!$('input:text[name="etc_text"]').val()){
-                            alert("기타 장소 세부사항을 입력해주세요.");
-                            return false;
-                        }
-                    }
-                }else if($deliveryType=='parcel'){
-					if($('#parcelSelectDay').val() == ''){
-                        alert(__('수령일을 선택해주세요.'));
-                        return false;
-                    }
-				}
 
 
                 var pass = true;
@@ -2455,28 +1444,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
         }
 
-        // 마일리지 체크 이벤트
-        gd_mileage_use_check('n', 'n', 'n');
-        $('input[name=useMileage]').blur(function(e){
-            if (!_.isUndefined(e.isTrigger)) {
-                gd_mileage_use_check('y', 'y', 'y');
-            }
-        });
-
-        // 마일리지 쿠폰 중복사용 체크
-        $('input[name=useMileage]').change(function (e) {
-            // 마일리지 쿠폰 중복사용 체크
-            e.preventDefault();
-            gd_choose_mileage_coupon('mileage');
-        });
-
-        // 예치금 체크 이벤트
-        $('input[name=useDeposit]').blur(function(e){
-            if (!_.isUndefined(e.isTrigger)) {
-                gd_deposit_use_check();
-            }
-        });
-
         // 배송지 선택
         $('input[name=shipping]:radio').click(function(e){
 
@@ -2521,7 +1488,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             $("#courier_text").hide();
             $("#security_text").hide();
             $("#morning_etc_text").hide();
-            $("#delivery_info").hide();
+            //$("#delivery_info").hide();
 
             $('input[name=orderMemo]').val('');
 
@@ -2642,7 +1609,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         var $addGoodsTr = $('.addGoodsRegularTr');
         $addGoodsTr.each(function(){
             var $tbody = $(this).closest('tbody');
-            $tbody.append($(this));
+            $t
+.append($(this));
         });
     }
 
@@ -4073,18 +3041,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 <link rel="stylesheet" href="http://localhost/salad_mvc/resources/css/jquery.mCustomScrollbar.css">
 <script src="http://localhost/salad_mvc/resources/js/jquery.mCustomScrollbar.js"></script>
-<script>
-    (function($){
-        $(window).on("load",function(){
-            $(".cart_deli_intable_wrap").mCustomScrollbar({
-                mouseWheelPixels: 50
-            });
-        });
-    })(jQuery);
-</script>
 
 <!-- 웹앤모바일 튜닝 - 2020-12-07, 샛별배송 -->
-<script>
+<!-- <script>
     var showMorningDeliveryPopup = false;
     setTimeout(function() {
         showMorningDeliveryPopup = true;
@@ -4327,7 +3286,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         $('#deliveryParcel').parent().children('label').removeClass('on');
                         
 						
-                        $('#delivery_info').css('display', 'none');
+                        //$('#delivery_info').css('display', 'none');
 
 						$('#delivery_morning_date').find('option:first').prop('selected' , true);
 						
@@ -4462,7 +3421,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         $('#deliveryParcel').parent().children('label').removeClass('on');
                         
 						
-                        $('#delivery_info').css('display', 'none');
+                        //$('#delivery_info').css('display', 'none');
 
 						$('#delivery_morning_date').find('option:first').prop('selected' , true);
 						
@@ -4592,7 +3551,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     $('#deliveryParcel').attr('checked' , false);
                     $('#deliveryParcel').parent().children('label').removeClass('on');
                     
-                    $('#delivery_info').css('display', 'none');
+                    //$('#delivery_info').css('display', 'none');
 
 					$('#delivery_morning_date').find('option:first').prop('selected' , true);
 					
@@ -4640,27 +3599,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     });
 
-
-    function chkDeliveryType()
-    {
-        $obj = $(".deliveryType:checked");
-        var deliveryType = $obj.val();
-        $obj2 = $(".tr_morning_delivery_type");
-        if (deliveryType == 'morning') { // 새벽배송인 경우
-            $('#deliveryType_morning').attr("checked", true).prop("checked", true);
-            $('#deliveryType_morning').next("label").addClass("on");
-            $('#deliveryType_parcel').prop("checked", false).removeAttr("checked");
-            $('#deliveryType_parcel').next("label").removeClass("on");
-            $obj2.show();
-        } else { // 택배배송인 경우
-            $obj2.hide();
-            $('#deliveryType_morning').prop("checked", false).removeAttr("checked");
-            $('#deliveryType_morning').next("label").removeClass("on");
-            $('#deliveryType_parcel').attr("checked", true).prop("checked", true);
-            $('#deliveryType_parcel').next("label").addClass("on");
-        }
-    }
-
     (function ($) {
         var originalVal = $.fn.val;
         $.fn.val = function (value) {
@@ -4675,123 +3613,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         };
     })(jQuery);
 </script>
-<!-- 튜닝 END -->
+ --><!-- 튜닝 END -->
 
-<!-- LABBIT GA 향상된 전자상거래 관련 세팅 -->
-<script>
-    var option1, option2, option3;
-    var opt_result = '';
-</script>
-
-<!-- 정기배송 상품 결제 -->
-
-<script>
-    option3 = '닭가슴살 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '크래미 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '그린 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '채소만 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '레드칠리 로스트 닭가슴살 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-
-<script>
-    var labbit_total_price = "107,080";
-    var labbit_shipping = "9000";
-    var labbit_products = window.labbit_products || [];
-    var variant = opt_result ? opt_result.slice(0, -1) : '';
-    if ('{$product_name}' != '') {
-        labbit_products.push({
-            'name': '하루에 한 끼를 샐러드로 5일',
-            'id': '1000000376',
-            'price': parseInt('29,820'.replace(/[^0-9]/g, '')) / parseInt(1) + '',
-            'quantity': 1,
-        'variant' : variant
-    });
-    }
-    console.log('variant : ' + variant);
-    opt_result = '';
-</script>
-
-
-<script>
-    option3 = '크래미 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '닭가슴살 비엔나 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '치즈 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '닭가슴살볼 옥수수톡 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-<script>
-    option3 = '훈제오리 샐러드 x4';
-    option3 = option3 + ',';
-    opt_result += option3;
-    console.log(opt_result);
-</script>
-
-<script>
-    var labbit_total_price = "107,080";
-    var labbit_shipping = "9000";
-    var labbit_products = window.labbit_products || [];
-    var variant = opt_result ? opt_result.slice(0, -1) : '';
-    if ('{$product_name}' != '') {
-        labbit_products.push({
-            'name': '2주 정기배송 샐러드 주 5일',
-            'id': '260',
-            'price': parseInt('68,260'.replace(/[^0-9]/g, '')) / parseInt(1) + '',
-            'quantity': 1,
-        'variant' : variant
-    });
-    }
-    console.log('variant : ' + variant);
-    opt_result = '';
-</script>
-
-<!-- 정기배송 상품 결제 세팅 끝 -->
-
-<!-- 일반 상품 결제 -->
-
-<!-- 일반 상품 결제 세팅 끝 -->
-
-<!-- LABBIT GA 향상된 전자상거래 관련 세팅 끝-->
-            </div>
             <!-- //sub_content -->
         </div>
         <!-- //본문 끝 contents -->
@@ -4901,44 +3724,6 @@ $(function(){
   gtag('config', 'AW-955276942');
 </script>
 
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-81300049-1');
-</script>
--->
-
-<script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/adfit/static/kp.js"></script>
-<script type="text/javascript">
-      kakaoPixel('5900620314493041185').pageView();
-</script>
-
-
-
-<script type='text/javascript'>
-	var sTime = new Date().getTime();
-
-	(function(i,s,o,g,r,a,m){i['cmcObject']=g;i['cmcUid']=r;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//parks2016.cmclog.cafe24.com/weblog.js?v='+sTime,'parks2016');
-</script>
-
-<!-- 리포트2.0 로그분석코드 시작 -->
-<script type="text/javascript">
-var sTime = new Date().getTime();
-(function(i,s,o,g,r,a,m){i['webObject']=g;i['webUid']=r;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})
-(window,document,'script','//parks2016.weblog.cafe24.com/weblog.js?v='+sTime,'parks2016');
-</script>
-<!-- 리포트2.0  로그분석코드 완료 -->
-
-<script type='text/javascript'>
-(function(i,s,o,g,r,a,m,n,d){i['cfaObject']=g;i['cfaUid']=r;i['cfaStype']=a;i['cfaDomain']=m;i['cfaSno']=n;i['cfaEtc']=d;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})
-(window,document,'script','//parks2016.weblog.cafe24.com/cfa.js?v='+new Date().getTime(),'parks2016','w','','0','');
-</script>
     </div>
     <!-- //footer_wrap -->
 
@@ -4967,75 +3752,6 @@ var sTime = new Date().getTime();
 
 
 <div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=260">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_main_029.jpg">
-                </span>
-                <span class="src_box">
-                    <em>2주 정기배송 샐러드 주 5일</em>
-                        <strong>46,500<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000376">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000376/1000000376_main_086.jpg">
-                </span>
-                <span class="src_box">
-                    <em>하루에 한 끼를 샐러드로 5일</em>
-                        <strong>23,350<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000240">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000240/1000000240_main_028.jpg">
-                </span>
-                <span class="src_box">
-                    <em>4주 정기배송 샐러드 주 3일</em>
-                        <strong>55,800<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000149">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/11/48/1000000149/1000000149_main_093.jpg">
-                </span>
-                <span class="src_box">
-                    <em>그릴 닭가슴살볼 3종 혼합 6팩</em>
-                        <strong>16,100<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
 </div>
 <span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
 <span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
@@ -5211,5 +3927,5 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
 
-</body>.
+</body>
 </html>

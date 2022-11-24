@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.ReviewMapper">
+
+<!-- 총 페이지수 출력 -->
+<select id="selectTotalPage" parameterType="kr.co.salad.user.vo.ReviewVO" resultType="int">
+	select count(distinct r.rev_num)
+	from review r , product p, member m
+</select>
+  
+<!--  전체 후기리스트 -->
+<select id="selectRevList" parameterType="kr.co.salad.user.vo.ReviewVO"  resultType="kr.co.salad.user.domain.ReviewDomain">
+	select	rev_num, prd_body_thum, rev_title, rev_write_date, name, rev_hits
+	from(
+		select	r.rev_num, r.rev_title, to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits,
+				m.name, 
+				p.prd_body_thum,
+				row_number() over(order by r.rev_write_date desc)r_num
+		from	review r, member m, product p
+		where	r.id = m.id and r.prd_num = p.prd_num 
+		)
+	WHERE 	r_num BETWEEN #{startNum} AND #{endNum}
+	order by	rev_num desc
+</select>
+  
+<!-- 후기 상세보기 -->
+<select id="selectRevDetail" resultType="kr.co.salad.user.domain.ReviewDomain" parameterType="int" >
+	select	r.rev_num, r.rev_title, to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits, r.rev_cont,
+			m.name,
+			p.prd_body_thum, p.prd_name, p.prd_price, p.prd_discount
+	from	review r, member m, product p
+	where 	r.id=m.id and r.prd_num = p.prd_num and rev_num=#{revNum}
+</select>
+  
+  
+<!-- 후기 이미지 리스트  -->
+<select id="selectRevImg" parameterType="int" resultType="string">
+	select	rev_img
+	from	review_add_img
+	where	rev_num = #{revNum}
+</select>
+
+
+<!-- 후기 조회수 증가 -->
+<update id="updateRevCount" parameterType="int">
+	update	review
+	set		rev_hits = rev_hits+1
+	where	rev_hits = #{rev_hits}
+</update>
+
+</mapper>

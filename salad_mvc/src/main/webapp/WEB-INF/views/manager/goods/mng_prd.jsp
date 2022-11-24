@@ -11,12 +11,20 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Dashboard - SB Admin</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
-	rel="stylesheet" />
+
+<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
-	crossorigin="anonymous"></script>
+
+
+<script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
+<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
+<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+
+<!-- JQuery google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
 <style type="text/css">
 	.imgSmall{
 		width: 100px; 
@@ -47,7 +55,199 @@
 	.button2:hover{
 		background-color: #f0f0f0;
 	}
+	.on{
+		font-weight: bold;
+		
+		opacity: 0.6;
+		
+  		cursor: not-allowed;
+	}
 </style>
+
+<script type="text/javascript">
+$(function(){
+	
+	setPrdTotal();//등록된 전체 상품 수
+	
+	setMainCate();//메인 카테고리
+	$("#mainCate").change(function(){//메인 카테고리 선택 시 해당 서브 카테고리 불러오기
+		if($("#mainCate").val() != "0"){
+			setSubCate();
+		}//end if
+	});//change
+	
+	$("#searchBtn").click(function(){
+		setPrdList($("#currentPage").val());
+	});
+	
+	setPrdList(1);//상품 관리 리스트
+	
+	$("#keyword").keydown(function(keyNum){
+		//현재의 키보드의 입력값을 keyNum으로 받음
+		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+			$("#searchBtn").click()	
+		}//end if
+	});//keydown
+	
+})//redeay
+
+function setPrdTotal() {//등록된 전체 상품 수 표시
+	$.ajax(
+	{
+		url : "mng_prd_total_ajax.do",
+		dataType:"json",
+		error:function( xhr ){
+			alert("전체 상품 건수 데이터를 불러오는데 실패했습니다.")
+			console.log(xhr.status);
+		},
+		success : function(jsonObj){
+			
+			$("#totalPrdCnt").html(jsonObj.totalPrdCnt);
+			
+		}//success
+	});//ajax
+}//setPrdTotal
+
+function setMainCate(){
+	$.ajax({
+		url:"http://localhost/salad_mvc/mng_prd_main_cate_ajax.do",
+		dataType: "json",
+		error: function( xhr ){
+			alert("메인 카테고리를 조회하는 문제 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success: function( jsonObj ) {
+			if(jsonObj.result){
+				var mainCateSel=document.categoryFrm.mainCate;
+				
+				$.each(jsonObj.mainCateData, function(i, json){
+					mainCateSel.options[i+1]=new Option( json.mainCateName, json.mainCateNum);
+				})//each
+			}//end if
+		}//success
+	})//ajax
+}//setMainCate
+
+function setSubCate(){
+	$.ajax({
+		url:"http://localhost/salad_mvc/mng_prd_sub_cate_ajax.do",
+		data:"mainCateNum="+$("#mainCate").val(),
+		dataType:"json",
+		error:function( xhr ){
+			alert("서브 카테고리를 조회하는 문제 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success: function( jsonObj ) {
+			if(jsonObj.resultFlag){
+				var subCateSel=document.categoryFrm.subCate;
+				//<select>의 <option>을 하나만 남겨두고 초기화
+				subCateSel.length=1;
+				
+				$("#keyword").val("");//검색 초기화
+				
+				$.each(jsonObj.subCateData, function(i, json){
+					subCateSel.options[i+1]=new Option( json.subCateName, json.subCateNum);
+				});//each
+			}//end if
+		}//success
+	})//ajax
+}//setSubCate
+
+function setPrdList(currentPage){//상품 관리 리스트
+	$.ajax({
+		url:"mng_prd_list_ajax.do",
+		data:"currentPage="+currentPage+"&subCateNum="+$("#subCate").val()+"&keyword="+$("#keyword").val(),
+		dataType:"json",
+		error:function( xhr ){
+			alert("상품 관리 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			/* 페이징 테이블 */
+			$("#prdListOutput").show();
+			
+			var tbOutput="<table class='table'>";
+			tbOutput+="<thead class='table-light' style='height: 50px;'>";
+			tbOutput+="<tr>";
+			tbOutput+="<th>상품번호</th>";
+			tbOutput+="<th>이미지</th>";
+			tbOutput+="<th>상품명</th>";
+			tbOutput+="<th>등록날짜</th>";
+			tbOutput+="<th>판매가</th>";
+			tbOutput+="<th>상세내용</th>";
+			tbOutput+="</tr>";
+			tbOutput+="</thead>";
+			tbOutput+="<tbody>";
+			if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+			tbOutput+="<tr>";
+			tbOutput+="<td>"+json.prdNum+"</td>";
+			tbOutput+="<td><img class='imgSmall' src='http://localhost/salad_mvc/common/images/product/"+json.thum+"'></td>";
+			tbOutput+="<td>"+json.prdName+"</td>";
+			tbOutput+="<td>"+json.prdRegistDate+"</td>";
+			
+			var tempPrice=Math.floor(json.prdDCPrice); //단위
+			const prdPrice=tempPrice.toLocaleString('ko-KR');
+			
+			tbOutput+="<td>"+prdPrice+"원</td>";
+			tbOutput+="<td><button type='button' class='btn btn-light btn-sm' onclick=\"movePrdDetail("+json.prdNum+")\">상세내용</button></td>";
+			tbOutput+="</tr>";
+				});//each
+			} else {
+				tbOutput+="<tr><td colspan=6>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+			tbOutput+="</tbody>";
+			tbOutput+="</table>";
+			
+			$("#prdListOutput").html(tbOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+				pgOutput+="<ul class='pagination'>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdList(" + 1 + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				if(currentPage==i) {
+					pgOutput+="<li class='page-item on'>"
+				} else {
+					pgOutput+="<li class='page-item'>"
+				}//end if
+					pgOutput+="<a class='page-link' href='#void' onclick='setPrdList(" + i  + ")'>"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+			
+			$("#pageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setPrdList
+
+function movePrdDetail(prdNum) {//상세보기 버튼 클릭 시 해당 물품의 상세페이지로 이동
+	location.href="http://localhost/salad_mvc/mng_prd_detail.do?prdNum="+prdNum;
+}//movePrdDetail
+
+function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페이지로 이동
+	location.href="http://localhost/salad_mvc/mng_prd_add.do";
+}//movePrdAdd
+
+</script>
+
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -71,40 +271,40 @@
 		        <div class="sb-sidenav-menu">
 		            <div class="nav">
 		                <div class="sb-sidenav-menu-heading">메인</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_dashboard.do">
 		                    -대시보드
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
 		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="#">회원 관리</a></div>
+		                href="http://localhost/salad_mvc/mng_member.do">회원 관리</a></div>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">상품 관리</div>
-		                <a class="nav-link" href="index.html">
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_prd.do">
 		                    -상품 등록
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://localhost/salad_mvc/mng_rev.do">
 		                    -상품 후기
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="index.html">
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do">
 		                    -주문 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0;"href="index.html">
+		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
 		                    -취소 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://localhost/salad_mvc/mng_deli.do">
 		                    -배송 관리
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">게시판 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_notice.do">
 		                    -공지사항
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">문의 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_qna.do">
 		                    -상품문의
 		                </a>
 		            </div>
@@ -131,107 +331,35 @@
 	                  		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
 			                    <div style=" color:white; font-weight:bold; font-size:20px;">상품 등록 수</div>
 		                    	<div style="color:white; font-weight:bold; font-size:20px;">
-		                    		<span style="font-size:30px;">50</span>건
+		                    		<span style="font-size:30px;" id="totalPrdCnt"></span>건
 		                    	</div>
 	                   		</div>
 	                  	</div>
 					</div>
 					<div style="width: 80%">
-						<form name="category_frm" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-							<select name="main" id="mai"  style="width: 16%">
-								<option value="none">---카테고리 선택---</option>
+						<form name="categoryFrm" style="display: flex; justify-content: right; margin-bottom: 10px;">
+							<select name="mainCate" id="mainCate">
+								<option value="0">---메인 카테고리---</option>
 							</select>
-							<select name="sub" id="sub" style="width: 16%">
-								<option value="none">---카테고리 선택---</option>
+							<select name="subCate" id="subCate">
+								<option value="0">---서브 카테고리---</option>
 							</select>
-							<input type="text" name="searchText" id="searchText" style="width: 50%">
-							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn">
+							<input type="text" name="keyword" id="keyword" value="" style="width: 30%">
+							<input type="text" style="display: none"><!-- 자동 submit을 막기 위함 -->
+							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn" style="width: 100px">
 						</form>
 					</div>
 					<div style="width: 80%; margin: 10px auto; text-align: center;">
-	               		<table class="table">
-							<thead class="table-light" style="height: 50px;">
-								<tr>
-									<th>상품번호</th>
-									<th>이미지</th>
-									<th>상품명</th>
-									<th>등록날짜</th>
-									<th>판매가</th>
-									<th>상세내용</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-								<tr>
-									<td>100</td>
-									<td><img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg"></td>
-									<td>닭가슴살 샐러드</td>
-									<td>2022-10-26</td>
-									<td>3,600원</td>
-									<td><button type="button" class="btn btn-light btn-sm">상세내용</button></td>
-								</tr>
-							</tbody>
-						</table>
-						<input type="button" value="상품등록하기" class="button" style="width: 14%; display: block; float: right;">
+						<div id="prdListOutput">
+							
+						</div>
+						<div>
+							<input type="button" value="상품등록하기" onclick="movePrdAdd()" class="button" style="width: 14%; display: block; float: right;">
+						</div>
 					</div>
 				</div>
-				<div>
-	               	<nav aria-label="Page navigation example" style="display: flex; justify-content: center; margin: 40px 0px;" >
-					  <ul class="pagination">
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li class="page-item"><a class="page-link" href="#">1</a></li>
-					    <li class="page-item"><a class="page-link" href="#">2</a></li>
-					    <li class="page-item"><a class="page-link" href="#">3</a></li>
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
+				<div id="pageOutput">
+	               	
                	</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

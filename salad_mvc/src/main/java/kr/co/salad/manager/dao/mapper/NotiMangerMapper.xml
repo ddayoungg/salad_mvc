@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.NotiMangerMapper">
+<!-- 총 페이지수 출력 -->
+  <select id="selectTotalPage" parameterType="kr.co.salad.manager.vo.MngNoticeVO" resultType="int">
+  		select count(*)
+		from notice
+		<choose>
+				<when test="searchFlag == 1 ">
+				 where noti_title Like '%' || #{searchText}  || '%'
+				</when>
+				<when test="searchFlag == 2 ">
+			 	 where to_char(noti_write_date,'yyyy-MM-dd') Like '%' || #{searchText}  || '%'
+				</when>
+		 </choose>
+  </select>
+  
+  <!--  전체 리뷰리스트 -->
+  <select id="selectNotiList" parameterType="kr.co.salad.manager.vo.MngNoticeVO"  resultType="kr.co.salad.manager.domain.MngNoticeDomain">
+  		select noti_num,noti_title,noti_cont,noti_write_date,r_num
+		from(
+		select noti_num,noti_title,noti_cont,TO_CHAR(noti_write_date, 'YYYY-MM-DD') as noti_write_date ,
+		row_number() over(order by noti_write_date desc)r_num
+		from notice
+		<choose>
+				<when test="searchFlag == 1 ">
+				 where noti_title  Like '%' || #{searchText}  || '%'
+				</when>
+				<when test="searchFlag == 2 ">
+			 	 where to_char(noti_write_date,'yyyy-MM-dd')  Like '%' || #{searchText}  || '%'
+				</when>
+		 </choose>
+		)
+		WHERE r_num BETWEEN #{startNum} AND #{endNum} 
+  </select>
+  
+  <!-- 공지사항 상세보기 -->
+  <select id="selectNotiDetail" resultType="kr.co.salad.manager.domain.MngNoticeDomain" parameterType="int" >
+  	select noti_num,noti_title,noti_hits,noti_cont
+  	from notice
+  	where noti_num=#{notiNum}
+  </select>
+  
+  <!-- 공지사항 글 쓰기 -->
+  <insert id="insertNoti" parameterType="kr.co.salad.manager.vo.MngNoticeVO">
+  	insert into notice(NOTI_NUM,NOTI_TITLE, NOTI_CONT)
+	values((select nvl(max(noti_num),0)+1 from notice),#{notiTitle},#{notiCont})
+  
+  </insert>
+  
+  <!-- 공지사항 글 수정 -->
+  <update id="updateNoti" parameterType="kr.co.salad.manager.vo.MngNoticeVO">
+  	update notice
+  	set noti_title=#{notiTitle}, noti_cont=#{notiCont}
+  	where noti_num=#{notiNum}
+  </update>
+  
+  <!-- 공지사항 글 삭제 -->
+  <delete id="deleteNoti" parameterType="int">
+  delete
+  from notice
+  where noti_num=#{notiNum}
+  </delete>
+
+
+ 
+</mapper>

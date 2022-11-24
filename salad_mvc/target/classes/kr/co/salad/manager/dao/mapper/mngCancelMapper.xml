@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.mngCancelMapper">
+	<!-- 전체 취소 내역 불러오기 -->
+	<select id="selectAllCancel" resultType="kr.co.salad.manager.domain.MngCancelDomain">
+	SELECT DISTINCT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM, O.EXIST_ADDR_FLAG
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_STATUS IN ('4','5') AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
+	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
+	WHERE OO.ORDER_NUM = O.ORDER_NUM)
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID
+	ORDER BY ORDER_NUM
+	
+	<!-- SELECT DISTINCT O.ORDER_NUM, O.ID, M.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM  
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER M
+	WHERE O.ORDER_STATUS IN ('4','5') 
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = M.ID
+	ORDER BY ORDER_NUM -->
+	</select>
+	
+	<!-- 메인 카테고리 얻기  -->
+	<select id="selectMainCateList" parameterType="kr.co.salad.manager.vo.MngCancelVO" resultType="Map">
+	SELECT MAIN_CATE_NAME AS mainCateName, MAIN_CATE_NUM AS mainCateNum
+	FROM CATEGORY_MAIN
+	ORDER BY MAIN_CATE_NUM
+	</select>
+	
+	<!-- 서브 카테고리 얻기  -->
+	<select id="selectSubCateList" parameterType="int" resultType="Map">
+	SELECT S.SUB_CATE_NAME AS subCateName, S.SUB_CATE_NUM AS subCateNum
+	FROM CATEGORY_SUB S, CATEGORY_MAIN M
+	WHERE M.MAIN_CATE_NUM=#{mainCateNum}
+	AND M.MAIN_CATE_NUM = S.MAIN_CATE_NUM
+	ORDER BY SUB_CATE_NUM
+	</select>
+	
+	<!-- 취소요청, 확정 / 메인카테,서브카테 로 검색한 내용 -->
+	<select id="selectCancelList" 
+	parameterType="kr.co.salad.manager.vo.MngCancelVO" 
+	resultType="kr.co.salad.manager.domain.MngCancelDomain">
+	SELECT DISTINCT O.ORDER_NUM, O.ID, M.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM ,O.EXIST_ADDR_FLAG 
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER M
+	WHERE O.ORDER_STATUS IN ('4','5') AND S.SUB_CATE_NUM = #{subCateNum}
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = M.ID
+	ORDER BY ORDER_NUM
+	</select>
+	
+	<!-- 취소 요청을 취소 확정으로 바꾸기 -->
+	<update id="changeCancelList" parameterType="int">
+	UPDATE PRODUCT_ORDER
+	SET ORDER_STATUS = '5'
+	WHERE ORDER_NUM = #{orderNum} AND ORDER_STATUS = '4'	
+	</update>
+	
+	<!-- 검색 창에 NAME&날짜&주문번호 검색 -->
+	<select id="searchCancelMember" parameterType="kr.co.salad.manager.vo.MngCancelVO"
+	resultType="kr.co.salad.manager.domain.MngCancelDomain"> 
+	SELECT DISTINCT O.ORDER_NUM, O.ID,ME.NAME,O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M,MEMBER ME
+	WHERE
+	O.ORDER_STATUS IN ('4','5')AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
+	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
+	WHERE OO.ORDER_NUM = O.ORDER_NUM)
+	<if test='searchText.equals("name")'>
+	AND ME.NAME LIKE  #{search}||'%'
+	</if>
+	<if test='searchText.equals("orderDate")'>
+	AND TO_CHAR(O.ORDER_DATE,'YYYYMMDD') LIKE '%'||#{search}||'%'
+	</if>
+	<if test='searchText.equals("orderNum")'>
+	AND O.ORDER_NUM = #{search}	
+	</if>
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID 
+	ORDER BY ORDER_NUM
+	</select>
+	
+	<!-- 상세정보 얻기 -->
+	<select id="selectCancelOrder"  parameterType="int"
+	 resultType="kr.co.salad.manager.domain.MngCancelDomain">
+	SELECT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_NUM = #{orderNum} AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
+	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
+	WHERE OO.ORDER_NUM = O.ORDER_NUM)
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID
+	</select>
+	
+	<!-- 총 페이지 수 출력 -->
+	<select id="selectCancelPage" parameterType="kr.co.salad.manager.vo.MngCancelVO"
+	resultType="int">	
+	SELECT COUNT (DISTINCT O.ORDER_NUM)
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_STATUS IN ('4','5') AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
+	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
+	WHERE OO.ORDER_NUM = O.ORDER_NUM)
+	<if test="searchText.equals('name') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND ME.NAME LIKE  #{search}||'%'
+	</if>
+	<if test="searchText.equals('orderDate') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND TO_CHAR(O.ORDER_DATE,'YYYYMMDD') LIKE '%'||#{search}||'%'
+	</if>
+	<if test="searchText.equals('orderNum') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND O.ORDER_NUM = #{search}	
+	</if>
+	<!-- <if test="searchText == null"></if> -->
+	
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID
+	</select>
+</mapper>

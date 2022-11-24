@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -74,8 +74,80 @@
     		$("#gnbAllMenu").toggle();
     	});//click
     	
+    	//비밀번호 유효성 검사.
+    	//비밀번호 일치확인
+    	$("#newPass, #newPass_chk").on("propertychange change keyup paste input", function(){
+    		var pw = document.getElementById('newPass').value;
+            var SC = ["!","@","#","$","%"];
+            var check_SC = 0;
+ 			
+            
+            for(var i=0;i<SC.length;i++){
+                if(pw.indexOf(SC[i]) != -1){
+                    check_SC = 1;
+                }
+            }
+            if(pw.length < 6 || pw.length>16 || check_SC == 0){
+            	$("#errorPass").text('!,@,#,$,% 의 특수문자포함 6~15글자이내로 입력.')
+            	$("#passPassFlag").val("1"); //사용불가능
+            }else{
+            	$("#errorPass").text("");
+            	$("#passPassFlag").val("0"); //사용가능
+            }
+            
+            if(document.getElementById('newPass').value !="" && document.getElementById('newPass_chk').value!=""){
+                if(document.getElementById('newPass').value==document.getElementById('newPass_chk').value){
+                	
+                	$("#truePass").css("display","inline-block");
+					$("#falsePass").css("display","none");
+					$("#psChkPassFlag").val("0"); //사용가능
+                }
+                else{
+                	
+                	$("#falsePass").css("display","inline-block");
+					$("#truePass").css("display","none");
+					$("#psChkPassFlag").val("1"); //사용불가능
+                }
+            }
+    	});
+    	
+		//변경버튼 클릭시
+    	$("#btnConfirm").click(function(){
+    		
+    		var userpass=$("#newPass").val();
+    		var passPassFlag=$("#passPassFlag").val();
+        	var psChkPassFlag=$("#psChkPassFlag").val();
+    		
+        	if(userpass.length==0){
+        		$("#errorPass").text("비밀번호를 입력하세요");
+        		$("#newPass").focus();
+        		return;
+        	}else{
+        		$("#errorPass").text("");
+        	}
+        	
+    		if(passPassFlag=='1'){
+        		$("#newPass").focus();
+        		return false;
+        	}
+        	
+        	if(psChkPassFlag=='1'){
+        		$("#newPass_chk").focus();
+        		return false;
+        	}
+        	  	
+    		$("#formReset").submit();
+    	});//click
+    	
     });//ready
     
+</script>
+
+<!--  pw변경실패 팝업-->
+<script type="text/javascript">
+<c:if test="${!empty pwEditFail}">
+alert("${pwEditFail}");
+</c:if>
 </script>
     
     <script type="text/javascript">
@@ -209,62 +281,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 	
 <body id="body" class="body-member body-find-password-reset pc"  >
-<!-- Channel Plugin Scripts -->
-<script>
-  function parsePureNumber(number) {
-    var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
-    if (ch_pureNumber === "") {
-      return null;
-    }
-    return parseFloat(ch_pureNumber) || 0;
-  }
-  var settings = {
-    // action banner z index is 199997 ~ 199998
-    "zIndex": 100000,
-    "pluginKey": "ad67ea36-ae1a-452d-9419-cc8a83a650a3"
-  };
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  if (settings && settings.memberId && settings.memberId.indexOf('=gSess.memId') >= 0) {
-    console.error('You do not using godomall 5. please visit https://developers.channel.io/docs/guide-for-famous-builders and find correct one');
-  } else {
-    ChannelIO('boot', settings);
-  }
-</script>
-<!-- End Channel Plugin -->
+
 
 	<div class="top_area"></div>
 <div id="wrap" >
@@ -408,18 +425,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><a href="../member/join_method.jsp">회원가입</a></li>
-					<li><a href="../member/login.jsp">로그인</a></li>
-
-					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
+					<c:choose>
+					<c:when test="${empty userId }">
+						<li><a href="join.do">회원가입</a></li>
+						<li><a href="login.do">로그인</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><span style="color: #333; font-size: 15px;">${userId} 님, 오늘도 건강한 하루 되세요.</span></li>
+						<li><a href="logout_process.do">로그아웃</a></li>
+					</c:otherwise>
+					</c:choose>
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="notice.do">공지사항</a></li>
+								<li><a href="board/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 
@@ -428,10 +449,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 				</ul>
 				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+					<li><a href="mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
+					<li class="cart"><a href="cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
 
-                      <strong><b><a href="../order/cart.jsp" class="z">0</a></b></strong>
+                      <strong><b><a href="cart.do">2</a></b></strong>
 
                     </li>
 
@@ -459,66 +480,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -526,87 +499,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+			<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
@@ -614,7 +514,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- 상단 카테고리 출력 시작 -->
 
             </div>
-
 
         </div>
         <!-- //gnb -->
@@ -673,21 +572,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<h2>비밀번호 찾기</h2>
 		</div>
 		<div class="member_cont">
-			<form name="formReset" id="formReset" action="../member/find_password_reset_ps.jsp" method="post">
+			<form name="formReset"  id="formReset" action="find_pass_process.do" method="post">
 				<div class="find_password_reset_box">
 					<!-- <h3>비밀번호 변경</h3> -->
 					<p>새로운 비밀번호를 등록해 주세요.</p>
 					<div class="login_input">
 						<div class="js_input_pw">
 							<div class="member_warning">
-								<input type="password" id="passwordMsg" name="memPw" autocomplete="off" placeholder="영문대/소문자, 숫자, 특수문자 중 2가지 이상 조합하세요" data-min-length="10"
-									   data-max-length="16">
+								<input type="hidden" id="id"  name="id" value="${id }"/>
+								<input type="password"  id="newPass" name="newPass" autocomplete="off"  placeholder="새 비밀번호">
+							     <input type="hidden" id="passPassFlag" name="passPassFlag" value="1">
 							</div>
+							<span id="errorPass"  style="color: red"></span>
 						</div>
 						<div class="js_input_pw">
 							<div class="member_warning">
-								<input type="password" id="newPwRe" name="memPwRe" autocomplete="off" placeholder="새 비밀번호 확인">
+								<input type="password"  id="newPass_chk" name="newPass_chk"  autocomplete="off" placeholder="새 비밀번호 확인">
+								<input type="hidden" id="psChkPassFlag" name="psChkPassFlag" value="1">
 							</div>
+							<span id="truePass" style="color: green; display: none;">비밀번호가 일치합니다.</span>
+                    		<span id="falsePass" style="color: red; display: none;">비밀번호가 일치하지않습니다.</span>
 						</div>
 						<div class="btn_center_box">
 							<button type="button" id="btnConfirm" class="btn_member_ok">확인</button>
@@ -695,8 +599,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					</div>
 				</div>
 				<!-- //find_password_reset_box -->
-			</div>
 		</form>
+		</div>
 		<!-- //member_cont -->
 	</div>
 	<!-- //member_wrap -->
@@ -706,21 +610,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	$(document).ready(function () {
 		var $formJoin = $('#formReset');
 
-		$('#btnConfirm').click(function () {
-			var $password = $(':password[name=memPw]');
-			$password.trigger('keyup');
-			if ($('.text_warning').length < 1) {
-				var params = $formJoin.serializeArray();
-				$.post('../member/find_password_reset_ps.jsp', params, function (data) {
-					if (_.isUndefined(data.error)) {
-						location.href = data.url;
-					} else {
-						alert(data.error.message);
-						location.href = data.error.url;
-					}
-				});
-			}
-		});
+		/* $('#btnConfirm').click(function () {
+			$("#formReset").submit();
+		}); */
 
 		gd_member2.validate_password();
 		gd_member2.validate_same_password();
@@ -877,145 +769,6 @@ var sTime = new Date().getTime();
     </div>
     <!-- //footer_wrap -->
 
-
-    <div class="scroll_wrap">
-
-        <!-- 좌측 스크롤 배너 -->
-        <div id="scroll_left">
-
-        </div>
-        <!-- //scroll_left -->
-        <!-- //좌측 스크롤 배너 -->
-
-
-        <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp" class="z">0</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000149">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/11/48/1000000149/1000000149_main_093.jpg">
-                </span>
-                <span class="src_box">
-                    <em>그릴 닭가슴살볼 3종 혼합 6팩</em>
-                        <strong>16,100<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
-
-
-    </div>
-    <!-- //scroll_wrap -->
-
-
-    <!-- 퀵 검색 폼 -->
-    <!-- 퀵 검색 폼 -->
 
 </div>
 <!-- //wrap -->

@@ -108,7 +108,15 @@
         #footer_wrap {
         }
     </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#mainNoti").click(function(){ //목록 - list로 이동
+		location.href="list.do";
+	});
+	
+})
+</script>
 </head>
 
 <body class="body-board body-view pc"  >
@@ -125,18 +133,13 @@
 
             <div class="board_view_tit">
                 <h3>
-                    닭가슴살 슬라이스 3종 리뉴얼 출시
+                     <strong>${notiTitle} </strong>
                 </h3>
             </div>
             <div class="board_view_info">
-                <span class="view_info_idip" >
-                    <strong>관리자</strong>
-                </span>
-                <span class="view_info_day">
-                    <em>2022.10.09</em>
-                </span>
-                <span class="view_info_hits">
-<strong>조회수</strong> 52                </span>
+                <span class="view_info_idip" > <strong> 관리자 </strong></span>
+                <span class="view_info_day"><em>${notiWriteDate}</em> </span>
+                <span class="view_info_hits"> <strong> 조회수 </strong>  ${notiHits}  </span>
             </div>
             <!-- //board_view_info -->
 
@@ -152,7 +155,7 @@
 
                 <div class="seem_cont">
                     <div style="margin:10px 0 10px 0">
-                        <p>안녕하세요, 포켓샐러드입니다.</p><p>&nbsp;</p><p>포켓닭의 닭가슴살 슬라이스 3종(갈비맛 / 양념치킨맛/ 커리맛) 상품이 리뉴얼되어 출시되었습니다.</p><p>&nbsp;</p><p>이전 제품 대비 나트륨은 줄이고, 더 두텁고 촉촉하고 부드러운 식감의 닭가슴살 슬라이스를 만나보실 수 있습니다.</p><p>&nbsp;</p><p>단백질 보충 및 든든한 식단 관리에 도움이 될 식단템이 되었으면 좋겠어요.</p><p>&nbsp;</p><p>오늘도 건강하고 맛있는 한 끼 되세요.&nbsp;</p><p>&nbsp;</p><p>포켓샐러드&nbsp;</p>
+                    	 ${notiCont} 
                     </div>
                 </div>
                 <!-- //seem_cont -->
@@ -175,7 +178,7 @@
         <!-- //board_zone_view -->
 
         <div class="btn_right_box">
-<button type="button" class="btn_board_list" onclick="gd_btn_list('notice')"><strong>목록</strong></button>        </div>
+<button type="button" class="btn_board_list" id="mainNoti" onclick="gd_btn_list('notice')"><strong>목록</strong></button>        </div>
 
     </div>
     <!-- //board_zone_cont -->

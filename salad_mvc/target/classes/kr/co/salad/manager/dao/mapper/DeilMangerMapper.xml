@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.DeilMangerMapper">
+<!-- 총 페이지수 출력 -->
+  <select id="selectTotalPage" parameterType="kr.co.salad.manager.vo.MngDeilVO" resultType="int">
+  		select count(*)
+		from product_order O , member M
+		where O.id = M.id and O.order_status BETWEEN 0 AND 3
+		<if test='  searchText != "" '>
+			and M.name Like '%' || #{searchText}  || '%'
+		</if>
+ </select>
+  
+  <!--  전체 배송리스트 -->
+  <select id="selectDeilList" parameterType="kr.co.salad.manager.vo.MngDeilVO"  resultType="kr.co.salad.manager.domain.MngDeilDomain">
+  		select ORDER_NUM,NAME,ORDER_DATE,ORDER_TOTAL_PRICE,ORDER_STATUS,r_num
+		from(
+		select O.ORDER_NUM, M.name , TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') as ORDER_DATE,O.ORDER_TOTAL_PRICE,O.ORDER_STATUS,
+		row_number() over(order by O.ORDER_DATE desc)r_num
+		from product_order O , member M
+		where O.id = M.id and O.order_status BETWEEN 0 AND 3
+		<if test='searchText != "" '>
+			and M.name Like '%' || #{searchText}  || '%'
+		</if>
+		)
+		WHERE r_num BETWEEN #{startNum} AND #{endNum} 
+  </select>
+  
+  <!-- 배송상태 변경 등록  -->
+  <update id="updateDeilStatus" parameterType="kr.co.salad.manager.vo.MngDeilVO">
+  update product_order
+  set order_status=#{orderStatus}
+  where order_num=#{orderNum}
+  </update>
+  
+ 
+</mapper>

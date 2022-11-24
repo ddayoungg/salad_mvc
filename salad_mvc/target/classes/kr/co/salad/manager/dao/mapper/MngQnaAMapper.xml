@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.dao.mapper.MngQnaAMapper">
+
+<select id="answerLook" parameterType="int" resultType="kr.co.salad.manager.vo.MngQnaAVO">
+	select 
+		QNA_A_NUM, QNA_NUM, QNA_A_CONT, TO_CHAR(QNA_A_WRITE_DATE, 'YYYY-MM-DD') QNA_A_WRITE_DATE
+	from
+		QA_ANSWER
+	where QNA_NUM=#{qnaNum}
+</select>
+
+<select id="lastQnaANum" resultType="int">
+	select MAX(QNA_A_NUM) from QA_ANSWER
+</select>
+
+<insert id="answerWrite" parameterType="kr.co.salad.manager.vo.MngQnaAVO">
+	insert into QA_ANSWER(QNA_A_NUM, QNA_NUM, QNA_A_CONT)
+	values(#{qnaANum}, #{qnaNum}, #{qnaACont})
+</insert>
+
+<update id="answerEdit" parameterType="kr.co.salad.manager.vo.MngQnaAVO">
+	update QA_ANSWER
+	set QNA_A_CONT=#{qnaACont}
+	where QNA_A_CONT=#{qnaACont} and QNA_NUM=#{qnaNum}	
+</update>
+
+</mapper>

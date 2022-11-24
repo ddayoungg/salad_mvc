@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.mngDashMapper">
+
+	<!-- 이번 달 판매 완료된 금액 / 추후 플래그 수정 필요 -->
+	<select id="selectMonthPay" resultType="int">
+	SELECT NVL(SUM(ORDER_TOTAL_PRICE),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS = 0
+	AND TO_CHAR(ORDER_DATE,'YYYYMM')=TO_CHAR(SYSDATE,'YYYYMM')
+	</select>
+	
+	<!-- 오늘 판매 완료된 금액 / 추후 플래그 수정 필요 -->
+	<select id="selectTodayPay" resultType="int">
+	SELECT NVL(SUM(ORDER_TOTAL_PRICE),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS = 0
+	AND TO_CHAR(ORDER_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<!-- 이번 달 주문 건 수 / 추후 플래그 수정 필요 -->
+	<select id="selectMonthOrder" resultType="int">
+	SELECT NVL(COUNT(ORDER_NUM),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS = 0
+	AND TO_CHAR(ORDER_DATE,'YYYYMM')=TO_CHAR(SYSDATE,'YYYYMM')
+	</select>
+	
+	<!-- 이번 달 주문 건 수 / 추후 플래그 수정 필요 -->
+	<select id="selectTodayOrder" resultType="int">
+	SELECT NVL(COUNT(ORDER_NUM),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS = 0
+	AND TO_CHAR(ORDER_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<!-- 총 회원 수 -->
+	<select id="selectTotalMember" resultType="int">
+	SELECT COUNT(ID)
+	FROM MEMBER
+	WHERE OUT_FLAG = 0 OR OUT_FLAG = 1
+	</select>
+	
+	<!-- 가입한 회원 수 -->
+	<select id="selectJoinMember" resultType="int">
+	SELECT COUNT(ID)
+	FROM MEMBER
+	WHERE OUT_FLAG = 0
+	</select>
+	
+	<!-- 탈퇴한 회원 수 -->
+	<select id="selectOutMember" resultType="int">
+	SELECT COUNT(ID)
+	FROM MEMBER
+	WHERE OUT_FLAG = 1
+	</select>
+	
+	<!-- 답변한 후기 건 수 -->
+	<select id="selectYesAnswer" resultType="int">
+	SELECT COUNT(QNA_NUM)
+	FROM QA
+	WHERE QNA_A_FLAG = 0
+	</select>
+	
+	<!-- 미답변한 후기 건 수 -->
+	<select id="selectNoAnswer" resultType="int">
+	SELECT COUNT(QNA_NUM)
+	FROM QA
+	WHERE QNA_A_FLAG = 1
+	</select>
+	
+	<!-- 메인 카테고리별 판매 수 -->
+	<select id="selectCategorySale" resultType="int">
+	SELECT COUNT(M.MAIN_CATE_NAME)
+	FROM CATEGORY_MAIN M, CATEGORY_SUB S, PRODUCT P, ORDER_DETAIL D, PRODUCT_ORDER O
+	WHERE O.ORDER_STATUS = 0 AND M.MAIN_CATE_NAME = '정기배송'
+	AND M.MAIN_CATE_NUM = S.MAIN_CATE_NUM
+	AND S.SUB_CATE_NUM = P.SUB_CATE_NUM
+	AND P.PRD_NUM = D.PRD_NUM
+	AND D.ORDER_NUM = O.ORDER_NUM
+	</select>
+	<select id="selectCategorySale2" resultType="int">
+	SELECT COUNT(M.MAIN_CATE_NAME)
+	FROM CATEGORY_MAIN M, CATEGORY_SUB S, PRODUCT P, ORDER_DETAIL D, PRODUCT_ORDER O
+	WHERE O.ORDER_STATUS = 0 AND M.MAIN_CATE_NAME = '샐러드'
+	AND M.MAIN_CATE_NUM = S.MAIN_CATE_NUM
+	AND S.SUB_CATE_NUM = P.SUB_CATE_NUM
+	AND P.PRD_NUM = D.PRD_NUM
+	AND D.ORDER_NUM = O.ORDER_NUM
+	</select>
+	<select id="selectCategorySale3" resultType="int">
+	SELECT COUNT(M.MAIN_CATE_NAME)
+	FROM CATEGORY_MAIN M, CATEGORY_SUB S, PRODUCT P, ORDER_DETAIL D, PRODUCT_ORDER O
+	WHERE O.ORDER_STATUS = 0 AND M.MAIN_CATE_NAME = '간편식'
+	AND M.MAIN_CATE_NUM = S.MAIN_CATE_NUM
+	AND S.SUB_CATE_NUM = P.SUB_CATE_NUM
+	AND P.PRD_NUM = D.PRD_NUM
+	AND D.ORDER_NUM = O.ORDER_NUM
+	</select>
+	<select id="selectCategorySale4" resultType="int">
+	SELECT COUNT(M.MAIN_CATE_NAME)
+	FROM CATEGORY_MAIN M, CATEGORY_SUB S, PRODUCT P, ORDER_DETAIL D, PRODUCT_ORDER O
+	WHERE O.ORDER_STATUS = 0 AND M.MAIN_CATE_NAME = '닭가슴살&amp;간식'
+	AND M.MAIN_CATE_NUM = S.MAIN_CATE_NUM
+	AND S.SUB_CATE_NUM = P.SUB_CATE_NUM
+	AND P.PRD_NUM = D.PRD_NUM
+	AND D.ORDER_NUM = O.ORDER_NUM
+	</select>
+</mapper>

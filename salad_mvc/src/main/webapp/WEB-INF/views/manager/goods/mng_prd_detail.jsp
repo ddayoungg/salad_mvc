@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +12,19 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Dashboard - SB Admin</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
-	rel="stylesheet" />
+
+<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
-	crossorigin="anonymous"></script>
+
+
+<script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
+<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
+<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+
+<!-- JQuery google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <style type="text/css">
 	.button{
@@ -68,6 +76,27 @@
 	}
 	
 </style>
+
+<script type="text/javascript">
+$(function(){
+	$("#editBtn").click(function(){//수정 버튼 클릭 시
+		movePrdEdit();
+	})//click
+	
+	$("#listBtn").click(function(){//목록 버튼 클릭 시
+		movePrdList();
+	})//click
+});//ready
+
+function movePrdEdit() {//수정 버튼 클릭 시 해당 물품의 수정페이지로 이동
+	location.href="http://localhost/salad_mvc/mng_prd_edit.do?prdNum="+${param.prdNum};
+}//movePrdEdit
+
+function movePrdList() {//목록 버튼 클릭 시 상품 리스트 페이지로 이동
+	location.href="http://localhost/salad_mvc/mng_prd.do";
+}//movePrdList
+
+</script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -92,40 +121,40 @@
 		        <div class="sb-sidenav-menu">
 		            <div class="nav">
 		                <div class="sb-sidenav-menu-heading">메인</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_dashboard.do">
 		                    -대시보드
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
 		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="#">회원 관리</a></div>
+		                href="http://localhost/salad_mvc/mng_member.do">회원 관리</a></div>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">상품 관리</div>
-		                <a class="nav-link" href="index.html">
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_prd.do">
 		                    -상품 등록
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://localhost/salad_mvc/mng_rev.do">
 		                    -상품 후기
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="index.html">
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do">
 		                    -주문 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0;"href="index.html">
+		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
 		                    -취소 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://localhost/salad_mvc/mng_deli.do">
 		                    -배송 관리
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">게시판 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_notice.do">
 		                    -공지사항
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">문의 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_qna.do">
 		                    -상품문의
 		                </a>
 		            </div>
@@ -152,27 +181,32 @@
 							<tbody>
 								<tr>
 									<th width="30%">카테고리</th>
-									<td>샐러드 | 데일리 샐러드</td>
+									<td><c:out value="${ prdData.mainCateName }"/> | <c:out value="${ prdData.subCateName }"/></td>
 								</tr>
 								<tr>
 									<th>상품명</th>
-									<td>닭가슴살 샐러드</td>
+									<td><c:out value="${ prdData.prdName }"/></td>
 								</tr>
 								<tr>
 									<th>메인 사진</th>
 									<td>
-										<img class="imgBig" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-										<img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-										<img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
+										<img class="imgBig" src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }">
+										<c:if test="${ prdData.prdImgList ne null }">
+											<c:forEach var="prdImg" items="${ prdData.prdImgList }">
+												<img class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${ prdImg }">
+											</c:forEach>
+										</c:if>
 									</td>
 								</tr>
 								<tr>
 									<th>본문설명(사진 첨부)</th>
 									<td style="display: flex; flex-direction: column;">
-										<img class="imgBig" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-										<img class="imgBig" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-										<img class="imgBig" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-										<img class="imgBig" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
+										<img class="imgBig" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdBodyThum }">
+										<c:if test="${ prdData.prdBodyImgList ne null }">
+											<c:forEach var="prdBodyImg" items="${ prdData.prdBodyImgList }">
+												<img class="imgBig" src="http://localhost/salad_mvc/common/images/product/${ prdBodyImg }">
+											</c:forEach>
+										</c:if>
 									</td>
 								</tr>
 							</tbody>
@@ -185,28 +219,27 @@
 							<tbody>
 								<tr>
 									<th width="30%">할인</th>
-									<td style="width: 80px; border-right: none;">할인율</td><td style="width: 25px; border-right: none; font-weight: bold;">21</td><td>%</td>
+									<td style="width: 80px; border-right: none;">할인율</td><td style="width: 25px; border-right: none; font-weight: bold;"><c:out value="${ prdData.prdDiscount }"/></td><td>%</td>
 								</tr>
 								<tr>
 									<th>원가</th>
-									<td style="width: 80px; border-right: none;">정가</td><td style="width: 25px; border-right: none; font-weight: bold;">9,000</td><td>원</td>
+									<td style="width: 80px; border-right: none;">정가</td><td style="width: 25px; border-right: none; font-weight: bold;"><fmt:formatNumber value="${ prdData.prdPrice }" pattern="#,#00"/></td><td>원</td>
 								</tr>
 								<tr>
 									<th>판매가</th>
-									<td style="width: 80px; border-right: none;">판매가</td><td style="width: 25px; border-right: none; font-weight: bold;">7,100</td><td>원</td>
+									<td style="width: 80px; border-right: none;">판매가</td><td style="width: 25px; border-right: none; font-weight: bold;"><fmt:formatNumber value="${ prdData.prdPrice-(prdData.prdPrice*(prdData.prdDiscount/100)) }" pattern="#,#00"/></td><td>원</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div style="display: flex; justify-content: space-between; margin: 20px 0px;">
-						<div>
+					<div style="display: flex; justify-content: flex-end; margin: 20px 0px;">
+						<!-- <div>
 							<input type="button" class="button" value="이전">
 							<input type="button" class="button" value="다음">
-						</div>
+						</div> -->
 						<div>
-							<input type="button" class="button" value="삭제">
-							<input type="button" class="button" value="수정">
-							<input type="button" class="button" value="목록">
+							<input type="button" class="button" id="editBtn" value="수정">
+							<input type="button" class="button" id="listBtn" value="목록">
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.dao.mapper.MngQnaMapper">
+ 
+ <select id="selectQnaTotalCount" resultType="int" 
+  parameterType="kr.co.salad.manager.vo.MngQnaVO">
+	select		count(*)
+	from	  		QA q
+	inner join product p
+	on q.prd_num=p.prd_num
+	<choose>
+		<when test=" subCateNum != 0 ">
+			where SUB_CATE_NUM=#{subCateNum} AND qna_cont LIKE '%'||#{keyword}||'%' 					
+		</when>
+		<otherwise>
+				where qna_cont LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+	
+  </select>
+  <select id="selectMainCate" resultType="kr.co.salad.manager.domain.MngQnaDomain">
+  select main_cate_num, main_cate_name
+  from category_main
+  </select>
+  <select id="selectSubCate" resultType="kr.co.salad.manager.domain.MngQnaDomain" parameterType="int">
+  select sub_cate_num, sub_cate_name
+  from category_sub
+  where main_cate_num=#{mainCateNum}
+  order by sub_cate_num
+  </select>
+  
+ <select id="selectQnaList" resultType="kr.co.salad.manager.domain.MngQnaDomain" 
+  parameterType="kr.co.salad.manager.vo.MngQnaVO">
+  
+  
+select	  ID, QNA_NUM, TO_CHAR(QNA_WRITE_DATE, 'YYYY-MM-DD') as qnaWriteDate, QNA_TITLE, QNA_CONT, QNA_A_FLAG
+from		(select	ROW_NUMBER() OVER (ORDER BY QNA_WRITE_DATE DESC) as rnum,
+						 ID, QNA_NUM, QNA_WRITE_DATE, QNA_TITLE, QNA_CONT, QNA_A_FLAG
+			from QA q
+			
+			inner join product p
+			
+			on q.prd_num=p.prd_num
+			<choose>
+		<when test=" subCateNum != 0 ">
+			where SUB_CATE_NUM=#{subCateNum} AND qna_cont LIKE '%'||#{keyword}||'%' 					
+		</when>
+		<otherwise>
+				where qna_cont LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+				ORDER BY QNA_A_FLAG ASC , QNA_WRITE_DATE DESC
+				)
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+  </select>
+  <select id="selectQnaDetail" resultType="kr.co.salad.manager.domain.MngQnaDomain"
+  parameterType="int">
+  
+  select 
+  ID, QNA_NUM, TO_CHAR(QNA_WRITE_DATE, 'YYYY-MM-DD') as qnaWriteDate, QNA_TITLE, QNA_CONT, QNA_A_FLAG
+  from QA
+  where qna_num=#{qna_num}
+  
+  </select>
+
+</mapper>

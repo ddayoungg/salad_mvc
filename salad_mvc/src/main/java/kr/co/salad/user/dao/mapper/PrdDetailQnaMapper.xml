@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.PrdDetailQnaMapper">
+  <select id="selectQnaTotalCount" resultType="int" 
+  parameterType="int">
+	select		count(qna_num)
+	from	  		qa
+	where		PRD_NUM=#{prdNum}
+	
+  </select>
+  <select id="selectQnaList" resultType="kr.co.salad.user.domain.PrdDetailQnaDomain" 
+  parameterType="kr.co.salad.user.vo.PrdDetailQnaVO">
+	select	 QNA_NUM, QNA_TITLE, QNA_CONT, NAME, QNA_WRITE_DATE, QNA_A_FLAG, ID
+	from		(select	ROW_NUMBER() OVER (ORDER BY q.QNA_WRITE_DATE desc) as rnum,
+								q.QNA_NUM, q.QNA_TITLE, q.QNA_CONT, m.NAME, q.QNA_WRITE_DATE, q.QNA_A_FLAG, q.ID
+				from	  QA q, MEMBER m
+				where		m.id=q.id and
+								q.PRD_NUM=#{prdNum}
+				ORDER BY q.QNA_WRITE_DATE desc
+				)
+	WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+	
+  </select>
+  <select id="selectLastQnaNum" resultType="int" >
+		SELECT MAX(QNA_NUM) FROM QA
+  </select>
+  <insert id="insertQnaWrite" parameterType="kr.co.salad.user.vo.PrdDetailQnaVO">
+	INSERT INTO QA(QNA_NUM, ID, PRD_NUM, QNA_TITLE, QNA_CONT)
+	VALUES((#{qnaNum}+1), #{id}, #{prdNum}, #{qnaTitle}, #{qnaCont})
+	</insert>
+</mapper>

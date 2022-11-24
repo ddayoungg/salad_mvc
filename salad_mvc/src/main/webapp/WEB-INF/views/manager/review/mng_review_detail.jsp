@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
 	rel="stylesheet" />
-<link href="css/styles.css" rel="stylesheet" />
+<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
 	crossorigin="anonymous"></script>
 <style type="text/css">
@@ -34,20 +35,60 @@
 		margin: 20px;
 	}
 	
+	.button{
+		width: 100px;
+		height: 40px;
+		margin: 10px;
+		background-color: transparent;
+		border: 1px solid #14CEA9;
+		color: #14CEA9;
+		line-height: 30px;
+		
+	}
+	.button:hover {
+		background-color: #14CEA9;
+		color: white;
+	}
+	th{
+    width: 135px;
+    padding-right: 15px;
+	}
+	
+	
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	
+	$("#delBtn").click(function(){ //리뷰 삭제버튼
+		location.href="mng_rev_remove_process.do?revNum="+$("#revNum").val();
+	});//click
+	
+	$("#BestBtn").click(function(){ //베스트후기글 등록
+		location.href="mng_rev_best_edit_process.do?revNum="+$("#revNum").val();
+	});//click
+	
+	$("#revMainBtn").click(function(){ //목록화면 이동
+		location.href="mng_rev.do";
+	});//click
+	
+});
+</script>
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="index.html"><img alt="img" src="images/saladLogo.png" height="50px"></a>
+            href="index.html"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조 관리자님,어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
@@ -57,44 +98,44 @@
 		    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		        <div class="sb-sidenav-menu">
 		            <div class="nav">
-		                <div class="sb-sidenav-menu-heading">메인</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-		                    -대시보드
-		                </a>
-		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
-		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="#">회원 관리</a></div>
-		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div class="sb-sidenav-menu-heading">상품 관리</div>
-		                <a class="nav-link" href="index.html">
-		                    -상품 등록
-		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
-		                    -상품 후기
-		                </a>
-		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="index.html">
-		                    -주문 관리
-		                </a>
-		                <a class="nav-link" style="padding-top:0;"href="index.html">
-		                    -취소 관리
-		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
-		                    -배송 관리
-		                </a>
-		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div class="sb-sidenav-menu-heading">게시판 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-		                    -공지사항
-		                </a>
-		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div class="sb-sidenav-menu-heading">문의 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-		                    -상품문의
-		                </a>
-		            </div>
+                            <div class="sb-sidenav-menu-heading">메인</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
+                                -대시보드
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
+                            style="text-decoration-line:none; font-size:16px; padding:0;" 
+                            href="mng_member.do">회원 관리</a></div>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">상품 관리</div>
+                            <a class="nav-link" href="mng_prd.do">
+                                -상품 등록
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
+                                -상품 후기
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">주문 관리</div>
+                            <a class="nav-link" href="mng_order_main.do">
+                                -주문 관리
+                            </a>
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
+                                -취소 관리
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
+                                -배송 관리
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">게시판 관리</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
+                                -공지사항
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">문의 관리</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
+                                -상품문의
+                            </a>
+                        </div>
 		        </div>
 		    </nav>
 		</div>
@@ -107,22 +148,12 @@
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="images/socialMedia.png" width="130px">
+							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>
 				</div>
                 <div class="row">
-       		 		<div style="position:relative; display:flex; justify-content:space-evenly; align-items:center; padding-bottom:40px; max-width: 800px;">
-	                  	<div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px;">
-	                  		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
-			                    <div style=" color:white; font-weight:bold; font-size:20px;">상품 등록 수</div>
-		                    	<div style="color:white; font-weight:bold; font-size:20px;">
-		                    		<span style="font-size:30px;">50</span>건
-		                    	</div>
-	                   		</div>
-	                  	</div>
-					</div>
 					<div class="card-body" align="center">
 	            		<table style="border-spacing: 0px; width: 90%; font-size:18px;">
 							<colgroup>
@@ -133,43 +164,66 @@
 								<tr style="border-top: 1px solid; height: 60px;">
 									<th>후기번호</th>
 									<td>
-										<input type="text" value="202210260025" readonly=“readonly” style="border: 0px; width: 100%; height: 40px;">
+										<input type="text" value="${revNum}" readonly=“readonly” style="border: 0px; width: 100%; height: 40px;"
+										id="revNum" name="revNum">
+									</td>
+									<th style="text-align: revert;">
+										조회수
+									</th>
+									<td>
+										<input type="text" value="${revHits}" readonly=“readonly” style="border: 0px; width: 100px; height: 40px;text-align: left;"
+										id="revHits" name="revHits">
 									</td>
 								</tr>
 								<tr style="border-top: 1px solid; height: 60px;">
-									<td colspan="2">
-										<input type="text" value="[닭가슴살 샐러드] 맛있어요" readonly=“readonly” style="border: 0px; width: 100%; height: 40px;">
+									<th>제목</th>
+									<td colspan="3">
+										<input type="text" value="${prdName } / ${revTitle}" readonly=“readonly” style="border: 0px; width: 100%; height: 40px;">
 									</td>
 								</tr>
 								<tr style="border-top: 1px solid; height: 60px;">
-									<td colspan="2">
-										<input type="text" value="김도희 2022-10-26" readonly=“readonly”  style="border: 0px; width: 100%; height: 40px;">
+									<th>작성자/작성일</th>
+									<td colspan="3">
+										<input type="text" value="${revName} / ${revWriteDate }" readonly=“readonly”  style="border: 0px; width: 100%; height: 40px;">
 									</td>
 								</tr>
 								<tr style="border-top: 1px solid; border-bottom: 1px solid; height: 300px;">
-									<td colspan="2" style="text-align: left;">
-										<img style="width:300px; height:100px; margin: 30px 0px;"src="img/qna_detail.PNG"></br>
-										<text readonly=“readonly” style="border: 0px; width: 100%;">
-											닭가슴살 시켰는데 너무 맛있어요.
-										</text>
+									<th>내용</th>
+									<td colspan="3" style="text-align: left;">
+										<div style="width: 500px;height: 300px;border: 1px; background-color: white;">
+											<table  style="width: 100%;height: 100%">
+												<tr>
+													<td rowspan="2" style="width: 160px">
+													<img class="imgSmall" src="http://localhost/salad_mvc/resources/images/product/body/${prdBodyThum}">
+													</td>
+													<td>
+													<strong>${prdName}</strong><br>
+													<fmt:formatNumber type="currency" value=" ${price}" ></fmt:formatNumber>
+													</td>
+												</tr>
+												<tr>
+													<td></td>
+												</tr>
+											</table>
+										</div>
+										<textarea readonly=“readonly” style="border: 0px; width: 100%;">${revCont}</textarea>
 										<div style="display: flex;">
-											<img style="margin-left: 0px;" class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
-											<img class="imgSmall" src="http://localhost/salad_mvc2/images/%ED%8F%AC%EC%BC%93%EC%83%90%EB%9F%AC%EB%93%9C.jpg">
+											<c:forEach var="img" items="${revImg}">
+												<img class="imgSmall" src="http://localhost/salad_mvc/resources/images/review/${img}">
+											</c:forEach>	
 										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div style="display: flex;justify-content: space-between; margin: 20px 0px; width: 90%">
-						<div>
-							<input type="button" class="button" value="이전">
-							<input type="button" class="button" value="다음">
-						</div>
-						<div>
-							<input type="button" class="button" value="삭제">
-							<input type="button" class="button" value="수정">
-							<input type="button" class="button" value="목록">
+					<div style="justify-content: space-between; margin: 20px 0px; width: 90%">
+						<div style="text-align: right;">
+							<input type="button" class="button" value="삭제" id="delBtn" class="button">
+							<c:if test="${bestFlag==0 }">
+							<input type="button" class="button" value="베스트후기등록" id="BestBtn" class="button" style="width: 150px;">
+							</c:if>
+							<input type="button" class="button" value="목록" id="revMainBtn" class="button">
 						</div>
 					</div>
 				</div>
@@ -203,15 +257,15 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-	<script src="js/scripts.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/js/scripts.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		crossorigin="anonymous"></script>
-	<script src="assets/demo/chart-area-demo.js"></script>
-	<script src="assets/demo/chart-bar-demo.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
 		crossorigin="anonymous"></script>
-	<script src="js/datatables-simple-demo.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
 	<script>
 	    var Target = document.getElementById("clock");
 	    function clock() {

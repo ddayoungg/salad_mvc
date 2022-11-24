@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.dao.mapper.MngPrdMapper">
+<select id="selectMainCate" resultType="kr.co.salad.manager.domain.MngPrdDomain" >
+select	MAIN_CATE_NUM, MAIN_CATE_NAME 
+from	CATEGORY_MAIN
+</select>
+<select id="selectSubCate" resultType="kr.co.salad.manager.domain.MngPrdDomain" 
+  parameterType="int">
+select	SUB_CATE_NUM, SUB_CATE_NAME 
+from	CATEGORY_SUB
+where	MAIN_CATE_NUM=#{mainCateNum}
+</select>
+<select id="selectPrdTotalCount" resultType="int" 
+  parameterType="kr.co.salad.manager.vo.MngPrdVO">
+	select		count(*)
+	from	  	PRODUCT
+	<choose>
+		<when test=" subCateNum != 0 ">
+				where SUB_CATE_NUM=#{subCateNum} AND PRD_NAME LIKE '%'||#{keyword}||'%' 					
+		</when>
+		<otherwise>
+				where PRD_NAME LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</select>
+ <select id="selectPrdList" resultType="kr.co.salad.manager.domain.MngPrdDomain" 
+  parameterType="kr.co.salad.manager.vo.MngPrdVO">
+select	PRD_NUM, THUM, PRD_NAME, PRD_REGIST_DATE, PRD_PRICE, PRD_DISCOUNT
+from	(select	ROW_NUMBER() OVER (ORDER BY PRD_NUM ASC) as rnum,
+				PRD_NUM, THUM, PRD_NAME, TO_CHAR(PRD_REGIST_DATE, 'YYYY-MM-DD') PRD_REGIST_DATE, PRD_PRICE, PRD_DISCOUNT
+		from	PRODUCT
+				<choose>
+					<when test=" subCateNum != 0 ">
+						where SUB_CATE_NUM=#{subCateNum} AND PRD_NAME LIKE '%'||#{keyword}||'%' 					
+					</when>
+					<otherwise>
+						where PRD_NAME LIKE '%'||#{keyword}||'%'
+					</otherwise>
+				</choose>
+				ORDER BY PRD_NUM ASC
+				)
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+  </select>
+  <select id="selectPrdDetail" resultType="kr.co.salad.manager.domain.MngPrdDomain" 
+  parameterType="int">
+	select 	p.PRD_NUM, p.THUM, p.PRD_BODY_THUM, p.PRD_NAME, p.PRD_DISCOUNT, p.PRD_PRICE, p.PRD_REGIST_DATE,
+			cm.MAIN_CATE_NUM, cm.MAIN_CATE_NAME, cs.SUB_CATE_NUM, cs.SUB_CATE_NAME
+	from 	PRODUCT p, CATEGORY_MAIN cm, CATEGORY_SUB cs
+	where 	(cs.SUB_CATE_NUM=p.SUB_CATE_NUM AND cm.MAIN_CATE_NUM=cs.MAIN_CATE_NUM) AND
+		 	p.PRD_NUM= #{prdNum}
+  </select>
+  <select id="selectPrdImgList" resultType="String" 
+  parameterType="int">
+	select 	PRD_IMG
+	from	PRODUCT_ADD_IMG
+	where 	PRD_NUM= #{prdNum}
+  </select>
+  <select id="selectPrdBodyImgList" resultType="String" 
+  parameterType="int">
+	select 	PRD_BODY_IMG
+	from	PRODUCT_BODY_IMG
+	where 	PRD_NUM= #{prdNum}
+  </select>
+  
+<select id="selectLastPrdNum" resultType="int" >
+	SELECT MAX(PRD_NUM) FROM PRODUCT
+</select>
+  
+ <insert id="insertPrd" parameterType="kr.co.salad.manager.vo.MngPrdVO">
+	insert into PRODUCT(PRD_NUM, SUB_CATE_NUM, PRD_NAME, THUM, PRD_BODY_THUM, PRD_PRICE, PRD_DISCOUNT)
+	values(#{prdNum}, #{subCateNum}, #{prdName}, #{thum}, #{prdBodyThum}, #{prdPrice}, #{prdDiscount})
+</insert>
+
+<insert id="insertPrdImg" parameterType="kr.co.salad.manager.vo.MngPrdVO">
+	INSERT INTO PRODUCT_ADD_IMG(PRD_NUM, PRD_IMG)
+	VALUES(#{prdNum}, #{prdImg})
+</insert>
+
+<insert id="insertPrdBodyImg" parameterType="kr.co.salad.manager.vo.MngPrdVO">
+	INSERT INTO PRODUCT_BODY_IMG(PRD_NUM, PRD_BODY_IMG)
+	VALUES(#{prdNum}, #{prdBodyImg})
+</insert>
+
+<update id="updatePrd" parameterType="kr.co.salad.manager.vo.MngPrdVO">
+	UPDATE	PRODUCT
+	SET     PRD_NUM = #{prdNum}, SUB_CATE_NUM = #{subCateNum}, PRD_NAME = #{prdName}, 
+			THUM = #{thum}, PRD_BODY_THUM = #{prdBodyThum}, PRD_PRICE = #{prdPrice}, PRD_DISCOUNT = #{prdDiscount}
+	WHERE	PRD_NUM = #{prdNum}
+</update>
+
+<delete id="deletePrdImg" parameterType="int">
+	DELETE	FROM PRODUCT_ADD_IMG
+	WHERE	PRD_NUM = #{prdNum}
+</delete>
+
+<delete id="deletePrdBodyImg" parameterType="int">
+	DELETE	FROM PRODUCT_BODY_IMG
+	WHERE	PRD_NUM = #{prdNum}
+</delete>
+  
+</mapper>

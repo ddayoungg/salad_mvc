@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" info=" "%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    pageEncoding="UTF-8" info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +13,13 @@
         <title>Dashboard - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="./resources/mng_css/styles.css" rel="stylesheet" />
+        <!-- jQuery google CDN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		
         <style type="text/css"> 
         
         .tableMainBtn{
@@ -46,6 +54,67 @@
 		}
         </style>
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        
+        <!-- 소현 -->
+        <script type="text/javascript">
+        
+        	$(function () {
+        		
+				pagenation();
+				
+				$(".detailBtn").on("click", function (element) {
+					var orderNum = $(element).find().val();
+					location.href="/manager/order/mng_order_detail.do?orderNum="+orderNum;
+				})//detailBtn
+				
+			})//ready
+
+			<%-- function pagenation() {
+				var pagenationHTML = ``;
+				<% 
+				// total_page
+				int totalPage = (int)Math.ceil((double)reviewList.size()/10);
+				System.out.println("totalPage : "+totalPage);
+				
+				// page
+				String nowPage = request.getParameter("nowPage");
+				System.out.println("nowPage : "+nowPage);
+				if(nowPage==null){
+					nowPage = "1";
+					System.out.println("nowPage : "+nowPage);
+				}
+				
+				// page_group
+				int pageGroup=(int)Math.ceil(Double.valueOf(nowPage)/10);
+				System.out.println("pageGroup : "+pageGroup);
+				
+				// last
+				int lastIdx = Integer.valueOf(nowPage)*10;
+				System.out.println("lastIdx : "+lastIdx);
+				
+				// first
+				int firstIdx = lastIdx-9;
+				System.out.println("firstIdx : "+firstIdx);%>
+				
+				// first~last 페이지 프린트
+				pagenationHTML += 
+					`<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+				    </li>`;
+				<%for(int i=1; i<=totalPage; i++){%>
+					pagenationHTML += 
+					`<li class="page-item"><a class="page-link" href="user_review.jsp?nowPage=<%=i%>"><%=i%></a></li>`;
+				<%}%>
+				pagenationHTML += 
+					`<li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>`;
+				document.querySelector(".pagination").innerHTML = pagenationHTML;
+			} --%>
+			
+        </script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -129,116 +198,87 @@
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
-                        </div>
-                        <div class="row" style="--bs-gutter-x:0;">
-                       			<!-- 내역 -->
-                        		<div style="width:100%; display:flex; justify-content:center;
-                        		 font-size:16px; font-weight:bold; padding:10px 0 20px 0; ">
-		                        		<div style="width:150px; margin:0 100px 0 0;">
-		                        		오늘_내역
-		                        		</div>
-		                        		<div style="width:150px;">
-		                        		이번달_내역
-		                        		</div>
+                    </div>
+                      <div class="row" style="--bs-gutter-x:0;">
+                     			<!-- 내역 -->
+                      		<div style="width:100%; display:flex; justify-content:center;
+                      		 font-size:16px; font-weight:bold; padding:10px 0 20px 0; ">
+                        		<div style="width:150px; margin:0 100px 0 0;">
+                        		오늘_내역
                         		</div>
-                        		<!-- 건수 -->
-                       		 	<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
-		                        	<div style="margin:0 100px 0 0;">
-		                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
-		                        	border-radius:35px; ">
-		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
-				                        	<div style=" color:white; font-weight:bold; font-size:20px; ">
-				                        	주문건수
-				                        	</div>
-				                        	<div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;">50</span>건
-				                        	</div>
-			                        	</div>
+                        		<div style="width:150px;">
+                        		이번달_내역
+                        		</div>
+                      		</div>
+                      		<!-- 내역 끝 -->
+                      		<!-- 건수 -->
+                     		<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
+                        	<div style="margin:0 100px 0 0;">
+                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
+                        	border-radius:35px; ">
+                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
+		                        	<div style=" color:white; font-weight:bold; font-size:20px; ">
+		                        	주문건수
 		                        	</div>
+		                        	<div style="color:white; font-weight:bold; font-size:20px;">
+		                        	<span style="font-size:30px;">50</span>건
 		                        	</div>
-		                        	
-		                        	<div style="background:rgb(186,212,206); width:150px; height:155px;
-		                        	border-radius:35px;">
-		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
-				                        	<div style=" color:white; font-weight:bold; font-size:20px;">
-				                        	주문건수
-				                        	</div>
-				                        	<div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;">50</span>건
-				                        	</div>
-			                        	</div>
+	                        	</div>
+                        	</div>
+                        	</div>
+                        	
+                        	<div style="background:rgb(186,212,206); width:150px; height:155px;
+                        	border-radius:35px;">
+                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
+		                        	<div style=" color:white; font-weight:bold; font-size:20px;">
+		                        	주문건수
 		                        	</div>
-                       		 </div>
-                       		 <!-- 건수 끝  -->
-                       	</div>
+		                        	<div style="color:white; font-weight:bold; font-size:20px;">
+		                        	<span style="font-size:30px;">50</span>건
+		                        	</div>
+	                        	</div>
+                        	</div>
+                     	</div>
+                     	<!-- 건수 끝  -->
+                    </div>
 					<div class="row px-4"  style="--bs-gutter-x:0;">
 						<div style="width: 80%; margin: 10px auto; text-align: center;">
-						<form name="category_frm" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-							<select name="main" id="mai"  style="width: 16%">
-								<option value="none">---카테고리 선택---</option>
-								<option>정기배송</option>
-		               			<option>샐러드</option>
-		               			<option>간편식</option>
-		               			<option>닭가슴살&amp;간식</option>
-		               			<option>식단세트</option>
-							</select>
-							<select name="sub" id="sub" style="width: 16%">
-								<option value="none">---카테고리 선택---</option>
-								<option>데일리 샐러드</option>
-		               			<option>테이스티 샐러드</option>
-		               			<option>파우치 샐러드</option>
-		               			<option>맛보기 세트</option>
-							</select>
-							<input type="text" name="searchText" id="searchText" style="width: 50%">
-							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn">
+						<form name="category_frm" style="display: flex; justify-content: end; margin-bottom: 10px;">
+							<input type="text" name="searchText" id="searchText" style="width: 200px;">
+							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn" style="margin-left:5px; width: 100px;">
 						</form>
 						</div>	
-		            <div style="width: 80%; margin: 10px auto; text-align: center;">
-               		<table class="table">
-					  <thead class="table-light" style="height: 50px;">
-						<tr>
-							<th>주문번호</th>
-							<th>주문자</th>
-							<th>주문 일자</th>
-							<th>총 주문 가격</th>
-							<th>상세 정보</th>
-							<th>주문 현황</th>
-						</tr>
-					  </thead>
-					  <tbody>
-					  	<!-- 카테고리 검색 전 표시되는 테이블  -->
-						<!-- <tr>
-						 	<td colspan="6" style="border-bottom:none;"><img alt="img" src="./resources/mng_images/list-man.png" style="width:100px; margin:20px 0 0 0;"></td>
-						 	</tr>
-						 	<tr height="80px">
-						 	<td colspan="6"style="border-top:none; font-weight:bold;">상위&amp;하위 카테고리명을 입력해주세요.</td>
-					 	</tr> -->
-					 	<!-- 카테고리 검색 전 표시되는 테이블 끝 -->
-					 	
-					  	<!-- 카테고리 검색 후 표시되는 테이블 -->
-						 <tr>
-							<td style="color:rgb(22,160,133);">202210260025</td>
-							<td>김도희</td>
-							<td>2022-10-26</td>
-							<td>3,800원</td>
-							<td><button type="button" class="btn btn-light btn-sm tableMainBtn" 
-							onclick="location.href='mng_detail_order.do'">상세보기</button></td>
-							<td>주문 접수</td>
-						</tr>
-						<tr>
-							<td style="color:rgb(22,160,133);">202210260024</td>
-							<td>한효주</td>
-							<td>2022-10-26</td>
-							<td>5,700원</td>
-							<td><button type="button" class="btn btn-light btn-sm tableMainBtn" 
-							onclick="location.href='mng_detail_order.do'">상세보기</button></td>
-							<td>취소 확정</td>
-						</tr> 
-						<!-- 카테고리 검색 후 표시되는 테이블 끝 -->
-					  </tbody>
-					</table>
-               	</div>
-			</div> <!--표 끝  -->    
+		            	<div style="width: 80%; margin: 10px auto; text-align: center;">
+               				<table class="table">
+					  			<thead class="table-light" style="height: 50px;">
+									<tr>
+										<th>주문번호</th>
+										<th>주문자</th>
+										<th>주문 일자</th>
+										<th>총 주문 가격</th>
+										<th>주문 현황</th>
+										<th>상세 정보</th>
+									</tr>
+					  			</thead>
+					  			
+					  			<tbody>
+					  			<c:forEach var="order" items="${ orderList }">
+						 		<tr>
+									<td><c:out value="${ order.orderNum }"/></td>
+									<td><c:out value="${ order.name }"/></td>
+									<td><fmt:formatDate value="${ order.orderDate }" pattern="yyyy-MM-dd"/></td>
+									<td><c:out value="${ order.orderTotalPrice }"/>원</td>
+									<td>주문 접수</td>
+									<td><button type="button" class="btn btn-light btn-sm tableMainBtn" onclick="location.href='mng_order_detail.do?orderNum=${order.orderNum}&existAddrFlag=${order.existAddrFlag}'">상세보기</button></td>
+								</tr>
+								</c:forEach>
+					  			</tbody>소현
+							</table>
+							<!-- 페이징 -->
+							<input type="hidden" value="${ orderList.size() }" class="orderListSize">
+							
+               			</div>
+					</div> <!--표 끝  -->    
                 </main>
                 <div>
 	               	<nav aria-label="Page navigation example" style="display: flex; justify-content: center; margin: 40px 0px;" >
@@ -294,32 +334,32 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="./resources/mng_js/datatables-simple-demo.js"></script>
         <script>
-    var Target = document.getElementById("clock");
-    function clock() {
-        var time = new Date();
-
-        var year = time.getFullYear();
-        var month = time.getMonth();
-        var date = time.getDate();
-        var day = time.getDay();
-        var week = ['일', '월', '화', '수', '목', '금', '토'];
-
-        var hours = time.getHours();
-        var minutes = time.getMinutes();
-        var seconds = time.getSeconds();
-        var AmPm = "AM";
-        if(hours > 12){
-            var AmPm = "PM";
-            hours %= 12;
-        }
-
-        Target.innerText =
-        	`\${year}-\${month + 1}-\${date} \${week[day]}요일 ` +
-            `\${hours < 10 ? `0\${hours}` : hours}:\${minutes < 10 ? `0\${minutes}` : minutes}` + `\${AmPm}`;
-            
-    }
-    clock();
-    setInterval(clock, 1000); // 1초마다 실행
-</script>
+		    var Target = document.getElementById("clock");
+		    function clock() {
+		        var time = new Date();
+		
+		        var year = time.getFullYear();
+		        var month = time.getMonth();
+		        var date = time.getDate();
+		        var day = time.getDay();
+		        var week = ['일', '월', '화', '수', '목', '금', '토'];
+		
+		        var hours = time.getHours();
+		        var minutes = time.getMinutes();
+		        var seconds = time.getSeconds();
+		        var AmPm = "AM";
+		        if(hours > 12){
+		            var AmPm = "PM";
+		            hours %= 12;
+		        }
+		
+		        Target.innerText =
+		        	`\${year}-\${month + 1}-\${date} \${week[day]}요일 ` +
+		            `\${hours < 10 ? `0\${hours}` : hours}:\${minutes < 10 ? `0\${minutes}` : minutes}` + `\${AmPm}`;
+		            
+		    }
+		    clock();
+		    setInterval(clock, 1000); // 1초마다 실행
+		</script>
     </body>
 </html>

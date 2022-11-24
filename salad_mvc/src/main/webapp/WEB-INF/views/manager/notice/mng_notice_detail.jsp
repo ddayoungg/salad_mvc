@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -39,68 +39,108 @@
 	}
 	
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	$("#delNoti").click(function(){ //ì‚­ì œë²„íŠ¼ í´ë¦­ì‹œ
+		location.href="mng_notice_remove_process.do?notiNum="+$("#notiNum").val();
+	});
+	
+	$("#modiFormNoti").click(function(){ //ìˆ˜ì •ë²„íŠ¼ í´ë¦­ì‹œ ìˆ˜ì •í¼ìœ¼ë¡œ ë³€ê²½
+		$("#modiFormNoti").hide();
+		$("#modiNoti").css("display","inline-block");
+		$("#notiCont").attr("readonly", false);
+		$("#notiCont").css("background-color","#EFF1F3");
+		$("#notiTitle").attr("readonly", false);
+		$("#notiTitle").css("background-color","#EFF1F3");
+	});
+	$("#modiNoti").click(function(){ //ìˆ˜ì •ì™„ë£Œë²„íŠ¼ í´ë¦­ì‹œ
+		var notiTitle=$("#notiTitle").val();
+		var notiCont=$("#notiCont").val();
+		if(notiTitle.trim()=="" || notiTitle==""){
+			alert("ì œëª©ì€ í•„ìˆ˜ ì…ë ¥ì…ë‹ˆë‹¤.");
+			$("#notiTitle").val("");
+			$("#notiTitle").focus();
+			return false;
+		}
+		
+		if(notiCont.trim()=="" || notiCont==""){
+			alert("ë‚´ìš©ì€ í•„ìˆ˜ ì…ë ¥ì…ë‹ˆë‹¤.");
+			$("#notiCont").val("");
+			$("#notiCont").focus();
+			return false;
+		}
+		$("#notiFrm").submit();
+	});
+	$("#mainNoti").click(function(){ //ëª©ë¡ë²„íŠ¼ í´ë¦­ì‹œ
+		location.href="mng_notice.do";
+	});
+	
+})
+</script>
     </head>
     
     <body class="sb-nav-fixed">
- <!-- »ó´Ü ¿ìÃø ³×ºñ --> 
+ <!-- ìƒë‹¨ ìš°ì¸¡ ë„¤ë¹„ --> 
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="index.html"><img alt="img" src="./resources/mng_images/saladLogo.png" height="50px"></a>
-            <div class="ms-auto" style="color:white;">3Á¶ °ü¸®ÀÚ´Ô, ¾î¼­¿À¼¼¿ä.&nbsp;&nbsp;</div>
+            href="index.html"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+            <div class="ms-auto" style="color:white;">3ì¡° ê´€ë¦¬ìë‹˜, ì–´ì„œì˜¤ì„¸ìš”.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
         </nav>
         
         <div id="layoutSidenav">
-<!-- ÁÂÃø ¸ŞÀÎ ³×ºñ --> 
+<!-- ì¢Œì¸¡ ë©”ì¸ ë„¤ë¹„ --> 
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">¸ŞÀÎ</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -´ë½Ãº¸µå
+                            <div class="sb-sidenav-menu-heading">ë©”ì¸</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
+                                -ëŒ€ì‹œë³´ë“œ
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
                             style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="#">È¸¿ø °ü¸®</a></div>
+                            href="mng_member.do">íšŒì› ê´€ë¦¬</a></div>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">»óÇ° °ü¸®</div>
-                            <a class="nav-link" href="index.html">
-                                -»óÇ° µî·Ï
+                            <div class="sb-sidenav-menu-heading">ìƒí’ˆ ê´€ë¦¬</div>
+                            <a class="nav-link" href="mng_prd.do">
+                                -ìƒí’ˆ ë“±ë¡
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
-                                -»óÇ° ÈÄ±â
-                            </a>
-                            <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">ÁÖ¹® °ü¸®</div>
-                            <a class="nav-link" href="index.html">
-                                -ÁÖ¹® °ü¸®
-                            </a>
-                            <a class="nav-link" style="padding-top:0;"href="index.html">
-                                -Ãë¼Ò °ü¸®
-                            </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
-                                -¹è¼Û °ü¸®
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
+                                -ìƒí’ˆ í›„ê¸°
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">°Ô½ÃÆÇ °ü¸®</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -°øÁö»çÇ×
+                            <div class="sb-sidenav-menu-heading">ì£¼ë¬¸ ê´€ë¦¬</div>
+                            <a class="nav-link" href="mng_order_main.do">
+                                -ì£¼ë¬¸ ê´€ë¦¬
+                            </a>
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
+                                -ì·¨ì†Œ ê´€ë¦¬
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
+                                -ë°°ì†¡ ê´€ë¦¬
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">¹®ÀÇ °ü¸®</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -»óÇ°¹®ÀÇ
+                            <div class="sb-sidenav-menu-heading">ê²Œì‹œíŒ ê´€ë¦¬</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
+                                -ê³µì§€ì‚¬í•­
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">ë¬¸ì˜ ê´€ë¦¬</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
+                                -ìƒí’ˆë¬¸ì˜
                             </a>
                         </div>
                     </div>
@@ -110,7 +150,7 @@
             
             <div id="layoutSidenav_content">
                 <main>
-<!-- º»¹®»ó´Ü -->          
+<!-- ë³¸ë¬¸ìƒë‹¨ -->          
                     <div class="container-fluid px-4">
                     	<div style="display:flex; justify-content:space-between; flex-direction:row;
                     	padding:20px 0 30px 0;">
@@ -118,18 +158,19 @@
 	                        <h1 id="clock" class="mt-4" 
 	                        style="font-size:20px; color:rgb(94,94,94); font-weight:bold;">clock</h1>
 	                        <div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">
-	                        È¯¿µÇÕ´Ï´Ù! 3Á¶ °ü¸®ÀÚ´Ô.
+	                        í™˜ì˜í•©ë‹ˆë‹¤! 3ì¡° ê´€ë¦¬ìë‹˜.
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="./resources/mng_images/socialMedia.png" width="130px">
+	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
                         </div>
 				
+				<form id="notiFrm" action="mng_notice_edit_process.do" method="post">
                  <div class="card-body">
- <!-- º»¹® ¸®½ºÆ® ½ÃÀÛ -->           
+ <!-- ë³¸ë¬¸ ë¦¬ìŠ¤íŠ¸ ì‹œì‘ -->           
             		<table style="border-spacing: 0px; width: 90%; margin-left: 85px; margin-bottom: 20px; font-size:18px;">
 					<colgroup>
 						<col style="width: 100px;">
@@ -137,73 +178,71 @@
 					</colgroup>
 					<tbody >
 						<tr style="border-top: 1px solid; height: 60px;">
-							<th >¹øÈ£</th>
+							<th >ë²ˆí˜¸</th>
 							<td>
-								<text style="border: 0px; width: 100%; height: 40px;">
-								10
+								<input type="text" style="border: 0px; width: 100%; height: 40px;" id="notiNum" 
+								name="notiNum" readonly="readonly" value="${notiNum }">
+							</td>
+							<th style="text-align: revert;">
+										ì¡°íšŒìˆ˜
+							</th>
+							<td>
+								<input type="text" value="${notiHits}" readonly=â€œreadonlyâ€ style="border: 0px; width: 100px; height: 40px;text-align: left;"
+								id="revHits" name="revHits">
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; height: 60px;">
-							<th>Á¦¸ñ</th>
-							<td>
-								<text style="border: 0px; width: 100%; height: 40px;">
-								´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã
+							<th>ì œëª©</th>
+							<td colspan="3">
+								<input type="text" style="border: 0px; width: 100%; height: 40px;" 
+								readonly="readonly" value="${notiTitle}" id="notiTitle" name="notiTitle">
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; height: 60px;">
-							<th>ÀÛ¼ºÀÚ</th>
-							<td>
-								<text style="border: 0px; width: 100%; height: 40px;">
-							°ü¸®ÀÚ
+							<th>ì‘ì„±ì</th>
+							<td colspan="3"> 
+								<input type="text" style="border: 0px; width: 100%; height: 40px;" value="ê´€ë¦¬ì"  readonly="readonly">
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; border-bottom: 1px solid; height: 300px;">
-							<th>³»¿ë</th>
-							<td>
-								<text style="border: 0px; width: 100%; height: 200px;">
-¾È³çÇÏ¼¼¿ä. »ø·¯µåÀÔ´Ï´Ù.</br>
-´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾(°¥ºñ¸À / ¾ç³äÄ¡Å²¸À / Ä¿¸®¸À) »óÇ°ÀÌ ¸®´º¾óµÇ¾î Ãâ½ÃµÇ¾ú½À´Ï´Ù.</br>
-ÀÌÀü Á¦Ç° ´ëºñ ³ªÆ®·ıÀº ÁÙÀÌ°í, ´õ µÎÅÓ°í ÅåÅåÇÏ°í ºÎµå·¯¿î ½Ä°¨ÀÇ ´ß°¡½¿»ì ½½¶óÀÌ½º¸¦ ¸¸³ªº¸½Ç ¼ö ÀÖ½À´Ï´Ù.</br>
-´Ü¹éÁú º¸Ãæ ¹× µçµçÇÑ ½Ä´Ü °ü¸®¿¡ µµ¿òÀÌ µÉ ½Ä´ÜÅÛÀÌ µÇ¾úÀ¸¸é ÁÁ°Ú¾î¿ä. </br>
-¿À´Ãµµ °Ç°­ÇÏ°í ¸ÀÀÖ´Â ÇÑ³¢ µÇ¼¼¿ä.</br>
-»ø·¯µå
-								</text>
+							<th>ë‚´ìš©</th>
+							<td colspan="3">
+								<textarea style="border: 0px; width: 100%; height: 200px;" readonly="readonly"  id="notiCont"  name="notiCont">${notiCont}
+								</textarea>
 							</td>
 						</tr>
 					</tbody>
 				</table>
              </div>
                
-             <div style="display: flex; justify-content: space-between;  width: 90%; margin-left: 85px; margin-bottom: 20px;">
-				<div>
-					<input type="button" value="ÀÌÀü ±Û" class="button">
-					<input type="button" value="´ÙÀ½ ±Û" class="button">
-				</div>
-				<div style="display: flex;">
-					<input type="button" value="»èÁ¦" class="button" >
-					<input type="button" value="¼öÁ¤" class="button">
-					<input type="button" value="¸ñ·Ï" class="button">
+             <div style=" justify-content: space-between;  width: 90%; margin-left: 85px; margin-bottom: 20px;">
+				<div style="text-align: right;"> 
+					<input type="button" value="ì‚­ì œ" class="button" id="delNoti">
+					<input type="button" value="ìˆ˜ì •" class="button" id="modiFormNoti">
+					<input type="button" value="ìˆ˜ì •ì™„ë£Œ" class="button" id="modiNoti" style="display: none;">
+					<input type="button" value="ëª©ë¡" class="button" id="mainNoti">
 				</div>
 			</div>
+			</form>
           </main>
-<!-- º»¹® ³¡ --> 
+<!-- ë³¸ë¬¸ ë --> 
 
-<!-- ÇªÅÍ -->
+<!-- í‘¸í„° -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="align-items-center justify-content-between small">
                             <div class="text-muted">
-                            	<span style="margin: 0 30px 0 0;">È¸»ç¼Ò°³</span>
-                            	<span style="margin: 0 30px 0 0;">ÀÌ¿ë¾à°ü</span>
-                            	<span style="margin: 0 30px 0 0;">°³ÀÎÁ¤º¸Ã³¸®¹æÄ§</span>
-                            	<span>ÀÌ¿ë¾È³»</span>
+                            	<span style="margin: 0 30px 0 0;">íšŒì‚¬ì†Œê°œ</span>
+                            	<span style="margin: 0 30px 0 0;">ì´ìš©ì•½ê´€</span>
+                            	<span style="margin: 0 30px 0 0;">ê°œì¸ì •ë³´ì²˜ë¦¬ë°©ì¹¨</span>
+                            	<span>ì´ìš©ì•ˆë‚´</span>
                             </div>
                             <hr>
                             <div style="display: flex; justify-content: space-between;" >
 	                             <div class="text-muted">
-	                            	<div>¹ıÀÎ¸í(»óÈ£) : ÁÖ½ÄÈ¸»ç »ø·¯µå¿ùµå / ´ëÇ¥ : 3Á¶ / TEL : 0000-0000 / FAX : 02-0000-0000</div>
-	                            	<div>»ç¾÷ÀÚµî·Ï¹øÈ£ : 000-00-00000 / Åë½ÅÆÇ¸Å¾÷½Å°í¹øÈ£ : Á¦ 0000 - ½Ö¿ë3Á¶ - 0000È£</div>
-	                            	<div>ÁÖ¼Ò : ¼­¿ï±¤¿ª½Ã °­³²±¸ Å×Çì¶õ·Î 132 / °³ÀÎÁ¤º¸°ü¸®Ã¥ÀÓÀÚ : 3Á¶ / E-Mail : 3Á¶@0000.co.kr</div>
+	                            	<div>ë²•ì¸ëª…(ìƒí˜¸) : ì£¼ì‹íšŒì‚¬ ìƒëŸ¬ë“œì›”ë“œ / ëŒ€í‘œ : 3ì¡° / TEL : 0000-0000 / FAX : 02-0000-0000</div>
+	                            	<div>ì‚¬ì—…ìë“±ë¡ë²ˆí˜¸ : 000-00-00000 / í†µì‹ íŒë§¤ì—…ì‹ ê³ ë²ˆí˜¸ : ì œ 0000 - ìŒìš©3ì¡° - 0000í˜¸</div>
+	                            	<div>ì£¼ì†Œ : ì„œìš¸ê´‘ì—­ì‹œ ê°•ë‚¨êµ¬ í…Œí—¤ë€ë¡œ 132 / ê°œì¸ì •ë³´ê´€ë¦¬ì±…ì„ì : 3ì¡° / E-Mail : 3ì¡°@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
 	                        		<img alt="img" src="./resources/mng_images/saladLogo.png">
@@ -212,16 +251,21 @@
                         </div>
                     </div>
                 </footer>
-<!-- ÇªÅÍ ³¡ -->
+<!-- í‘¸í„° ë -->
             </div>
         </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+      <script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/js/scripts.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
         <script>
     var Target = document.getElementById("clock");
     function clock() {
@@ -231,7 +275,7 @@
         var month = time.getMonth();
         var date = time.getDate();
         var day = time.getDay();
-        var week = ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'];
+        var week = ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '];
 
         var hours = time.getHours();
         var minutes = time.getMinutes();
@@ -243,12 +287,12 @@
         }
 
         Target.innerText =
-        `\${year}-\${month + 1}-\${date} \${week[day]}¿äÀÏ ` +
+        `\${year}-\${month + 1}-\${date} \${week[day]}ìš”ì¼ ` +
         `\${hours < 10 ? `\${hours}` : hours}:\${minutes < 10 ? `\${minutes}` : minutes}` + `\${AmPm}`;
             
     }
     clock();
-    setInterval(clock, 1000); // 1ÃÊ¸¶´Ù ½ÇÇà
+    setInterval(clock, 1000); // 1ì´ˆë§ˆë‹¤ ì‹¤í–‰
 </script>
     </body>
 </html>

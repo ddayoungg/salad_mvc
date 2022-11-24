@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.dao.mapper.MngOrderMapper">
+	<!-- 주문번호 별 회원 주문 내역 -->
+	<select id="selectOrderList" resultType="kr.co.salad.manager.domain.MngOrderDomain">
+		select po.order_num, m.name, po.order_total_price, po.order_date, po.order_status, po.exist_addr_flag
+		from product_order po, member m
+		where po.id=m.id and po.order_status=0
+		order by po.order_num desc
+	</select>
+	
+	<!-- 주문상세 상품 정보 -->
+	<select id="selectOrderPrd" parameterType="int" resultType="kr.co.salad.manager.domain.MngOrderPrdDomain">
+		select	od.order_cnt, od.order_price, p.thum, p.prd_name, p.prd_price, p.prd_discount
+		from	order_detail od, product p
+		where	od.order_num=#{orderNum} and od.prd_num=p.prd_num
+	</select>
+	
+	<!-- 주문상세 회원정보 -->
+	<select id="selectOrderMember" parameterType="int" resultType="kr.co.salad.manager.domain.MngOrderDomain">
+		select	name, phone, email, zipcode, addr, de_addr, deli_req, order_date, order_num
+		from	member m, product_order po
+		where	po.order_num=#{orderNum} and m.id=po.id
+	</select>
+	
+	<!-- 주문상세 배송정보 -->
+	<select id="selectOrderDeli" parameterType="int" resultType="kr.co.salad.manager.domain.MngOrderDomain">
+		select	deli_zipcode, deli_addr, deli_detail_addr, receiver, deli_phone
+		from	delivery_address
+		where	order_num=#{orderNum}
+	</select>
+	
+</mapper>

@@ -115,7 +115,87 @@
         #footer_wrap {
         }
     </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
 
+$(function(){
+	setNotiList(1);
+});
+
+function setDetail(notiNum){
+	location.href="view.do?notiNum="+notiNum; // 공지사항 상세페이지로 이동
+}
+
+//후기 리스트 넹
+function setNotiList(currentPage){
+	$.ajax({
+		url:"list_ajax.do",
+		data:"currentPage="+currentPage,
+		dataType:"json",
+		error:function(xhr){
+			alert("공지사항 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			
+			/* 페이징 테이블 */
+			$("#NotiListOutput").show();
+			var tbOutput="<table class='board_list_table'>";
+			 tbOutput+="<thead>";
+			 tbOutput+="<tr><th>번호</th><th>제목</th><th>날짜</th><th>작성자</th><th>조회</th></tr>";
+			 tbOutput+="</thead>";
+			 tbOutput+="<tbody>";
+			 if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					tbOutput+="<tr>";
+					tbOutput+="<td>"+json.notiNum+"</td>"; 
+					tbOutput+="<td>"+"<a href='#void' onclick='setDetail("+json.notiNum+")'>"+json.notiTitle+"</td>";
+					tbOutput+="<td>"+json.notiWriteDate+"</td>";
+					tbOutput+="<td>관리자</td>";
+					tbOutput+="<td>"+json.notiHits+"</td>";
+					tbOutput+="</tr>";
+				});//each
+			} else {
+					tbOutput+="<tr><td colspan=5>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+					tbOutput+="</tbody>";
+					tbOutput+="</table>";
+			$("#NotiListOutput").html(tbOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+			pgOutput+="<ul class='pagination'>";
+		if( jsonObj.startPage != 1 ) {
+			pgOutput+="<li class='page-item'>";
+			pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + 1 + ")' tabindex='-1'";
+			pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+		}//end if
+		if( jsonObj.startPage != 1 ) {
+			pgOutput+="<li class='page-item'>";
+			pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+			pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+		}//end if
+		for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+			pgOutput+="<li class='page-item'>"
+			pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + i  + ")'>"+ i +"</a></li>";
+		}//end for
+		if(jsonObj.totalPage != jsonObj.endPage) {
+			pgOutput+="<li class='page-item'>";
+			pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+		}//end if
+		if(jsonObj.totalPage != jsonObj.endPage) {
+			pgOutput+="<li class='page-item'>";
+			pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+		}//end if
+		pgOutput+="</ul></nav>";
+		
+		pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+		
+		$("#pageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setNotiList
+
+</script>
 </head>
 
 <body class="body-board body-list pc"  >
@@ -128,211 +208,13 @@
     </div>
     <div class="board_zone_cont" id="board_content">
         <div class="board_zone_list" align="center">
-            <table class="board_list_table" style="width:100%"">
-                <colgroup>
- <col   style="width:106px">
-                   
-                    <col style="width:auto;">
-<col style="width:106px">
-<col style="width:106px">
-<col style="width:106px;">
-                 
-                    <col style="width:6%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>작성자</th>
-                    <th>조회</th>
-                </tr>
-                </thead>
-                <tbody>
 
-                <tr data-sno="99" data-auth="y" style="height:10px">
-                    <td>
-                        69
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',99 ,'y')" >
-                            <strong>일부 새벽배송 지역 변경 안내</strong>
-                        </a>
-                    </td>
-                    <td> 2022.10.24 </td>
-                    <td> 관리자 </td>
-                    <td> 22 </td>
-                </tr>
-                <tr data-sno="98" data-auth="y" style="height:10px">
-                    <td>
-                        68
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',98 ,'y')" >
-                            <strong>[결제관련이슈] 네이버 페이 결제 이슈 사항 건</strong>
-                        </a>
-                    </td>
-                    <td> 2022.10.19 </td>
-                    <td> 관리자 </td>
-                    <td> 36 </td>
-                </tr>
-                <tr data-sno="97" data-auth="y" style="height:10px">
-                    <td>
-                        67
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',97 ,'y')" >
-                            <strong>닭가슴살 슬라이스 3종 리뉴얼 출시</strong>
-                        </a>
-                    </td>
-                    <td> 2022.10.09 </td>
-                    <td> 관리자 </td>
-                    <td> 50 </td>
-                </tr>
-                <tr data-sno="96" data-auth="y" style="height:10px">
-                    <td>
-                        66
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',96 ,'y')" >
-                            <strong>포켓샐러드 메뉴 가격 인상 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_img.png" alt="이미지첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.10.04 </td>
-                    <td> 관리자 </td>
-                    <td> 277 </td>
-                </tr>
-                <tr data-sno="94" data-auth="y" style="height:10px">
-                    <td>
-                        65
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',94 ,'y')" >
-                            <strong>2022 개천절&한글날 배송 일정 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.09.28 </td>
-                    <td> 관리자 </td>
-                    <td> 224 </td>
-                </tr>
-                <tr data-sno="92" data-auth="y" style="height:10px">
-                    <td>
-                        64
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',92 ,'y')" >
-                            <strong>간편식, 닭가슴살&간식 제품 배송 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.09.14 </td>
-                    <td> 관리자 </td>
-                    <td> 218 </td>
-                </tr>
-                <tr data-sno="91" data-auth="y" style="height:10px">
-                    <td>
-                        63
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',91 ,'y')" >
-                            <strong>정기구독 상품명 변경 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.09.08 </td>
-                    <td> 관리자 </td>
-                    <td> 141 </td>
-                </tr>
-                <tr data-sno="90" data-auth="y" style="height:10px">
-                    <td>
-                        62
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',90 ,'y')" >
-                            <strong>2022 추석 연휴 배송 일정 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.09.02 </td>
-                    <td> 관리자 </td>
-                    <td> 387 </td>
-                </tr>
-                <tr data-sno="89" data-auth="y" style="height:10px">
-                    <td>
-                        61
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',89 ,'y')" >
-                            <strong>2022 8월 휴무 배송 일정 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.08.04 </td>
-                    <td> 관리자 </td>
-                    <td> 656 </td>
-                </tr>
-                <tr data-sno="86" data-auth="y" style="height:10px">
-                    <td>
-                        60
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('notice',86 ,'y')" >
-                            <strong>2022 지방선거일&현충일 배송 일정 안내</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_hot.png" alt="인기글"/>
-                        </a>
-                    </td>
-                    <td> 2022.05.26 </td>
-                    <td> 관리자 </td>
-                    <td> 787 </td>
-                </tr>
-
-                </tbody>
-            </table>
-
-
-            <div class="pagination"><ul><li class="on"><span>1</span></li><li><a href="./list.jsp?page=2&amp;bdId=notice&amp;noheader=y">2</a></li><li><a href="./list.jsp?page=3&amp;bdId=notice&amp;noheader=y">3</a></li><li><a href="./list.jsp?page=4&amp;bdId=notice&amp;noheader=y">4</a></li><li><a href="./list.jsp?page=5&amp;bdId=notice&amp;noheader=y">5</a></li><li><a href="./list.jsp?page=6&amp;bdId=notice&amp;noheader=y">6</a></li><li><a href="./list.jsp?page=7&amp;bdId=notice&amp;noheader=y">7</a></li></ul></div>
-
-            <!-- //pagination -->
-
-            <div class="board_search_box">
-                <form name="frmList" id="frmList" action="list.jsp" method="get">
-                    <input type="hidden" name="bdId" value="notice">
-                    <input type="hidden" name="memNo" value=""/>
-                    <input type="hidden" name="noheader" value="y"/>
-					<input type="hidden" name="mypageFl" value=""/>
-
-                    <select class="chosen-select" name="searchField">
-                        <option value="subject"
- >제목</option>
-                        <option value="contents"
- >내용</option>
-                        <option value="writerNm"
- >작성자</option>
-                    </select>
-
-                    <input type="text" class="text" name="searchWord" value="">
-                    <button class="btn_board_search"><em>검색</em></button>
-                </form>
-            </div>
-            <!-- //board_search_box -->
-
+			<div id="NotiListOutput"></div>
+			<div></div>
+	        <div id="pageOutput"></div>
+            
         </div>
         <!-- //board_zone_list -->
-
-
     </div>
     <!-- //board_zone_cont -->
 </div>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.PrdDetailCartMapper">
+  <select id="selectLastCartNum" resultType="int" >
+		SELECT MAX(CART_NUM) FROM CART
+  </select>
+  
+  <select id="selectCartChk" resultType="int"
+  parameterType="kr.co.salad.user.vo.PrdDetailCartVO">
+		select 	count(*)
+		from	CART
+		where	ID=#{id} AND PRD_NUM=#{prdNum}
+  </select>
+  <insert id="insertCart" parameterType="kr.co.salad.user.vo.PrdDetailCartVO">
+	INSERT INTO CART(CART_NUM, ID, PRD_NUM, CART_PRD_CNT)
+	VALUES((#{cartNum}+1), #{id}, #{prdNum}, #{cartPrdCnt})
+	</insert>
+  <update id="updateCartPrdCnt" parameterType="kr.co.salad.user.vo.PrdDetailCartVO">
+		update 	CART
+		set    	CART_PRD_CNT=CART_PRD_CNT+#{cartPrdCnt}
+		where 	ID=#{id} AND PRD_NUM=#{prdNum}
+</update>
+<delete id="deleteCartWish" parameterType="kr.co.salad.user.vo.PrdDetailCartVO">
+	delete from WISHLIST
+	where ID=#{id} and PRD_NUM=#{prdNum}
+</delete>
+</mapper>

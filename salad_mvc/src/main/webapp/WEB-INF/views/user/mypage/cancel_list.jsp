@@ -70,7 +70,32 @@
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
+
+
+<!-- 검색 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
     
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
+
     <!-- 전체 카테고리 -->
 <script type="text/javascript">
     $(function(){
@@ -82,7 +107,139 @@
     });//ready
     
 </script>
-    
+
+<script type="text/javascript">
+$(function(){
+	setMyTotal();//나의 전체 찜, 후기, 상품문의 건수
+	
+	setCancelList(1);//취소 리스트
+});//ready
+
+function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
+	$.ajax({
+		url:"../user/mypage/my_total_ajax.do",
+		dataType:"json",
+		error:function( request, status, error ){
+			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
+			console.log( "code"+request.status + "\n msg:" + request.responseText+"\n error:"+error);
+		},
+		success : function(jsonObj){
+			$("#totalMyWish").html(jsonObj.totalMyWish);
+			$("#totalMyRev").html(jsonObj.totalMyRev);
+			$("#totalMyQna").html(jsonObj.totalMyQna);
+		}//success
+	});//ajax
+}//setMyTotal
+
+function setCancelList(currentPage){
+	$.ajax({
+		url:"my_cancel_list_ajax.do",
+		data:"currentPage="+currentPage,
+		dataType:"json",
+		error:function( xhr ){
+			alert("취소 목록 리스트를 불러오는데 실패했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			var tbOutput="<table>";
+			tbOutput+="<colgroup>";
+			tbOutput+="<col style='width:15%'>"; <!-- 날짜/주문번호 -->
+			tbOutput+="<col>";					<!-- 상품명 -->
+			tbOutput+="<col style='width:15%'>"; <!-- 상품금액/수량 -->
+			tbOutput+="<col style='width:15%'>"; <!-- 주문상태 -->
+			tbOutput+="<col style='width:15%'>"; <!-- 확인/리뷰 -->
+			tbOutput+="</colgroup>";
+			tbOutput+="<thead>";
+			tbOutput+="<tr>";
+			tbOutput+="<th>날짜/주문번호</th>";
+			tbOutput+="<th>상품명</th>";
+			tbOutput+="<th>상품금액/수량</th>";
+		    tbOutput+="<th>주문상태</th>";
+		    tbOutput+="<th>리뷰</th>";
+		    tbOutput+="</tr>";
+		    tbOutput+="</thead>";
+		    tbOutput+="<tbody>";
+		    if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+				    tbOutput+="<tr data-order-no='2210251644000099' data-order-goodsno='442263' data-order-status='r3' data-order-userhandlesno='8969'>";
+				    tbOutput+="<td rowspan='1' class='order_day_num aaa'>";
+				    tbOutput+="<em>"+json.orderDate+"</em><br/>";
+				    tbOutput+="<a href='http://localhost/salad_mvc/mypage/my_cancel_detail.do?orderNum="+ json.orderNum +"' target='_blank' class='order_num_link'><span>"+json.orderNum+"</span></a>";
+				    tbOutput+="<div class='btn_claim'>";
+				    tbOutput+="</div>";
+				    tbOutput+="</td>";
+				    tbOutput+="<td class='td_left'>";
+				    tbOutput+="<div class='pick_add_cont'>";
+				    tbOutput+="<span class='pick_add_img'>";
+				    tbOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+ json.prdNum +"'><img src='http://localhost/salad_mvc/common/images/product/"+json.thum+"' width='50' class='middle'  /></a>";
+				    tbOutput+="</span>";
+				    tbOutput+="<div class='pick_add_info'>";
+				    tbOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+ json.prdNum +"'><em>"+json.prdName+"</em></a>";
+				    tbOutput+="</div>";
+				    tbOutput+="</div>";
+				    tbOutput+="</td>";
+				    tbOutput+="<td>";
+				    
+				    var price=Math.floor(json.prdPrice-(json.prdPrice/json.prdDiscount));
+					const prdPrice=price.toLocaleString('ko-KR');
+				    
+				    tbOutput+="<strong>"+prdPrice+"원</strong>/ "+json.orderCnt+"개";
+				    tbOutput+="</td>";
+				    tbOutput+="<td>";
+				    tbOutput+="<em>"+json.orderStatus+"</em>";
+				    tbOutput+="<div class='btn_gray_list'>";
+				    tbOutput+="</div>";
+				    tbOutput+="</td>";
+					tbOutput+="<td class='0'>"+json.revFlag+"</td>";
+					tbOutput+="</tr>";
+					
+				});//each
+			} else {
+					tbOutput+="<tr><td colspan=5>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+				tbOutput+="</tbody>";
+				tbOutput+="</table>";
+			
+				$("#cancelListOutput").html(tbOutput);
+				/* 페이징 버튼 */
+				var pgOutput="<nav><ul>";
+				if( jsonObj.startPage != 1 ) {
+					pgOutput+="<li>";
+					pgOutput+="<a href='#void' onclick='setCancelList("+ 1 +")' tabindex='-1'";
+					pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+				}//end if
+				if( jsonObj.startPage != 1 ) {
+					pgOutput+="<li>";
+					pgOutput+="<a href='#void' onclick='setCancelList("+ (jsonObj.startPage-1) +")' tabindex='-1'";
+					pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+				}//end if
+				for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+					if(currentPage==i) {
+						pgOutput+="<li class='on a_none'>";
+					} else {
+						pgOutput+="<li>";
+					}//end else
+					pgOutput+="<a href='#void' onclick='setCancelList("+ i +")'>"+ i +"</a></li>";
+				}//end for
+				if(jsonObj.totalPage != jsonObj.endPage) {
+					pgOutput+="<li>";
+					pgOutput+="<a href='#void' onclick='setCancelList("+ (jsonObj.endPage + 1) +")'>&gt;<!-- > --></a></li>";
+				}//end if
+				if(jsonObj.totalPage != jsonObj.endPage) {
+					pgOutput+="<li>";
+					pgOutput+="<a href='#void' onclick='setCancelList("+ (jsonObj.totalPage) +")'>&gt&gt;<!-- >> --></a></li>";
+				}//end if
+				pgOutput+="</ul></nav>";
+				
+				pgOutput+="<input type='hidden' id='currentPage' value='"+currentPage+"'>";
+				
+				$("#cancelPageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setCancelList
+
+</script>
+
     <script type="text/javascript">
         // 고도몰5 통화정책
         var gdCurrencyDecimal = 0;
@@ -223,75 +380,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 	
 <body id="body" class="body-mypage body-cancel-list pc"  >
-<!-- Channel Plugin Scripts -->
-<script>
-  function parsePureNumber(number) {
-    var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
-    if (ch_pureNumber === "") {
-      return null;
-    }
-    return parseFloat(ch_pureNumber) || 0;
-  }
-  var settings = {
-    // action banner z index is 199997 ~ 199998
-    "zIndex": 100000,
-    "pluginKey": "ad67ea36-ae1a-452d-9419-cc8a83a650a3"
-  };
-  settings.memberId = "ekdud3674";
-  settings.profile = {
-    "name": "홍다영",
-    "mobileNumber": "010-8258-3674",
-    "email": "ekdanabab@naver.com",
-    "cartCount": parsePureNumber("1"),
-    "totalPurchaseCount": parsePureNumber("1"),
-    "totalPurchaseAmount": parsePureNumber("6,400원"),
-    "groupName": "포켓탐색 Lv.1",
-    "isAdult": "n",
-    "availableMileage": parsePureNumber("34원"),
-    "totalDeposit": parsePureNumber("0")
-  };
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  if (settings && settings.memberId && settings.memberId.indexOf('=gSess.memId') >= 0) {
-    console.error('You do not using godomall 5. please visit https://developers.channel.io/docs/guide-for-famous-builders and find correct one');
-  } else {
-    ChannelIO('boot', settings);
-  }
-</script>
-<!-- End Channel Plugin -->
 
 	<div class="top_area"></div>
 <div id="wrap" >
@@ -322,7 +410,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../main/index.jsp" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="http://localhost/salad_mvc/index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -330,94 +418,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="header_search">
 				<div class="header_search_cont">
 
-					<!-- 검색 폼 -->
-					<div class="top_search">
-    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
+<!-- 검색 폼 -->
+	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
-                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
-                <!-- //top_text_cont -->
-                <div class="search_cont" style="display:none;">
-                    <input type="hidden" name="recentCount" value="5" />
-
-                    <script type="text/javascript">
-    $(function(){
-
-        /* 상단 검색 */
-        $('.top_search_cont input[name="keyword"]').on({
-            'focus':function(){
-                $(this).parents().find('.search_cont').show();
-            },
-            'blur':function(){
-                $('body').click(function(e){
-                    if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
-                        $(this).parents().find('.search_cont').hide();
-                    }
-                });
-                $('.btn_top_search_close').click(function(){
-                    $(this).parents().find('.search_cont').hide();
-                });
-            }
-        });
-
-        if($("input[name=recentCount]").val() > 0) {
-            $('.js_recom_box').removeClass('recom_box_only').addClass('recom_box');
-        }else{
-            $('.js_recom_box').removeClass('recom_box').addClass('recom_box_only');
-        }
-
-    });
-</script>
-<div class="js_recom_box " style="display:none;">
-    <dl>
-        <dt>추천상품</dt>
-        <dd>
-            <div class="recom_item_cont">
-                <!-- //recom_icon_box -->
-                <div class="recom_tit_box">
-                    <a href="../goods/goods_view.jsp?goodsNo=">
-                    </a>
-                </div>
-                <!-- //recom_tit_box -->
-                <div class="recom_money_box">
-                </div>
-                <!-- //recom_money_box -->
-                <div class="recom_number_box">
-                </div>
-                <!-- //recom_number_box -->
-            </div>
-            <!-- //recom_item_cont -->
-        </dd>
-    </dl>
-</div>
-
-                    <!-- //recom_box -->
-
-                    <div class="recent_box">
-                        <dl class="js_recent_area">
-                            <dt>최근검색어</dt>
-                            <dd>최근 검색어가 없습니다.</dd>
-                        </dl>
-                    </div>
-                    <!-- //recent_box -->
-                    <div class="seach_top_all">
-                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
-                    </div>
-                    <!-- //seach_top_all -->
-
-                </div>
-                <!-- //search_cont -->
-            </div>
-            <!-- //top_search_cont -->
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
         </fieldset>
-    </form>
-</div>
-<!-- //top_search -->
-					<!-- 검색 폼 -->
+	</div>
+			<!-- //top_search -->
+<!-- 검색 폼 -->
 
 				</div>
 				<!-- //header_search_cont -->
@@ -425,32 +441,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<!-- //header_search -->
 
 			<div class="top_member_box">
-
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">홍다영(포켓탐색 Lv.1)님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="../member/logout.jsp?returnUrl=">로그아웃</a></li>
-					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
+					<c:choose>
+						<c:when test="${ sessionScope.userId ne null }">
+							<li><a href="http://localhost/salad_mvc/login.do">로그인</a></li>
+							<li><a href="http://localhost/salad_mvc/join.do">회원가입</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
+							<li><a href="http://localhost/salad_mvc/logout_process.do">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
+								<li><a href="http://localhost/salad_mvc/prd_rev_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
-
-
 					</li>
-
 				</ul>
 				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
-
-                      <strong><b><a href="../order/cart.jsp">1</a></b></strong>
-
+					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
                     </li>
 
 				</ul>
@@ -472,70 +486,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -543,87 +510,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
@@ -689,41 +583,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <ul class="sub_menu_mypage">
         <li>쇼핑정보
             <ul class="sub_depth1">
-                <li><a href="../mypage/order_list.jsp">- 주문목록/배송조회</a></li>
-                <li><a href="../mypage/cancel_list.jsp">- 취소/반품/교환 내역</a></li>
-                <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li>
-                <li><a href="../mypage/wish_list.jsp">- 찜리스트</a></li>
-            </ul>
-        </li>
-        <li>혜택관리
-            <ul class="sub_depth1">
-                <li><a href="../mypage/coupon.jsp">- 쿠폰</a></li>
-	
-                <li><a href="../mypage/mileage.jsp">- 적립금</a></li>
-            </ul>
-        </li>
-        <li>고객센터
-            <ul class="sub_depth1">
-				<li><a href="../service/notice.jsp">- 공지사항</a></li>
-				<li><a href="../mypage/mypage_qa.jsp">- 1:1문의</a></li>
-				<li><a href="../service/faq.jsp">- FAQ</a></li>
+                <li><a href="http://localhost/salad_mvc/my_order_list.do">- 주문목록/배송조회</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
         <li>회원정보
             <ul class="sub_depth1">
-                <li><a href="../mypage/my_page_password.jsp">- 회원정보 변경</a></li>
-				<li><a href="../mypage/shipping.jsp">- 배송지 관리</a></li>
-                <li><a href="../mypage/hack_out.jsp">- 회원 탈퇴</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/my_change_index.do">- 회원정보 변경</a></li>
+				<li><a href="http://localhost/salad_mvc/mypage_deli.do">- 배송지 관리</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_out_form">- 회원 탈퇴</a></li>
             </ul>
         </li>
         <li>나의 상품문의
             <ul class="sub_depth1">
-                <li><a href="../mypage/mypage_goods_qa.jsp">- 나의 상품문의</a></li>
-            </ul>
-        </li>
-        <li>나의 상품후기
-            <ul class="sub_depth1">
-                <li><a href="../mypage/mypage_goods_review.jsp">- 나의 상품후기</a></li>
+                <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
             </ul>
         </li>
     </ul>
@@ -740,255 +614,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="mypage_cont">
 
         <!-- 마이페이지 회원 요약정보 -->
-        <div class="mypage_top_info">
-    <div class="mypage_top_txt">
-        <div class="grade_txt">
-            <p>홍다영님의</p><p> 회원등급은 <span>포켓탐색 Lv.1등급</span> 입니다.
-            <div class="btn_layer">
-                <span class="btn_gray_list"><a href="#lyGrade" class="btn_gray_small"><em>등급혜택보기</em></a></span>
-
-                <!-- N : 회원등급혜택 레이어 시작 -->
-                <div id="lyGrade" class="layer_area" style="display:none;">
-                    <div class="ly_wrap grade_layer">
-                        <div class="ly_tit">
-                            <strong>등급혜택 안내</strong>
-                        </div>
-                        <div class="ly_cont">
-                            <div class="grade_list">
-                                <dl>
-                                    <dt>회원 등급</dt>
-                                    <dd>포켓탐색 Lv.1등급</dd>
-                                </dl>
-                                <!--<dl>
-                                    <dt>추가 할인</dt>
-                                    <dd><strong>0원이상 구매시 상품 판매금액의 0.0% 추가 할인</strong></dd>
-                                </dl>
-                                <dl>
-                                    <dt>중복 할인</dt>
-                                    <dd><strong>0원이상 구매시 상품 판매금액의 0.0% 추가 할인</strong></dd>
-                                </dl>-->
-                                <dl>
-                                    <dt>추가  적립</dt>
-                                    <dd><!--0원이상 구매 시--> 구매금액당 1.0% 추가 적립</dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <!-- //ly_cont -->
-                        <a href="#lyGrade" class="ly_close"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/layer/btn_layer_close.png" alt="닫기"></a>
-                    </div>
-                    <!-- //ly_wrap -->
-                </div>
-                <!-- N : 회원등급혜택 레이어 끝 -->
-
-            </div>
-        </div>
-        <!-- //grade_txt -->
-    </div>
-    <!-- //mypage_top_txt -->
-
-    <div class="mypage_top_wallet">
-        <ul>
-            <li>
-                <span><em>적립금</em><a href="../mypage/mileage.jsp"><strong>34</strong></a>원</span>
-            </li>
-            <li>
-                <span><em>쿠폰</em><a href="../mypage/coupon.jsp"><strong>9</strong></a>장</span>
-            </li>
-            <li>
-				<span><em>찜하기</em><a href="../mypage/wish_list.jsp"><strong>3</strong>개</a></span>
-            </li>
-        </ul>
-    </div>
-    <!-- //mypage_top_wallet -->
-
-</div>
-<!-- //mypage_top_info -->
-
-        <!-- 마이페이지 회원 요약정보 -->
-
+		    <div class="mypage_top_info">
+		    <div class="mypage_top_txt">
+		        <div class="grade_txt">
+		            <p>김도희님의</p><p> 마이페이지입니다.</p>
+		            <div class="btn_layer">
+		
+		            </div>
+		        </div>
+		        <!-- //grade_txt -->
+		    </div>
+		    <!-- //mypage_top_txt -->
+		
+		    <div class="mypage_top_wallet">
+		        <ul>
+		            <li>
+		                <span><em>찜하기</em><strong><span id="totalMyWish"></span></strong></span>
+		            </li>
+		            <li>
+		                <span><em>나의 상품문의</em><strong><span id="totalMyQna"></span></strong></span>
+		            </li>
+		            <li>
+						<span><em>나의 상품후기</em><strong><span id="totalMyRev"></span></strong></span>
+		            </li>
+		        </ul>
+		    </div>
+		    <!-- //mypage_top_wallet -->
+		
+		</div>
         <div class="mypage_lately_info">
-            <div class="mypage_zone_tit">
-                <h3>주문취소/반품/교환<strong class="myp-count-numtxt">1</strong>건</h3>
-            </div>
-
-            <div class="date_check_box">
-                <form method="get" name="frmDateSearch">
-                    <input type="hidden" name="mode" value="cancel">
-                    <h3> 조회기간 </h3>
-                    <div class="date_check_list" data-target-name="wDate[]">
-                        <button type="button" data-value="0">오늘</button>
-                        <button type="button" data-value="7">7일</button>
-                        <button type="button" data-value="15">15일</button>
-                        <button type="button" data-value="30">1개월</button>
-                        <button type="button" data-value="90">3개월</button>
-                        <button type="button" data-value="365">1년</button>
-                    </div>
-                    <!-- //date_check_list -->
-                    <div class="date_check_calendar">
-                        <input type="text" id="picker2" name="wDate[]" class="anniversary js_datepicker" value="2022-10-20"> ~ <input type="text" name="wDate[]" class="anniversary js_datepicker" value="2022-10-27">
-                    </div>
-                    <!-- //date_check_calendar -->
-
-                    <button type="submit" class="btn_date_check"><em>조회</em></button>
-                </form>
-
-            </div>
-            <!-- //date_check_box -->
-
             <div class="mypage_lately_info_cont">
-                <div class="mypage_breakdown_tab">
-                    <ul>
-                        <li ><a href="./cancel_list.jsp?mode=cancelRequest"><span>취소/반품/교환 신청 내역</span></a></li>
-                        <li class="on"><a href="./cancel_list.jsp?mode=cancel"><span>취소/반품/교환 처리 현황</span></a></li>
-                    </ul>
-                </div>
-                <!-- //mypage_breakdown_tab -->
-                <!-- 주문상품 리스트 -->
-                <div class="mypage_table_type">
-    <table>
-        <colgroup>
-            <col style="width:15%"> <!-- 날짜/주문번호 -->
-            <col>					<!-- 상품명/옵션 -->
-            <col style="width:15%"> <!-- 상품금액/수량 -->
-            <col style="width:15%"> <!-- 주문상태 -->
-            <col style="width:15%"> <!-- 확인/리뷰 -->
-        </colgroup>
-        <thead>
-        <tr>
-            <th>날짜/주문번호</th>
-            <th>상품명/옵션</th>
-            <th>상품금액/수량</th>
-            <th>주문상태</th>
-            <th>
-                리뷰
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-
-
-
-
-
-
-<tr data-order-no="2210251644000099" data-order-goodsno="442263" data-order-status="r3" data-order-userhandlesno="8969">
-
-        <td rowspan="1" class="order_day_num aaa">
-            <em>2022/10/25</em>
-            <a href="../mypage/order_view.jsp?orderNo=2210251644000099" target="_blank" class="order_num_link"><span>2210251644000099</span></a>
-            <div class="btn_claim">
-            </div>
-
-            <!-- 개발 마이페이지 메인 & 주문목록/베송조회에 재구매 버튼 넣음 분기처리해야할 것 같음 -->
-			<div class="button"><a class="skinbtn point2  btn_review_write reorder-btn-nw" href="javascript:go_reOrder(2210251644000099)"><em>재구매</em></a></div>  
-            <!-- 개발 마이페이지 메인 & 주문목록/베송조회에 재구매 버튼 넣음 분기처리해야할 것 같음 -->
-        </td>
-
-<!-- 1 -->
-
-    <!--{ //? ..orderGoodsListStart == 'y' }-->
-    <!--{// / }-->
-
-    <!-- <input type="checkbox" name="orderGoodsNo[]" value="442263" id="goodsno_442263" data-order-status="r3" data-list-start=""/> -->
-    <!--{ // 구버전 정기배송의 옵션 계산용 }-->
-
-
-
-
-    <td class="td_left">
-        <div class="pick_add_cont">
-            <span class="pick_add_img">
-				<a href="../goods/goods_view.jsp?goodsNo=68"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_list_08.jpg" width="50" alt="[새벽배송]닭가슴살 샐러드" title="[새벽배송]닭가슴살 샐러드" class="middle"  /></a>
-                
-            </span>
-            <div class="pick_add_info">
-
-					<a href="../goods/goods_view.jsp?goodsNo=68"><em><!-- [ 새벽배송 ] --> [새벽배송]닭가슴살 샐러드</em></a>
-                
-
-
-				<!-- 20210315 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
-        </div>
-        <!-- //pick_add_info -->
-    </td>
-
-
-
-<!-- 1 -->
-<!-- n -->
-<!-- 1 -->
-<!-- Array -->
-
-
-
-    <td>
-        <strong>6,700원</strong>
-        / 1개
-    </td>
-    <td>
-        <em>
-
-                환불완료
-
-        </em>
-        <div class="btn_gray_list">
-        </div>
-    </td>
-
-
-
-
-
-    <td class="0" >
-
-
-
-    </td>
-
-
-
-
-
-
-    <!-- <td>0 |  | </td> -->
-</tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--{ // @ .goods }-->
-<!--{ // @ orderData }-->
-<!--{ // ? orderData }-->
-        </tbody>
-    </table>
-</div>
+                <div class="mypage_table_type" id="cancelListOutput">
+    				
+				</div>
+				
+				<div id="cancelPageOutput" style="text-align: center">
+				
+				</div>
 
 <!-- 사유 레이어 -->
 <div id="lyReason" class="layer_wrap reason_layer dn" data-remote="../mypage/layer_order_refund_reason.jsp"></div>
@@ -1363,10 +1025,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- //mypage_lately_info_cont -->
         </div>
         <!-- //mypage_lately_info -->
-
-        <div class="pagination">
-            <div class="pagination"><ul><li class="on"><span>1</span></li></ul></div>
-        </div>
         <!-- //pagination -->
 
     </div>
@@ -1604,165 +1262,6 @@ var sTime = new Date().getTime();
         <!-- //좌측 스크롤 배너 -->
 
 
-        <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp">1</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=353">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/21/353/353_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 만두 오리지널</em>
-                        <strong>2,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=68">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_main_094.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 샐러드</em>
-                        <strong>6,700<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000434">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/10/43/1000000434/263_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>[라이스 시즌2] 취나물밥&매콤 제육볶음</em>
-                        <strong>4,410<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000061">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/10/43/1000000061/1000000061_main_023.jpg">
-                </span>
-                <span class="src_box">
-                    <em>채소만 샐러드</em>
-                        <strong>3,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
 
 
     </div>

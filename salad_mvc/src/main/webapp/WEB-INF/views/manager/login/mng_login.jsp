@@ -12,7 +12,7 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="./resources/mng_css/styles.css" rel="stylesheet" />
+    <link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
     <style type="text/css">
         .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
             padding-left: 0;
@@ -20,12 +20,29 @@
         }
     </style>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		let message = "${msg}";
+		if (message != ""){
+			alert(message);
+		} else {
+			
+		}
+	})
+	
+	$(function(){
+		$("#mngLoginBtn").click(function(){
+			$("#loginFrm").submit();
+		});
+	});
+	</script>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="/mng_index.do"><img alt="img" src="./resources/mng_images/saladLogo.png" height="50px"></a>
+        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="/mng_index.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
         <!-- <div class="ms-auto"><a href="/mng_index.do" style=" color:white; text-decoration: none;">로그인&nbsp;&nbsp;</a>
         </div> -->
         <!-- Navbar-->
@@ -53,17 +70,17 @@
                                     style="font-size: 22px; font-weight:bold;">안녕하세요. 관리자님</h3>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form id="loginFrm" action="mng_login.do" method="post">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <img style="margin: 0 0 0 50px;" src="./resources/mng_images/business-report.png" width="145px">
+                                        <img style="margin: 0 0 0 50px;" src="http://localhost/salad_mvc/resources/mng_images/business-report.png" width="145px">
                                         <div style="flex-direction: column; margin: 25px 0 0 0;">
                                             <div class="form-floating mb-3" style="width: 400px;">
-                                                <input class="form-control" id="inputEmail" type="email"
+                                                <input class="form-control" id="mngId" name="mngId" type="email"
                                                     placeholder="아이디" />
                                                 <label for="inputEmail">아이디</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password"
+                                                <input class="form-control" id="mngPass" name="mngPass" type="password"
                                                     placeholder="비밀번호" />
                                                 <label for="inputPassword">비밀번호</label>
                                             </div>
@@ -71,8 +88,8 @@
                                         <div style="width: 145px;"></div>
                                     </div>
                                     <div class="d-flex align-items-center mt-4 mb-0" style="justify-content: center;">
-                                        <a class="btn btn-primary" href="/mng_login.do"
-                                            style="background-color: rgb(22,160,133); border-color: rgb(22,160,133);">로그인</a>
+                                        <input type="button" id="mngLoginBtn" class="btn btn-primary" value="로그인"
+                                            style="background-color: rgb(22,160,133); border-color: rgb(22,160,133);">
                                     </div>
                                 </form>
                             </div>
@@ -99,7 +116,7 @@
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="./resources/mng_images/saladLogo.png">
+	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>
@@ -110,12 +127,12 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <script src="./resources/mng_js/scripts.js"></script>
+    <script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="./reources/mng_assets/demo/chart-area-demo.js"></script>
-    <script src="./reources/mng_assets/demo/chart-bar-demo.js"></script>
+    <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
+    <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="./resources/mng_js/datatables-simple-demo.js"></script>
+    <script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

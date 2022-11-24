@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.dao.mapper.MngMemberMapper">
+ 
+ <select id="selectMemberTotalCount" resultType="int" 
+  parameterType="int">
+	select		count(*)
+	from	  	MEMBER
+	<choose>
+		<when test=" filedName== 'id' ">
+				where id like '%'||#{keyword}||'%' 
+		</when>
+		<when test=" filedName== 'name' ">
+				where name like '%'||#{keyword}||'%' 
+		</when>
+		<when test=" filedName== 'joinDate' ">
+				where TO_CHAR(JOIN_DATE, 'YYYY-MM-DD') like '%'||#{keyword}||'%' 
+		</when>
+		<when test=" filedName== 'outFlag' and  keyword== '가입' ">
+				where out_flag = '0'
+		</when>
+		<when test=" filedName== 'outFlag'  and  keyword == '탈퇴' ">
+				where out_flag = '1'
+		</when>
+		<otherwise>
+									
+		</otherwise>
+	</choose>
+	
+  </select>
+ <select id="selectMemberList" resultType="kr.co.salad.manager.domain.MngMemberDomain" 
+  parameterType="kr.co.salad.manager.vo.MngMemberVO">
+select	ID, NAME, TO_CHAR(JOIN_DATE, 'YYYY-MM-DD') as JOIN_DATE, OUT_FLAG
+from		(select	ROW_NUMBER() OVER (ORDER BY JOIN_DATE DESC) as rnum,
+						ID, NAME, JOIN_DATE, OUT_FLAG
+			from	  MEMBER
+				<choose>
+							<when test=" filedName== 'id' ">
+								where id like '%'||#{keyword}||'%' 
+							</when>
+							<when test=" filedName== 'name' ">
+								where name like '%'||#{keyword}||'%' 
+							</when>
+							<when test=" filedName== 'joinDate' ">
+								where TO_CHAR(JOIN_DATE, 'YYYY-MM-DD') like '%'||#{keyword}||'%' 
+							</when>
+							<when test=" filedName== 'outFlag' and  keyword== '가입' ">
+								where out_flag = '0'
+							</when>
+							<when test=" filedName== 'outFlag'  and  keyword == '탈퇴' ">
+								where out_flag = '1'
+							</when>
+							<otherwise>
+								
+							</otherwise>
+					</choose>
+				ORDER BY OUT_FLAG ASC , JOIN_DATE DESC
+				)
+<!-- 남상민 2022-11-23 페이징 수정 -->
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+  </select>
+  <select id="selectMemberDetail" resultType="kr.co.salad.manager.domain.MngMemberDomain" 
+  parameterType="String">
+	select	m.NAME, m.EMAIL, m.ID, TO_CHAR(m.JOIN_DATE, 'YYYY-MM-DD') as JOIN_DATE, m.PHONE, m.ZIPCODE, m.ADDR, m.DE_ADDR, m.OUT_FLAG,
+				mo.OUT_REASON, TO_CHAR(mo.OUT_DATE, 'YYYY-MM-DD') as OUT_DATE
+	from	  	MEMBER m, MEMBER_OUT mo
+	where	m.ID=mo.ID(+) AND
+			m.ID=#{id}
+  </select>
+  <select id="updateMemberOut" 
+  parameterType="String">
+	update	 MEMBER
+	set		 OUT_FLAG='1'
+	where	 ID=#{id}
+  </select>
+ <insert id="insertMemberOut" parameterType="kr.co.salad.manager.vo.MngMemberVO">
+	INSERT INTO MEMBER_OUT(ID, OUT_REASON)
+	VALUES(#{id}, #{outReason})
+</insert>
+</mapper>

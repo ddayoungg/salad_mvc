@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.WishMapper">
+<select id="selectMyTotalCount" parameterType="kr.co.salad.user.vo.WishVO"
+resultType="int">
+select	count(*)
+from	${tableName}
+where	id =#{id}
+</select>
+<select id="selectWishList" parameterType="kr.co.salad.user.vo.WishVO"
+resultType="kr.co.salad.user.domain.WishDomain">
+select	PRD_NUM, WISH_REGIST_DATE
+from	(select	ROW_NUMBER() OVER (ORDER BY WISH_REGIST_DATE DESC) as rnum,
+				PRD_NUM, TO_CHAR(WISH_REGIST_DATE, 'YYYY-MM-DD') as WISH_REGIST_DATE
+		from	WISHLIST
+		where	id =#{id}
+		ORDER BY WISH_REGIST_DATE DESC
+		)
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+</select>
+  <select id="selectWishFlag" resultType="int" 
+  parameterType="kr.co.salad.user.vo.WishVO">
+	select  count(*)
+	from	WISHLIST
+	where	ID=#{id} and PRD_NUM=#{prdNum}
+  </select>
+  <insert id="insertWish" parameterType="kr.co.salad.user.vo.WishVO">
+	INSERT INTO WISHLIST(ID, PRD_NUM)
+	VALUES(#{id}, #{prdNum})
+	</insert>
+  <delete id="deleteWish" parameterType="kr.co.salad.user.vo.WishVO">
+	delete from WISHLIST
+	where ID=#{id} and PRD_NUM=#{prdNum}
+  </delete>
+</mapper>

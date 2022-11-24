@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,8 +12,9 @@
        <meta name="author" content="" />
        <title>Notice</title>
        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-       <link href="./resources/mng_css/styles.css" rel="stylesheet" /><!-- ../º¯°æ ÀÎÈ­ -->
+       <link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" /><!-- ../ë³€ê²½ ì¸í™” -->
        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+       <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> <!-- google font -->
        <style type="text/css">
 	.button{
 		width: 100px;
@@ -29,6 +31,10 @@
 		color: white;
 	} 
 	
+	.table tr:hover {
+        background-color:#F0F0F0
+    }
+	
 	.popupTable>tr>th{
 		width: 30%;
 		background-color:#f0f0f0;
@@ -39,70 +45,234 @@
 		border: 1px solid #f0f0f0;
 	}
 	
+	.btnn{  <!-- ëª¨ë“  ë²„íŠ¼ì—ëŒ€í•œ cssì„¤ì • -->
+      text-decoration: none;
+      font-size:15px;
+      color:white;
+      padding:10px 20px 10px 20px;
+      margin:10px;
+      display:inline-block;
+      border-radius: 10px;
+      transition:all 0.1s;
+      text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
+      font-family: 'Lobster', cursive; <!-- google font -->
+    }
+    .btnn:active{
+      transform: translateY(3px);
+    }
+    .btnn.blue{
+      background-color: #C0C0C0;
+    }
+    .btnn.blue:active{
+      border-bottom:2px solid #165195;
+    }
+	
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	<!--  ì‚­ì œíŒì—…-->
+	<%
+	String msg=request.getParameter("eMsg");
+	if(msg!=null){%>
+		alert('<%=msg %>');
+	<%}%>
+	
+	setNotiList(1);//ê³µì§€ì‚¬í•­ ê´€ë¦¬ ë¦¬ìŠ¤íŠ¸
+	
+	$("#writeBtn").click(function(){
+		location.href="mng_notice_form.do?"
+	});
+	
+	$("#searchBtn").click(function() {
+		setNotiList($("#currentPage").val());
+	});
+	
+	$('#searchFlag').change(function() {
+	    var result = $('#searchFlag option:selected').val();
+	    if (result == '1') {
+	    	$("#searchText").val("");
+	    	$("input#searchText").attr("placeholder", "ì œëª©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”");
+	    }
+	    if (result == '2') {
+	    	$("#searchText").val("");
+	    	$("input#searchText").attr("placeholder", "YYYY-MM-DD");
+	    	$("input#searchText").attr("maxlength", "10");
+	    	$("#searchText").keyup(function(){
+	    	  	//ìë™ í•˜ì´í”ˆ ì¶”ê°€
+	    	  	let date = document.querySelector("#searchText");
+
+				// ë¬¸ìì—´, í•˜ì´í”ˆì„ ë§‰ê¸° ìœ„í•´ input event ì‚¬ìš©
+				date.addEventListener("input", () => {
+  
+ 				 // ì‚¬ìš©ì ì…ë ¥ê°’ì€ ëª¨ë‘ ìˆ«ìë§Œ ë°›ëŠ”ë‹¤.(ë‚˜ë¨¸ì§€ëŠ” ""ì²˜ë¦¬)
+ 				 let val = date.value.replace(/\D/g, "");
+ 				 let leng = val.length;
+  
+  				// ì¶œë ¥í•  ê²°ê³¼ ë³€ìˆ˜
+  				let result = '';
+  
+ 				 // 5ê°œì¼ë•Œ - 20221 : ë°”ë¡œ ì¶œë ¥
+ 				 if(leng < 6) result = val;
+ 				 // 6~7ì¼ ë•Œ - 202210 : 2022-101ìœ¼ë¡œ ì¶œë ¥
+ 				 else if(leng < 8){
+  				result += val.substring(0,4);
+   				 result += "-";
+    			result += val.substring(4);
+  				// 8ê°œ ì¼ ë•Œ - 2022-1010 : 2022-10-10ìœ¼ë¡œ ì¶œë ¥
+  				} else{
+  					result += val.substring(0,4);
+   				 result += "-";
+    			result += val.substring(4,6);
+    			result += "-";
+    			result += val.substring(6);
+  			}
+  			date.value = result;
+
+				})
+	    	});
+	    }
+	  });
+	
+})
+
+function setDetail(notiNum){
+	location.href="mng_notice_detail.do?notiNum="+notiNum; // ê³µì§€ì‚¬í•­í˜ì´ì§€ë¡œ ì´ë™
+}
+
+function setNotiList(currentPage){//ê³µì§€ì‚¬í•­ ê´€ë¦¬ ë¦¬ìŠ¤íŠ¸
+	$.ajax({
+		url:"mng_noti_list_ajax.do",
+		data:"currentPage="+currentPage+"&searchText="+$("#searchText").val()+"&searchFlag="+$("#searchFlag").val(),
+		dataType:"json",
+		error:function(request,status,error){
+			alert("ê³µì§€ì‚¬í•­ ê´€ë¦¬ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ” ì¤‘ì— ë¬¸ì œê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		},
+		success:function(jsonObj){
+			/* í˜ì´ì§• í…Œì´ë¸” */
+			$("#notiListOutput").show();
+			var tbOutput="<table class='table' id='notiTab' >";
+			 tbOutput+="<thead class='table-light' style='height: 50px;'>";
+			 tbOutput+="<tr><th>ë²ˆí˜¸</th><th>ì œëª©</th><th>ì‘ì„±ì¼ì</th><th>ì‘ì„±ì</th><th>ì¡°íšŒìˆ˜</th></tr>";
+			 tbOutput+="</thead>";
+			 tbOutput+="<tbody>";
+			 if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					tbOutput+="<tr onclick=\"setDetail('"+json.notiNum+"')\">";
+					tbOutput+="<td>"+json.notiNum+"</td>";
+					tbOutput+="<td>"+json.notiTitle+"</td>";
+					tbOutput+="<td>"+json.notiWriteDate+"</td>";
+					tbOutput+="<td>ê´€ë¦¬ì</td>";
+					tbOutput+="<td>"+json.notiHits+"</td>";
+					tbOutput+="</tr>";
+				});//each
+			} else {
+					tbOutput+="<tr><td colspan=5>ë°ì´í„°ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.</td></tr>";
+			}//end else
+					tbOutput+="</tbody>";
+					tbOutput+="</table>";
+			$("#notiListOutput").html(tbOutput);
+			document.getElementById("total").innerHTML = jsonObj.totalCount;
+			/* í˜ì´ì§• ë²„íŠ¼ */
+			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+				pgOutput+="<ul class='pagination'>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + 1 + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				pgOutput+="<li class='page-item'>"
+				pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + i  + ")'>"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setNotiList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+			
+			$("#pageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setMemberList
+
+</script>
     </head>
     
     
     <body class="sb-nav-fixed">
- <!-- »ó´Ü ¿ìÃø ³×ºñ -->       
+ <!-- ìƒë‹¨ ìš°ì¸¡ ë„¤ë¹„ -->       
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="index.html"><img alt="img" src="./resources/mng_images/saladLogo.png" height="50px"></a><!-- ../º¯°æ ÀÎÈ­ -->
-            <div class="ms-auto" style="color:white;">3Á¶ °ü¸®ÀÚ´Ô, ¾î¼­¿À¼¼¿ä.&nbsp;&nbsp;</div>
+            href="index.html"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a><!-- ../ë³€ê²½ ì¸í™” -->
+            <div class="ms-auto" style="color:white;">3ì¡° ê´€ë¦¬ìë‹˜, ì–´ì„œì˜¤ì„¸ìš”.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
         </nav>
         
         <div id="layoutSidenav">
-<!-- ÁÂÃø ¸ŞÀÎ ³×ºñ -->        
+<!-- ì¢Œì¸¡ ë©”ì¸ ë„¤ë¹„ -->        
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">¸ŞÀÎ</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -´ë½Ãº¸µå
+                            <div class="sb-sidenav-menu-heading">ë©”ì¸</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
+                                -ëŒ€ì‹œë³´ë“œ
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
                             style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="#">È¸¿ø °ü¸®</a></div>
+                            href="mng_member.do">íšŒì› ê´€ë¦¬</a></div>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">»óÇ° °ü¸®</div>
-                            <a class="nav-link" href="index.html">
-                                -»óÇ° µî·Ï
+                            <div class="sb-sidenav-menu-heading">ìƒí’ˆ ê´€ë¦¬</div>
+                            <a class="nav-link" href="mng_prd.do">
+                                -ìƒí’ˆ ë“±ë¡
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
-                                -»óÇ° ÈÄ±â
-                            </a>
-                            <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">ÁÖ¹® °ü¸®</div>
-                            <a class="nav-link" href="index.html">
-                                -ÁÖ¹® °ü¸®
-                            </a>
-                            <a class="nav-link" style="padding-top:0;"href="index.html">
-                                -Ãë¼Ò °ü¸®
-                            </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
-                                -¹è¼Û °ü¸®
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
+                                -ìƒí’ˆ í›„ê¸°
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">°Ô½ÃÆÇ °ü¸®</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -°øÁö»çÇ×
+                            <div class="sb-sidenav-menu-heading">ì£¼ë¬¸ ê´€ë¦¬</div>
+                            <a class="nav-link" href="mng_order_main.do">
+                                -ì£¼ë¬¸ ê´€ë¦¬
+                            </a>
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
+                                -ì·¨ì†Œ ê´€ë¦¬
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
+                                -ë°°ì†¡ ê´€ë¦¬
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div class="sb-sidenav-menu-heading">¹®ÀÇ °ü¸®</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
-                                -»óÇ°¹®ÀÇ
+                            <div class="sb-sidenav-menu-heading">ê²Œì‹œíŒ ê´€ë¦¬</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
+                                -ê³µì§€ì‚¬í•­
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">ë¬¸ì˜ ê´€ë¦¬</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
+                                -ìƒí’ˆë¬¸ì˜
                             </a>
                         </div>
                     </div>
@@ -111,7 +281,7 @@
             
             <div id="layoutSidenav_content">
                 <main>
-  <!-- º»¹® »ó´Ü -->          
+  <!-- ë³¸ë¬¸ ìƒë‹¨ -->          
                     <div class="container-fluid px-4">
                     	<div style="display:flex; justify-content:space-between; flex-direction:row;
                     	padding:20px 0 30px 0;">
@@ -119,191 +289,100 @@
 	                        <h1 id="clock" class="mt-4" 
 	                        style="font-size:20px; color:rgb(94,94,94); font-weight:bold;">clock</h1>
 	                        <div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">
-	                        È¯¿µÇÕ´Ï´Ù! 3Á¶ °ü¸®ÀÚ´Ô.
+	                        í™˜ì˜í•©ë‹ˆë‹¤! 3ì¡° ê´€ë¦¬ìë‹˜.
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="./resources/mng_images/socialMedia.png" width="130px"><!-- ../º¯°æ ÀÎÈ­ -->
+	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px"><!-- ../ë³€ê²½ ì¸í™” -->
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
                         </div>
                         
-<!--º»¹® »ó´Ü ¿ä¾à  -->
+<!--ë³¸ë¬¸ ìƒë‹¨ ìš”ì•½  -->
                         <div class="row">
                        		 	<div style="position:relative; display:flex; justify-content:space-evenly; align-items:center; padding-bottom:40px;">
 		                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
 		                        	border-radius:35px;">
 		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
 				                        	<div style=" color:white; font-weight:bold; font-size:20px;">
-				                        	°øÁö»çÇ× ¼ö
+				                        	ê³µì§€ì‚¬í•­ ìˆ˜
 				                        	</div>
 				                        	<div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;">10</span>°³
+				                        	<span style="font-size:30px;" id="total">${totalCount}</span>ê°œ
 				                        	</div>
 			                        	</div>
 		                        	</div>
                        		 </div>
                        	</div> 
                        	
-<!-- º»¹® ¸®½ºÆ® ½ÃÀÛ --> 
+<!-- ë³¸ë¬¸ ë¦¬ìŠ¤íŠ¸ ì‹œì‘ --> 
                	<div>
+               	<form id="searchFrm" name="searchFrm"  action="mng_notice.do">
                	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="right">
-               		<select style="height: 30px;">
-               			<option>¼±ÅÃ</option>
-               			<option>Á¦¸ñ</option>
-               			<option>ÀÛ¼ºÀÏÀÚ</option>
+               		<select style="height: 30px;"id="searchFlag" name="searchFlag">
+               			<option value="1">ì œëª©</option>
+               			<option value="2">ì‘ì„±ì¼ì</option>
                		</select>
-               		<input type="text" value="³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä.">
-               		<input type="button" value="°Ë»ö">
+               		<input type="text"  placeholder="ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”." id="searchText" name="searchText">
+               		<input type="text" style="display: none;"/>
+               		<input type="button" value="ê²€ìƒ‰" id="searchBtn" name="searchBtn">
                	</div>
-               	
-               		<table class="table" style="width: 90%; margin: 0px auto; text-align: center;">
-					  <thead class="table-light" style="height: 50px;">
-						<tr>
-							<th>¹øÈ£</th>
-							<th>Á¦¸ñ</th>
-							<th>³¯Â¥</th>
-							<th>ÀÛ¼ºÀÚ</th>
-							<th>Á¶È¸</th>
-						</tr>
-					  </thead>
-					  <tbody>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-						<tr>
-							<td>10</td>
-							<td>´ß°¡½¿»ì ½½¶óÀÌ½º 3Á¾ ¸®´º¾ó Ãâ½Ã</td>
-							<td>2022-10-26</td>
-							<td>°ü¸®ÀÚ</td>
-							<td>15</td>
-						</tr>
-					  </tbody>
-					</table>
+               	</form>
+               		<div id="notiListOutput" style="text-align: center;">
+               		
+               		</div>
 				</div>
 				
                 <div style="justify-content: end; display: flex;align-items: center; width: 90%; margin-left: 85px; margin-bottom: 20px; margin-top:20px;">
-					<input type="button" value="±Û¾²±â"  class="button" >
+					<input type="button" value="ê¸€ì“°ê¸°"  class="button" id="writeBtn" >
 				</div>
+				<div id="pageOutput" style="text-align: center;">
 				
-                <div>
-	               	<nav aria-label="Page navigation example" style="display: flex; justify-content: center; margin: 40px 0px;" >
-					  <ul class="pagination">
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li class="page-item"><a class="page-link" href="#">1</a></li>
-					    <li class="page-item"><a class="page-link" href="#">2</a></li>
-					    <li class="page-item"><a class="page-link" href="#">3</a></li>
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
-               	</div>					
+				</div>			
               </main>
                
- <!-- º»¹® ³¡ -->               
+ <!-- ë³¸ë¬¸ ë -->               
                 
-<!-- ÇªÅÍ -->
+<!-- í‘¸í„° -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="align-items-center justify-content-between small">
                             <div class="text-muted">
-                            	<span style="margin: 0 30px 0 0;">È¸»ç¼Ò°³</span>
-                            	<span style="margin: 0 30px 0 0;">ÀÌ¿ë¾à°ü</span>
-                            	<span style="margin: 0 30px 0 0;">°³ÀÎÁ¤º¸Ã³¸®¹æÄ§</span>
-                            	<span>ÀÌ¿ë¾È³»</span>
+                            	<span style="margin: 0 30px 0 0;">íšŒì‚¬ì†Œê°œ</span>
+                            	<span style="margin: 0 30px 0 0;">ì´ìš©ì•½ê´€</span>
+                            	<span style="margin: 0 30px 0 0;">ê°œì¸ì •ë³´ì²˜ë¦¬ë°©ì¹¨</span>
+                            	<span>ì´ìš©ì•ˆë‚´</span>
                             </div>
                             <hr>
                             <div style="display: flex; justify-content: space-between;" >
 	                             <div class="text-muted">
-	                            	<div>¹ıÀÎ¸í(»óÈ£) : ÁÖ½ÄÈ¸»ç »ø·¯µå¿ùµå / ´ëÇ¥ : 3Á¶ / TEL : 0000-0000 / FAX : 02-0000-0000</div>
-	                            	<div>»ç¾÷ÀÚµî·Ï¹øÈ£ : 000-00-00000 / Åë½ÅÆÇ¸Å¾÷½Å°í¹øÈ£ : Á¦ 0000 - ½Ö¿ë3Á¶ - 0000È£</div>
-	                            	<div>ÁÖ¼Ò : ¼­¿ï±¤¿ª½Ã °­³²±¸ Å×Çì¶õ·Î 132 / °³ÀÎÁ¤º¸°ü¸®Ã¥ÀÓÀÚ : 3Á¶ / E-Mail : 3Á¶@0000.co.kr</div>
+	                            	<div>ë²•ì¸ëª…(ìƒí˜¸) : ì£¼ì‹íšŒì‚¬ ìƒëŸ¬ë“œì›”ë“œ / ëŒ€í‘œ : 3ì¡° / TEL : 0000-0000 / FAX : 02-0000-0000</div>
+	                            	<div>ì‚¬ì—…ìë“±ë¡ë²ˆí˜¸ : 000-00-00000 / í†µì‹ íŒë§¤ì—…ì‹ ê³ ë²ˆí˜¸ : ì œ 0000 - ìŒìš©3ì¡° - 0000í˜¸</div>
+	                            	<div>ì£¼ì†Œ : ì„œìš¸ê´‘ì—­ì‹œ ê°•ë‚¨êµ¬ í…Œí—¤ë€ë¡œ 132 / ê°œì¸ì •ë³´ê´€ë¦¬ì±…ì„ì : 3ì¡° / E-Mail : 3ì¡°@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="./resources/mng_images/saladLogo.png"><!-- ../º¯°æ ÀÎÈ­ -->
+	                        		<img alt="img" src="./resources/mng_images/saladLogo.png"><!-- ../ë³€ê²½ ì¸í™” -->
 	                        	</div>
                         	</div>
                         </div>
                     </div>
                 </footer>
-<!-- ÇªÅÍ ³¡ -->
+<!-- í‘¸í„° ë -->
         	</div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+        <script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/js/scripts.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
+		crossorigin="anonymous"></script>
+	<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
         <script>
     var Target = document.getElementById("clock");
     function clock() {
@@ -313,7 +392,7 @@
         var month = time.getMonth();
         var date = time.getDate();
         var day = time.getDay();
-        var week = ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'];
+        var week = ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '];
 
         var hours = time.getHours();
         var minutes = time.getMinutes();
@@ -325,12 +404,12 @@
         }
 
         Target.innerText =
-        `\${year}-\${month + 1}-\${date} \${week[day]}¿äÀÏ ` +
+        `\${year}-\${month + 1}-\${date} \${week[day]}ìš”ì¼ ` +
         `\${hours < 10 ? `\${hours}` : hours}:\${minutes < 10 ? `\${minutes}` : minutes}` + `\${AmPm}`;
             
     }
     clock();
-    setInterval(clock, 1000); // 1ÃÊ¸¶´Ù ½ÇÇà
+    setInterval(clock, 1000); // 1ì´ˆë§ˆë‹¤ ì‹¤í–‰
 </script>
     </body>
 </html>

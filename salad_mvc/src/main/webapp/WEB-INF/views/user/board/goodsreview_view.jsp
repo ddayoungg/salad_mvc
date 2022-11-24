@@ -66,7 +66,7 @@
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
     
-    <!-- 전체 카테고리 -->
+<!-- 전체 카테고리 -->
 <script type="text/javascript">
     $(function(){
     	
@@ -75,7 +75,6 @@
     	});//click
     	
     });//ready
-    
 </script>
     
     <script type="text/javascript">
@@ -209,7 +208,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   gtag('config', 'AW-955276942');
 </script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#revMainBtn").click(function(){ //목록 - 리헐후기 리스트로이동
+		location.href="goodsreview_list.do";
+	});//click
+	
+});
+</script>
 	
 
 </head>
@@ -673,97 +680,65 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <!-- //side_cont -->
 <div class="content">
-<div class="addition_zone">
-    <p><div style="text-align: center;" align="center"><img style="width: 100%;" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/board/220426/1200x250_095802.jpg" title="1200x250_095802.jpg" alt="1200x250_095802.jpg" class="js-smart-img"><br></div></p>
-</div>
 <div class="board_zone_sec">
 
   <div  class="board_zone_tit board_zone_tit_realreview">
 
 			
-				<h2></h2>
+				<h2>나의 상품후기</h2>
 			
 
-
-    </div>
+  </div>
     <div class="board_zone_cont" id="board_content">
         <div class="board_zone_view">
-
             <div class="board_view_tit">
                 <h3>
-                    거뜬하게 한끼 식사네요
+                     <strong>${revTitle}</strong>
                 </h3>
             </div>
             <div class="board_view_info">
-                <span class="view_info_idip" >
-                    <strong>최**</strong>
-<em style="display:none;">(IP: 223.38.91.***)</em>                </span>
-                <span class="view_info_day">
-                    <em>2022.10.27</em>
-                </span>
-                <span class="view_info_hits">
-<strong>조회수</strong> 9                </span>
-            </div>
-            <!-- //board_view_info -->
-
-            <div class="board_view_attach">
-                <strong>첨부파일</strong>
-                <span class="attach_list">
-                    <a href="./download.jsp?bdId=goodsreview&sno=17846&fid=0">20221027_172235_810.jpg</a>
-                </span>
-            </div>
-            <!-- //board_view_attach -->
-
-
+                <span class="view_info_idip" ><strong>${revName} </strong></span>
+                <span class="view_info_day"><em>${revWriteDate }</em></span>
+                <span class="view_info_hits"><strong>조회수</strong> ${revHits} </span></div>
+                
             <div class="board_view_content">
-
+            
                 <div class="view_goods_select">
-
                     <div class="view_goods_select_item">
                         <span class="view_select_item_img">
-                            <a href="../goods/goods_view.jsp?goodsNo=375" target="_blank">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/28/375/375_main_050.jpg" >
-                            </a>
+                                <img src="http://localhost/salad_mvc/resources/images/product/${prdBodyThum}">
                         </span>
                         <span class="view_select_item_info">
-                            <em>[택배배송]닭가슴살 소시지 매콤치즈</em>
-                            <span class="text_type_cont">팩수:5팩</span>
-                            <strong>판매금액 12,900원</strong>
+                            <em>${prdName}</em>
+                            <strong>판매금액 ${price}원</strong>
                         </span>
+                        
                     </div>
-                    <!-- //view_goods_select_item -->
-
-                </div>
-                <!-- //view_goods_select -->
-
-                <div class="seem_cont">
-                    <div style="margin:10px 0 10px 0">
-                        <div style="margin:10px 0 10px 0"><img src="/data/board/upload/goodsreview/9b518f89f293e138" style="max-width:200px" alt="20221027_172235_810.jpg"></div>한끼 식사처럼 든든하네요.<br />
-샐러드와 함께 먹었는데 아주 든든하고 건강해지는 느낌입니다.<br />
-배송도 딱 맞게 오고 너무 좋아요...
+                    <div class="view_goods_select_item">    
+                        <span class="view_select_item_img" style="margin:10px 30px 10px 0">
+                        	<img src="http://localhost/salad_mvc/resources/images/review/${revImg}" width=150px height=200px >
+                        </span>
+                        <span class="view_select_item_info" style="margin:10px 30px 10px 0">
+                            ${revCont}
+                        </span>
+                    </div>    
+                        
                     </div>
                 </div>
-                <!-- //seem_cont -->
-
-
-            </div>
-            <!-- //board_view_content -->
 
 
             <div class="board_view_comment">
-
                 <div class="view_comment js_comment_area" data-bdId="goodsreview" data-sno="17846">
-
                 </div>
-
             </div>
-            <!-- //board_view_comment -->
 
         </div>
-        <!-- //board_zone_view -->
 
         <div class="btn_right_box">
-<button type="button" class="btn_board_report" onclick="gd_btn_report('goodsreview',17846,'y', '375')"><strong>신고</strong></button><button type="button" class="btn_board_list" onclick="gd_btn_list('goodsreview')"><strong>목록</strong></button>        </div>
+			<button type="button" class="btn_board_list" id="revMainBtn" onclick="gd_btn_list('goodsreview')">
+				<strong>목록</strong>
+			</button>       
+		</div>
 
     </div>
     <!-- //board_zone_cont -->
@@ -984,196 +959,6 @@ var sTime = new Date().getTime();
     <!-- //footer_wrap -->
 
 
-    <div class="scroll_wrap">
-
-        <!-- 좌측 스크롤 배너 -->
-        <div id="scroll_left">
-
-        </div>
-        <!-- //scroll_left -->
-        <!-- //좌측 스크롤 배너 -->
-
-
-        <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp">2</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000239">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg">
-                </span>
-                <span class="src_box">
-                    <em>4주 정기배송 샐러드 주 5일</em>
-                        <strong>92,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=353">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/21/353/353_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 만두 오리지널</em>
-                        <strong>2,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=68">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_main_094.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 샐러드</em>
-                        <strong>6,700<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000434">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/10/43/1000000434/263_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>[라이스 시즌2] 취나물밥&매콤 제육볶음</em>
-                        <strong>4,900<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000061">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/10/43/1000000061/1000000061_main_023.jpg">
-                </span>
-                <span class="src_box">
-                    <em>채소만 샐러드</em>
-                        <strong>3,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
-
-
-    </div>
-    <!-- //scroll_wrap -->
-
-
-    <!-- 퀵 검색 폼 -->
-    <!-- 퀵 검색 폼 -->
-
 </div>
 <!-- //wrap -->
 
@@ -1264,5 +1049,5 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
 
-</body>.
+</body>
 </html>

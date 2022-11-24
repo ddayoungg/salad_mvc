@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!doctype html>
 <html>
@@ -32,7 +34,8 @@
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/layer/layer.css?ts=1666243530">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/layout/layout.css?ts=1662982669">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/list.css?ts=1662515260">
-	<link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979">
+	<!-- <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979"> -->
+	<link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/goods.css?ts=1660635983" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/custom.css?ts=1660281178" />
@@ -67,7 +70,42 @@
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
     
-    <!-- 전체 카테고리 -->
+     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
+
+    <!-- Add script : start -->
+    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-24T23%3A02%3A49%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22goods_view.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
+    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_goods_view.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/chosen-imageselect/src/ImageSelect.jquery.js?v=2020120404"></script>
+    <!-- Add script : end -->
+
+<!-- 검색 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
+    
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
+
+
+<!-- 전체 카테고리 시작 -->
 <script type="text/javascript">
     $(function(){
     	
@@ -77,6 +115,492 @@
     	
     });//ready
     
+</script>
+<!-- 전체 카테고리 끝 -->
+
+<script type="text/javascript">
+$(function(){
+	
+	setPrdCnt("none");//상품의 수량에 따른 총 합계
+	
+	$("#cartBtn").click(function(){//장바구니 버튼 클릭 시
+		frmCart();
+	})//click
+	
+	$("#addOrderBtn").click(function(){//바로 구입 클릭 시
+		
+		addOrder();
+		
+	})//click
+	
+    $("#latestBtn").click(function(){//최신순 정렬
+    	
+    	setLatestSort();
+    	
+    })//click
+    
+    $("#rankBtn").click(function(){//랭킹순 정렬
+    	
+    	setRankSort();
+    	
+    })//click
+    
+    setWishBtn("formSet");//찜 버튼
+    
+    setRevList(1);//ajax 후기 리스트
+    
+    setQnaList(1);//ajax 상품문의 리스트
+    
+});//ready
+
+function loginChk() {
+	
+	<c:if test="${ sessionScope.userId eq null }">
+		alert("로그인이 필요합니다.");
+		return false;
+	</c:if>
+	
+}//loginChk
+
+function setDn(id){
+	$( "#"+id ).removeClass( "dn" );
+}//setDn
+
+function frmCart(){
+	
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	//form으로 보낼 값을 hidden에 set
+	$("#cartPrdNum").val( ${param.prdNum} ); //제품 번호
+	$("#cartPrdCnt").val($("#prdCnt").val());//수량
+	
+	 var params = $("#cartFrm").serialize();
+		$.ajax({
+			url : "add_cart_process.do",
+			data : params,
+			error:function( xhr ){
+				console.log(xhr.status);
+			},
+			success : function(jsonObj){
+				
+				var msgOutput="<p class='success'><strong>상품이 장바구니에 담겼습니다.</strong><br>바로 확인하시겠습니까?</p>";
+				
+				if(jsonObj.editCnt!=null) {
+					msgOutput="<p class='success'><strong>상품이 장바구니에 이미 등록되어 수량을 추가하였습니다.</strong><br>바로 확인하시겠습니까?</p>";
+				}//end if
+				
+				setDn("layerDim"); //선택방지 화면 Display 보이도록
+				setDn("addCartLayer");//장바구니 팝업 창 Display 보이도록
+				$("#addCartMsg").html(msgOutput);//장바구니 팝업 메시지
+			}//success
+		});//ajax
+}//frmCart
+
+function moveCart(){//장바구니로 이동
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	location.href="cart.do";
+}//moveChar
+
+function addOrder(){//바로 구매
+	
+	if(loginChk()){
+		return;
+	}//end if
+	
+	//form으로 보낼 값을 hidden에 set
+	$("#orderPrdNum").val( ${param.prdNum} ); //제품 번호
+	$("#orderPrdCnt").val($("#prdCnt").val());//수량
+	$("#orderFrm").submit();
+}//addOrder
+
+function eventWishBtn(){//찜 버튼 누를 경우
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	setWishBtn("eventSet");//찜 버튼 이벤트로 ajax 실행
+}//setWishBtn
+
+function setPrdCnt(type){
+		  var cnt = parseInt($("#prdCnt").val());
+		  
+		  // 더하기/빼기
+		  if(type == 'plus') {
+			  cnt = cnt + 1;
+		  }else if(type == 'minus' && cnt > 1)  {
+			  cnt = cnt - 1;
+		  }//end else if
+		  var totalPrice=Math.floor(${ prdData.prdPrice-(prdData.prdPrice*(prdData.prdDiscount/100)) }*cnt);
+		  
+		 const totalPriceOutput=totalPrice.toLocaleString('ko-KR');
+  		
+		  $("#prdCnt").val(cnt);
+		  $("#totalPrice").html( totalPriceOutput );
+}//setPrdCnt
+
+/**
+ * 메인 이미지 변경
+ *
+ * @param string keyNo 상품 배열 키값
+ */
+function gd_change_image(keyNo, type) {
+    if (typeof keyNo == 'string') {
+        var detailKeyID = new Array();
+        	detailKeyID[0] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ prdData.thum }\" width=\"570\"  class=\"middle\"  />";
+        <c:forEach varStatus="prdImgStatus" var="prdImg" items="${ prdData.prdImgList }">
+        	detailKeyID[${ prdImgStatus.count }] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ prdImg }\" width=\"570\"  class=\"middle\"  />";
+        </c:forEach>
+
+        var magnifyKeyID = new Array();
+        magnifyKeyID[0] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ thum }\" width=\"570\" class=\"middle\"  />";
+
+        if (type == 'detail') {
+            $('#mainImage').html(detailKeyID[keyNo]);
+        } else {
+            $('#magnifyImage').html(magnifyKeyID[keyNo]);
+        }
+    }
+}//gd_change_image
+
+function setLatestSort() {//최신순 정렬
+	$("#latestBtn").addClass("on");
+	$("#rankBtn").removeClass("on");
+	if($("#sortType").val() != "latest" || $("#orderBy").val() != "desc") {
+		$("#sortType").val("latest");
+		$("#orderBy").val("desc");
+	}else {
+		$("#sortType").val("latest");
+		$("#orderBy").val("asc");
+	}//end else
+		
+	setRevList(1);//ajax 후기 리스트
+}//setLatestSort
+
+function setRankSort() {//랭킹순 정렬
+	$("#latestBtn").removeClass("on");
+	$("#rankBtn").addClass("on");
+	if($("#sortType").val() != "rank" || $("#orderBy").val() != "desc") {
+		$("#sortType").val("rank");
+		$("#orderBy").val("desc");
+	}else {
+		$("#sortType").val("rank");
+		$("#orderBy").val("asc");
+	}//end else
+		
+	setRevList(1);//ajax 후기 리스트
+}//setRankSort
+
+function gd_open_write_popup(writeType){
+	
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	var leftVal=(document.body.offsetWidth / 2) - (100 / 2);
+	var topVal=(window.screen.height / 2) - (100 / 2);
+	
+	var writeURL="add_rev_write.do";//후기 작성 팝업 창 URL
+	
+	if(writeType=="goodsqa") {
+		writeURL="add_qna_write.do";//상품 문의 작성 팝업 창 URL
+	}//end if
+	
+	window.open("http://localhost/salad_mvc/board/"+writeURL+"?prdNum=${ param.prdNum }", "상품리뷰 쓰기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+}//recPopup
+
+function setWishBtn(setFlag){
+	$.ajax({
+		url:"wish_ajax.do",
+		data:"prdNum=${ param.prdNum }&wishFlag="+$("#wishFlag").val()+"&setFlag="+setFlag,
+		dataType:"json",
+		error:function( xhr ){
+			alert("찜 버튼 처리 중 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			var wishIcon="s_detail_like_icn.png"
+			if(jsonObj.wishFlag) {
+				wishIcon="s_detail_like_chk_icn.png";
+			}//end if
+			/* $("#wishImg").attr("src","http://localhost/salad_mvc/resources/images/main/"+wishIcon); */
+			var output="<input type=\"button\" id=\"wishBtn\" onclick=\"eventWishBtn()\" class=\"btn_add_wish\" style=\"background:url('http://localhost/salad_mvc/resources/images/main/"+wishIcon+"') no-repeat 0 0; border:0 none; font-size:0; width:42px;height:42px;\"/>"
+			$("#wishFlag").val(jsonObj.wishFlag);
+			$("#wishBtnSpan").html(output);
+		}//success
+	})//ajax
+}//setRevList
+
+function setRevList(currentPage){
+	$.ajax({
+		url:"rev_list_ajax.do",
+		data:"prdNum=${ param.prdNum }&currentPage="+currentPage+"&rangeType="+$("#rangeType").val()+"&sortType="+$("#sortType").val()+"&orderBy="+$("#orderBy").val(),
+		dataType:"json",
+		error:function( xhr ){
+			alert("후기 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			/* 페이징 테이블 */
+			$("#revListDiv").show();
+			var tbOutput="<table style='width: 100%' class='reviews_table_type'>";
+			if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					tbOutput+="<tr class='js_data_row'>";
+					tbOutput+="<td class='board_tit'>";
+					
+					tbOutput+="<a href='#void' onclick='revPopup("+json.revNum+")'>";
+					tbOutput+="<span class='info'>";
+					
+					var name= json.name;//이름 마스킹
+					name=( name.length < 3 ? name.replace(/(?<=.{0})./gi, "*") : name.replace(/(?<=.{1})./gi, "*"));
+					
+					tbOutput+="<d class='wrter'>"+name+"</d>";
+					tbOutput+="<d class='datenum'>"+json.revWriteDate+"</d>";
+					tbOutput+="</span>";
+					
+					tbOutput+="<div class='under_review_imgbx'>";
+					if(json.revImgList!=null) {
+						 $.each(json.revImgList, function(i, revImg){
+							tbOutput+="<img src='http://localhost/salad_mvc/common/images/review/"+ revImg +"' style='max-width:90px;''/>";
+						});//each
+					}//end if
+					tbOutput+="</div>";
+					
+					tbOutput+="<i class='js_btn_view_new '>";
+					tbOutput+="<span class='pdt_name'>${ prdData.prdName }</span>";
+					
+					revTitle=(json.revTitle.length>20?json.revTitle.substring(0,20)+"...":json.revTitle);//글자 수 초과시 자르기
+					
+					tbOutput+="<strong>"+revTitle+"</strong>";
+					
+					revCont=(json.revCont.length>40?json.revCont.substring(0,20)+"...":json.revCont);//글자 수 초과시 자르기
+					
+					tbOutput+="<span class='bdin_conts'><span class'bdin_conts_in'>"+revCont+"</span></span>";
+					tbOutput+="<small>조회수 : "+json.revHits+"</small>";
+					tbOutput+="</i>";
+					tbOutput+="</a>";
+					tbOutput+="</td>";
+					tbOutput+="</tr>";
+				});//each
+			} else {
+				tbOutput+="<tr><td>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+			tbOutput+="</table>";
+			
+			$("#buyRevCnt").html("구매후기("+jsonObj.totalCount+")");
+			$("#revListCnt").html("후기 "+jsonObj.totalCount+"건");
+			$("#revListDiv").html(tbOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav><ul>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#revListScroll' onclick='setRevList(" + 1 + ")' ";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#revListScroll' onclick='setRevList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				if(currentPage==i) {
+					pgOutput+="<li class='on a_none'>";
+				} else {
+					pgOutput+="<li>";
+				}//end else
+				pgOutput+="<a href='#revListScroll' onclick='setRevList(" + i  + ")' >"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#revListScroll' onclick='setRevList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#revListScroll' onclick='setRevList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			pgOutput+="<input type='hidden' id='revCurrentPage' name='revCurrentPage' value='"+jsonObj.currentPage+"'/>"
+			
+			$("#revPageDiv").html(pgOutput);
+		}//success
+	})//ajax
+}//setRevList
+
+function revPopup(revNum) {//후기 팝업 띄우기
+	
+    $.ajax({
+    	url:"rev_popup_ajax.do",
+		data:"revNum="+revNum,
+		dataType:"json",
+		error:function( xhr ){
+			alert("후기 팝업 창을 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success: function (jsonObj) {
+		var output="";
+		
+		 output+="<div class='goods_rvin_dim' style='position: absolute; margin: 0px; top: 0px; left: 0px;'>";
+		 output+="<div class='goods_rvin_pop'>";
+		 output+="<div class='gds_rvin_popwrap'>";
+		 output+="<span class='gds_rv_xbtn ly_close layer_close'><img src='http://localhost/salad_mvc/resources/images/main/close_btn.png' style='width: 30px;'/></span>";
+		 output+="<div class='cell cell1'>";
+		 output+="<div class='bx-wrapper' style='max-width: 100%;'><div class='bx-viewport' aria-live='polite' style='width: 100%; overflow: hidden; position: relative; height: 500px;'>";
+		 output+="<ul>";
+		 if(jsonObj.revImgThum != null) {//이미지가 존재 시
+			 output+="<li><img src='http://localhost/salad_mvc/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
+			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' aria-hidden='false'><img src='http://localhost/salad_mvc/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
+			 //output+="<li aria-hidden='true' style='float: left; list-style: none; position: relative; width: 500px;'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
+			 //output+="<li aria-hidden='true' style='float: left; list-style: none; position: relative; width: 500px;'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
+			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' aria-hidden='true'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
+			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' class='bx-clone' aria-hidden='true'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
+		 } else {//이미지가 없을 시 대체 사진
+			 output+="<li><img src='http://localhost/salad_mvc/resources/images/main/noimage.jpg' style='max-width:500px'></li>";
+		 }//end if
+	     output+="</ul></div><div class='bx-controls bx-has-controls-direction'><div class='bx-controls-direction'><a class='bx-prev' href=''>Prev</a><a class='bx-next' href=''>Next</a></div></div></div>";
+		 output+="</div>";
+		 output+="<div class='cell cell2'>";
+		 output+="<div class='cell-all'>";				
+		 output+="<span class='conrow conrow1'>";				
+		 output+="<span class='bst-in-data-inform'>";
+		 
+		 var name= jsonObj.name;//이름 마스킹
+		name=( name.length < 3 ? name.replace(/(?<=.{0})./gi, "*") : name.replace(/(?<=.{1})./gi, "*"));
+		 
+		 output+="<b class='nm'>"+name+"</b>";
+		 output+="<b class='rdate'>"+jsonObj.revWriteDate+"</b>";
+		 output+="</span>";
+	   	 output+="<span class='bst-in-date-prdnm'>";
+	   	 output+="<small>조회수 : "+jsonObj.revHits+"</small>";
+	   	 output+="</span>";
+	     output+="</span>";
+	     output+="<div class='inwrap'>";
+	     output+="<dl class='pdt_info'>";
+	     output+="<dt>"+jsonObj.revTitle+"</dt>";
+	     output+="<dd>"+jsonObj.revCont+"</dd>";
+	     output+="</dl>";
+	     output+="<div id='bx-pager' class='gds_rvin_pop_thumb'>";
+	    
+	     if(jsonObj.revImgList!=null) {
+		     $.each(jsonObj.revImgList, function(i, revImg){
+		    	 output+="<a href='#void' onclick=\"gd_change_image('${ prdImgStatus.count-1 }', 'detail')\" ><img src='http://localhost/salad_mvc/common/images/review/"+ revImg +"' style='max-width:40px;'></a>";
+		    	 //<a href="javascript:gd_change_image('${ prdImgStatus.count-1 }', 'detail');">
+		     });//each
+	     }
+	    output+="</div>";				 
+	    output+="</div>";
+	    output+="</div>";	
+	    output+="</div>";		
+	    output+="</div>";
+	    output+="</div>";	
+		output+="</div>";		
+		output+="</div>";		
+		
+		$('#lyViewPop').removeClass('dn');
+		$('#lyViewPop').empty().append(output);
+		$('#lyViewPop').find('>div').center();
+		setRevList($("#revCurrentPage").val());
+    }//success
+});
+}//revNum
+
+function setQnaList(currentPage){
+	$.ajax({
+		url:"qna_list_ajax.do",
+		data:"prdNum=${ param.prdNum }&currentPage="+currentPage,
+		dataType:"json",
+		error:function( xhr ){
+			alert("상품문의 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			/* 페이징 테이블 */
+			$("#qnaListDiv").show();
+			var tbOutput="<table style='width: 100%' class='qna_table_type'>";
+			tbOutput+="<tr><th>문의번호</th><th>문의 제목</th><th>이름</th><th>작성일</th><th>답변여부</th></tr>";
+			if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					tbOutput+="<tr class='js_data_row'>";
+					tbOutput+="<td>"+json.qnaNum +"</td>";
+					
+					json.qnaTitle=(json.qnaTitle.length>20?json.qnaTitle.substring(0,20)+"...":json.qnaTitle);//글자 수 초과시 자르기
+					
+					tbOutput+="<td><a href='user_my_rev_detail.do?qnaNum="+json.qnaNum+"'>"+json.qnaTitle+"</a></td>";
+					
+					var name= json.name;//이름 마스킹
+					name=( name.length < 3 ? name.replace(/(?<=.{0})./gi, "*") : name.replace(/(?<=.{1})./gi, "*"));
+					
+					tbOutput+="<td>"+name+"</td>";
+					tbOutput+="<td>"+json.qnaWriteDate+"</td>";
+					tbOutput+="<td><span>"+(json.qnaAFlag=='0'?"미완료":"답변완료")+"</span></td>";
+					tbOutput+="</tr>";
+				});//each
+			}else {
+				tbOutput+="<tr><td colspan='5'>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+			tbOutput+="</table>";
+			
+			
+			$("#qnaListCnt").html("상품문의("+jsonObj.totalCount+")");
+			$("#qnaListDiv").html(tbOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav><ul>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#void' onclick='setQnaList("+ 1 +")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#void' onclick='setQnaList("+ (jsonObj.startPage-1) +")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				if(currentPage==i) {
+					pgOutput+="<li class='on a_none'>";
+				} else {
+					pgOutput+="<li>";
+				}//end else
+				pgOutput+="<a href='#void' onclick='setQnaList("+ i +")'>"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#void' onclick='setQnaList("+ (jsonObj.endPage + 1) +")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li>";
+				pgOutput+="<a href='#void' onclick='setQnaList("+ (jsonObj.totalPage) +")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			$("#qnaPageDiv").html(pgOutput);
+		}//success
+	})//ajax
+}//setQnaList
+
+function showPopup(hasFilter, id) {
+	const popup = document.querySelector("#"+id);
+	
+	if(id=='popup3'){
+		document.querySelector('#popup2').classList.add('hide');
+	}else if(id=='popup4'){
+		document.querySelector('#popup3').classList.add('hide');
+	}
+		
+	if (hasFilter) {
+		popup.classList.add('has-filter');
+	} else {
+		popup.classList.remove('has-filter');
+	}
+			
+	popup.classList.remove('hide');
+}
+
 </script>
     
     <script type="text/javascript">
@@ -106,18 +630,6 @@
         }
     </script>
 
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
-
-    <!-- Add script : start -->
-    <script type="text/javascript" src="/admin/gd_share/script/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-24T23%3A02%3A49%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22goods_view.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_goods_view.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/chosen-imageselect/src/ImageSelect.jquery.js?v=2020120404"></script>
-    <!-- Add script : end -->
-
-    
-
     <style type="text/css">
         body {
         }
@@ -133,8 +645,14 @@
         /* body > #wrap > #footer_wrap : 하단 영역 */
         #footer_wrap {
         }
+        
+        .a_none{
+		pointer-events: none; /* (a링크를 비활성화 해준다.) */
+		cursor: default; /* (마우스 커서를 가져갔을때의 모양을 지정하는 것으로 굳이 작성하지 않아도 된다.) */
+		}
+        
     </style>
-
+    
     <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/naver/naverCommonInflowScript.js?Path=/goods/goods_view.jsp&amp;Referer=https://www.pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -276,90 +794,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 	
 <body id="body" class="body-goods body-goods-view pc"  >
-<!-- Channel Plugin Scripts -->
-<script>
-  function parsePureNumber(number) {
-    var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
-    if (ch_pureNumber === "") {
-      return null;
-    }
-    return parseFloat(ch_pureNumber) || 0;
-  }
-  var settings = {
-    // action banner z index is 199997 ~ 199998
-    "zIndex": 100000,
-    "pluginKey": "ad67ea36-ae1a-452d-9419-cc8a83a650a3"
-  };
-  settings.memberId = "tester21";
-  settings.profile = {
-    "name": "테스터",
-    "mobileNumber": "010-8968-4952",
-    "email": "alfkdlej5@gmail.com",
-    "cartCount": parsePureNumber("0"),
-    "totalPurchaseCount": parsePureNumber("0"),
-    "totalPurchaseAmount": parsePureNumber("0원"),
-    "groupName": "포켓탐색 Lv.1",
-    "isAdult": "n",
-    "availableMileage": parsePureNumber("0원"),
-    "totalDeposit": parsePureNumber("0")
-  };
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  if (settings && settings.memberId && settings.memberId.indexOf('=gSess.memId') >= 0) {
-    console.error('You do not using godomall 5. please visit https://developers.channel.io/docs/guide-for-famous-builders and find correct one');
-  } else {
-    ChannelIO('boot', settings);
-  }
-</script>
-<!-- End Channel Plugin -->
 
 	<div class="top_area"></div>
 <div id="wrap" >
 
     <div id="header_warp" >
 		
-
-
-
 <script>
 
 $(function() {
 		
-       
-
 		$(window).scroll(function(){
 
 			var divEl = $(".item_goods_sec");
@@ -405,7 +849,7 @@ $(function() {
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../main/index.jsp" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="http://localhost/salad_mvc/index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -413,94 +857,22 @@ $(function() {
 			<div class="header_search">
 				<div class="header_search_cont">
 
-					<!-- 검색 폼 -->
-					<div class="top_search">
-    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
+	<!-- 검색 폼 -->
+	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
-                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
-                <!-- //top_text_cont -->
-                <div class="search_cont" style="display:none;">
-                    <input type="hidden" name="recentCount" value="5" />
-
-                    <script type="text/javascript">
-    $(function(){
-
-        /* 상단 검색 */
-        $('.top_search_cont input[name="keyword"]').on({
-            'focus':function(){
-                $(this).parents().find('.search_cont').show();
-            },
-            'blur':function(){
-                $('body').click(function(e){
-                    if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
-                        $(this).parents().find('.search_cont').hide();
-                    }
-                });
-                $('.btn_top_search_close').click(function(){
-                    $(this).parents().find('.search_cont').hide();
-                });
-            }
-        });
-
-        if($("input[name=recentCount]").val() > 0) {
-            $('.js_recom_box').removeClass('recom_box_only').addClass('recom_box');
-        }else{
-            $('.js_recom_box').removeClass('recom_box').addClass('recom_box_only');
-        }
-
-    });
-</script>
-<div class="js_recom_box " style="display:none;">
-    <dl>
-        <dt>추천상품</dt>
-        <dd>
-            <div class="recom_item_cont">
-                <!-- //recom_icon_box -->
-                <div class="recom_tit_box">
-                    <a href="../goods/goods_view.jsp?goodsNo=">
-                    </a>
-                </div>
-                <!-- //recom_tit_box -->
-                <div class="recom_money_box">
-                </div>
-                <!-- //recom_money_box -->
-                <div class="recom_number_box">
-                </div>
-                <!-- //recom_number_box -->
-            </div>
-            <!-- //recom_item_cont -->
-        </dd>
-    </dl>
-</div>
-
-                    <!-- //recom_box -->
-
-                    <div class="recent_box">
-                        <dl class="js_recent_area">
-                            <dt>최근검색어</dt>
-                            <dd>최근 검색어가 없습니다.</dd>
-                        </dl>
-                    </div>
-                    <!-- //recent_box -->
-                    <div class="seach_top_all">
-                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
-                    </div>
-                    <!-- //seach_top_all -->
-
-                </div>
-                <!-- //search_cont -->
-            </div>
-            <!-- //top_search_cont -->
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
         </fieldset>
-    </form>
-</div>
-<!-- //top_search -->
-					<!-- 검색 폼 -->
+	</div>
+			<!-- //top_search -->
+	<!-- 검색 폼 -->
 
 				</div>
 				<!-- //header_search_cont -->
@@ -508,30 +880,29 @@ $(function() {
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">테스터(포켓탐색 Lv.1)님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="../member/logout.jsp?returnUrl=">로그아웃</a></li>
-					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
+					<c:choose>
+						<c:when test="${ sessionScope.userId eq null }">
+							<li><a href="http://localhost/salad_mvc/login.do">로그인</a></li>
+							<li><a href="http://localhost/salad_mvc/join.do">회원가입</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
+							<li><a href="http://localhost/salad_mvc/logout_process.do">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
+								<li><a href="http://localhost/salad_mvc/prd_rev_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
-
-
 					</li>
-
 				</ul>
 				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
-
-                      <strong><b><a href="../order/cart.jsp" class="z">0</a></b></strong>
-
+					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
                     </li>
 
 				</ul>
@@ -553,70 +924,23 @@ $(function() {
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -624,87 +948,14 @@ $(function() {
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
@@ -744,9 +995,6 @@ $(function() {
 </div>
 
 
-
-
-
 <!-- //header -->
     </div>
     <!-- //header_warp -->
@@ -762,92 +1010,6 @@ $(function() {
                 <!-- //side_cont -->
 
 <!-- regular -->
-
-<%-- <script type="text/html" id="optionTemplate">
-    <tbody id="option_display_item_<%=displayOptionkey%>">
-        <tr class="check optionKey_<%=optionSno%>">
-            <td colspan="2" class="cell_tit dev_goods_option dev_goods_option_first"><div class="in"><span class="regular_day regular_day2">1</span>일 <span class="regular_meal"><%=mealCnt%></span>식
-                <input type="hidden" name="goodsNo[]" value="1000000239" />
-                <input type="hidden" name="optionSno[]" value="<%=optionSno%>" />
-                <input type="hidden" name="goodsPriceSum[]" value="0" />
-                <input type="hidden" name="fixedPriceSum[]" value="0" />
-                <input type="hidden" name="addGoodsPriceSum[]" value="0" />
-                <input type="hidden" name="displayOptionkey[]" value="<%=displayOptionkey%>" />
-
-                <input type="hidden" name="option_price_<%=displayOptionkey%>" value="<%=optionPrice%>" />
-                <input type="hidden" name="optionPriceSum[]" value="0" />
-                <input type="hidden" name="option_fixed_price_<%=displayOptionkey%>" value="<%=optionFixedPrice%>" />
-                <input type="hidden" name="optionFixedPriceSum[]" value="0" />
-
-                <input type="hidden" class="text goodsCnt_<%=displayOptionkey%>" title="수량" name="goodsCnt[]" value="1" data-value="1" data-stock="<%=optionStock%>" data-key="<%=displayOptionkey%>" onchange="goodsViewController.input_count_change(this, '1');return false;" />
-
-                <input type="hidden" name="mealCnt[]" value="<%=mealCnt%>" />
-
-                <input type="hidden" name="sumOriGoodsPrice" value="<%=sumOriGoodsPrice%>" />
-                <input type="hidden" name="sumGoodsPrice" value="<%=sumGoodsPrice%>" />
-				<div class="cell_pdt"><%=optionName%></div></div>
-            </td>
-
-            <td class="cell_oriprice"><span><%=sumOriGoodsPriceStr%><em class="won">원</em></span></td>
-            <td class="cell_dcprice"><%=sumGoodsPriceStr%>원
-                <!-- <b class="pertxt">(<%=optionDcRate%>%할인)</b> -->
-                <button type="button" class="delete_goods deli_opt_close_btn" data-key="option_display_item_<%=displayOptionkey%>"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/shop_cart/ico_cart_del.png" alt="삭제"/></button></td>
-        </tr>
-    </tbody>
-</script>
-
-<!-- 20201218 -->
-<script type="text/html" id="optionTemplateNew">
-    <tbody id="option_display_item_<%=displayOptionkey%>">
-        <tr class="check optionKey_<%=optionSno%>">
-            <!--
-            <td class="cell_tit dev_goods_option_first dev_goods_option<%=no%>"><span class="regular_day regular_day2">1</span>일 <span class="regular_meal"><%=mealCnt%></span>식
-            </td>
-            <input type="hidden" name="goodsNo[]" value="1000000239" />
-            -->
-
-            <td colspan="2" class="cell_tit dev_goods_option_first dev_goods_option"><div class="in3"><span class="regular_day">1</span>
-                <input type="hidden" name="divisionOptionSno[<%=no%>][]" value="<%=optionSno%>" />
-                <input type="hidden" name="displayOptionkey[]" value="<%=displayOptionkey%>" />
-                <input type="hidden" name="option_price_<%=displayOptionkey%>" value="<%=optionPrice%>" />
-                <input type="hidden" name="option_fixed_price_<%=displayOptionkey%>" value="<%=optionFixedPrice%>" />
-                <input type="hidden" class="text goodsCnt_<%=displayOptionkey%>" title="수량" name="goodsCnt[]" value="1" data-value="1" data-key="<%=displayOptionkey%>" onchange="goodsViewController.input_count_change(this, '1');return false;" />
-                <input type="hidden" name="mealCnt[]" value="<%=mealCnt%>" />
-				<div class="cell_pdt"><%=optionName%></div></div>
-            </td>
-
-            <td class="cell_oriprice"><span><%=optionFixedPriceStr%><em class="won">원</em></span></td>
-            <td class="cell_dcprice"><%=optionPriceStr%>원
-                <button type="button" class="delete_goods deli_opt_close_btn" data-key="option_display_item_<%=displayOptionkey%>"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/shop_cart/ico_cart_del.png" alt="삭제"/></button></td>
-        </tr>
-    </tbody>
-</script>
-
-
-
-
-
-
-<!-- regular -->
-<script type="text/html" id="addGoodsTemplate">
-
-    <tbody id="option_display_item_add">
-    <tr id="add_goods_display_item_<%=displayOptionkey%>_<%=displayAddGoodsKey%>" class="check item_choice_divide">
-        <td class="cell_tit dev_goods_option_last dev_goods_option" style="width:104px;" colspan="2" id="last-opt"><div class="in2">
-            <input type="hidden" name="addGoodsNo[<%=optionIndex%>][]" value="<%=optionSno%>" data-group="<%=addGoodsGroup%>" />
-            <input type="hidden" name="addGoodsCnt[<%=optionIndex%>][]" class="text addGoodsCnt_<%=displayOptionkey%>_<%=displayAddGoodsKey%> dev_goods_add_option" title="수량" value="1"  data-key="<%=displayOptionkey%>||<%=displayAddGoodsKey%>"  data-value="1" data-stock-fl="<%=addGoodsStockFl%>"  data-stock="<%=addGoodsStock%>">
-            <input type="hidden" name="add_goods_price_<%=displayOptionkey%>_<%=displayAddGoodsKey%>" value="<%=addGoodsPrice%>" />
-            <input type="hidden" name="add_goods_total_price[<%=optionIndex%>][]" value="" />
-        <%=addGoodsName%></div></td>
-        <td class="cell_oriprice" style="width:80px;">&nbsp;</td>
-        <td class="cell_dcprice cell_dcprice_last_about" style="width:100px;"><strong class="add_goods_price_display_txt add_goods_price_display_<%=displayOptionkey%>_<%=displayAddGoodsKey%>"></strong><b><%=addGoodsPriceStr%>원</b>
-            <button type="button" class="delete_add_goods delete_add_goods_last_about" data-key="<%=displayOptionkey%>-<%=displayAddGoodsKey%>"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/shop_cart/ico_cart_del.png" alt="삭제"/></button>
-        </td>
-    </tr>
-    </tbody>
-</script> --%>
-
-
 
 <div class="content_box">
     <div class="location_wrap">
@@ -873,85 +1035,43 @@ $(function() {
             <div class="item_photo_view">
                 <div class="item_photo_big">
 
-				<a href="#lyZoom" id="mainImage" class="zoom_layer_open btn_open_layer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_detail_071.jpg" width="570" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a>
-                    <a href="#lyZoom" class="btn_zoom zoom_layer_open btn_open_layer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/goods_icon/icon_zoom.png" alt=""></a>
+				<%-- <a href="#void" id="mainImage" class="zoom_layer_open btn_open_layer">
+					<img src="http://localhost/salad_mvc/common/images/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
+				</a>  --%>
+				<span id="mainImage">
+					<img src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
+				</span> 
+                    <!-- <a href="#lyZoom" class="btn_zoom zoom_layer_open btn_open_layer">
+                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/goods_icon/icon_zoom.png" alt=""></a> -->
                 </div>
-                <div id="testZoom" style="display:none">
+                <!-- <div id="testZoom" style="display:none">
                     <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_magnify_033.jpg" width="570" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  />
-                </div>
+                </div> -->
                 <!-- //item_photo_big -->
                 
                 <div class="item_photo_slide">
-                    <button type="button" class="slick_goods_prev"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/shop_cart/btn_slide_prev.png" alt="이전 상품 이미지"/></button>
                     <ul class="slider_wrap slider_goods_nav">
-                        <li><a href="javascript:gd_change_image('0', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_071.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('1', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_141.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('2', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_224.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('3', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_331.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('4', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_434.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('5', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_575.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('6', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_67.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
-                        <li><a href="javascript:gd_change_image('7', 'detail');"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/t50_1000000239_detail_757.jpg" width="68" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></a></li>
+                    <c:if test="${ prdData.prdImgList ne null }">
+                       	 	<li><a href="javascript:gd_change_image('0', 'detail');"><img src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }" width="68" title="${ prdData.thum }" class="middle"  /></a></li>
+                    	<c:forEach varStatus="prdImgStatus" var="prdImg" items="${ prdData.prdImgList }">
+                       	 	<li><a href="javascript:gd_change_image('${ prdImgStatus.count }', 'detail');"><img src="http://localhost/salad_mvc/common/images/product/${ prdImg }" width="68" title="${ prdImg }" class="middle"  /></a></li>
+                        </c:forEach>
+                    </c:if>
                     </ul>
-                    <button type="button" class="slick_goods_next"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/shop_cart/btn_slide_next.png" alt="다음 상품 이미지"/></button>
                 </div>
                 <!-- //item_photo_slide -->
             </div>
             <!-- //item_photo_view -->
         </div>
-        <!-- //item_photo_view_box -->
-
-        <form name="frmView" id="frmView" method="post">
-            <input type="hidden" name="goodsNo[]" value="1000000239" /><!-- 20201218 -->
-            <input type="hidden" name="regularText" value="0" /><!-- regular -->
-            <input type="hidden" name="regularDcPercent" value="0" /><!-- regular -->
-            <input type="hidden" name="regularFl" value="y" /><!-- regular -->
-            <input type="hidden" name="mode" value="cartIn" />
-            <input type="hidden" name="scmNo" value="1" />
-            <input type="hidden" name="cartMode" value="" />
-            <input type="hidden" name="set_goods_price" value="92400" />
-            <input type="hidden" id="set_goods_fixedPrice" name="set_goods_fixedPrice" value="124000.00" />
-            <input type="hidden" name="set_goods_mileage" value="0" />
-            <input type="hidden" name="set_goods_stock" value="∞" />
-            <input type="hidden" name="set_coupon_dc_price" value="92400.00" />
-            <input type="hidden" id="set_goods_total_price" name="set_goods_total_price" value="0" />
-            <input type="hidden" id="set_option_price" name="set_option_price" value="0" />
-            <input type="hidden" id="set_option_text_price" name="set_option_text_price" value="0" />
-            <input type="hidden" id="set_add_goods_price" name="set_add_goods_price" value="0" />
-            <input type="hidden" name="set_total_price" value="92400" />
-
-            <!-- regular 20200907 [[ -->
-            <input type="hidden" name="set_fixed_price"  id="set_fixed_price" value="0" />
-            <input type="hidden" id="set_option_fixed_price" name="set_option_fixed_price" value="0" />
-            <input type="hidden" name="set_total_fixed_price" id="set_total_fixed_price"  value="0" />
-            <!-- regular 20200907 ]] -->
-
-            <input type="hidden" name="mileageFl" value="c" />
-            <input type="hidden" name="mileageGoods" value="0.00" />
-            <input type="hidden" name="mileageGoodsUnit" value="percent" />
-            <input type="hidden" name="goodsDiscountFl" value="n" />
-            <input type="hidden" name="goodsDiscount" value="0.00" />
-            <input type="hidden" name="goodsDiscountUnit" value="percent" />
-            <input type="hidden" name="taxFreeFl" value="t" />
-            <input type="hidden" name="taxPercent" value="10.0" />
-            <input type="hidden" name="scmNo" value="1" />
-            <input type="hidden" name="brandCd" value="" />
-            <input type="hidden" name="cateCd" value="001" />
-            <input type="hidden" id="set_dc_price" value="0" />
-            <input type="hidden" id="goodsOptionCnt" value="1" />
-            <input type="hidden" name="optionFl" value="n" />
-            <input type="hidden" name="goodsDeliveryFl" value="y" />
-            <input type="hidden" name="sameGoodsDeliveryFl" value="n" />
-            <input type="hidden" name="useBundleGoods" value="1" />
-			<input type="hidden" name="subscriptionWeek" value="4">
             <div class="item_info_box">
                 <!-- //time_sale -->
                 <div  class="item_tit_detail_cont">
                     <div class="item_detail_tit">
-                        <h3>4주 정기배송 샐러드 주 5일</h3>
+                        <h3><c:out value="${ prdData.prdName }"/></h3>
                         <div class="btn_layer btn_qa_share_box">
-							<span class="wish_btn_wrap"><button id="wishBtn" type="button" class="btn_add_wish">찜하기</button></span>
-                            <span class="btn_gray_list target_sns_share"><a href="#lySns" class="btn_gray_mid"><em>공유</em></a></span>
+							<span class="wish_btn_wrap" id="wishBtnSpan"><!-- <a href="#void" onclick="eventWishBtn()"><img id="wishImg" src="http://localhost/salad_mvc/resources/images/main/s_detail_like_icn.png"/></a> --></span>
+							<input type="hidden" name="wishFlag" id="wishFlag" /> 
+                            <!-- <span class="btn_gray_list target_sns_share"><a href="#lySns" class="btn_gray_mid"><em>공유</em></a></span> -->
 
                             <div id="lySns" class="layer_area" style="display:none;">
                                 <div class="ly_wrap sns_layer">
@@ -987,7 +1107,7 @@ $(function() {
                     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/kakao/kakao.min.js"></script>
                     <script type="text/javascript">
                         //<![CDATA[
-                        Kakao.init("");
+                        /* Kakao.init(""); */
                         function shareStory() {
                             
                             Kakao.Story.share({
@@ -1017,28 +1137,22 @@ $(function() {
                     <div class="item_detail_list item_detail_list_price item_detail_list2">
 			<div class="item_detail_nums">
 <!-- regular -->
-                            <b class="per_cent_num">25%</b>
+                            <b class="per_cent_num"><c:out value="${ prdData.prdDiscount }%"/></b>
 
 					<div class="itemin_num_right">
 <!-- regular -->
 <!-- regular -->
         						<div class="oriprice">
                                     <!-- <del><span>2,480,000</span>원 </del> -->
-                                    <del><span>124,000</span>원 </del>
+                                    <del><span><fmt:formatNumber value="${ prdData.prdPrice }" pattern="#,#00"/></span>원 </del>
         						</div>
 
 
 
 
                         <div class="item_price">
-
-</dt>
                             <div  class="dc_req_price">
-
-
-
-                                <strong  class="prc_in"><strong>
-<!-- regular -->92,400</strong><em>원</em></strong><!-- 글로벌 참조 화폐 임시 적용 -->
+								<fmt:formatNumber value="${ prdData.prdPrice-(prdData.prdPrice*(prdData.prdDiscount/100)) }" pattern="#,#00"/></strong><em>원</em></strong><!-- 글로벌 참조 화폐 임시 적용 -->
                             </div>
 
 			</div>
@@ -1078,32 +1192,6 @@ $(function() {
                                 <input type="hidden" name="deliveryCollectFl" value="pre" />
                                 <strong> / 주문시결제(선결제)</strong>
 
-                                <span class="btn_layer">
-                                    <span class="btn_gray_list"><a href="#lyDeliveryZone" class="btn_gray_small"><em>지역별추가배송비</em></a></span>
-                                    <div id="lyDeliveryZone" class="layer_area" style="display:none;">
-                                        <div class="ly_wrap delivery_zone_layer">
-                                            <div class="ly_tit"><strong>지역별배송비</strong></div>
-                                            <div class="ly_cont">
-                                                <div class="delivery_list">
-                                                    <ul>
-                                                        <li>
-                                                            제주특별자치도 서귀포시
-                                                            <span>3,000원</span>
-                                                        </li>
-                                                        <li>
-                                                            제주특별자치도 제주시
-                                                            <span>3,000원</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- //ly_cont -->
-                                            <a href="#close" class="ly_close"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/layer/btn_layer_close.png" alt="닫기"></a>
-                                        </div>
-                                        <!-- //ly_wrap -->
-                                    </div>
-                                    <!-- //layer_area -->
-                                </span>
                                 <div class="delivery-detail">
                                     <input type="hidden" name="deliveryMethodFl" value="delivery" />
                                     <div class="delivery-division">택배</div>
@@ -1124,139 +1212,27 @@ $(function() {
                             <dd>배송방법(새벽/일반) 및 [수령일 지정]은 주문서/결제 단계에서 선택 가능합니다.</dd>
                         </dl>
 
-
-                        <!-- regular 20200803 -->
-                        <dl>
-							<dt>옵션 선택</dt>
-							<dd>
-								<div class="form_element">
-									<ul>
-                                        <li>
-											<input type="radio" name="opt_regular_dc_percent" id="opt_type_set1" value="1" checked="checked" data-dc-percent="" data-text="하루 한 끼(주 5팩)" data-no="0"><!-- 20210108 -->
-											<label for="opt_type_set1" class="choice_s on">하루 한 끼(주 5팩)</label>										</li>
-                                        <li>
-											<input type="radio" name="opt_regular_dc_percent" id="opt_type_set2" value="2"  data-dc-percent="1" data-text="하루 두 끼(주 10팩)" data-no="1"><!-- 20210108 -->
-											<label for="opt_type_set2" class="choice_s ">하루 두 끼(주 10팩)</label><b class="font_or">(추가 할인)</b>										</li>
-										<!-- <li>
-											<input type="radio" name="opt_regular_dc_percent" id="opt_type_set1" value="1" checked="checked" data-dc-percent="0">
-											<label for="opt_type_set1" class="choice_s on">1일 1식</label>
-										</li>
-										<li>
-											<input type="radio" name="opt_regular_dc_percent" id="opt_type_set2" value="2" data-dc-percent="5">
-											<label for="opt_type_set2" class="choice_s">1일 2식<b class="font_or">(5% 추가 할인)</b></label>
-										</li> -->
-									</ul>
-								</div>
-							</dd>
-						</dl>
-
-
 						<dl  class="reg_dl" >
                             <dt>총 수량</dt>
 							<dd>
-								<div class="form_element">
-									<span class="numcon">
-											<button type="button" class="down goods_cnt dev_goods_cnt" title="감소"  value="dn^|^0">감소</button>
-											<!-- <input type="text" name="" class="text" title="수량" value="1" data-value="1" data-stock="0" data-key="0"> -->
-                                            <!-- <input type="text" name="goodsCnt[]" class="text goodsCnt_0 dev_regular_goods_cnt" title="수량" value="1" data-key="0" data-value="1" data-stock="0" onchange="goodsViewController.set_regular_goods_count(this, '1');return false;" /> -->
-                                            <!-- <input type="text" name="" class="text goodsCnt_0 dev_regular_goods_cnt" title="수량" value="1" data-key="0" data-value="1" data-stock="0" onchange="goodsViewController.set_regular_goods_count(this, '1');return false;" /> -->
-                                            <!-- <input type="text" name="goodsCnt[]" class="text goodsCnt_0 dev_regular_goods_cnt" title="수량" value="1" data-key="0" data-value="1" data-stock="0" onchange="goodsViewController.input_count_change(this, '1');return false;" /> -->
+								<div class="form_element" style="width: 145px">
+									<span class="numcon" style="width: 145px">
+											<!-- <button type="button" class="down goods_cnt dev_goods_cnt" title="감소"  value="dn^|^0">감소</button>
                                             <input type="text" name="" class="text goodsCnt_0 dev_regular_goods_cnt" title="수량" value="1" data-key="0" data-value="1" data-stock="0" onchange="goodsViewController.input_count_change_regular(this, '1');return false;" />
-											<button type="button" class="up goods_cnt dev_goods_cnt" title="증가"  value="up^|^0">증가</button>
+											<button type="button" class="up goods_cnt dev_goods_cnt" title="증가"  value="up^|^0">증가</button> -->
+											<button id="plusBtn" type="button" onclick="setPrdCnt('plus')" class="btn_plus_minus">+</button>
+											<input type="text" id="prdCnt" name="prdCnt" title="수량" value="1"  maxlength="3"/>
+											<button id="plusBtn" type="button" onclick="setPrdCnt('minus')" class="btn_plus_minus">-</button>
 									</span>
 								</div>
 							</dd>
 						</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-                        
                         <!--{ // 20201218 // ? goodsView['optionFl'] == 'y' || goodsView['optionTextFl'] == 'y' || goodsView['addGoods'] }-->
+                       
                         <div class="item_add_option_box item_add_option_box_reg">
-
-
-                            <!-- 20201218 -->
-                            <div>
-                                <input type="hidden" id="selectTextOption1" value="샐러드 5팩을 선택해주세요. 같은 구성으로 매주 5팩씩 4회 배송됩니다.^|^샐러드 10팩을 선택해주세요. 같은 구성으로 매주 10팩씩 4회 배송됩니다." /><!-- 20210108 -->
-                                <select name="optionSnoInput1" style="" class="chosen-select" onchange="goodsViewController.division_option_select(this);">
-                                    <!-- <option value="">[필수] 상품을 선택해주세요.</option> -->
-                                    <option value="">샐러드 5팩을 선택해주세요. 같은 구성으로 매주 5팩씩 4회 배송됩니다.^|^샐러드 10팩을 선택해주세요. 같은 구성으로 매주 10팩씩 4회 배송됩니다.</option>
-                                    <option data-sno="333" data-price="6590.00" data-fixed-price="8300.00" data-no="1" data-str="닭가슴살 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 닭가슴살 샐러드 -->
-                                    </option>
-                                    <option data-sno="1313" data-price="6990.00" data-fixed-price="9000.00" data-no="1" data-str="닭가슴살 비엔나 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 닭가슴살 비엔나 샐러드 -->
-                                    </option>
-                                    <option data-sno="1314" data-price="6790.00" data-fixed-price="9000.00" data-no="1" data-str="크래미 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 크래미 샐러드 -->
-                                    </option>
-                                    <option data-sno="1315" data-price="6400.00" data-fixed-price="8100.00" data-no="1" data-str="치즈 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 치즈 샐러드 -->
-                                    </option>
-                                    <option data-sno="1316" data-price="7780.00" data-fixed-price="9800.00" data-no="1" data-str="불고기 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 불고기 샐러드 -->
-                                    </option>
-                                    <option data-sno="1317" data-price="6790.00" data-fixed-price="9000.00" data-no="1" data-str="닭가슴살볼 숯불갈비 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 닭가슴살볼 숯불갈비 샐러드 -->
-                                    </option>
-                                    <option data-sno="1318" data-price="6790.00" data-fixed-price="9000.00" data-no="1" data-str="닭가슴살볼 옥수수톡 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 닭가슴살볼 옥수수톡 샐러드 -->
-                                    </option>
-                                    <option data-sno="1319" data-price="6790.00" data-fixed-price="9000.00" data-no="1" data-str="닭가슴살볼 깻잎가득 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 닭가슴살볼 깻잎가득 샐러드 -->
-                                    </option>
-                                    <option data-sno="1320" data-price="6990.00" data-fixed-price="9300.00" data-no="1" data-str="파스타 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 파스타 샐러드 -->
-                                    </option>
-                                    <option data-sno="1321" data-price="6990.00" data-fixed-price="9000.00" data-no="1" data-str="훈제오리 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 훈제오리 샐러드 -->
-                                    </option>
-                                    <option data-sno="1322" data-price="8370.00" data-fixed-price="10700.00" data-no="1" data-str="멕시칸 타코 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 멕시칸 타코 샐러드 -->
-                                    </option>
-                                    <option data-sno="1323" data-price="8760.00" data-fixed-price="11000.00" data-no="1" data-str="갈릭페퍼 로스트 닭다리살 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 갈릭페퍼 로스트 닭다리살 샐러드 -->
-                                    </option>
-                                    <option data-sno="1324" data-price="8170.00" data-fixed-price="10300.00" data-no="1" data-str="레드칠리 로스트 닭가슴살 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 레드칠리 로스트 닭가슴살 샐러드 -->
-                                    </option>
-                                    <option data-sno="1325" data-price="8070.00" data-fixed-price="10200.00" data-no="1" data-str="이탈리안 더블 햄 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 이탈리안 더블 햄 샐러드 -->
-                                    </option>
-                                    <option data-sno="1326" data-price="8760.00" data-fixed-price="11200.00" data-no="1" data-str="페퍼콘 닭가슴살 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 페퍼콘 닭가슴살 샐러드 -->
-                                    </option>
-                                    <option data-sno="1327" data-price="4620.00" data-fixed-price="6200.00" data-no="1" data-str="그린 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 그린 샐러드 -->
-                                    </option>
-                                    <option data-sno="1328" data-price="3340.00" data-fixed-price="5400.00" data-no="1" data-str="채소만 샐러드">
-                                        <!-- onChangeMealSelect()에서 텍스트 설정 --> <!-- 채소만 샐러드 -->
-                                    </option>
-                                </select>
-
-                            </div>
-
-
-
-
+						
                         </div>
                         <!-- //item_add_option_box -->
-
-
-
-
-
-
-
 
                     </div>
                     <!-- //item_detail_list -->
@@ -1284,44 +1260,35 @@ $(function() {
                             </div>
 
                             <div class="item_price_cont">
-                                <div class="end_price item_tatal_box" style="display:none">
-                                    <dl class="total_goods">
-                                        <dt>총 상품금액</dt>
-                                        <dd><strong class="goods_total_price"></strong></dd>
-                                    </dl>
-                                    <dl class="total_discount" style="display:none;">
-                                        <dt>총 할인금액</dt>
-                                        <dd><strong class="total_benefit_price"></strong></dd>
-                                    </dl>
+                                <div class="end_price item_tatal_box">
                                     <dl class="total_amount">
                                         <dt>총 합계금액</dt>
                                         <dd>
-                                            <b class="oriprice">
-                                                       <del><span id="totalFixedPrice">2,480,000</span>원 </del>
-                                            </b>
-                                        <strong class="total_price"></strong></dd>
+                                        <strong class="total_price"><span id="totalPrice"></span></strong></dd>
+                                        <dt>원</dt>
                                     </dl>
                                 </div>
                                 <!-- //item_tatal_box -->
                             </div>
                             <!-- //item_price_cont -->
                         </div>
-
-
-
-
-
-
-
-
-
-					
+                        
                     <div class="btn_choice_box">
-                        <div ><!-- N:재입고 알림이 있을 때는 restock 클래스를 div에 같이 넣어주세요 -->
-                        <button id="cartBtn" type="button" class="btn_add_cart">장바구니</button>
-
-                        <button type="button" class="btn_add_order">바로 구매</button>
-                    </div>
+                        <div >
+                        	<form method="get" id="cartFrm">
+                        		<input type="hidden" id="cartPrdNum" name="prdNum" value="${ param.prdNum }"/>
+                        		<input type="hidden" id="cartPrdCnt" name="cartPrdCnt" value="1"/>
+                        		<button type="button" class="btn_add_cart" id="cartBtn" >장바구니</button>
+                        	</form>
+                        </div>
+                        
+						<div>
+							<form  action="order.do" method="get" id="orderFrm">
+                        		<input type="hidden" id="orderPrdNum" name="prdNum" value="${ param.prdNum }"/>
+                        		<input type="hidden" id="orderPrdCnt" name="orderCnt" value="1"/>
+                        		<button type="button" class="btn_add_order" id="addOrderBtn">바로 구매</button>
+                        	</form>
+                    	</div>
                 </div>
                 <!-- //btn_choice_box -->
                 <div class="pay_box">
@@ -1348,8 +1315,6 @@ $(function() {
 
 	<!-- 탭컨텐츠 ul -->
 
-
-
 <script src="http://localhost/salad_mvc/resources/js/fixed-top-animated-menu.1.0.js"></script>
 
 <div class="navbar detail_btm_tab_menu_box">
@@ -1360,11 +1325,11 @@ $(function() {
 
       <li class="active" data-anchor="detail"><a href="#detail"><b>상품설명</b></a></li>
 
-      <li data-anchor="reviews"><a href="#reviews"><b>구매후기(1265)</b></a></li>
+      <li class="active" data-anchor="reviews"><a href="#reviews"><b id="buyRevCnt">구매후기</b></a></li>
 
-      <li data-anchor="delivery"><a href="#delivery"><b>FAQ</b></a></li>
+      <li class="active" data-anchor="delivery"><a href="#delivery"><b>FAQ</b></a></li>
 
-      <li data-anchor="qna"><a href="#qna"><b>상품문의(485)</b></a></li>
+      <li class="active" data-anchor="qna"><a href="#qna"><b id="qnaListCnt">상품문의</b></a></li>
 
     </ul>
 
@@ -1383,98 +1348,13 @@ $(function() {
 						<div class="detail_explain_box">
 							<div class="image-manual"><!-- 이미지 --></div>
 							<div class="txt-manual">
-								<!-- 상품상세 공통정보 관리를 상세정보 상단에 노출-->
-								<img src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/220930/860_620_2_143503.jpg" title="860_620_2_143503.jpg" alt="860_620_2_143503.jpg" class="js-smart-img">
-								<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/blank.jpg">
-<img alt="포켓샐러드포다이어트" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_intro_07.jpg">
-<img alt="뜯어서바로먹는샐러드" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_intro_03.jpg">
-<img alt="진공포장이미지" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_intro_04.jpg">
-<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/blank.jpg">
-<img alt="프레쉬업" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_detail_footer_01.jpg">
-<img alt="진공포장왜좋을까요" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_detail_footer_03.jpg">
-<img alt="일주일치주문" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_detail_footer_04.jpg">
-<!--<img alt="매일먹는샐러드니깐" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_detail_footer_06.jpg">-->
-<img alt="계절별신선도" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_footer_fresh_01.jpg">
-<img alt="계절별신선도" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_footer_fresh_02.jpg">
-<img alt="간편함" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_detail_footer_02.jpg">
-
-<img alt="소개" src="/data/editor/goods/2022_new/4weeks/4weeks_5days_1&amp;2meals_salad_01.jpg">
-<img alt="하루한끼두끼선택" src="/data/editor/goods/2022_new/4weeks/4weeks_5days_1&amp;2meals_salad_02.jpg">
-<img alt="이렇게 보내드려요" src="/data/editor/goods/2022_new/4weeks/4weeks_5days_1&amp;2meals_salad_03.jpg">
-<img alt="달력" src="/data/editor/goods/2022_new/4weeks/4weeks_5days_1&amp;2meals_salad_04.jpg">
-<img alt="공휴일배송&amp;샐러드변경" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/delivery_01.jpg">
-<a href="https://www.pocketsalad.co.kr/mypage/mypage_qa.jsp">
-<img alt="게시판바로가기" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/delivery_02.jpg"></a>
-<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_10.jpg">
-
-<!-- 샐러드 소개 -->
-<img alt="매주 만나는 신선함" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_description_01.jpg">
-<img alt="데일리 샐러드 10종" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/new_salad220513_02.jpg">
-<img alt="닭가슴살 샐러드" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_description_02.jpg">
-<img alt="토핑 샐러드" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_description_03.jpg">
-<img alt="테이스티 샐러드 5종" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/new_salad220513_01.jpg">
-<img alt="채소 샐러드" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_description_04.jpg"> 
-
-<!-- 포켓 샐러드 장점 -->
-<img alt="칼로리" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro.jpg">
-<img alt="샐러드 가득" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_03.jpg"> 
-<img alt="드레싱맛집" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_04.jpg">
-<a href="https://pocketsalad.co.kr/goods/goods_list.jsp?cateCd=002004">
-<img alt="공통" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/tastysalad_01.jpg"></a>
-<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/blank.jpg">
-
-<img alt="다양한식단소개" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_06.jpg">
-<a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=003">
-<img alt="포켓라이스" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_07.jpg"></a>
-<a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=004">
-<img alt="포켓닭" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_8.jpg"></a>
-<a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=004007">
-<img alt="포켓간식" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_9.jpg"></a>
-<img alt="빈공간" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_10.jpg"> 
-
-<img alt="먹는법" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/salad_footer_howtoeat.jpg">
-<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/new/common/220627/blank.jpg">
-<img alt="FAQ" src="/data/editor/goods/new/common/220627/salad_footer_q&amp;a.jpg">
-<img alt="여백" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/common/salad_intro_10.jpg">
-
-<img alt="영양정보 보기" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/nutrition.jpg"> 
-
-
-<!-- 국내산 영양정보 -->
-<img alt="닭가슴살 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_chicken.jpg"> 
-<img alt="비엔나샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/201019_salad_vienna.jpg">
-<img alt="크래미 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_crami.jpg">
-<img alt="치즈 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_cheese.jpg">
-<img alt="불고기 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_Bulgogi.jpg">
-<img alt="숯불갈비맛 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_ribBall.jpg">
-<img alt="옥수수톡 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_conBall.jpg">
-<img alt="깻잎가득 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_perillaBall.jpg">
-<img alt="파스타 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_pasta.jpg">
-<img alt="훈제오리샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_smoke_duck.jpg">
-<img alt="타코 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/Mexicantaco_nutrition.jpg">
-<img alt="갈릭페퍼 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/Garlicpepper_nutrition.jpg">
-<img alt="레드칠리 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/Redchili_nutrition.jpg">
-<img alt="이탈리안 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/Italian_doubleHam_nutrition.jpg">
-<img alt="페퍼콘 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/Peppercorn_nutrition.jpg">
-<img alt="그린 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_green.jpg">
-<img alt="채소만 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/201019_salad_only_green.jpg">
-<!-- 영양정보 -->
-
-<!-- 중국산 영양정보 -->
-<!--<img alt="닭가슴살 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_chicken_china.jpg">
-<img alt="비엔나샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/201019_salad_vienna_china.jpg">
-<img alt="크래미 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_crami_china.jpg">
-<img alt="치즈 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_cheese.jpg">
-<img alt="불고기 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_Bulgogi_china.jpg">
-<img alt="숯불갈비맛 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_ribBall_china.jpg">
-<img alt="옥수수톡 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_conBall_china.jpg">
-<img alt="깻잎가득 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_perillaBall_china.jpg">
-<img alt="파스타 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_pasta_china.jpg">
-<img alt="훈제오리샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_smoke_duck_china.jpg">
-<img alt="그린 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/200818_salad_green_china.jpg">
-<img alt="채소만 샐러드 영양정보" src="https://atowertr6856.cdn-nhncommerce.com/data/editor/goods/2022_new/nutrition_info/201019_salad_only_green_china.jpg">-->
-<!-- 영양 정보 끝 -->
-
+<!-- 상품상세 공통정보 관리를 상세정보 상단에 노출-->
+	<img alt="대표내용이미지" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdBodyThum }">
+	<img src="http://localhost/salad_mvc/resources/images/main/blank.jpg"><!-- 여백 -->
+<c:forEach var="prdBodyImg" items="${ prdData.prdBodyImgList }">
+	<img alt="내용이미지" src="http://localhost/salad_mvc/common/images/product/${ prdBodyImg }">
+	<img src="http://localhost/salad_mvc/resources/images/main/blank.jpg"><!-- 여백 -->
+</c:forEach>
 
 <p>&nbsp;</p>
 							</div>
@@ -1498,244 +1378,79 @@ $(function() {
 				<p class="datail_bst_rv_tit m_t50">베스트 후기</p>
 	<div class="m_t30">
 		<ul class="datail_bst_rv_list">
+			<c:forEach var="bestRev" items="${ bestRevList }">
 			<li>
 				<div class="con_wrap">
-					<a href="javascript:go_best_review(17708);">
+					<a href="javascript:revPopup(${ bestRev.revNum });">
+					
 						<span class="row row1">
 							<div class="data_info">
 								<span class="nm_date">
-									<span class="nm">김**</span>
-									<span class="date">2022.09.29</span>
+									<span class="nm"><c:out value="${ bestRev.name }"/></span>
+									<span class="date"><fmt:formatDate value="${ bestRev.revWriteDate }" pattern="yyyy-MM-dd"/></span>
 								</span>
 								<span class="tit">
-									<b>4주 정기배송 샐러드 주 5일</b> 
+									<b><c:out value="${ prdData.prdName }"/></b> 
 								</span>
 							</div>
-							
-
 						</span>
 						<span class="row row2">
 							<span class="data_content">
 								<span class="tit">
-									싱싱하고 맛있고 든든해요.
+									<c:out value="${ bestRev.revTitle }"/>
 								</span>
 								<span class="txts">
-									<p>예전부터 포켓샐러드 브랜드만 알고있다가
-처음 구매했어요. 요즘 샐러드 브랜드가 정말 많은데, 그중에서도 맛이나 싱싱함이 엄청나게 좋아요. </p><p>진공포장으로 싱싱함 살린거 너무 좋아요. 샐러드 양도 넉넉하고 메츄리알이나 고구마도 조금씩 들어있는 것도 은근 포만감에 도움이 돼요.</p>
+									<c:out value="${ bestRev.revCont }"/>
 								</span>
 								<span class="more-plusrv-btn"><b>더보기<i></i></b></span>
 							</span>
 							
 							<span class="img">
-								<img src="/data/board/upload/goodsreview/2edd0f8e38ce7cd3" alt="싱싱하고 맛있고 든든해요." style="max-width:130px; height:100%;">
+							<c:if test="${ bestRev.revImgList != null }">
+								<img src="http://localhost/salad_mvc/common/images/review/${ bestRev.revImgList[0] }" style="max-width:130px; height:100%;">
+							</c:if>
 							</span>
 							
 						</span>
 					</a>
 				</div>
-				<!-- 후기 컨텐츠 E-->
 			</li>
-			<li>
-				<div class="con_wrap">
-					<a href="javascript:go_best_review(17661);">
-						<span class="row row1">
-							<div class="data_info">
-								<span class="nm_date">
-									<span class="nm">김**</span>
-									<span class="date">2022.09.25</span>
-								</span>
-								<span class="tit">
-									<b>2주 정기배송 샐러드+간편식 주 5일</b> 
-								</span>
-							</div>
-							
-
-						</span>
-						<span class="row row2">
-							<span class="data_content">
-								<span class="tit">
-									도시락 왜이리 맛있죠..
-								</span>
-								<span class="txts">
-									샐러드 먹으면서 소스 장인인건 느꼈는데..
-도시락먹고 진짜 깜짝놀랐어요......
-아니 왜이리 다 맛있고 특히 안퍽퍽하고 수분감 가득해서 
-냉동도시락이라고는 안믿겨져요...
-샐러드 1달 먹으니까 좀 질려서 오래 못먹을줄 알았는데
-도시락이랑 같이 먹으면 진짜 더 꾸준히 먹을 수 있을듯..
-가성비 최고 맛최고.. 포켓샐러드 흥하세요...
-								</span>
-								<span class="more-plusrv-btn"><b>더보기<i></i></b></span>
-							</span>
-							
-							<span class="img">
-								<img src="/data/board/upload/goodsreview/548e328c43618066" alt="도시락 왜이리 맛있죠.." style="max-width:130px; height:100%;">
-							</span>
-							
-						</span>
-					</a>
-				</div>
-				<!-- 후기 컨텐츠 E-->
-			</li>
-			<li>
-				<div class="con_wrap">
-					<a href="javascript:go_best_review(17558);">
-						<span class="row row1">
-							<div class="data_info">
-								<span class="nm_date">
-									<span class="nm">오**</span>
-									<span class="date">2022.09.03</span>
-								</span>
-								<span class="tit">
-									<b>하루에 한 끼를 샐러드로 5일</b> 
-								</span>
-							</div>
-							
-
-						</span>
-						<span class="row row2">
-							<span class="data_content">
-								<span class="tit">
-									화요일에 새벽배송 받고 토요...
-								</span>
-								<span class="txts">
-									정기배송을 할지말지 고민중 맛보기로 화요일 새벽배송으로 샐러드 5개를 받았어요~
-그중 마지막 샐러드를 토요일 오전 아점으로 먹었는데 야채가 무른거 없이 싱싱해요! 너무 신기하네요!
-포장에 비법이 있나봐요~!! 메추리알은 살짝 걱정됐으나, 색도 변함없고 냄새도 괜찮았습니다~~ 
-정기배송 해서 먹어야겠어요!! 상태가 너무 좋아요~~
-아래 사진은 9/3 토요일 먹은 치즈샐러드 입니당
-								</span>
-								<span class="more-plusrv-btn"><b>더보기<i></i></b></span>
-							</span>
-							
-							<span class="img">
-								<img src="/data/board/upload/goodsreview/5efe7f4eec1c7c72" alt="화요일에 새벽배송 받고 토요..." style="max-width:130px; height:100%;">
-							</span>
-							
-						</span>
-					</a>
-				</div>
-				<!-- 후기 컨텐츠 E-->
-			</li>
-			<li>
-				<div class="con_wrap">
-					<a href="javascript:go_best_review(17553);">
-						<span class="row row1">
-							<div class="data_info">
-								<span class="nm_date">
-									<span class="nm">한**</span>
-									<span class="date">2022.09.03</span>
-								</span>
-								<span class="tit">
-									<b>채소만 샐러드</b> 
-								</span>
-							</div>
-							
-
-						</span>
-						<span class="row row2">
-							<span class="data_content">
-								<span class="tit">
-									첫구매후기!!
-								</span>
-								<span class="txts">
-									9월1일 주문 9월2일 도착 제조일9월1일 유통기한 제조일기준6일
-첫구매!! 일단 배송너무빠르고 유통기한도 딱 좋은거같아요 ㅎㅎ
-포장이 잘되어있어서 채소가 너무 싱싱해요 아삭아삭^^
-닭가슴살 갈비맛 샐러드랑 그린샐러드랑 채소만샐러드 3가지를 주문했는데
-두가지는 오자마자 먹어버리느라 사진이없어서 그린샐러드만 찍었네용ㅎㅎ
-맛은 세가지다 정말 만족!!! 샐러드만 드시기 심심하신분들은 메추리알이랑 고구마큐브가든 그린샐러드 드시거나 닭가슴살갈비맛드시면 좋을것같네요 닭가슴...
-								</span>
-								<span class="more-plusrv-btn"><b>더보기<i></i></b></span>
-							</span>
-							
-							<span class="img">
-								<img src="/data/board/upload/goodsreview/b78bf8aa26c9abea" alt="첫구매후기!!" style="max-width:130px; height:100%;">
-							</span>
-							
-						</span>
-					</a>
-				</div>
-				<!-- 후기 컨텐츠 E-->
-			</li>
+			</c:forEach>
 		
 		</ul>
 	</div>
+	<div id="revListScroll"></div>
+	<div class="detail_rv_etc_con">
+		<a href="javascript:gd_open_write_popup('goodsreview')" class="btn_reviews_write wrt_btn_right">후기작성</a>
+	</div>
 
-
-			<div class="detail_rv_etc_con">
-				<dl class="txts_left">
-					<dt>50자 이상 입력시 텍스트 후기 <b>200<small>원</small></b>, 포토후기 <b>500<small>원</small></b> 적립금 적립</dt>
-					<dd></dd>
-					<dt>매월 베스트 후기 선정 시 <b>10,000<small>원</small></b> 적립금 지급</dt>
-					<dd></dd>
-				</dl>
-				<a href="javascript:gd_open_write_popup('goodsreview', '1000000239')" class="btn_reviews_write wrt_btn_right">후기작성</a>
-			</div>
-			<div class="detail_rv_ntc_bx">
-			<span class="tit">공지</span>
-				<ul>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=99"><b>일부 새벽배송 지역 변경 안내 <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/></span></b>
-		   <span class="wrt">관리자</span><em class="date">14:31</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=98"><b>[결제관련이슈] 네이버 페이 결제 이슈 사항 건 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.10.19</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=97"><b>닭가슴살 슬라이스 3종 리뉴얼 출시 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.10.09</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=96"><b>포켓샐러드 메뉴 가격 인상 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.10.04</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=94"><b>2022 개천절&한글날 배송 일정 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.09.28</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=92"><b>간편식, 닭가슴살&간식 제품 배송 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.09.14</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=91"><b>정기구독 상품명 변경 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.09.08</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=90"><b>2022 추석 연휴 배송 일정 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.09.02</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=89"><b>2022 8월 휴무 배송 일정 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.08.04</em></a>
-		</li>
-		<li>
-			<a href="../board/view.jsp?bdId=notice&sno=86"><b>2022 지방선거일&현충일 배송 일정 안내 <span></span></b>
-		   <span class="wrt">관리자</span><em class="date">2022.05.26</em></a>
-		</li>
-	</ul>
-
-			</div>
 
 			<div class="detail_under_top_tit">
 				<div class="detail_rv_in_tit_wrap">
-					<h3 class="detail_rv_in_tit m_t50">후기 1265건</h3>
+					<h3 class="detail_rv_in_tit m_t50" id="revListCnt"></h3>
 					<p class="detail_rvin_alignbx">
-						<a href="javascript:go_review_sort(2);" class="align2 on">최신순</a>
-						<a href="javascript:go_review_sort(1);" class="align1 ">랭킹순</a>
-
+						<!-- <a href="javascript:go_review_sort(2);" id="rangeType" class="align2 on">최신순</a>
+						<a href="javascript:go_review_sort(1);" id="sortType" class="align1 ">랭킹순</a> -->
+						<a href="#void" id="latestBtn" class="align2 on">최신순</a>
+						<a href="#void" id="rankBtn" class="align1 ">랭킹순</a>
+						<input type="hidden" id="sortType" value="latest">
+						<input type="hidden" id="orderBy" value="desc">
 					</p>
 				</div>
-				<div class="detail_rv_tabbx m_t30">
+				<!-- <div class="detail_rv_tabbx m_t30">
 					<ul >
 						<li class="tab1 on"><a href="javascript:go_review_all(this);">전체</a></li>
 						<li class="tab2"><a href="javascript:go_photo_list();">포토후기</a></li>
-						<li class="tab3"><a href="javascript:go_delivery_list();">정기배송 후기</a></li>
 					</ul>
+				</div> -->
+				<div id="ajax-goods-goodsreview-list">
+					<div id="revListDiv">
+					
+					</div>
+					<div class="pagination" id="revPageDiv">
+					
+					</div>
 				</div>
-				<div id="ajax-goods-goodsreview-list"></div>
 				<div class="btn_reviews_box">
 					<a href="../board/goodsreview_list.jsp?bdId=goodsreview" class="btn_reviews_more">상품후기 전체보기</a>
 
@@ -1749,7 +1464,6 @@ $(function() {
 
 		<!--  탭컨텐츠 박스2 -->
 		<!--  탭컨텐츠 박스3 -->
-
 
 			<div id="delivery"  class="item_good_cont anchor">
 
@@ -1784,10 +1498,14 @@ $(function() {
 					<div class="detail_rv_in_tit_wrap">
 							<h3 class="detail_rv_in_tit m_t50">상품Q&amp;A</h3>
 					</div>
-					<div id="ajax-goods-goodsqa-list"></div>
+					<div id="qnaListDiv">
+					
+					</div>
+					<div class="pagination" id="qnaPageDiv">
+					
+					</div>
 					<div class="btn_qna_box">
-						<a href="../board/goodsqa_list.jsp?bdId=goodsqa" class="btn_qna_more">상품문의 전체보기</a>
-						<a href="javascript:gd_open_write_popup('goodsqa', '1000000239')" class="btn_qna_write">상품문의 글쓰기</a>
+						<a href="javascript:gd_open_write_popup('goodsqa')" class="btn_qna_write">상품문의 글쓰기</a>
 					</div>
 					<!-- //btn_qna_box -->
 				</div>
@@ -1801,19 +1519,12 @@ $(function() {
 
 <!-- 탭컨텐츠 wrap -->
 
-
-
-
-
-
-
-
 </div>
 <!-- //item_goods_sec -->
 <!-- //상품상세 끝 -->
 </div>
 
-<div id="lyZoom" class="layer_wrap zoom_layer dn">
+<!-- <div id="lyZoom" class="layer_wrap zoom_layer dn">
     <div class="layer_wrap_cont">
         <div class="ly_tit">
             <h4>이미지 확대보기<span>4주 정기배송 샐러드 주 5일</span></h4>
@@ -1824,7 +1535,7 @@ $(function() {
                     <div class="item_photo_big" id="magnifyImage">
                         <span class="img_photo_big"><img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_magnify_033.jpg" width="570" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  /></span>
                     </div>
-                    <!-- //item_photo_big -->
+                    //item_photo_big
                     <div class="item_photo_slide">
                         <button type="button" class="slick_goods_prev"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_vertical_prev.png" alt="이전 상품 이미지"/></button>
                         <ul class="slider_wrap ly_slider_goods_nav">
@@ -1835,12 +1546,12 @@ $(function() {
                 </div>
             </div>
         </div>
-        <!-- //ly_cont -->
+        //ly_cont
         <a href="#close" class="ly_close layer_close"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/layer/btn_layer_close.png" alt="닫기"></a>
     </div>
-    <!-- //layer_wrap_cont -->
+    //layer_wrap_cont
 </div>
-<!-- // zoom_layer -->
+// zoom_layer -->
 
 <div id="lyPassword" class="layer_wrap password_layer js_password_layer dn" style="height: 226px">
     <div class="layer_wrap_cont">
@@ -1866,20 +1577,21 @@ $(function() {
 
 <div id="addCartLayer" class="layer_wrap dn">
     <div class="box add_cart_layer" style="position: absolute; margin: 0px; top: 279.5px; left: 651px;">
-        <div class="view">
+        <div class="view" >
             <h2>장바구니 담기</h2>
-            <div class="scroll_box">
-                <p class="success"><strong>상품이 장바구니에 담겼습니다.</strong><br>바로 확인하시겠습니까?</p>
+            <div class="scroll_box" id="addCartMsg">
+                
             </div>
             <div class="btn_box">
                 <button type="button" class="btn_cancel"><span>취소</span></button>
-                <button type="button" class="btn_confirm btn_move_cart"><span>확인</span></button>
+                <button type="button" class="btn_confirm btn_move_cart" onclick="moveCart()" ><span>확인</span></button>
             </div>
             <!-- //btn_box -->
             <button title="닫기" class="close layer_close" type="button">닫기</button>
         </div>
     </div>
 </div>
+
 <!--//addCartLayer -->
 <div id="addWishLayer" class="layer_wrap dn">
     <div class="box add_wish_layer" style="position: absolute; margin: 0px; top: 279.5px; left: 651px;">
@@ -1897,17 +1609,11 @@ $(function() {
         </div>
     </div>
 </div>
-<!--//addWishLayer -->
-<!-- 쿠폰 다운받기 레이어 -->
-<div id="lyCouponDown" class="layer_wrap coupon_down_layer dn" style="top:0px; left:0px;"></div>
-<!--//쿠폰 다운받기 레이어 -->
-<!-- 쿠폰 적용하기 레이어 -->
-<div id="lyCouponApply" class="layer_wrap coupon_apply_layer dn" style="top:0px; left:0px;"></div>
-<!--//쿠폰 적용하기 레이어 -->
-<!--//일반게시판 레이어 --><div id="lyWritePop" class="layer_wrap board_write_layer dn"></div>
-<!--//플러스리뷰 레이어 --><div id="writePop" class="layer_wrap plus_review_edit_layer dn"></div>
 
-<div id="lyViewPop" class="layer_wrap board_view_layer dn"></div>
+<div id="lyViewPop" class="layer_wrap board_view_layer dn">
+	
+
+</div>
 <div id="lyPhotoListPop" class="layer_wrap board_view_layer dn"></div>
 
 
@@ -1969,40 +1675,6 @@ DOYOUAD_DATA.soldOut = "2";
 (function (w, d, s, n, t) {n = d.createElement(s);n.type = "text/javascript";n.setAttribute("id", "doyouadScript");n.setAttribute("data-user", "pocketsalad");n.setAttribute("data-page", "shop");n.async = !0;n.defer = !0;n.src = "https://cdn.doyouad.com/js/dyadTracker.js?v=" + new Date().toISOString().slice(0, 10).replace(/-/g, "");t = d.getElementsByTagName(s)[0];t.parentNode.insertBefore(n, t);})(window, document, "script");
 </script>
 <!-- Doyouad End -->
-
-
-<!-- <script>
-	$(function(){
-
-	$(window).on({
-		'scroll':function(){
-			if(resizeChk != 0){
-				var sc = $(window).scrollTop();
-				var h_offset = $('.detail_btm_tab_menu_box').offset();
-				if(sc > h_offset.top){
-
-					$('.detail_btm_tab_menu_box').addClass('fix_on');
-
-					$('.detail_info_box .anchor').addClass('fix_on');
-					$('.fixed_btn_top').show();
-				}else{
-					$('.detail_btm_tab_menu_box').removeClass('fix_on');
-					$('.detail_info_box .anchor').removeClass('fix_on');
-
-					$('.fixed_btn_top').hide();
-				}
-			}
-		}
-	});
-
-	var posY;
-	var myScroll;
-	var resizeChk = 0;
-
-
-	});
-
-</script> -->
 
 
 <!-- Enliple Tracker Start -->
@@ -2249,218 +1921,6 @@ var sTime = new Date().getTime();
         <!-- //좌측 스크롤 배너 -->
 
 
-        <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="http://localhost/salad_mvc/resources/user/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp" class="z">0</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000239">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg">
-                </span>
-                <span class="src_box">
-                    <em>4주 정기배송 샐러드 주 5일</em>
-                        <strong>92,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=68">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_main_094.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 샐러드</em>
-                        <strong>6,700<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000261">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/04/15/1000000261/1000000261_main_04.jpg">
-                </span>
-                <span class="src_box">
-                    <em>시즌3 곤약 라이스 6종 혼합</em>
-                        <strong>28,700<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000390">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000390/1000000390_main_023.jpg">
-                </span>
-                <span class="src_box">
-                    <em>6주 정기배송 샐러드 주 4일</em>
-                        <strong>110,880<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000420">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/07/27/1000000420/1000000420_main_047.jpg">
-                </span>
-                <span class="src_box">
-                    <em>단기집중 식단관리 2주 패키지</em>
-                        <strong>175,600<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=540">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/09/14/540/540_main_021.jpg">
-                </span>
-                <span class="src_box">
-                    <em>베스트 샐러드 6종 맛보기</em>
-                        <strong>38,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000405">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/05/19/1000000405/1000000405_main_010.jpg">
-                </span>
-                <span class="src_box">
-                    <em>레드칠리 로스트 닭가슴살 샐러드</em>
-                        <strong>8,300<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=250">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/07/24/250/250_main_020.jpg">
-                </span>
-                <span class="src_box">
-                    <em>미니컵밥 5종&두부파스타 4종 맛보기</em>
-                        <strong>37,600<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
-
-
     </div>
     <!-- //scroll_wrap -->
 
@@ -2589,7 +2049,7 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
     });
   }
 
-  $('#cartBtn').click(addToCart);
+  /* $('#cartBtn').click(addToCart); */
 </script>
 
 <!-- LABBIT GA 향상된 전자상거래 변수 세팅 -->

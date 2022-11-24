@@ -179,14 +179,14 @@
 /*.body-join .addition_info_sec table{width: 87.5%; margin: 0 auto;}*/
 /*.body-join .nd-agreement .nd-sms-mail{padding: 0 0 15px 0;}*/
 .body-join .nd-agreement .nd-sms-mail .form_element{line-height: 1;}
-.body-join .nd-agreement .nd-sms-mail label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("../img/common/input/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
-.body-join .nd-agreement .nd-sms-mail label.on{background:url("../img/common/input/check_on.png") no-repeat 1px top;}
+.body-join .nd-agreement .nd-sms-mail label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("http://localhost/salad_mvc/resources/images/main/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
+.body-join .nd-agreement .nd-sms-mail label.on{background:url("http://localhost/salad_mvc/resources/images/main/check_on.png") no-repeat 1px top;}
 .body-join .nd-agreement .nd-sms-mail label b{font-weight: 400;}
 .body-join .nd-agreement .nd-sms-mail .nd-check-area{line-height: 1; padding: 15px 0 15px 15px;}
 .body-join .nd-agreement .nd-sms-mail .nd-check-area .form_element{padding-right: 20px;}
 .body-join .nd-agreement .nd-sms-mail .nd-check-area p {padding: 20px 0 0 28px; line-height: 1; color:#0d856a; letter-spacing: -0.25px; }
 .body-join .nd-agreement .nd-sms-mail .nd-check-area p img {padding-right:10px;}
-.body-join .nd-agreement .join_agreement_box label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("../img/common/input/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
-.body-join .nd-agreement .join_agreement_box label.on{background:url("../img/common/input/check_on.png") no-repeat 1px top;}
+.body-join .nd-agreement .join_agreement_box label{min-height:19px; font-size:14px; font-weight:700; letter-spacing: -0.25px; line-height: 1; background:url("http://localhost/salad_mvc/resources/images/main/check_off_small.png") no-repeat 1px 1px; background-size:18px; padding:0 0 0 34px;}
+.body-join .nd-agreement .join_agreement_box label.on{background:url("http://localhost/salad_mvc/resources/images/main/check_on.png") no-repeat 1px top;}
 .body-join .nd-agreement .join_agreement_box label em{font-weight: 400;}
 .body-join .nd-agreement .join_agreement_box #termsAgreeDiv label em{font-size:13px; font-weight:300; color:#211815; vertical-align:middle;}

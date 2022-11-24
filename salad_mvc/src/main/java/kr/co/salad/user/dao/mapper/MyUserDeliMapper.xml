@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.MyUserDeliMapper">
+
+<select id="selectDeli" parameterType="string" resultType="kr.co.salad.user.domain.MyDeliDomain">
+	select name,addr,zipcode,de_addr,phone
+	from member
+	where id=#{id}
+</select>
+
+<update id="updateDeli" parameterType="kr.co.salad.user.vo.MyDeliVO">
+	update member
+	set zipcode=#{zipcode}, addr=#{addr}, de_addr=#{deAddr}, phone=#{phone}
+	where id=#{id}
+</update>
+</mapper>

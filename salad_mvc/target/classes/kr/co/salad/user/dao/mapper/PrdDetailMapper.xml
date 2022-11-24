@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.PrdDetailMapper">
+  <select id="selectPrdDetail" resultType="kr.co.salad.user.domain.PrdDetailDomain" 
+  parameterType="int">
+	select 	PRD_NUM, PRD_PRICE, PRD_DISCOUNT, PRD_NAME, THUM, PRD_BODY_THUM
+	from 	PRODUCT
+	where 	PRD_NUM= #{prdNum}
+  </select>
+  <select id="selectPrdImgList" resultType="String" 
+  parameterType="int">
+	select 	PRD_IMG
+	from	PRODUCT_ADD_IMG
+	where 	PRD_NUM= #{prdNum}
+  </select>
+  <select id="selectPrdBodyImgList" resultType="String" 
+  parameterType="int">
+	select 	PRD_BODY_IMG
+	from	PRODUCT_BODY_IMG
+	where 	PRD_NUM= #{prdNum}
+  </select>
+</mapper>

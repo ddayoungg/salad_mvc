@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.MyUserOutMapper">
+
+<select id="selectUser" parameterType="kr.co.salad.user.vo.MyUserOutVO" resultType="string">
+	select pass
+	from member
+	where id=#{id}
+</select>
+
+  <!-- 회원탈퇴 플래그 변경 -->
+  <update id="updateUserOut" parameterType="kr.co.salad.user.vo.MyUserOutVO">
+ 	 update member
+  	 set out_flag=1
+  	 where id=#{id}
+  </update>
+  
+  <!-- 회원탈퇴 테이블에 탈퇴회원 추가 -->
+  <insert id="insertUserOut" parameterType="kr.co.salad.user.vo.MyUserOutVO">
+  	insert into member_out(id,out_reason,out_date) 
+  	values(#{id}, #{outReason}, sysdate)
+  </insert>
+
+</mapper>

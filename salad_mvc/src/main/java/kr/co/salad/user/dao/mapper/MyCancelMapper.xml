@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.MyCancelMapper">
+<select id="selectMyCcTotalCnt" parameterType="String"
+resultType="int">
+select	count(*)
+from	PRODUCT_ORDER
+where	id =#{id} AND ORDER_STATUS IN('4','5')
+</select>
+<select id="selectMyCancelList" parameterType="kr.co.salad.user.vo.MyCancelVO"
+resultType="kr.co.salad.user.domain.MyCancelDomain">
+select	ORDER_DATE, ORDER_NUM, PRD_NUM, THUM, PRD_NAME, PRD_PRICE, PRD_DISCOUNT, ORDER_CNT, ORDER_STATUS, REV_FLAG
+from	(select	ROW_NUMBER() OVER (ORDER BY po.ORDER_DATE DESC) as rnum,
+				TO_CHAR(po.ORDER_DATE, 'YYYY-MM-DD') as ORDER_DATE, po.ORDER_NUM, po.ORDER_STATUS,
+				od.ORDER_CNT, od.REV_FLAG,
+				p.PRD_NUM, p.THUM, p.PRD_NAME, p.PRD_PRICE, p.PRD_DISCOUNT
+		from	PRODUCT_ORDER po, ORDER_DETAIL od, PRODUCT p
+		where	(po.ORDER_NUM=od.ORDER_NUM AND od.PRD_NUM=p.PRD_NUM) AND
+				po.id=#{id} AND po.ORDER_STATUS IN('4','5')
+		ORDER BY po.ORDER_DATE DESC
+		)
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+</select>
+<select id="selectMyCcOrderList" parameterType="kr.co.salad.user.vo.MyCancelVO"
+resultType="kr.co.salad.user.domain.MyCancelDomain">
+select	TO_CHAR(po.ORDER_DATE, 'YYYY-MM-DD') as ORDER_DATE, po.ORDER_NUM, po.ORDER_STATUS,
+		od.ORDER_CNT,
+		p.PRD_NUM, p.THUM, p.PRD_NAME, p.PRD_PRICE, p.PRD_DISCOUNT
+from	PRODUCT_ORDER po, ORDER_DETAIL od, PRODUCT p
+where	(po.ORDER_NUM=od.ORDER_NUM AND od.PRD_NUM=p.PRD_NUM) AND
+		po.id=#{id} AND po.ORDER_NUM=#{orderNum}
+ORDER BY po.ORDER_DATE DESC
+</select>
+
+<select id="selectCcExistAddrFlag" parameterType="kr.co.salad.user.vo.MyCancelVO"
+resultType="String">
+select	EXIST_ADDR_FLAG
+from	PRODUCT_ORDER
+where	id=#{id} AND ORDER_NUM=#{orderNum}
+</select>
+
+<select id="selectMyInfoDetail" parameterType="kr.co.salad.user.vo.MyCancelVO"
+resultType="kr.co.salad.user.domain.CcMemberDomain">
+select	m.NAME, m.PHONE, m.EMAIL, m.ZIPCODE, m.ADDR, m.DE_ADDR, po.DELI_REQ
+from	MEMBER m, PRODUCT_ORDER po
+	<where>
+	<if test="orderNum != 0">
+		(po.id=m.id) AND
+		m.id=#{id} AND po.ORDER_NUM=#{orderNum}
+	</if>
+	<if test="orderNum == 0">
+		(po.id=m.id) AND
+		m.id=#{id}
+	</if>
+	</where>
+</select>
+<select id="selectMyCcDeliDetail" parameterType="kr.co.salad.user.vo.MyCancelVO"
+resultType="kr.co.salad.user.domain.CcDeliveryDomain">
+select	po.ORDER_NUM, da.DELI_ZIPCODE, da.DELI_ADDR, da.DELI_DETAIL_ADDR,
+		da.RECEIVER, da.DELI_PHONE, po.DELI_REQ
+from	DELIVERY_ADDRESS da, PRODUCT_ORDER po
+where	(da.ORDER_NUM=po.ORDER_NUM) AND
+		po.ID=#{id} AND po.ORDER_NUM=#{orderNum}
+</select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.SearchPrdMapper">
+<select id="selectSrchPrdTotalCount" resultType="int" 
+  parameterType="String">
+	select		count(*)
+	from	  	PRODUCT
+	where 		PRD_NAME LIKE '%'||#{keyword}||'%' 					
+</select>
+ <select id="selectSrchPrdBoxList" resultType="kr.co.salad.user.domain.SearchPrdDomain" 
+  parameterType="kr.co.salad.user.vo.SearchPrdVO">
+select	PRD_NUM, THUM, PRD_NAME, PRD_REGIST_DATE, PRD_PRICE, PRD_DISCOUNT,
+		MAIN_CATE_NAME, SUB_CATE_NAME
+from	(select	ROW_NUMBER() OVER (ORDER BY 
+				<choose>
+					<when test=" sortType == 'price_asc' ">
+						p.PRD_PRICE ASC
+					</when>
+					<when test=" sortType == 'price_dsc' ">
+						p.PRD_PRICE DESC
+					</when>
+					<otherwise>
+						p.PRD_REGIST_DATE DESC
+					</otherwise>
+				</choose>
+			
+			) as rnum,
+					p.PRD_NUM, p.THUM, p.PRD_NAME, p.PRD_PRICE, p.PRD_DISCOUNT, p.PRD_REGIST_DATE,
+					cm.MAIN_CATE_NAME, cs.SUB_CATE_NAME
+			from	PRODUCT p, CATEGORY_MAIN cm, CATEGORY_SUB cs
+			where 	(cs.SUB_CATE_NUM=p.SUB_CATE_NUM AND cm.MAIN_CATE_NUM=cs.MAIN_CATE_NUM) AND
+					p.PRD_NAME LIKE '%'||#{keyword}||'%'
+				<choose>
+					<when test=" sortType == 'price_asc' ">
+						ORDER BY p.PRD_PRICE ASC
+					</when>
+					<when test=" sortType == 'price_dsc' ">
+						ORDER BY p.PRD_PRICE DESC
+					</when>
+					<otherwise>
+						ORDER BY p.PRD_REGIST_DATE DESC
+					</otherwise>
+				</choose>
+				)
+WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+  </select>
+</mapper>

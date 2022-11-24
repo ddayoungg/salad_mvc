@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.manager.RevMangerMapper">
+<!-- 총 페이지수 출력 -->
+  <select id="selectTotalPage" parameterType="kr.co.salad.manager.vo.MngRevVO" resultType="int">
+  		select count(DISTINCT R.REV_NUM)
+		from review R , product P, MEMBER M
+			<choose>
+				<when test='  subCateNum != 0 and searchText != "" '>
+				 where R.prd_num = P.prd_num  and R.id = M.id and P.sub_cate_num=#{subCateNum}  and M.name Like '%' || #{searchText}  || '%'
+				</when>
+				<when test='  subCateNum != 0 '>
+			 	 where R.prd_num = P.prd_num  and P.sub_cate_num=#{subCateNum}
+				</when>
+				<when test='  searchText != "" '>
+				where R.id = M.id and M.name Like '%' || #{searchText}  || '%'
+				</when>
+		 	</choose>
+  </select>
+  
+  <!--  전체 리뷰리스트 -->
+  <select id="selectRevList" parameterType="kr.co.salad.manager.vo.MngRevVO"  resultType="kr.co.salad.manager.domain.MngRevDomain">
+  		select REV_NUM,NAME,REV_WRITE_DATE,PRD_NAME,r_num
+		from(
+		select R.REV_NUM, M.name , TO_CHAR(R.REV_WRITE_DATE, 'YYYY-MM-DD') as REV_WRITE_DATE,P.PRD_NAME,
+		row_number() over(order by R.REV_WRITE_DATE desc)r_num
+		from REVIEW R, MEMBER M, PRODUCT P
+		where R.id = M.id
+		and R.prd_num = P.prd_num 
+		<if test="subCateNum != 0">
+			and P.sub_cate_num=#{subCateNum}  
+		</if>
+		<if test="searchText != null">
+			and M.name Like '%' || #{searchText}  || '%'
+		</if>
+		)
+		WHERE r_num BETWEEN #{startNum} AND #{endNum} 
+  </select>
+  
+  <!-- 리뷰 상세보기 -->
+  <select id="selectRevDetail" resultType="kr.co.salad.manager.domain.MngRevDomain" parameterType="int" >
+  	select R.rev_num,R.best_flag,M.name,R.rev_title,P.prd_name,P.prd_body_thum,P.prd_price,P.prd_discount,R.rev_cont,TO_CHAR(R.REV_WRITE_DATE, 'YYYY-MM-DD') as REV_WRITE_DATE,R.rev_hits
+  	from review R, member M, product P
+  	where R.id=M.id and R.prd_num = P.prd_num and rev_num=#{revNum}
+  </select>
+  
+  <!-- 리뷰 글 삭제 -->
+  <delete id="deleteRev" parameterType="int">
+  delete
+  from review
+  where rev_num=#{revNum}
+  </delete>
+  
+  <delete id="deleteImgRev" parameterType="int">
+  	delete
+  	from review_add_img
+  	where rev_num=#{revNum}
+  </delete>
+  
+  <!-- 리뷰 글 베스트 등록  -->
+  <update id="updateBestRev" parameterType="int">
+  update review
+  set best_flag=1
+  where rev_num=#{revNum}
+  </update>
+  
+  <!-- 리뷰 이미지들  -->
+  <select id="selectRevImg" parameterType="int" resultType="string">
+  	select rev_img
+  	from review_add_img
+  	where rev_num = #{revNum}
+  </select>
+  
+  <!-- 메인 카테고리 -->
+  <select id="selectMainCate"  resultType="kr.co.salad.manager.domain.MngRevDomain">
+  		select main_cate_num, main_cate_name
+		from  CATEGORY_MAIN
+  </select>
+  
+  <!-- 서브 카테고리 -->
+  <select id="selectSubCate"  resultType="kr.co.salad.manager.domain.MngRevDomain" parameterType="int">
+  		select sub_cate_num, sub_cate_name
+		from  CATEGORY_SUB
+		where main_cate_num=${mainCateNum}
+		order by sub_cate_num
+  </select>
+ 
+</mapper>

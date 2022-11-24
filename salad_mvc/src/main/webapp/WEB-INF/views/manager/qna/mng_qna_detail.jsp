@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -39,6 +41,63 @@
 	}
 	
 </style>
+ <!-- JQuery google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$(function(){
+	
+	$()
+	
+	$("#writeBtn").click(function(){
+		answerWrite()
+	})//click
+	
+	$("#listBtn").click(function(){//목록 버튼 클릭 시
+		moveQnaList();
+	})//click
+	
+	hide();
+	
+});//ready
+
+function hide(){
+	var content="<c:out value="+${answer.qnaACont }+"/>";
+	
+	if(content !== null && content !== ""){
+		$("#answerTable").css("display","none");
+	}else{
+		$("#answerTable").css("display","block");
+	}
+}
+
+
+function answerWrite(){
+	$.ajax({
+		url:"mng_qna_detail_answerWrite.do",
+		type:"POST",
+		data:$("#answerWrite").serialize(),
+		error:function(xhr){
+			alert("작성에 실패했습니다")
+			console.log(xhr.status);
+		},
+		success:function(xh){
+			location.href="http://localhost/salad_mvc/mng_qna_detail.do?qnaNum="+${param.qnaNum};
+		}
+	})
+	
+}
+
+/* function moveQnaAnswer() {
+	location.href="http://localhost/salad_mvc/mng_qna_answer.do?qnaNum="+${param.qnaNum};
+}//movePrdEdit */
+
+function moveQnaList() {
+	location.href="http://localhost/salad_mvc/mng_qna.do";
+}//movePrdList
+
+</script>
     </head>
     
     
@@ -143,45 +202,88 @@
 							<th >문의번호</th>
 							<td>
 								<text style="border: 0px; width: 100%; height: 40px;">
-								20221026025
+								<c:out value="${qnaData.qnaNum }"/>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; height: 60px;">
 							<th>제목</th>
 							<td>
-								<text  style="border: 0px; width: 100%; height: 40px;">
-								닭가슴살 문의
+								<text class="title" style="border: 0px; width: 100%; height: 40px;">
+								<c:out value="${qnaData.qnaTitle }"/>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; height: 60px;">
 							<th>작성자</th>
 							<td>
-								<text style="border: 0px; width: 100%; height: 40px;">
-								김도희 2022-10-26
+								<text style="border: 0px; width: 100%; height: 40px;"/>
+								<c:out value="${qnaData.id }"/> | <c:out value="${qnaData.qnaWriteDate}"/>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid; border-bottom: 1px solid; height: 300px;">
 							<th>문의내용</th>
 							<td>
-								<img  style="width:300px; height:100px; " src="./resources/mng_images/qna_detail.PNG"></br>
 								<text style="border: 0px; width: 100%; height: 150px;">
-								문의드립니다. </br>
-								샐러드 원산지가 궁금합니다. </br>
+								<c:out value="${qnaData.qnaCont }"/>
 								</text>
 							</td>
 						</tr>
+						
+						<tr style="border-top: 1px solid; background-color: #ECECEC; height: 60px;">
+							<th style ="padding-left: 10px;">A.</th>
+							<td>
+								<text style="border: 0px; width: 100%; height: 40px;">
+								안녕하세요 건강한 샐러드입니다.
+							</td>
+						</tr>
+						<tr style="border-top: 1px solid;  background-color: #ECECEC; height: 60px;">
+							<th>작성자</th>
+							<td>
+								<text style="border: 0px; width: 100%; height: 40px;">
+								관리자 | <c:out value="${answer.qnaAWriteDate }"/>
+							</td>
+						</tr>
+						<tr style="border-top: 1px solid;  border-bottom: 1px solid;  background-color: #ECECEC; height: 50px;">
+							<th> 내용</th>
+							<td>
+								<c:out value="${answer.qnaACont }"/>
+							</td>
+						</tr>
+						<tr style="height:  50px;"></tr>
 					</tbody>
 				</table>
+				<form method="post"  name="answerWrite" action="mng_qna_detail_answerWrite.do" id="answerWranswerTable">
+				<table id="answerTable" style="border-spacing: 0px; width: 90%; margin-left: 85px; margin-bottom: 20px; font-size:18px;">
+				<colgroup>
+						<col style="width: 100px;">
+						<col>
+					</colgroup>
+					<tr style="border-top: 1px solid; background-color: #ECECEC; height: 60px;">
+							<th style ="padding-left: 10px;">A.</th>
+							<td colspan="2">
+								<text style="border: 0px; width: 100%; height: 40px;">
+								안녕하세요 건강한 샐러드입니다.
+							</td>
+						</tr>
+						<tr style="border-top: 1px solid;  border-bottom: 1px solid;  background-color: #ECECEC; height: 300px;">
+							<th>답변 내용</th>
+							<td>
+								<textarea style="border: 0px; width: 100%; height: 200px;" name="qnaACont"></textarea>
+		 					</td>
+								<td style="width:5%;"><input type="button" class="button" id="writeBtn" value="작성"></td>
+						</tr>
+						</table>
+		 					<input type="hidden" name="qnaNum" value="${qnaData.qnaNum }"/>
+					</form>
              </div>
                
              <div style="display: flex; justify-content: space-between; width: 90%; margin-left: 85px; margin-bottom: 20px;">
-				<div>
+				<!-- <div>
 					<input type="button" value="이전 문의글" class="button">
 					<input type="button" value="다음 문의글" class="button">
-				</div>
+				</div> -->
 				<div style="display: flex;">
-					<input type="button" value="답변" class="button" >
-					<input type="button" value="목록" class="button">
+					<input type="button" value="답변" id="answerBtn" class="button" >
+					<input type="button" value="목록" id="listBtn" class="button">
 				</div>
 			</div>
           </main>

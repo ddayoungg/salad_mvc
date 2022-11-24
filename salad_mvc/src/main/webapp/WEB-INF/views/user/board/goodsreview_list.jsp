@@ -217,8 +217,90 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'AW-955276942');
 </script>
 
-	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	setRevList(1);
+});
 
+
+function setDetail(revNum){
+	location.href="goodsreview_view.do?revNum="+revNum; // 후기 상세페이지로 이동
+}
+
+
+
+//후기 리스트
+function setRevList(currentPage){
+	$.ajax({
+		url:"goodsreview_list.ajax.do",
+		data:"currentPage="+currentPage,
+		dataType:"json",
+		error:function(xhr){
+			alert("리얼후기 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			
+			/* 페이징 테이블 */
+			$("#RevListOutput").show();
+			var tbOutput="<table class='board_list_table' id='title'>";
+			 tbOutput+="<thead>";
+			 tbOutput+="<tr><th>번호</th><th>이미지</th><th>제목</th><th>날짜</th><th>작성자</th><th>조회</th></tr>";
+			 tbOutput+="</thead>";
+			 tbOutput+="<tbody>";
+			 if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					tbOutput+="<tr>";
+					tbOutput+="<td>"+json.revNum+"</td>";
+					tbOutput+="<td>"+"<img src='http://localhost/salad_mvc/resources/images/product/"+json.prdBodyThum+"' width=100px height=100px></td>";   
+					tbOutput+="<td>"+"<a href='#void' onclick='setDetail("+json.revNum+")'>"+json.revTitle+"</td>";
+					tbOutput+="<td>"+json.revWriteDate+"</td>";
+					tbOutput+="<td>"+json.name+"</td>";
+					tbOutput+="<td>"+json.revHits+"</td>";
+					tbOutput+="</tr>";
+				});//each
+			} else {
+					tbOutput+="<tr><td colspan=6>데이터가 존재하지 않습니다.</td></tr>";
+			}//end else
+					tbOutput+="</tbody>";
+					tbOutput+="</table>";
+			$("#RevListOutput").html(tbOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+				pgOutput+="<ul class='pagination'>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + 1 + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				pgOutput+="<li class='page-item'>"
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + i  + ")'>"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+			
+			$("#pageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setRevList
+
+</script>
 </head>
 	
 	
@@ -472,70 +554,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -686,303 +721,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="board_zone_sec">
     <div  class="board_zone_tit board_zone_tit_realreview">
 
-
 			
 				<h2>리얼후기</h2>
 			
 
-
     </div>
     <div class="board_zone_cont board_zone_cont_realreview" id="board_content">
         <div class="board_zone_list" align="center">
-            <table class="board_list_table" style="width:100%"">
-                <colgroup>
- <col   style="width:106px">
-                   
-                    <col   style="min-width:108px;max-width:108px;width:108px;">
-                    <col style="width:auto;">
- <col style="width:106px">
-<col style="width:106px">
-<col style="width:106px;">
-                 
-                    <col style="width:6%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>번호</th>
-                    <th   class="img" style="min-width:108px;max-width:108px;width:108px;">이미지</th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                    <th>작성자</th>
-                    <th>조회</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr data-sno="17846" data-auth="y" style="height:10px">
-                    <td>
-                        17766
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17846 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/28/375/375_main_050.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17846 ,'y')" >
-                            <strong>거뜬하게 한끼 식사네요</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 최** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17845" data-auth="y" style="height:10px">
-                    <td>
-                        17765
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17845 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/69/69_main_028.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17845 ,'y')" >
-                            <strong>크래미도 맛있어요</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 최** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17844" data-auth="y" style="height:10px">
-                    <td>
-                        17764
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17844 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/71/71_main_084.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17844 ,'y')" >
-                            <strong>맛있습니다..</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 최** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17843" data-auth="y" style="height:10px">
-                    <td>
-                        17763
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17843 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_main_029.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17843 ,'y')" >
-                            <strong>첫 정기배송</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 임** </td>
-                    <td> 1 </td>
-                </tr>
-                <tr data-sno="17842" data-auth="y" style="height:10px">
-                    <td>
-                        17762
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17842 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17842 ,'y')" >
-                            <strong>후기</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 김** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17841" data-auth="y" style="height:10px">
-                    <td>
-                        17761
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17841 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000389/1000000389_main_028.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17841 ,'y')" >
-                            <strong>맛있어요 구성도 좋아요</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 이** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17840" data-auth="y" style="height:10px">
-                    <td>
-                        17760
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17840 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17840 ,'y')" >
-                            <strong>만족해요</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td>  2022.10.27  </td>
-                    <td> 테** </td>
-                    <td> 19 </td>
-                </tr>
-                <tr data-sno="17839" data-auth="y" style="height:10px">
-                    <td>
-                        17759
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17839 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/02/13/222/222_main_090.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17839 ,'y')" >
-                            <strong>라이스종류 다 괜찮아여</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td> 2022.10.26 </td>
-                    <td> 오** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17838" data-auth="y" style="height:10px">
-                    <td>
-                        17758
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17838 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/04/15/1000000261/1000000261_main_04.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17838 ,'y')" >
-                            <strong>곤약라이스도 맛잇음</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td> 2022.10.26 </td>
-                    <td> 오** </td>
-                    <td> 0 </td>
-                </tr>
-                <tr data-sno="17837" data-auth="y" style="height:10px">
-                    <td>
-                        17757
-                    </td>
-                     <td  class="img">
-                        <div class="board_img"  style="width:108px">
-                            <a href="javascript:gd_btn_view('goodsreview',17837 , 'y')">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_main_029.jpg" width="108" height="108" class="js_image_load"/>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="board_tit">
-                        
-                        <a href="javascript:gd_btn_view('goodsreview',17837 ,'y')" >
-                            <strong>잘 먹었어요</strong>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_attach_file.png" alt="파일첨부 있음"/>
-                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/board/skin/default/img/icon/icon_board_new.png" alt="신규 등록글"/>
-                        </a>
-                    </td>
-                    <td> 2022.10.26 </td>
-                    <td> 살**** </td>
-                    <td> 3 </td>
-                </tr>
-
-                </tbody>
-            </table>
-
-
-            <div class="pagination"><ul><li class="on"><span>1</span></li><li><a href="./list.jsp?page=2&amp;bdId=goodsreview">2</a></li><li><a href="./list.jsp?page=3&amp;bdId=goodsreview">3</a></li><li><a href="./list.jsp?page=4&amp;bdId=goodsreview">4</a></li><li><a href="./list.jsp?page=5&amp;bdId=goodsreview">5</a></li><li><a href="./list.jsp?page=6&amp;bdId=goodsreview">6</a></li><li><a href="./list.jsp?page=7&amp;bdId=goodsreview">7</a></li><li><a href="./list.jsp?page=8&amp;bdId=goodsreview">8</a></li><li><a href="./list.jsp?page=9&amp;bdId=goodsreview">9</a></li><li><a href="./list.jsp?page=10&amp;bdId=goodsreview">10</a></li><li class="btn_page btn_page_next"><a aria-label="Next" href="./list.jsp?page=11&amp;bdId=goodsreview"><img src=/admin/gd_share/img/icon_arrow_page_r.png class=img-page-arrow>다음</a></li><li class="btn_page btn_page_last"><a aria-label="Last" href="./list.jsp?page=1777&amp;bdId=goodsreview"><img src=/admin/gd_share/img/icon_arrow_page_rr.png class=img-page-arrow>맨뒤</a></li></ul></div>
-
-            <!-- //pagination -->
-
-            <div class="board_search_box">
-                <form name="frmList" id="frmList" action="list.jsp" method="get">
-                    <input type="hidden" name="bdId" value="goodsreview">
-                    <input type="hidden" name="memNo" value=""/>
-                    <input type="hidden" name="noheader" value=""/>
-					<input type="hidden" name="mypageFl" value=""/>
-
-                    <select class="chosen-select" name="searchField">
-                        <option value="subject"
- >제목</option>
-                        <option value="contents"
- >내용</option>
-                        <option value="writerNm"
- >작성자</option>
-                    </select>
-
-                    <input type="text" class="text" name="searchWord" value="">
-                    <button class="btn_board_search"><em>검색</em></button>
-                </form>
-            </div>
-            <!-- //board_search_box -->
-
+        
+        	<div id="RevListOutput"></div>
+        	<div></div>
+       		<div id="pageOutput"></div> 
+               	
+	        
         </div>
         <!-- //board_zone_list -->
-
-        <div class="btn_right_box">
-            <button type="button" class="btn_write" onclick="gd_btn_write('goodsreview')"><strong>리뷰 작성하기</strong></button>
-        </div>
-
     </div>
     <!-- //board_zone_cont -->
 </div>
@@ -1190,180 +943,6 @@ var sTime = new Date().getTime();
 
 
         <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp">2</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000239">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg">
-                </span>
-                <span class="src_box">
-                    <em>4주 정기배송 샐러드 주 5일</em>
-                        <strong>92,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=353">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/21/353/353_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 만두 오리지널</em>
-                        <strong>2,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=68">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_main_094.jpg">
-                </span>
-                <span class="src_box">
-                    <em>닭가슴살 샐러드</em>
-                        <strong>6,700<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000434">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/10/43/1000000434/263_main_026.jpg">
-                </span>
-                <span class="src_box">
-                    <em>[라이스 시즌2] 취나물밥&매콤 제육볶음</em>
-                        <strong>4,900<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000061">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/10/43/1000000061/1000000061_main_023.jpg">
-                </span>
-                <span class="src_box">
-                    <em>채소만 샐러드</em>
-                        <strong>3,400<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
-
-
-    </div>
-    <!-- //scroll_wrap -->
 
 
     <!-- 퀵 검색 폼 -->
@@ -1428,13 +1007,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         
 
-<!-- Start Script for IFDO ( 회원분석 )-->
-<!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
-
-<script type='text/javascript'>
-var _NB_ID='tester21';
-var _NB_UDF={'udf01':'테스터','udf03':'010-8968-4952','udf06':'포켓탐색 Lv.1'};
-</script>
 
 <!-- End Script for IFDO -->
 <!-- Start Script for IFDO -->
@@ -1459,5 +1031,5 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
 
-</body>.
+</body>
 </html>

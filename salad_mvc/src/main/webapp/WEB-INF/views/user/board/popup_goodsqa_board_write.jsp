@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <html>
 <head>
@@ -88,7 +89,71 @@
     <!-- Add script : start -->
     <script type="text/javascript" src="/admin/gd_share/script/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-27T01%3A23%3A32%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285754%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22popup_goods_board_write.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData="></script>
     <!-- Add script : end -->
+	
+	<script type="text/javascript">
+	$(function(){
+		$("#saveBtn").click(function(){//등록 버튼 클릭 시
+	    	nullChk();//내용 입력 확인
+	    })//saveBtn
+	    
+	    $("#closeBtn").click(function(){//등록 버튼 클릭 시
+	    	window.close()//팝업 닫기
+	    })//closeBtn
+	})//ready
 
+	function loginChk() {
+		
+		<c:if test="${ sessionScope.userId eq null }">
+			alert("로그인을 해주세요.");
+			window.close();
+			return false;
+		</c:if>
+		
+	}//loginChk
+	
+	function nullChk(){
+		
+		if(!loginChk()){
+			return;
+		}//end if
+		
+		if($("#qnaTitle").val().trim()=="") {
+			alert("제목을 입력해주세요.");
+			$("#qnaTitle").val("");//화이트 스페이스 초기화
+			$("#qnaTitle").focus();//커서 이동
+			return;
+		}//end if
+		
+		if($("#qnaCont").val().trim()=="") {
+			alert("내용을 입력해주세요.");
+			$("#qnaCont").val("");//화이트 스페이스 초기화
+			$("#qnaCont").focus();//커서 이동
+			return;
+		}//end if
+		
+		save();//DB에 등록
+		
+	}//nullChk
+	
+	function save() {
+		
+		var params = $("#writeFrm").serialize();
+		$.ajax(
+		{
+			url : "add_qna_write_process.do",
+			data : params,
+			error:function( xhr ){
+				console.log(xhr.status);
+			},
+			success : function(xh){
+				alert("상품문의 글 등록이 완료 되었습니다.");
+				opener.location.reload();
+				window.close();
+			}
+		});
+	}//save
+	
+	</script>
     
 
     <style type="text/css">
@@ -114,23 +179,16 @@
 <div class="board_write_popup">
     <div class="ly_tit"><h4>상품문의 쓰기</h4></div>
     <div class="ly_cont">
-        <form name="frmWrite" id="frmWrite" action="../board/board_ps.jsp" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="gboard" value="y">
-            <input type="hidden" name="windowType" value="popup">
-            <input type="hidden" name="bdId" value="goodsqa">
-            <input type="hidden" name="sno" value="">
-            <input type="hidden" name="mode" value="write">
-            <input type="hidden" name="goodsNo" value="68">
-            <input type="hidden" name="returnUrl" value="bdId=goodsqa&goodsNo=68&orderGoodsNo=0">
-
+        <form id="writeFrm" name="writeFrm" action="add_qna_write_process.do" method="post" >
             <div class="scroll_box">
                 <div class="top_item_photo_info">
                     <div class="item_photo_box">
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/68/68_detail_027.jpg" width="570" alt="닭가슴살 샐러드" title="닭가슴살 샐러드" class="middle"  />
+                    	<input type="hidden" id="prdNum" name="prdNum" value="${ prdData.prdNum }"/>
+                        <img src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
                     </div>
                     <!-- //item_photo_view -->
                     <div class="item_info_box">
-                        <h5>닭가슴살 샐러드</h5>
+                        <h5><c:out value="${ prdData.prdName }"/></h5>
                     </div>
                 </div>
                 <!-- //top_item_photo_info -->
@@ -145,43 +203,28 @@
                             <th scope="row">말머리</th>
                             <td>
                                 <div class="category_select">
-                                    <select class=" chosen-select" id="category" name="category" style="width:127px;"><option value="상품 문의"  >상품 문의</option></select>
+                                    <span>상품 문의</span>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">작성자</th>
                             <td>
-                                홍다영
-                                <input type="hidden" name="writerNm" value="홍다영"/>
+                                <c:out value="${ sessionScope.userName }"/>
+                                <input type="hidden" id="name" name="name" value="${ session.name }"/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">제목</th>
                             <td>
-                                <input type="text" name="subject" class="write_title" placeholder="제목 입력" value=""/>
+                                <input type="text" id="qnaTitle" name="qnaTitle" class="write_title" placeholder="제목 입력" value="" maxlength="200"/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">내용</th>
                             <td class="wirte_editor">
-                                
-                                    해당글은 비밀글로만 작성이 됩니다.
-                                </div>
-                                <textarea title="내용 입력" id="editor" style="width:100%; min-width:510px;" name="contents" cols="50" rows="3" minlength="50" placeholder="(50자 이상 입력해주세요.)"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">파일</th>
-                            <td id="uploadBox">
-                                <div class="file_upload_sec">
-                                    <label for="attach"><input type="text" class="file_text" title="파일 첨부하기" readonly="readonly" /></label>
-                                    <div class="btn_upload_box">
-                                        <button type="button" class="btn_upload" title="찾아보기"><em>찾아보기</em></button>
-                                        <input type="file" id="attach" name="upfiles[]" class="file" title="찾아보기" />
-                                        <span class="btn_gray_list"><button type="button" id="addUploadBtn" class="btn_gray_big"><span>+ 추가</span></button></span>
-                                    </div>
-                                </div>
+                                    <!-- 해당글은 비밀글로만 작성이 됩니다. -->
+                                <textarea title="내용 입력" style="width:100%; min-width:510px;" id="qnaCont" name="qnaCont" cols="50" rows="3" maxlength="200" placeholder="(내용을 입력해주세요.)"></textarea>
                             </td>
                         </tr>
                         </tbody>
@@ -192,8 +235,8 @@
             <!-- //scroll_box -->
         </form>
         <div class="btn_center_box">
-            <a href="javascript:window.close()"><button class="btn_ly_cancel"><strong>취소</strong></button></a>
-            <a href="javascript:save()" class="btn_ly_write_ok"><strong>등록</strong></a>
+            <a href="#void" id="closeBtn"><button class="btn_ly_cancel"><strong>취소</strong></button></a>
+            <a href="#void" id="saveBtn" class="btn_ly_write_ok"><strong>등록</strong></a>
         </div>
     </div>
     <!-- //ly_cont -->
@@ -209,16 +252,6 @@
             <span class="btn_gray_list"><button type="button" class="btn_gray_big" onclick="gd_remove_upload(this)"><span>- 삭제</span></button></span>
         </div>
     </div>
-</script>
-<script>
-    var mode = 'write';
-    var cfgUploadFl = 'y';
-    var cfgEditorFl = 'y';
-    gd_select_email_domain('writerEmail');
-    function save() {
-        
-        $('#frmWrite').submit();
-    }
 </script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_board_write.js" charset="utf-8"></script>
 <script type="text/javascript">
@@ -289,3 +322,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	        var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src='https:'+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
         </script>
         <!-- AceCounter Log Gathering Script End -->
+        </body>
+        </html>

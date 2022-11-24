@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.myChangeMapper">
+	
+	<!-- 회원 정보 들어가기 전 비밀번호 확인 -->
+	<select id="confirmMyPass" resultType="kr.co.salad.user.vo.MyChangeVO">
+	SELECT ID,PASS
+	FROM MEMBER
+	WHERE PASS = #{pass}
+	</select>
+	
+	<!-- 내 정보 불러오기 -->
+	<select id="callMyPage" resultType="kr.co.salad.user.vo.MyChangeVO">
+	SELECT ID,NAME,PASS,EMAIL,PHONE
+	FROM MEMBER
+	WHERE PASS = #{pass}
+	</select>
+	
+	<!-- 비번 변경시 원래 비번 맞는 지 확인 -->
+	<select id="reConfirmMyPass" parameterType="kr.co.salad.user.vo.MyChangeVO"
+	resultType="kr.co.salad.user.vo.MyChangeVO">
+	SELECT ID,PASS
+	FROM MEMBER
+	WHERE PASS = #{pass} AND ID = #{id}
+	</select>
+	
+	<!-- 내 정보 변경 -->
+	<select id="changeMypage"  parameterType="kr.co.salad.user.vo.MyChangeVO"
+	>
+	UPDATE MEMBER
+	SET NAME = #{name} , EMAIL =#{email}, PHONE=#{phone}, PASS = #{pass}
+	WHERE ID = #{id}
+	</select>
+</mapper>

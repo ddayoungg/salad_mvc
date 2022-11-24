@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html>
@@ -12,7 +14,6 @@
     <meta name="keywords" content="샐러드, 닭가슴살, 샐러드배달, 샐러드도시락, 다이어트도시락, 포켓닭, 탄단지, 다이어트, 다이어트식단, 식단관리" />
     <meta name="csrf-token" content="MTY2NjcwNTMwMDAwMjIxNzY2NDYxMTk5MDM3MDU1NDY2NTc2NjQyMjc3" />
    <meta name="facebook-domain-verification" content="l8vlpgoyq5exc97dfww64gqzmnialy" />
-	
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="포켓샐러드">
@@ -77,34 +78,122 @@
     });//ready
     
 </script>
+
+<script type="text/javascript">
+$(function(){
+	
+	setPrdBoxList(1);//상품 박스형 리스트
+	
+	$("#sortTypeSel").change(function(){
+		setPrdBoxList(1);
+	})//change
+	
+})//redeay
+
+function setPrdBoxList(currentPage){//상품 박스형 리스트
+	
+	$.ajax({
+		url:"cate_prd_box_list_ajax.do",
+		data:"currentPage="+currentPage+"&mainCateNum="+${param.mainCateNum}+"&subCateNum="+${param.subCateNum}+"&sortType="+$("#sortTypeSel").val() ,
+		dataType:"json",
+		error:function( xhr ){
+			alert("상품 박스형 리스트를 불러오는 중에 문제가 발생했습니다.");
+			console.log(xhr.status);
+		},
+		success:function(jsonObj){
+			/* 페이징 테이블 */
+			
+			$("#prdBoxOutput").show();
+			
+			var ulOutput="<ul>";
+			if(!jsonObj.isEmpty){
+				$.each(jsonObj.list, function(i, json){
+					ulOutput+="<li  style='width:33.333333333333%;'>";
+			        ulOutput+="<div class='item_cont'>";
+			        ulOutput+="<div class='item_photo_box'>";
+			        ulOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+json.prdNum+"'>";
+			        ulOutput+="<img src='http://localhost/salad_mvc/common/images/product/"+json.thum+"' width='570' class='middle'/>";
+			        ulOutput+="</a>";
+			        ulOutput+="<span class='best-icon'>";
+					ulOutput+="</span>";
+			        ulOutput+="</div>";
+			        ulOutput+="<div class='item_info_cont'>";
+			        ulOutput+="<div class='item_tit_box'>";
+			        ulOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+json.prdNum+"' >";
+			        ulOutput+="<strong class='item_name'>"+json.prdName+"</strong>";
+			        ulOutput+="</a>";
+			        ulOutput+="</div>";
+			        ulOutput+="<div class='item_money_box'>";
+			        ulOutput+="<div class='all_price'>";
+					ulOutput+="<div class='per_wrap'>";
+					ulOutput+="<span class='item_discount'><em>"+json.prdDiscount+"%</em></span>";
+					ulOutput+="</div>";
+					
+					var priceDC=Math.floor(json.prdDCPrice);
+					const prdDCPrice=priceDC.toLocaleString('ko-KR');
+					
+					ulOutput+="<strong class='item_price'><span  style=''>"+prdDCPrice+"<i class='won'>원</i></span></strong>";
+			        
+					var price=Math.floor(json.prdPrice);
+					const prdPrice=price.toLocaleString('ko-KR');
+					
+					ulOutput+="<span class='d_price' style=''>"+prdPrice+"원</span>";
+			        ulOutput+="</div>";
+			        ulOutput+="</div>";
+			        ulOutput+="<div class='item_icon_box'>";
+			        ulOutput+="</div>";
+			        ulOutput+="<div class='item_review_count'>";
+			        ulOutput+=" <span class='review_count'><img src='https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png'>"+json.revCnt+"</span>";
+			        ulOutput+="</div>";
+			        ulOutput+="</div>";
+			        ulOutput+="</div>";
+			        ulOutput+="</li>";
+				});//each
+			} else {
+				ulOutput+="<li>데이터가 존재하지 않습니다.</li>";
+			}
+	        ulOutput+="</ul>";
+	        
+			$("#searchPrdCnt").html(jsonObj.totalCount);
+			$("#prdBoxOutput").html(ulOutput);
+			/* 페이징 버튼 */
+			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+				pgOutput+="<ul class='pagination'>";
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + 1 + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+			}//end if
+			if( jsonObj.startPage != 1 ) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+			}//end if
+			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+				if(currentPage==i) {
+					pgOutput+="<li class='page-item on'>"
+				} else {
+					pgOutput+="<li class='page-item'>"
+				}//end if
+					pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + i  + ")'>"+ i +"</a></li>";
+			}//end for
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+			}//end if
+			if(jsonObj.totalPage != jsonObj.endPage) {
+				pgOutput+="<li class='page-item'>";
+				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+			}//end if
+			pgOutput+="</ul></nav>";
+			
+			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+			
+			$("#pageOutput").html(pgOutput);
+		}//success
+	})//ajax
+}//setPrdList
     
-    <script type="text/javascript">
-        // 고도몰5 통화정책
-        var gdCurrencyDecimal = 0;
-        var gdCurrencyDecimalFormat = '0';
-        var gdCurrencyCode = 'KRW';
-        var gdCurrencyAddDecimal = 0;
-        var gdCurrencyAddDecimalFormat = '';
-        var gdCurrencyAddCode = '';
-        var gdLocale = 'ko';
-        var gdCurrencySymbol = '';
-        var gdCurrencyString = '원';
-
-        // 환율변환 정책
-        fx.base = "KRW";
-        fx.settings = {
-            from : "KRW",
-            to : gdCurrencyCode
-        };
-        fx.rates = {
-            "KRW" : 1,
-            "USD" : 0.00069994680404289274,
-            "CNY" : 0.00505203597049610993,
-            "JPY" : 0.10453471597917668457,
-            "EUR" : 0.00071439797682492963,
-        }
-    </script>
-
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
 
     <!-- Add script : start -->
@@ -112,38 +201,8 @@
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
     <!-- Add script : end -->
 
-    
-
-    <style type="text/css">
-        body {
-        }
-
-        /* body > #wrap > #header_warp : 상단 영역 */
-        #header_warp {
-        }
-
-        /* body > #wrap > #container : 메인 영역 */
-        #container {
-        }
-
-        /* body > #wrap > #footer_wrap : 하단 영역 */
-        #footer_wrap {
-        }
-    </style>
-
     <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/naver/naverCommonInflowScript.js?Path=/order/cart.jsp&amp;Referer=https://pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-81300049-1');
-</script>
--->
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -152,7 +211,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NS4V8GR');</script>
 <!-- End Google Tag Manager --><!-- Facebook Pixel Code -->
-        <script>
+       <!--  <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
         n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
         n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -160,18 +219,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         document,'script','https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1469865633321623', {}, {'agent':'plgodo'});
         fbq('track', 'PageView');
-        </script>
+        </script> -->
         <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469865633321623&ev=PageView&noscript=1"/></noscript>
         <!-- DO NOT MODIFY -->
         <!-- End Facebook Pixel Code --><!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', '');
-        </script>
+        </script> -->
 
         <!-- Criteo Loader -->
         <script type="text/javascript" src="//dynamic.criteo.com/js/ld/ld.js?a=34297" async="true"></script>
@@ -186,40 +245,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             kakaoPixel('5900620314493041185').viewCart();
         </script>
         <!--AceCounter eCommerce Cart_Buy v8.0 Start -->
-        <script language='javascript'>
+       <!--  <script language='javascript'>
         function aCounterPageScriptCart(param) {           
             var allCnt = 0; // 상품 총 수량
             var goodsNo = param.setGoodsNo; // 상품코드
             $('#frmViewLayer input[name*=\'goodsCnt[]\']').each(function () {
                 allCnt += parseFloat($(this).val());
-                // 장바구니에서 추가상품 카운트 제외
-                /*if ($('[id^=\'option_display_item\']').length > 0) {
-                    if ($('[id^=\'add_goods_display_item\']').length > 0) {
-                        $('[id^=\'add_goods_display_item\']').each(function(idx){
-                            var optQuantity2 = $(this).find('.count input[name=\'addGoodsCnt[0][]\']').val();
-                            allCnt += Number(optQuantity2);
-                        });
-                    }
-                }else{
-                    allCnt = 1;
-                }*/
             });
             AW_INOUT(goodsNo, allCnt);
-        }
-        </script>
+        } 
+        </script>-->
         <!--AceCounter eCommerce Cart_Buy End --><!-- This script is for AceCounter START --> 
-        <script language='javascript'> 
+       <!--  <script language='javascript'> 
             var _ag   = '0';            
             var _id   = 'tester21';  
             var _mr = 'single';       // ( 'single' , 'married') 
             var _gd = '';            //  ('man' , 'woman')  
         </script>
-        <!-- AceCounter END --><!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
+        AceCounter END --><!-- AceCounter Log Gathering Script V.8.0.2019080601
         <script language='javascript'>
 	        var _AceGID=(function(){var Inf=['gtc4.acecounter.com','8080','BS1A45883992363','AW','0','NaPm,Ncisy','ALL','0'];
 	        var _CI=(!_AceGID)?[]:_AceGID.val;var _N=0;var _T=new Image(0,0);if(_CI.join('.').indexOf(Inf[3])<0){ _T.src ='https://'+Inf[0]+'/?cookie'; _CI.push(Inf);  _N=_CI.length; } return {o: _N,val:_CI}; })();
 	        var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src='https:'+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
-        </script>
+        </script> -->
         <!-- AceCounter Log Gathering Script End -->
 	
 	<!-- Google Shopping -->
@@ -237,6 +285,130 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('config', 'AW-955276942');
 </script>
 
+<!-- 소현 -->
+<script type="text/javascript">
+	
+	$(function () {
+		setTotalPrice(); // 총 가격 입력
+		
+		//장바구니 물건 선택
+		$(".cartCheckbox").on("change", function () {
+			setTotalPrice($(".checkTd"));
+		});
+		
+		$(".up").on("click", function () {
+			var upCnt = $(this).parent("span").find("input").val();
+			$(this).parent("span").find("input").val(++upCnt);
+		});
+		
+		$(".down").on("click", function () {
+			var upCnt = $(this).parent("span").find("input").val();
+			$(this).parent("span").find("input").val(--upCnt);
+		});
+		
+		//장바구니 수량 변경
+		$(".goods_cnt").on("click", function () {
+			var prdNum = $(this).parent("span").find("input").attr("id");
+			var cartPrdCnt = $(this).parent("span").find("input").val();
+			
+			$(".updatePrdNum").val(prdNum);
+			$(".updateCartPrdCnt").val(cartPrdCnt);
+			$(".updateCntFrm").submit();
+		});
+		
+		//장바구니 삭제
+		$(".delBtn").on("click",function(){
+			var formContents = '';
+			
+			$(".checkTd").each(function (index, element) {
+				
+				if($(element).find(".cartCheckbox").is(":checked") === true){ // 체크여부
+					var cartNum = $(element).find(".cartNum").val();
+					var cartNumInput = "<input name='orders[" + index + "].cartNum' type='hidden' value='" + cartNum + "'>";
+					formContents += cartNumInput;
+				}//if
+			});//checkTd
+			
+			$(".removeCartFrm").html(formContents);
+			$(".removeCartFrm").submit();
+		});
+		
+		//선택 주문
+		$(".orderBtn").on("click", function () {
+			var formContents = '';
+			var orderNum = 0;
+			
+			$(".checkTd").each(function (index, element) {
+				
+				if($(element).find(".cartCheckbox").is(":checked") === true){ // 체크여부
+					
+					var prdNum = $(element).find(".prdNum").val();
+					var cartPrdCnt = $(element).find(".cartPrdCnt").val();
+					var totalPrice = parseInt($(element).find(".prdTotal").val());
+					
+					var prdNumInput = "<input name='orders[" + orderNum + "].prdNum' type='hidden' value='" + prdNum + "'>";
+					formContents += prdNumInput;
+					
+					var cartPrdCntInput = "<input name='orders[" + orderNum + "].cartPrdCnt' type='hidden' value='" + cartPrdCnt + "'>";
+					formContents += cartPrdCntInput;
+					
+					++orderNum;
+				}//if
+			});//checkTd
+			
+			$(".orderFrm").html(formContents);
+			$(".orderFrm").submit();
+			
+		});//orderBtn
+		
+		// 전체 주문 버튼 클릭
+		$(".orderAllBtn").on("click", function () {
+			var formContents = '';
+			var orderNum = 0;
+			
+			$(".checkTd").each(function (index, element) {
+					
+				var prdNum = $(element).find(".prdNum").val();
+				var cartPrdCnt = $(element).find(".cartPrdCnt").val();
+				var totalPrice = parseInt($(element).find(".prdTotal").val());
+				
+				var prdNumInput = "<input name='orders[" + orderNum + "].prdNum' type='hidden' value='" + prdNum + "'>";
+				formContents += prdNumInput;
+				
+				var cartPrdCntInput = "<input name='orders[" + orderNum + "].cartPrdCnt' type='hidden' value='" + cartPrdCnt + "'>";
+				formContents += cartPrdCntInput;
+				
+				++orderNum;
+				
+			});//checkTd
+			
+			$(".orderFrm").html(formContents);
+			$(".orderFrm").submit();
+			
+		});//orderAllBtn
+		
+	})//ready
+	
+	function setTotalPrice() {
+		var totalPrice = 0;
+		var totalDis = 0;
+		
+		$(".checkTd").each(function (index, element) {
+			if($(element).find(".cartCheckbox").is(":checked") === true){ // 체크여부
+				
+				totalPrice += parseInt($(element).find(".prdTotal").val());//총 가격
+				totalDis += parseInt($(element).find(".prdPriceDis").val());//총 할인가격
+			}//if
+		});//checkTd
+		
+		$(".totalPriceSpan").text(totalPrice.toLocaleString());
+		$(".totalDisSpan").text(totalDis.toLocaleString());
+		$(".totalOrderPrice").text((totalPrice-totalDis).toLocaleString());
+		
+    }//setTotalPrice
+	
+</script>
+
 	
 
 </head>
@@ -244,7 +416,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 <body id="body" class="body-order body-cart pc"  >
 <!-- Channel Plugin Scripts -->
-<script>
+<!-- <script>
   function parsePureNumber(number) {
     var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
     if (ch_pureNumber === "") {
@@ -311,7 +483,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     ChannelIO('boot', settings);
   }
 </script>
-<!-- End Channel Plugin -->
+End Channel Plugin -->
 
 	<div class="top_area"></div>
 <div id="wrap" >
@@ -332,9 +504,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<link rel="stylesheet" href="http://localhost/salad_mvc/resources/css/selectric.css">
 	<script src="http://localhost/salad_mvc/resources/js/jquery.selectric.js"></script>
 	<script>
-		$(function() {
+		/* $(function() {
 		  $('.c-select').selectric();
-		});
+		}); */
 	</script>
 
 
@@ -357,7 +529,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
+                    <input type="text" id="search_form" id="keyword" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off" value="">
                     <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
                 </div>
                 <!-- //top_text_cont -->
@@ -420,21 +592,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="recent_box">
                         <dl class="js_recent_area">
                             <dt>최근검색어</dt>
-                            <dd>
-                                <ul class="js_recent_list">
-                                    <li>
-                                        <a href="../goods/goods_search.jsp?keyword=%EB%8B%AD%EA%B0%80%EC%8A%B4">닭가슴</a>
-                                        <span><button type="button" class="btn_top_search_del" data-recent-keyword="닭가슴">
-                                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_top_search_del.png" alt="삭제"></button>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </dd>
+                            <dd>최근 검색어가 없습니다.</dd>
                         </dl>
                     </div>
                     <!-- //recent_box -->
                     <div class="seach_top_all">
-<button type="button" class="btn_top_search_all_del"><strong>전체삭제</strong></button>                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
+                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
                     </div>
                     <!-- //seach_top_all -->
 
@@ -453,34 +616,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<!-- //header_search -->
 			<div class="top_member_box">
-			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">테스터(포켓탐색 Lv.1)님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="../member/logout.jsp?returnUrl=">로그아웃</a></li>
+					<li><a href="../member/join_method.jsp">회원가입</a></li>
+					<li><a href="../member/login.jsp">로그인</a></li>
+
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
 						<a href="../service/faq.jsp">고객센터</a>
 						<div class="cs_in">
 							<ul >
 								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="../board/list.jsp?&bdId=goodsreview">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
 							</ul>
 						</div>
-
-
 					</li>
-
-				</ul>
-				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
-
-                      <strong><b><a href="../order/cart.jsp">2</a></b></strong>
-
-                    </li>
-
 				</ul>
 			</div>
         </div>
@@ -493,6 +642,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
 <!-- Google Shopping -->
 
+
 <div class="gnb">
 <div class="gnb_in">
 <!-- 전체 카테고리 출력 레이어 시작 -->
@@ -500,70 +650,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
@@ -571,87 +674,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
@@ -659,7 +689,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- 상단 카테고리 출력 시작 -->
 
             </div>
-
 
         </div>
         <!-- //gnb -->
@@ -726,506 +755,146 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <!-- //order_tit -->
 
         <div class="cart_cont">
-
+<!-- 소현 -->
             <form id="frmCart" name="frmCart" method="post" target="ifrmProcess">
-                <input type="hidden" name="mode" value=""/>
-                <input type="hidden" name="cart[cartSno]" value=""/>
-                <input type="hidden" name="cart[goodsNo]" value=""/>
-                <input type="hidden" name="cart[goodsCnt]" value=""/>
-                <input type="hidden" name="cart[addGoodsNo]" value=""/>
-                <input type="hidden" name="cart[addGoodsCnt]" value=""/>
-                <input type="hidden" name="cart[couponApplyNo]" value=""/>
-                <input type="hidden" name="useBundleGoods" value="1" />
-
-				  <!-- 장바구니 상품리스트 시작 -->
-
-                <!-- 정기배송 area start -->
-
-                <div class="cart_cont_list dev_cart_regular">
-                   <div class="deli_order_top_tit">
-						<h3>정기배송</h3>
-                   </div>
+                <div class="cart_cont_list dev_cart_general">
+                    <div class="order_cart_tit">
+                    </div>
+                    <!-- //order_cart_tit -->
+					  <div class="deli_order_top_tit">
+						<h3>일반상품</h3>
+	                   </div>
 
                     <div class="order_table_type">
                         <table>
                             <colgroup>
-                                 <col style="width:3%" >  <!-- 체크박스 -->
+                                <col style="width:3%" >  <!-- 체크박스 -->
                                 <col style="width:60%">					<!-- 상품명/옵션 -->
-                                <col style="width:14%">  <!-- 수량 -->
-                                <col style="width:23%"> <!-- 상품금액 -->
+                                <col style="width:20%">  <!-- 수량 -->
+                                <col style="width:17%"> <!-- 상품금액 -->
                             </colgroup>
-                            <thead>
+
+							  <thead>
                             <tr>
                                 <th class="first" colspan="8">
 									<div class="left_con_th">
-										<div class="form_element">
-											<input type="checkbox" id="allCheckRegular" class="gd_select_all_regular" data-target-id="cartSno" data-target-form="#frmCart" checked="checked">
-											<label for="allCheckRegular" class="check_s on"><b>전체선택</b></label>
-										</div>
+                                    <div class="form_element">
+                                        <input type="checkbox" id="allCheck1" class="gd_select_all_goods" data-target-id="cartSno1_" data-target-form="#frmCart" checked="checked">
+                                        <label for="allCheck1" class="check_s on"><b>전체선택</b></label>
+                                    </div>
 									</div>
 									<div class="right_con_th">
-                                        <button type="button" class="btn_order_choice_wish" onclick="gd_cart_process('cartToWish', 'regular');">선택 찜하기</button>
-										<button type="button" class="btn_order_choice_del" onclick="gd_cart_process('cartDelete', 'regular');">선택 삭제</button>
+										<button type="button" class="delBtn">선택 삭제</button>
 									</div>
                                 </th>
                             </tr>
                             </thead>
+
                             <tbody>
-
-
-
-                                <tr>
-									<td class="first cart_deli_intable_con_up">
-										<div class="form_element">
-											<input id="cartRegularSno1_2210252238398554" class="gd_select_regular dev_checkbox_1 dev_checkbox_1_regular" checked="checked" type="checkbox">
-											<label for="cartRegularSno1_2210252238398554" class="check_s on"></label>
-										</div>
-									</td>
-									<td  class="img_td cart_deli_intable_con_up">
-										<div class="pick_add_cont">
-                                            <span class="pick_add_img">
-                                                <a href="../goods/goods_view.jsp?goodsNo=1000000376">
-                                                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000376/1000000376_list_016.jpg" width="40" alt="하루에 한 끼를 샐러드로 5일" title="하루에 한 끼를 샐러드로 5일" class="middle" class="imgsize-s" />
-                                                </a>
-                                            </span>
+                            <c:forEach var="cart" items="${ cartList }">
+                            <tr>
+                                <td class="checkTd">
+                                	<input type="checkbox" class="cartCheckbox" checked="checked">
+                                	<input type="hidden" class="prdNum" value="${ cart.prdNum }">
+                                	<input type="hidden" class="prdPrice" value="${ cart.prdPrice }">
+                                	<input type="hidden" class="prdPriceDis" value="${ cart.prdPrice * cart.prdDiscount * 0.01 }">
+                                	<input type="hidden" class="cartPrdCnt" value="${ cart.cartPrdCnt }">
+                                	<input type="hidden" class="prdTotal" value="${ cart.prdPrice * cart.cartPrdCnt }">
+                                	<input type="hidden" class="cartNum" value="${ cart.cartNum }">
+                                </td>
+                                <td class="td_left td_left_add">
+                                    <div class="pick_add_cont">
+                                        <span class="pick_add_img">
+                                            <a href="../goods/goods_view.php?goodsNo=540"><img src="${ cart.thum }" width="40" alt="${ cart.prdName }" title="${ cart.prdName }" class="middle" class="imgsize-s" /></a>
+                                        </span>
                                         <div class="pick_add_info">
-
-                                            <em><a href="../goods/goods_view.jsp?goodsNo=1000000376">하루에 한 끼를 샐러드로 5일</a></em>
-
+                                            <em class="gds-nm-name"><a href="../goods/goods_view.php?goodsNo=540"><c:out value="${ cart.prdName }"/></a></em>
                                         </div>
                                     </div>
-									</td>
-									<td class="td_order_amount cart_deli_intable_con_up">
-										<div class="order_goods_num">
-											<span class="numcon">
-												<button type="button" class="down goods_cnt" title="감소" value="">감소</button>
-                                                <!-- <input type="text" name="" class="text"  title="수량" value="0.25" data-value="1" data-stock="0" data-key="0" onchange="option_change(this, true)" data-meal-cnt="1"> -->
-                                                    <!-- 20201218 -->
-                                                    <input type="text" name="" class="text"  title="수량" value="1" data-value="1" data-stock="0" data-key="0" onchange="option_change(this, true)" data-meal-cnt="1" data-division-option="y" data-goods-no="1000000376" data-sno="726581">
-												<button type="button" class="up goods_cnt" title="증가" value="">증가</button>
-											</span>
-										</div>
-									</td>
-									<td class="right_a1 cart_deli_intable_con_up">
-                                        <!-- <b class="order_delitop_txt">1팩×4회 총 4팩</b> -->
-                                        <!--  -->
-                                        <!-- 20201218 -->
-                                        <!-- <b class="order_delitop_txt">0팩×4회 총 0팩</b> -->
-
-										<b class="order_delitop_txt" data-deliveryweek = "1">5팩×1회 총 5팩</b>
-
-                                        <!--  -->
-										<strong class="order_sum_txt">29,820<i class="won">원</i></strong>
-									</td>
-								</tr>
-
-                                <tr >
-									<td colspan="7" class="cart_deli_intable_td">
-										<div class="cart_deli_intable_wrap">
-											<table class="cart_deli_intable">
-												<colgroup>
-													<col style="width:10%;">
-													<col style="width:50%;">
-													<col style="width:20%;">
-													<col style="width:20%;">
-												</colgroup>
-												<tbody>
-<!-- 20201218 [[ -->
-                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                        -->
-                                                                        1
-                                                                    </td>
-
-																	<td class="subj">닭가슴살 샐러드 x1</td>
-
-                                                                    <!-- <td class="ori_con">39,200원</td> -->
-
-																	<td class="ori_con">16,600원</td>
-            														<td class="dc_con">13,320원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                        -->
-                                                                        2
-                                                                    </td>
-
-																	<td class="subj">크래미 샐러드 x1</td>
-
-                                                                    <!-- <td class="ori_con">39,200원</td> -->
-
-																	<td class="ori_con">18,000원</td>
-            														<td class="dc_con">13,720원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                        -->
-                                                                        3
-                                                                    </td>
-
-																	<td class="subj">그린 샐러드 x1</td>
-
-                                                                    <!-- <td class="ori_con">39,200원</td> -->
-
-																	<td class="ori_con">12,400원</td>
-            														<td class="dc_con">9,340원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                        -->
-                                                                        4
-                                                                    </td>
-
-																	<td class="subj">채소만 샐러드 x1</td>
-
-                                                                    <!-- <td class="ori_con">39,200원</td> -->
-
-																	<td class="ori_con">10,800원</td>
-            														<td class="dc_con">6,760원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726581" name="cartSno[]" value="726581" checked="checked" data-price="29820" data-mileage="298" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="0" data-goods-no="1000000376" data-goods-nm="하루에 한 끼를 샐러드로 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252238398554"  style="display:none;">
-                                                                        -->
-                                                                        5
-                                                                    </td>
-
-																	<td class="subj">레드칠리 로스트 닭가슴살 샐러드 x1</td>
-
-                                                                    <!-- <td class="ori_con">39,200원</td> -->
-
-																	<td class="ori_con">20,600원</td>
-            														<td class="dc_con">16,500원<!--<b class="per_c_txt" >(23%할인)</b>--></td>
-
-            													</tr>
-
-
-
-
-                                                            <!-- 20201218 ]] -->
-
-
-
-
-                                                </tbody>
-											</table>
-										</div>
-
-									</td>
-								</tr>
-
-
-
-
-
-                                <tr>
-									<td class="first cart_deli_intable_con_up">
-										<div class="form_element">
-											<input id="cartRegularSno1_2210252239111652" class="gd_select_regular dev_checkbox_1 dev_checkbox_1_regular" checked="checked" type="checkbox">
-											<label for="cartRegularSno1_2210252239111652" class="check_s on"></label>
-										</div>
-									</td>
-									<td  class="img_td cart_deli_intable_con_up">
-										<div class="pick_add_cont">
-                                            <span class="pick_add_img">
-                                                <a href="../goods/goods_view.jsp?goodsNo=260">
-                                                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_list_06.jpg" width="40" alt="2주 정기배송 샐러드 주 5일" title="2주 정기배송 샐러드 주 5일" class="middle" class="imgsize-s" />
-                                                </a>
-                                            </span>
-                                        <div class="pick_add_info">
-
-                                            <em><a href="../goods/goods_view.jsp?goodsNo=260">2주 정기배송 샐러드 주 5일</a></em>
-
-                                        </div>
+                                </td>
+                                <td class="">
+                                    <div class="order_goods_num">
+										<span class="numcon">
+											<button type="button" class="down goods_cnt" title="감소">감소</button>
+                                            <input type="text" class="text" id="${ cart.prdNum }" title="수량" value="${ cart.cartPrdCnt }" >
+											<button type="button" class="up goods_cnt" title="증가">증가</button>
+										</span>
                                     </div>
-									</td>
-									<td class="td_order_amount cart_deli_intable_con_up">
-										<div class="order_goods_num">
-											<span class="numcon">
-												<button type="button" class="down goods_cnt" title="감소" value="">감소</button>
-                                                <!-- <input type="text" name="" class="text"  title="수량" value="0.25" data-value="1" data-stock="0" data-key="0" onchange="option_change(this, true)" data-meal-cnt="1"> -->
-                                                    <!-- 20201218 -->
-                                                    <input type="text" name="" class="text"  title="수량" value="1" data-value="1" data-stock="0" data-key="0" onchange="option_change(this, true)" data-meal-cnt="1" data-division-option="y" data-goods-no="260" data-sno="726582">
-												<button type="button" class="up goods_cnt" title="증가" value="">증가</button>
-											</span>
-										</div>
-									</td>
-									<td class="right_a1 cart_deli_intable_con_up">
-                                        <!-- <b class="order_delitop_txt">1팩×4회 총 4팩</b> -->
-                                        <!--  -->
-                                        <!-- 20201218 -->
-                                        <!-- <b class="order_delitop_txt">0팩×4회 총 0팩</b> -->
+                                </td>
+                                <td class="right_a1" >
+                                    <strong class="order_sum_txt">
+                                    	<fmt:formatNumber value="${ cart.prdPrice * cart.cartPrdCnt }" pattern="#,###"/>
+                                    	<i class="won">원</i>
+                                    </strong>
+                                    <p class="add_currency"></p>
+                                </td>
+                            </tr>
+                            </c:forEach>
 
-										<b class="order_delitop_txt" data-deliveryweek = "2">5팩×2회 총 10팩</b>
-
-                                        <!--  -->
-										<strong class="order_sum_txt">68,260<i class="won">원</i></strong>
-									</td>
-								</tr>
-
-                                <tr >
-									<td colspan="7" class="cart_deli_intable_td">
-										<div class="cart_deli_intable_wrap">
-											<table class="cart_deli_intable">
-												<colgroup>
-													<col style="width:10%;">
-													<col style="width:50%;">
-													<col style="width:20%;">
-													<col style="width:20%;">
-												</colgroup>
-												<tbody>
-<!-- 20201218 [[ -->
-                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                        -->
-                                                                        1
-                                                                    </td>
-
-																	<td class="subj">크래미 샐러드 x2</td>
-
-                                                                    <!-- <td class="ori_con">88,200원</td> -->
-
-																	<td class="ori_con">18,000원</td>
-            														<td class="dc_con">13,660원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                        -->
-                                                                        2
-                                                                    </td>
-
-																	<td class="subj">닭가슴살 비엔나 샐러드 x2</td>
-
-                                                                    <!-- <td class="ori_con">88,200원</td> -->
-
-																	<td class="ori_con">18,000원</td>
-            														<td class="dc_con">14,040원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                        -->
-                                                                        3
-                                                                    </td>
-
-																	<td class="subj">치즈 샐러드 x2</td>
-
-                                                                    <!-- <td class="ori_con">88,200원</td> -->
-
-																	<td class="ori_con">16,200원</td>
-            														<td class="dc_con">12,860원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                        -->
-                                                                        4
-                                                                    </td>
-
-																	<td class="subj">닭가슴살볼 옥수수톡 샐러드 x2</td>
-
-                                                                    <!-- <td class="ori_con">88,200원</td> -->
-
-																	<td class="ori_con">18,000원</td>
-            														<td class="dc_con">13,660원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-            													</tr>
-                                                                <tr>
-            														<td>
-                                                                        <!--
-                                                                        <input type="checkbox" id="cartRegularSno1_726582" name="cartSno[]" value="726582" checked="checked" data-price="68260" data-mileage="682" data-goodsdc="0" data-memberdc="0" data-coupondc="0" data-possible="y" data-goods-key="1" data-goods-no="260" data-goods-nm="2주 정기배송 샐러드 주 5일" data-option-nm="" data-fixed-sales="option" data-sales-unit="1" data-fixed-order-cnt="option" data-min-order-cnt="1" data-max-order-cnt="0" data-default-goods-cnt="1" data-regular-no="2210252239111652"  style="display:none;">
-                                                                        -->
-                                                                        5
-                                                                    </td>
-
-																	<td class="subj">훈제오리 샐러드 x2</td>
-
-                                                                    <!-- <td class="ori_con">88,200원</td> -->
-
-																	<td class="ori_con">18,000원</td>
-            														<td class="dc_con">14,040원<!--<b class="per_c_txt" >(22%할인)</b>--></td>
-
-            													</tr>
-
-
-
-
-                                                            <!-- 20201218 ]] -->
-
-
-
-
-                                                </tbody>
-											</table>
-										</div>
-
-									</td>
-								</tr>
-
-
-
-
-
-
-
-
-
-
-
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="7">
-										<div class="price_sum">
-											<div class="price_sum_cont">
-												<div class="price_sum_list">
-													<dl>
-														<dt>총 상품금액</dt>
-														<dd><strong id="regularTotalGoodsPrice">127,400</strong>원</dd>
-													</dl>
-													<span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_minus.png" alt="더하기"></span>
-													<dl>
-														<dt>총 할인금액</dt>
-														<dd><strong id="regularTotalDcPrice">29,320</strong>원</dd>
-													</dl>
-													<span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_plus.png" alt="합계"></span>
-													<dl>
-														<dt>총 배송비</dt>
-														<dd id="regularTotalDeliveryCharge">
-															<strong id="regularTotalDeliveryCharge11">4,500</strong>원 X <strong>2</strong>회
-                                                        </dd>
-													</dl>
-													<span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc/img/order/order_price_total.png" alt="합계"></span>
-													<dl class="price_total">
-														<dt>결제금액</dt>
-														<!-- <dd><strong id="totalSettlePrice">107,080</strong>원 -->
-                                                        <!-- <dd><strong id="regularTotalSettlePrice">107,080</strong>원 -->
-                                                        <dd><strong id="regularTotalSettlePrice">107,080</strong>원
-                                                        </dd>
-													</dl>
-												</div>
-											</div>
-											<!-- //price_sum_cont -->
-										</div>
-									</td>
-								</tr>
-							</tfoot>
+                            </tbody>
                         </table>
-					</div>
-					<!-- 정기배송 area end -->
-
+                    </div>
                 </div>
-
-
-
-                <!-- 장바구니 상품리스트 시작 -->
-
-                <!-- //cart_cont_list -->
-                <!-- 장바구니 상품리스트 끝 -->
-
-
+            </form>
+            
+            <!-- 수량 수정 form -->
+            <form action="edit_cart_cnt.do" method="get" class="updateCntFrm">
+            	<input type="hidden" name="id" value="test">
+            	<input type="hidden" name="cartPrdCnt" class="updateCartPrdCnt">
+            	<input type="hidden" name="prdNum" class="updatePrdNum">
+            </form>
+            
+            <!-- 삭제 form -->
+            <form action="remove_cart_process.do" method="get" class="removeCartFrm">
+            	<input type="hidden" name="cartNum" class="cartNumInput">
+            </form>
+            
+            <!-- 주문 form -->
+            <form action="order.do" method="get" class="orderFrm">
+            	<input type="hidden" name="id" value="test">
             </form>
 
+            <div class="price_sum">
+                <div class="price_sum_cont">
+                    <div class="price_sum_list">
+                        <dl>
+                            <dt>총 상품금액</dt>
+                            <dd><strong class="totalPriceSpan"></strong>원</dd>
+                        </dl>
 
+                        <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_minus.png" alt="빼기" /></span>
+                        <dl>
+                            <dt>총 할인금액</dt>
+                            <dd><strong class="totalDisSpan"></strong>원</dd>
+                        </dl>
+                        <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_plus.png" alt="더하기" /></span>
+                        <dl>
+                            <dt>총 배송비</dt>
+                            <dd><strong id="totalDeliveryCharge">0</strong>원</dd>
+                        </dl>
+                        <span><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/order/order_price_total.png" alt="합계" /></span>
+                        <dl class="price_total">
+                            <dt>결제금액</dt>
+                            <dd><strong class="totalOrderPrice"></strong>원
+                            </dd>
+                        </dl>
+                    </div>
+					<em id="deliveryChargeText" class="tobe_mileage"></em>
+                <!-- //price_sum_cont -->
+            </div>
+            <!-- //price_sum -->
 
             <div class="btn_order_box btn_order_box2">
                 <span class="btn_left_box">
-
                 </span>
-
-
             </div>
-
-
-
-
-
-
             <!-- //btn_order_box -->
-
-			<div class="chk_none_right">
-				<em class="chk_none">네이버페이 결제 시 새벽배송 불가, 쿠폰/적립금은 주문서 작성 단계에서 적용 가능</em>
-			</div>
-
 			<div class="cart_btn_center_box">
-					<a href="https://pocketsalad.co.kr:443/goods/goods_list.jsp?cateCd=001" class="shop_go_link">쇼핑 계속하기</a>
-					<button type="button" class="btn_order_choice_buy" onclick="gd_cart_process('orderSelect');">선택 상품 주문</button>
-                    <button type="button" class="btn_order_whole_buy" onclick="gd_order_all();">전체 주문</button>
+					<a href="index.do" class="shop_go_link">쇼핑 계속하기</a>
+					<button type="button" class="btn_order_choice_buy orderBtn">선택 상품 주문</button>
+                    <button type="button" class="btn_order_whole_buy orderAllBtn">전체 주문</button>
 			</div>
 
-            <div class="pay_box" >
-                <div class="payco_pay">
-                    
-                </div>
-                <div class="naver_pay">
-                    
-<script type="text/javascript" src="https://pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>
-<script type="text/javascript" >//<![CDATA[
-function naverPay() {
-var checkedCnt = $('#frmCart  input:checkbox[name="cartSno[]"]:checked').length;
-if (checkedCnt == 0) {
- alert('선택하신 상품이 없습니다.');
-return false;
-}
-var cartAlertMsg = '';
-if (typeof gd_cart_cnt_info !== 'undefined') {
-cartAlertMsg = gd_cart_cnt_info();
-if (cartAlertMsg) {
-alert(cartAlertMsg);
-return false;
-}
-}
-var frm = $("#frmCart");
-var tmpAction = frm.attr("action");
-var tmpMode = frm.find("[name=mode]:hidden").val();
-frm.attr("action", "../goods/naver_pay.jsp");
-frm.find("[name=mode]:hidden").val("cart");
-window.open("about:blank","naverPayWin");
-var htmlPopupMode = "<input type=\"hidden\" name=\"popupMode\" value=\"y\">";
-frm.append(htmlPopupMode)
-frm.attr("target","naverPayWin")
-frm.submit();
-frm.attr("action", tmpAction);
-frm.find("[name=mode]:hidden").val(tmpMode);
-frm.attr("target","ifrmProcess")
-}
-
-</script>
-<script type="text/javascript" >//<![CDATA[
-naver.NaverPayButton.apply({
-BUTTON_KEY: "4D83551F-ABEB-4AD0-BEF5-91AEFE1E8EAA", // 체크아웃에서 제공받은 버튼 인증 키 입력
-TYPE: "A", // 버튼 모음 종류 설정
-COLOR: 1, // 버튼 모음의 색 설정
-COUNT: 1, // 버튼 개수 설정. 구매하기 버튼만 있으면(장바구니 페이지) 1, 관심상품 버튼도 있으면(상품 상세 페이지) 2를 입력.
-BUY_BUTTON_HANDLER: naverPay, 
-ENABLE: "Y", // 품절 등의 이유로 버튼 모음을 비활성화할 때에는 "N" 입력
-"":""
-});
-//]]></script>
                 </div>
             </div>
             <!-- //pay_box -->
@@ -1237,14 +906,6 @@ ENABLE: "Y", // 품절 등의 이유로 버튼 모음을 비활성화할 때에�
 </div>
 <!-- //content_box -->
 
-<!-- 쿠폰 적용하기 레이어 -->
-<div id="couponApplyLayer" class="layer_wrap coupon_apply_layer dn"></div>
-<!--//쿠폰 적용하기 레이어 -->
-
-<!-- 옵션 변경하기 레이어 -->
-<div id="optionViewLayer" class="layer_wrap dn"></div>
-<!-- 옵션 변경하기 레이어 -->
-
 <script type="text/javascript">
     <!--
     $(document).ready(function () {
@@ -1255,47 +916,10 @@ ENABLE: "Y", // 품절 등의 이유로 버튼 모음을 비활성화할 때에�
             }
         });
 
-        // 쿠폰 적용/변경 레이어
-        $('.btn_open_layer').bind('click', function(e){
-            if($(this).attr('href') == '#couponApplyLayer') {
-                var params = {
-                    mode: 'coupon_apply',
-                    cartSno: $(this).data('cartsno'),
-                };
-                $.ajax({
-                    method: "POST",
-                    cache: false,
-                    url: "../order/layer_coupon_apply.jsp",
-                    data: params,
-                    success: function (data) {
-                        $('#couponApplyLayer').empty().append(data);
-                        $('#couponApplyLayer').find('>div').center();
-                    },
-                    error: function (data) {
-//                        console.log(data);
-                        alert(data);
-                    }
-                });
-            }
-        });
-        // 쿠폰 취소
-        $('.js_btn_coupon_cancel').bind('click', function(e){
-            var cartSno = $(this).data('cartsno');
-            $('[name="cart[cartSno]"]').val(cartSno);
-            $('#frmCart input[name=\'mode\']').val('couponDelete');
-            $('#frmCart').attr('method', 'post');
-            $('#frmCart').attr('target', 'ifrmProcess');
-            $('#frmCart').attr('action', '../order/cart_ps.jsp');
-            $('#frmCart').submit();
-
-            return false;
-        });
         // 숫자 체크
         //$('input[name*=\'goodsCnt\']').number_only();
 
-
         var totalDeliveryCharge = numeral().unformat($('#totalDeliveryCharge').text());
-
 
         $('.gd_select_all_regular, .gd_select_regular').click(function () {
             // console.log('gd_select_regular');
@@ -2084,109 +1708,6 @@ ENABLE: "Y", // 품절 등의 이유로 버튼 모음을 비활성화할 때에�
 </script>
 <link rel="stylesheet" href="http://localhost/salad_mvc/resources/css/jquery.mCustomScrollbar.css">
 <script src="http://localhost/salad_mvc/resources/js/jquery.mCustomScrollbar.js"></script>
-<script>
-    (function($){
-        $(window).on("load",function(){
-            $(".cart_deli_intable_wrap").mCustomScrollbar({
-			mouseWheelPixels: 50
-            });
-        });
-    })(jQuery);
-</script>
-<!-- Doyouad Start 삭제 하지 마세요. -->
-<script type="text/javascript">
-(function (w, d, s, n, t) {n = d.createElement(s);n.type = "text/javascript";n.setAttribute("id", "doyouadScript");n.setAttribute("data-user", "pocketsalad");n.setAttribute("data-page", "basket");n.async = !0;n.defer = !0;n.src = "https://cdn.doyouad.com/js/dyadTracker.js?v=" + new Date().toISOString().slice(0, 10).replace(/-/g, "");t = d.getElementsByTagName(s)[0];t.parentNode.insertBefore(n, t);})(window, document, "script");
-</script>
-<!-- Doyouad End -->
-<!-- Enliple Tracker Start -->
-<script type="text/javascript">
-    (function(a,g,e,n,t){a.enp=a.enp||function(){(a.enp.q=a.enp.q||[]).push(arguments)};n=g.createElement(e);n.async=!0;n.defer=!0;n.src="https://cdn.megadata.co.kr/dist/prod/enp_tracker_godomall_rent.min.js";t=g.getElementsByTagName(e)[0];t.parentNode.insertBefore(n,t)})(window,document,"script");
-    enp('create', 'conversion', 'atower2015', { device: 'W', paySys: 'naverPay' });
-</script>
-<!-- Enliple Tracker End -->
-
-
-
-
-
-
-<!-- Start Script for IFDO ( 장바구니 분석 )-->
-<!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
-
-<!-- 장바구니 상품리스트 시작 -->
-<div id='ifdo_basket_list' style='display:none;'>
-</div>
-<!-- 장바구니 상품리스트 끝 -->
-
-<script type='text/javascript'>
-var _NB_LO = [];
-    var _NB_plist =[];
-//var _NB_LO = [{'PN':'','CT':'','AM':'0','PR':'2000'}];
-var obj = document.getElementById('ifdo_basket_list');
-if( obj != null ){
-var obj2 = obj.getElementsByClassName('ifdo_basket_ul');
-var len = obj2.length;
-if( len > 0 ){
-for(var i=0;i<len;i++){
-var _l_no=obj2[i].getElementsByClassName('ifdo_product_no')[0].textContent;
-var _l_name=obj2[i].getElementsByClassName('ifdo_product_name')[0].textContent;
-var _l_price=obj2[i].getElementsByClassName('ifdo_product_price')[0].textContent;
-                var _l_cate=obj2[i].getElementsByClassName('ifdo_product_cate')[0].textContent;
-                var _l_num=obj2[i].getElementsByClassName('ifdo_product_num')[0].textContent;
-if(_l_name!=''&&_l_price!=''&&_l_num!=''){
-                    if( typeof _NB_plist[_l_name] == 'undefined'){
-                        var _t_obj = {};
-_t_obj['PC'] = _l_no;
-                        _t_obj['PN'] = _l_name;
-                        _t_obj['PR'] = parseInt(_l_price.replace(/[^0-9]/gi,''));
-                        _t_obj['AM'] = parseInt(_l_num.replace(/[^0-9]/gi,''));
-                        _t_obj['CT'] = '';
-                        _NB_LO.push(_t_obj);
-_NB_plist[_l_name] = _l_name;
-                    }
-}
-}
-}
-}
-    var _NB_PM = 'u';/*장바구니 구분값*/
-
-</script>
-
-<!-- End Script for IFDO -->
-
-<!-- Start Script for IFDO ( Npay 클릭분석 - 상세페이지 상세페이지 팝업 옵션  )-->
-<!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
-<!-- IFDO 네이버페이 구매분석전용 ( 고도몰 ) 스크립트 -->
-<!-- PC웹 장바구니 --->
-<script type='text/javascript'>
-_DM_ready=function(fn) { if (document.readyState != 'loading'){fn();}else if(document.addEventListener){ document.addEventListener('DOMContentLoaded', fn);} else{ document.attachEvent('onreadystatechange', function() {  if (document.readyState != 'loading') fn();});} };
-_addEvent=function(o,e,f){if(o.addEventListener){o.addEventListener(e,f,false);}else if(o.attachEvent){o.attachEvent('on'+e,f);};};
-function _NB_PAGE(a,b,c,d){ a=('/'==a.charAt(0)?document.domain:document.domain+'/')+a;_NB_LVAR.url=a;if(typeof b=='string') _NB_LVAR.title=b;var g=au+'//'+_NB_gs+'/WGT/?cur_stamp='+cur_stamp;_NB_LVAR.deviceid = _NB_DVID; Object.keys(_NB_LVAR).forEach(function(j){ if(typeof _NB_LVAR[j]!='function'){g+='&'+j+'='+encodeURIComponent(_NB_LVAR[j])} });if(typeof c=='string') g+='&join_id='+c;if(typeof d=='string') g+='&m_join='+d; var _Img=new Image(); _Img.src=g+'&rand='+Math.random();_NB_MKTImg.push(_Img);}
-setTimeout(function(){
-var obj= document.getElementsByClassName('npay_btn_item');
-if( obj.length <= 0 ) return;
-_addEvent(obj[0],'mousedown',function(){
-var _id_s=document.getElementsByClassName('npay_btn_link')[0].getAttribute('id').split('_');
-var _NB_ORD_AMT = 0;
-var _NB_ORD_NO = 'NPAY2_'+_id_s[_id_s.length-1];
-if( typeof _NB_LO =='object' && _NB_LO.length > 0 ){
-Object.keys(_NB_LO).forEach(function(j) {
-_NB_ORD_AMT+= _NB_LO[j]['PR'];
-});
-}
-if( _NB_ORD_AMT > 0 ){
-if( typeof _NB_LO =='object' && _NB_LO.length > 0 ){ _NB_LL=_NB_MLST(_NB_LO); }
-if( typeof sessionStorage == 'object' && _NB_ORD_NO != '' ){var _ORDERNO = sessionStorage.getItem('_ORDERNO');if(_ORDERNO == null) _ORDERNO = ''; if(_ORDERNO != '' ){if(_ORDERNO.indexOf('|'+_NB_ORD_NO+'|')>=0){ _NB_LL = '';_NB_ORD_AMT='0';_NB_PM=''; }else{ sessionStorage.setItem('_ORDERNO',_ORDERNO+_NB_ORD_NO+'|');}}else{sessionStorage.setItem('_ORDERNO','|'+_NB_ORD_NO+'|');};};
-_NB_LVAR.ll = _NB_LL;_NB_LVAR.pm='x';_NB_LVAR.order_no=_NB_ORD_NO;
-_NB_PAGE('order/order_npay.html','구매_NPay');
-_NB_LVAR.ll = '';_NB_LVAR.pm='';_NB_LVAR.order_no='';
-}
-});
-},3000);
-</script>
-<!-- IFDO 네이버페이 구매분석전용 ( 고도몰 ) 스크립트 -->
-<!-- End Script for IFDO -->
-
             </div>
             <!-- //sub_content -->
         </div>
@@ -2268,7 +1789,7 @@ _NB_LVAR.ll = '';_NB_LVAR.pm='';_NB_LVAR.order_no='';
 		<!-- //content_info_wrap -->
     </div>
 <script>
-$(function(){
+<!-- $(function(){
 
 	$("input[type='password']").on("propertychange change keyup paste input", function(){
 			$(this).addClass("onput");
@@ -2276,7 +1797,7 @@ $(function(){
 	});
 	$("input[type='password']").removeClass("onput");
 });
-</script>
+</script> -->
     <!-- //foot_cont -->
     <div class="foot_certify">
         <span></span>
@@ -2286,50 +1807,16 @@ $(function(){
 </div>
 <!-- //footer -->
 
-<!-- Global site tag (gtag.js) - Google Ads: 955276942 -->
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-955276942"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-955276942');
-</script>
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-81300049-1');
-</script>
--->
-
 <script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/adfit/static/kp.js"></script>
 <script type="text/javascript">
       kakaoPixel('5900620314493041185').pageView();
 </script>
-
-
 
 <script type='text/javascript'>
 	var sTime = new Date().getTime();
 
 	(function(i,s,o,g,r,a,m){i['cmcObject']=g;i['cmcUid']=r;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//parks2016.cmclog.cafe24.com/weblog.js?v='+sTime,'parks2016');
 </script>
-
-<!-- 리포트2.0 로그분석코드 시작 -->
-<script type="text/javascript">
-var sTime = new Date().getTime();
-(function(i,s,o,g,r,a,m){i['webObject']=g;i['webUid']=r;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})
-(window,document,'script','//parks2016.weblog.cafe24.com/weblog.js?v='+sTime,'parks2016');
-</script>
-<!-- 리포트2.0  로그분석코드 완료 -->
 
 <script type='text/javascript'>
 (function(i,s,o,g,r,a,m,n,d){i['cfaObject']=g;i['cfaUid']=r;i['cfaStype']=a;i['cfaDomain']=m;i['cfaSno']=n;i['cfaEtc']=d;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})
@@ -2347,234 +1834,18 @@ var sTime = new Date().getTime();
         </div>
         <!-- //scroll_left -->
         <!-- //좌측 스크롤 배너 -->
-
-
-        <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
-<div class="qmenu_wrap">
-	<ul class="qm qm1">
-		<li><a href="http://localhost/salad_mvc/resources/user/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
-		<li class="cart"><span><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_cart.png" alt=""></a>
-			<strong><a href="../order/cart.jsp">2</a></strong>
-
-		</span></li>
-
-	</ul>
-
-
-<div class="bg_scroll_right_cont"></div>
-<div class="scroll_right_cont">
- <div class="scr_paging">
-        <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
-
-    </div>
-   <!--  <h4>TODAY VIEW</h4> -->
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=260">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_main_029.jpg">
-                </span>
-                <span class="src_box">
-                    <em>2주 정기배송 샐러드 주 5일</em>
-                        <strong>46,500<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000376">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000376/1000000376_main_086.jpg">
-                </span>
-                <span class="src_box">
-                    <em>하루에 한 끼를 샐러드로 5일</em>
-                        <strong>23,350<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000240">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000240/1000000240_main_028.jpg">
-                </span>
-                <span class="src_box">
-                    <em>4주 정기배송 샐러드 주 3일</em>
-                        <strong>55,800<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-    <ul>
-        <li>
-            <a href="../goods/goods_view.jsp?goodsNo=1000000149">
-                <span class="photo">
-                    <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/11/48/1000000149/1000000149_main_093.jpg">
-                </span>
-                <span class="src_box">
-                    <em>그릴 닭가슴살볼 3종 혼합 6팩</em>
-                        <strong>16,100<b>원</b></strong>
-                </span>
-                <!-- //src_box -->
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="scr_paging scr_paging2">
-
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
-        <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
-    </div>
-    <!-- //scr_paging -->
-</div>
-
-</div>
-<span class="btn_scroll_top"><a href="#TOP"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_top.png" alt="상단으로 이동"/></a></span>
-<span class="btn_scroll_down"><a href="#footer"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_scroll_down.png" alt="하단으로 이동"/></a></span>
-
-<script type="text/javascript">
-    // DOM 로드
-    $(function () {
-        $('.scroll_right_cont').todayGoods();
-    });
-
-    // 최근본상품 리스트 페이징 처리 플러그인
-    $.fn.todayGoods = function () {
-        // 기본값 세팅
-        var self = $(this);
-        var setting = {
-            page: 1,
-            total: 0,
-            rowno: 3
-        };
-        var element = {
-            goodsList: self.find('ul > li'),
-            closeButton: self.find('ul > li > button'),
-            prev: self.find('.scr_paging > .bnt_scroll_prev'),
-            next: self.find('.scr_paging > .bnt_scroll_next'),
-            paging: self.find('.scr_paging')
-        };
-
-        // 페이지 갯수 설정
-        setting.total = Math.ceil(element.goodsList.length / setting.rowno);
-
-        // 화면 초기화 및 갱신 (페이지 및 갯수 표기)
-        var init = function () {
-            if (setting.total == 0) {
-                setting.page = 0;
-                element.paging.hide();
-            }
-            self.find('ul').hide().eq(setting.page - 1).show();
-            self.find('.scr_paging .js_current').text(setting.page);
-            self.find('.scr_paging .js_total').text(setting.total);
-        }
-
-        // 삭제버튼 클릭
-        element.closeButton.click(function(e){
-            $.post('../goods/goods_ps.jsp', {
-                'mode': 'delete_today_goods',
-                'goodsNo': $(this).data('goods-no')
-            }, function (data, status) {
-                // 값이 없는 경우 성공
-                if (status == 'success' && data == '') {
-                    location.reload(true);
-                }
-                else {
-                    console.log('request fail. ajax status (' + status + ')');
-                }
-            });
-        });
-
-        // 이전버튼 클릭
-        element.prev.click(function (e) {
-            setting.page = 1 == setting.page ? setting.total : setting.page - 1;
-            init();
-        });
-
-        // 다음버튼 클릭
-        element.next.click(function (e) {
-            setting.page = setting.total == setting.page ? 1 : setting.page + 1;
-            init();
-        });
-
-        // 화면 초기화
-        init();
-    };
-</script>
-        </div>
-        <!-- //scroll_right -->
-        <!-- //우측 스크롤 배너 -->
-
-
     </div>
     <!-- //scroll_wrap -->
-
-
-    <!-- 퀵 검색 폼 -->
-    <!-- 퀵 검색 폼 -->
-
-</div>
-<!-- //wrap -->
-
-<!-- 쇼핑 카트 탭 -->
-
-<!-- //쇼핑 카트 탭 -->
-
-<!-- 회원가입 유도 푸시 -->
-
-<!-- //회원가입 유도 푸시 -->
-
 <!-- 절대! 지우지마세요 : Start -->
 <div id="layerDim" class="dn">&nbsp;</div>
 <iframe name="ifrmProcess" src='/blank.jsp' style="display:none" width="100%" height="0" bgcolor="#000"></iframe>
 <!-- 절대! 지우지마세요 : End -->
 
-<!-- 외부 스크립트 -->
-<!-- Google Tag Manager (noscript) -->
+<!-- <!-- 외부 스크립트
+Google Tag Manager (noscript)
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NS4V8GR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) --><!-- Criteo Cart Event Script -->
-        <script type="text/javascript">
-        var setCriteoGoodsPrice = 0;
-            
-        function set_criteo_price() {
-            if (typeof $('#frmViewLayer input[name="set_goods_price"]').val() == 'undefined') {
-                var tmpGoodsPrice = parseFloat($('#frmView input[name="set_goods_price"]').val());
-                var tmpOptionPrice = parseFloat($('#frmView input[name="set_option_price"]').val());
-                var tmpTextPrice = parseFloat($('#frmView input[name="set_option_text_price"]').val());
-            } else {
-                var tmpGoodsPrice = parseFloat($('#frmViewLayer input[name="set_goods_price"]').val());
-                var tmpOptionPrice = parseFloat($('#frmViewLayer input[name="set_option_price"]').val());
-                var tmpTextPrice = parseFloat($('#frmViewLayer input[name="set_option_text_price"]').val());
-            }
-            if (tmpOptionPrice > 0) { tmpOptionPrice = tmpOptionPrice / goodsTotalCnt; }
-            if (tmpTextPrice > 0) { tmpTextPrice = tmpTextPrice / goodsTotalCnt; }
-            
-            setCriteoGoodsPrice = tmpGoodsPrice + tmpOptionPrice + tmpTextPrice;
-        }
-        
-        function criteoCartEvent(goodsNo, price, quantity) {
-            window.criteo_q = window.criteo_q || [];
-            var deviceType = /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d";
-            window.criteo_q.push(
-                { event: "setAccount", account: "34297" },
-                { event: "setEmail", email: "9360d2e2e294fd47c5ec8d55c10ae8d557df6cc1f970be3774fd17fc987d2895", hash_method: "sha256" },
-                { event: "setZipcode", zipcode: "" },
-                { event: "setSiteType", type: deviceType },
-                { event: "addToCart", item: [
-                    { id: goodsNo, price: price, quantity: quantity }
-                    ]
-                }
-            );
-        }
-        </script>
-        <!-- End Criteo Cart Event Script -->
-
-        
+End Google Tag Manager (noscript) -->Criteo Cart Event Script -->
 
 <!-- Start Script for IFDO ( 회원분석 )-->
 <!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
@@ -2594,7 +1865,6 @@ var _NB_APPVER=''; /* 하이브리드 앱 버전 */
 f.setAttribute('charset','utf-8');
 g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/jfullscript.js');
 </script>
-<!-- End Script for IFDO -->
 
 <!-- Enliple Tracker Start -->
 <script type="text/javascript">
@@ -2619,9 +1889,3 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
     'goodsInfo': goodsInfo
   });
 </script>
-
-<!-- LABBIT GA 향상된 전자상거래 관련 세팅 -->
-<script>
-	var option1, option2;
-</script>
-<!-- LABBIT GA 향상된 전자상거래 관련 세팅 끝-->

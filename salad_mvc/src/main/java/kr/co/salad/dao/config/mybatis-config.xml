@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<properties resource="properties/database.properties"/>
+<!-- db컬럼명과 domain 맞춰주기 -->
+<settings>
+	<setting name="mapUnderscoreToCamelCase" value="true" />
+</settings>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+  <!-- 다영 -->
+  <mapper resource="kr/co/salad/user/dao/mapper/memberMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyUserOutMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyUserDeliMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyPageMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/RevMangerMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/NotiMangerMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/DeilMangerMapper.xml"/>
+  <!-- 상민 -->
+  <mapper resource="kr/co/salad/user/dao/mapper/KategoriePrdMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/SearchPrdMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/PrdDetailMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/PrdDetailRevMapper.xml"/>
+ <mapper resource="kr/co/salad/user/dao/mapper/PrdDetailQnaMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/WishMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/PrdDetailCartMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyCancelMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/MngMemberMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/MngPrdMapper.xml"/>
+  <!-- 도희 -->
+  <mapper resource="kr/co/salad/manager/dao/mapper/mngLoginMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/mngDashMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/mngCancelMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/myChangeMapper.xml"/>
+  <!-- 소현 -->
+  <mapper resource="kr/co/salad/user/dao/mapper/cartMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/orderMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/MngOrderMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyOrderMapper.xml"/>
+  <!-- 인화 -->
+  <mapper resource="kr/co/salad/user/dao/mapper/ReviewMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/NoticeMapper.xml"/>
+  <mapper resource="kr/co/salad/user/dao/mapper/MyRevMapper.xml"/>
+  <!-- 태규 -->
+  <mapper resource="kr/co/salad/user/dao/mapper/mainMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/MngQnaMapper.xml"/>
+  <mapper resource="kr/co/salad/manager/dao/mapper/MngQnaAMapper.xml"/>
+  </mappers>
+</configuration>

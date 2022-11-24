@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.cartMapper">
+
+	<!-- 상품 삭제 -->
+	<delete id="deleteCart" parameterType="kr.co.salad.user.vo.CartVO">
+		delete from cart
+		where cart_num=#{cartNum}
+	</delete>
+	
+	<!-- 상품 리스트 -->
+	<select id="selectCart" resultType="kr.co.salad.user.domain.CartDomain" parameterType="String">
+		select	c.cart_num, c.id, p.prd_num, c.cart_prd_cnt, p.thum, p.prd_name, p.prd_price, p.prd_discount	
+		from	cart c, product p
+		where	c.id=#{id} and c.prd_num=p.prd_num and not c.cart_prd_cnt=0
+	</select>
+	
+	<!-- 상품 수량 업데이트 -->
+	<update id="updateCnt" parameterType="kr.co.salad.user.vo.CartVO">
+		update	cart
+		set		cart_prd_cnt=#{cartPrdCnt}
+		where	id=#{id} and prd_num=#{prdNum}
+	</update>
+	
+</mapper>

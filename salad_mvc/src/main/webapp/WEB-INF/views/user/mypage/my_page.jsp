@@ -47,6 +47,42 @@
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/plugins/bootstrap-datetimepicker.min.css" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/plugins/bootstrap-datetimepicker-standalone.css" />
     <!-- Add style : end -->
+    <!-- 도희 css 추가 -->
+    <style type="text/css"> 
+    .greenStar{
+    color:#00af85;
+    font-weight: bold;
+    }
+    .btn_myPageCancel{
+    width:238px;
+    height:58px;
+    color:#00af85;
+    font-weight:400;
+    font-size:20px;
+    border:1px solid #00af85;
+    background: #fff;
+    cursor: pointer;
+    }
+    .btn_myPageConfirm{
+    width:238px;
+    height:58px;
+    color:#fff;
+    font-weight:400;
+    font-size:20px;
+    background: #00af85 !important; 
+    cursor: pointer;
+    }
+    .btn_myPass{
+    border:1px solid #00af85 !important;
+    height: 50px;   
+    margin: 0 0 0 10px;
+    padding: 0;
+    }
+     .btn_myPass:hover{
+    background: #00af85;
+    color:#fff;
+    }
+    </style>
 
     <script type="text/javascript">
         var json_locale_data = {"domain":"messages","locale_data":{"messages":{"":{"lang":"ATF","plural-forms":"nplurals=1; plural=0"}}}}
@@ -69,7 +105,149 @@
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
-    
+<!-- 김도희 추가  -->
+<script type="text/javascript">
+$(document).ready(function(){
+		let message = "${confirmMsg}";
+		
+		if (message === "회원정보가 변경되었습니다.") {
+			alert("회원정보가 변경되었습니다."); 
+		} else if (message === "회원정보가 변경되지 않았습니다.") {
+			alert("회원정보가 변경되지 않았습니다."); 
+		}
+		/* if (message != ""){
+			alert(message);
+		} else {
+			
+		} */
+	}) 
+</script>  
+<script type="text/javascript">
+/* $(function(){
+	
+	$("#allMenuToggle").click(function(){
+		$("#gnbAllMenu").toggle();
+	});//click
+	
+});//ready */
+
+/* 현재 비밀번호 확인 */
+ $(function(){
+	
+	$("#btn_passReConfirm").click(function(){
+	var pass =  "${chanConfirmVO.pass}";
+	var passRe = document.getElementById('passReConfirm');
+	console.log("맞니?"+pass);
+	console.log("맞니?"+passRe);
+	
+		if(pass == passRe.value){
+			alert("비밀번호가 확인되었습니다");
+		} else{
+			alert("비밀번호가 올바르지않습니다.");
+		}
+	});
+}); 
+
+$(function() {
+	//$("#newPassword").hide();
+	//$("#pass").hide();
+	
+	$("input").keyup(function() {
+		var newPass = $("#newPassword").val();
+		var newPassChk = $("#pass").val();
+		
+		if(newPass != "" ||  newPassChk != ""){
+			if (newPass == newPassChk){
+				$("#alert-success").show();
+				$("#alert-danger").hide();
+				
+			} else{
+				$("#alert-success").hide();
+				$("#alert-danger").show();
+				$("#btn_myPageConfirm").attr("disabled",false);
+			}
+		}//
+	});
+});
+
+
+$(function() {
+ $("#btn_myPageConfirm").click(function(){
+	var name = $("#name").val();
+	var newEmail = "";
+	var newEmailHead = $("#email_head").val();
+	var newEmailNext = $("#email_next").val();
+	var newPhone = $("#phone").val();
+   	var email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+	var newPass = $("#newPassword").val();
+	var newPassChk = $("#pass").val();
+	var recentPass = $("#passReConfirm").val();
+	
+	if(!newEmailHead){
+		alert("이메일을 입력해주세요.");
+		$("#email_head").focus();
+		return false;
+	}
+	if(!newEmailNext){
+		alert("도메인을 입력해주세요.");
+		$("#email_next").focus();
+		return false;
+	}
+	newEmail = newEmailHead+"@"+newEmailNext;
+	$("#email").val(newEmail);
+	
+	if(!email_rule.test(newEmail)){
+		alert("이메일을 형식에 맞게 입력해주세요.");
+		return false;
+	}
+		
+	if (newPass == "" ||  newPassChk == "" || recentPass == ""){
+		alert("변경하실 비밀번호를 입력해주세요.");
+	}
+	else if (newPass != newPassChk){		 
+		alert("비밀번호가 일치하지 않습니다.");
+		$("#btn_myPageConfirm").attr("disabled",false);
+	 }
+	$("#btn_myPageConfirm").attr("disabled",true);
+	$("#confirmFrm").submit();
+ });
+});
+//$(function(){
+	//$("#btn_passReConfirm").click(function(){
+		/* $("#confirmFrm").submit(); */
+		//$("#confirmFrm").attr("action","pw_chk_process.do");
+	//});
+//});
+
+/* $(document).ready(function(){
+$("#btn_passReConfirm").click(function(){
+	console.log("맞니?");
+	document.confirmFrm.action="pw_chk_process.do";
+	document.confirmFrm.submit();
+	//$("#confirmFrm").attr("action","pw_chk_process.do");
+});
+}); */
+
+</script> 
+<script type="text/javascript">
+/* $(document).ready(function(){
+$("#btn_passReConfirm").click(function(){
+	console.log("맞니?");
+	
+	var f = document.getElementById("#confirmFrm");
+	f.action="pw_chk_process.do";
+	f.submit();
+	
+});
+}); */
+/* $(function(){
+	$("#btn_myPageConfirm").click(function(){
+		$("#confirmFrm").submit();
+	});
+}); */
+</script>
+<!-- 김도희 끝 -->  
     <!-- 전체 카테고리 -->
 <script type="text/javascript">
     $(function(){
@@ -193,12 +371,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             kakaoPixel('5900620314493041185').pageView();
         </script>
         <!-- This script is for AceCounter START --> 
-        <script language='javascript'> 
+        <!-- <script language='javascript'> 
             var _ag   = '0';            
             var _id   = 'tester21';  
             var _mr = 'single';       // ( 'single' , 'married') 
             var _gd = '';            //  ('man' , 'woman')  
-        </script>
+        </script> -->
         <!-- AceCounter END --><!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
         <script language='javascript'>
 	        var _AceGID=(function(){var Inf=['gtc4.acecounter.com','8080','BS1A45883992363','AW','0','NaPm,Ncisy','ALL','0'];
@@ -221,15 +399,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   gtag('config', 'AW-955276942');
 </script>
-
-	
-
 </head>
 	
 	
 <body id="body" class="body-mypage body-my-page pc"  >
 <!-- Channel Plugin Scripts -->
-<script>
+<!-- <script>
   function parsePureNumber(number) {
     var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
     if (ch_pureNumber === "") {
@@ -295,7 +470,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   } else {
     ChannelIO('boot', settings);
   }
-</script>
+</script> -->
 <!-- End Channel Plugin -->
 
 	<div class="top_area"></div>
@@ -336,7 +511,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<div class="header_search_cont">
 
 					<!-- 검색 폼 -->
-					<div class="top_search">
+<!-- 					<div class="top_search">
     <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
         <fieldset>
             <legend>검색폼</legend>
@@ -345,7 +520,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
                     <input type="image" src="http://localhost/salad_mvc/resources/img/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
                 </div>
-                <!-- //top_text_cont -->
+                //top_text_cont
                 <div class="search_cont" style="display:none;">
                     <input type="hidden" name="recentCount" value="5" />
 
@@ -382,25 +557,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <dt>추천상품</dt>
         <dd>
             <div class="recom_item_cont">
-                <!-- //recom_icon_box -->
+                //recom_icon_box
                 <div class="recom_tit_box">
                     <a href="../goods/goods_view.jsp?goodsNo=">
                     </a>
                 </div>
-                <!-- //recom_tit_box -->
+                //recom_tit_box
                 <div class="recom_money_box">
                 </div>
-                <!-- //recom_money_box -->
+                //recom_money_box
                 <div class="recom_number_box">
                 </div>
-                <!-- //recom_number_box -->
+                //recom_number_box
             </div>
-            <!-- //recom_item_cont -->
+            //recom_item_cont
         </dd>
     </dl>
 </div>
 
-                    <!-- //recom_box -->
+                    //recom_box
 
                     <div class="recent_box">
                         <dl class="js_recent_area">
@@ -417,19 +592,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </dd>
                         </dl>
                     </div>
-                    <!-- //recent_box -->
+                    //recent_box
                     <div class="seach_top_all">
 <button type="button" class="btn_top_search_all_del"><strong>전체삭제</strong></button>                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
                     </div>
-                    <!-- //seach_top_all -->
+                    //seach_top_all
 
                 </div>
-                <!-- //search_cont -->
+                //search_cont
             </div>
-            <!-- //top_search_cont -->
+            //top_search_cont
         </fieldset>
     </form>
-</div>
+</div> -->
 <!-- //top_search -->
 					<!-- 검색 폼 -->
 
@@ -440,17 +615,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">테스터(포켓탐색 Lv.1)님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="../member/logout.jsp?returnUrl=">로그아웃</a></li>
+					<li><span style="color: #333; font-size: 15px;">테스터님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						<a href="#">고객센터</a>
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="notice.do">공지사항</a></li>
+								<li><a href="goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 
@@ -459,10 +632,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 				</ul>
 				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+					<li><a href="mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
+					<li class="cart"><a href="cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
 
-                      <strong><b><a href="../order/cart.jsp">2</a></b></strong>
+                      <!-- <strong><b><a href="../order/cart.jsp">2</a></b></strong> -->
 
                     </li>
 
@@ -486,161 +659,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-	<div class="gnb_allmenu_wrap">
+
+<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
+	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=001">정기배송</a>
-				<ul class="all_depth1"><li><a href="../goods/goods_list.jsp?cateCd=001009">식단스타터(1주)</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001010">2주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001011">4주 식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001012">6주+식단</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=001013">짜여진 식단</a></li>
-				</ul>
+			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<ul class="all_depth1">
+				<c:forEach var="subCate" items="${ mainCate.subCateList }">
+					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=029">포켓마켓</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=029003">정기배송코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029001">신선코너</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=029002">냉동코너</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=002">샐러드</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=002002">데일리 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002004">테이스티 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002005">파우치 샐러드</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=002003">맛보기 세트</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=003">간편식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=003001">라이스 시즌1&amp;2</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003008">곤약 라이스 시즌3</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003007">미니컵밥</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=003009">두부파스타</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=004">닭가슴살&amp;간식</a>
-				<ul class="all_depth1">
-					<li><a href="../goods/goods_list.jsp?cateCd=004003">만두</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004004">슬라이스</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004002">소시지</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004005">큐브・볼</a></li>
-					<li><a href="../goods/goods_list.jsp?cateCd=004007">간식</a></li>
-				</ul>
-		</div>
-	</li>
-	<li style="width:20%;">
-		<div class="all_menu_cont">
-			<a href="../goods/goods_list.jsp?cateCd=027">식단 세트</a>
-		</div>
-	</li>
+	</c:forEach>
 </ul>
 </div>
 </div>
 </div>
 
-<!-- 전체 카테고리 출력 레이어 끝 -->
 
-			 <div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+<!-- 전체 카테고리 출력 레이어 끝 -->
+<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=001" >정기배송</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001009" >식단스타터(1주)</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001010" >2주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001011" >4주 식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001012" >6주+식단</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=001013" >짜여진 식단</a>
-                </li>
-            </ul>
+        <c:forEach var="mainCate" items="${ mainCateList }">
+        <li>
+            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=002" >샐러드</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002002" >데일리 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002004" >테이스티 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002005" >파우치 샐러드</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=002003" >맛보기 세트</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=003" >간편식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003001" >라이스 시즌1&2</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003008" >곤약 라이스 시즌3</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003007" >미니컵밥</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=003009" >두부파스타</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=004" >닭가슴살&간식</a>
-            <ul class="depth1">
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004003" >만두</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004004" >슬라이스</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004002" >소시지</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004005" >큐브・볼</a>
-                </li>
-                <li >
-                    <a href="../goods/goods_list.jsp?cateCd=004007" >간식</a>
-                </li>
-            </ul>
-        </li>
-        <li >
-            <a href="../goods/goods_list.jsp?cateCd=027" >식단 세트</a>
-        </li>
-        <li><a href="../board/list.jsp?bdId=event&period=current">이벤트혜〮택</a></li>
+    	</c:forEach>
     </ul>
 </div>
 <div class="gnb_right"><a href="#NEXT">NEXT</a></div>
+
 
             <!-- 상단 카테고리 출력 시작 -->
 
@@ -703,13 +757,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <ul class="sub_menu_mypage">
         <li>쇼핑정보
             <ul class="sub_depth1">
-                <li><a href="../mypage/order_list.jsp">- 주문목록/배송조회</a></li>
-                <li><a href="../mypage/cancel_list.jsp">- 취소/반품/교환 내역</a></li>
-                <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li>
-                <li><a href="../mypage/wish_list.jsp">- 찜리스트</a></li>
+                <li><a href="order_list.do">- 주문목록/배송조회</a></li>
+                <li><a href="cancel_list.do">- 취소 내역</a></li>
+                <!-- <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li> -->
+                <li><a href="wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
-        <li>혜택관리
+        <!-- <li>혜택관리
             <ul class="sub_depth1">
                 <li><a href="../mypage/coupon.jsp">- 쿠폰</a></li>
 	
@@ -722,22 +776,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<li><a href="../mypage/mypage_qa.jsp">- 1:1문의</a></li>
 				<li><a href="../service/faq.jsp">- FAQ</a></li>
             </ul>
-        </li>
+        </li> -->
         <li>회원정보
             <ul class="sub_depth1">
-                <li><a href="../mypage/my_page_password.jsp">- 회원정보 변경</a></li>
-				<li><a href="../mypage/shipping.jsp">- 배송지 관리</a></li>
-                <li><a href="../mypage/hack_out.jsp">- 회원 탈퇴</a></li>
+                <li><a href="my_change_index.do">- 회원정보 변경</a></li>
+				<li><a href="mypage_deli.do">- 배송지 관리</a></li>
+                <li><a href="mypage_out_pwChk.do">- 회원 탈퇴</a></li>
             </ul>
         </li>
-        <li>나의 상품문의
+        <!-- <li>나의 상품문의
             <ul class="sub_depth1">
                 <li><a href="../mypage/mypage_goods_qa.jsp">- 나의 상품문의</a></li>
             </ul>
-        </li>
+        </li> -->
         <li>나의 상품후기
             <ul class="sub_depth1">
-                <li><a href="../mypage/mypage_goods_review.jsp">- 나의 상품후기</a></li>
+                <li><a href="user_my_rev.do">- 나의 상품후기</a></li>
             </ul>
         </li>
     </ul>
@@ -760,7 +814,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="join_base_wrap">
 
                 <div class="member_cont">
-                    <form id="formJoin" name="formJoin" action="https://www.pocketsalad.co.kr/mypage/my_page_ps.jsp" method="post">
+                    <!-- <form id="formJoin" name="formJoin" action="https://www.pocketsalad.co.kr/mypage/my_page_ps.jsp" method="post"> -->
                         <input type="hidden" name="memNo" value="85762"/>
                         <input type="hidden" name="memberFl" value="personal"/>
                         <input type="hidden" name="dupeinfo" value=""/>
@@ -775,8 +829,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		</style>
  
 
-    <span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
-
+    <span class="important"><span class="greenStar">*&nbsp;</span>표시는 반드시 입력하셔야 하는 항목입니다.</span>
+	
+    <form id="confirmFrm" action="my_change_update.do" method="post">
+   
     <div class="base_info_sec">
         <table border="0" cellpadding="0" cellspacing="0">
 		
@@ -786,23 +842,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </colgroup>
 
             <tbody>
+          
             <tr>
-                <th><span class="important">아이디</span></th>
+                <th><span class="greenStar">*&nbsp;</span><span class="important">아이디</span></th>
                 <td>
-                    <input type="hidden" name="memId" value="tester21"/>
-                    tester21
+                    <input type="hidden" name="id" id="id" value="${chanConfirmVO.id}"/>
+                   ${chanConfirmVO.id}
                 </td>
 
             </tr>
             <tr class="">
-                <th><span class="important">비밀번호</span></th>
+                <th><span class="greenStar">*&nbsp;</span><span class="important">비밀번호</span></th>
                 <td class="member_password">
                     <div class="btn_common_box">
                         <span class="btn_gray_list"><a href="#memberNewPw" class="btn_gray_mid"><em>비밀번호 변경</em></a></span>
-                        <span class="btn_gray_list"><a href="#lyMemberPw" class="btn_gray_mid"><em>비밀번호 도움말</em></a></span>
+                        <!-- <span class="btn_gray_list"><a href="#lyMemberPw" class="btn_gray_mid"><em>비밀번호 도움말</em></a></span> -->
                     </div>
 
-                    <div id="lyMemberPw" class="layer_area" style="display:none;">
+                  <!-- <div id="lyMemberPw" class="layer_area" style="display:none;">
                         <div class="ly_wrap pw_advice_layer">
                             <div class="ly_tit">
                                 <strong>비밀번호 도움말</strong>
@@ -816,12 +873,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             <br/>비밀번호는 주기적으로 바꾸어 사용하시는 것이 안전합니다.</li>
                                     </ul>
                                 </div>
-                            </div>
-                            <!-- //ly_cont -->
+                            </div> 
+                            //ly_cont
                             <a href="#close" class="ly_close"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/layer/btn_layer_close.png" alt="닫기"></a>
                         </div>
-                        <!-- //ly_wrap -->
-                    </div>
+                        //ly_wrap
+                    </div> -->
                     <!-- //layer_area -->
 
                     <div id="memberNewPw" class="member_pw_change" style="display:none;">
@@ -829,15 +886,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <dt>현재 비밀번호</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="currentPassword" name="oldMemPw" style="width:100%;" />
+                                	<%-- <input type="hidden" name="id" id="id" value="${chanConfirmVO.id}"/> --%>
+                                    <input type="password" id="passReConfirm" style="width:58%;" />
+                                    <input type="button" id="btn_passReConfirm" class="btn_myPass" style="width: 10%;"
+                                    value="확인"/>
                                 </div>
                             </dd>
                         </dl>
+                                            
                         <dl>
                             <dt>새 비밀번호</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="newPassword" name="memPw" style="width:100%;" />
+                                    <input type="password" id="newPassword" name="memPw" style="width:70%;" />
                                 </div>
                             </dd>
                         </dl>
@@ -845,8 +906,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <dt>새 비밀번호 확인</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="newPasswordCheck" name="memPwRe" style="width:100%;" />
+                                    <input type="password" id="pass" name="pass" style="width:70%;" />
                                 </div>
+                                <div id="alert-success" style="color:#00af85; display: none;">비밀번호가 일치합니다.</div>
+                                <div id="alert-danger" style="color:red; display: none;">비밀번호가 일치하지 않습니다.</div>
                             </dd>
                         </dl>
                     </div>
@@ -854,21 +917,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </td>
             </tr>
             <tr>
-                <th><span class="important">이름</span></th>
+                <th><span class="greenStar">*&nbsp;</span><span class="important">이름</span></th>
                 <td>
                     <div class="member_warning">
-                        <input type="text" name="memNm" data-pattern="gdMemberNmGlobal" value="테스터" maxlength="30" >
+                        <input style="width:48.5%;"
+                        type="text" name="name" id="name" data-pattern="gdMemberNmGlobal" value="${chanConfirmVO.name}" maxlength="30" >
                     </div>
                 </td>
             </tr>
             <tr>
-                <th><span>이메일</span></th>
+                <th><span class="greenStar">*&nbsp;</span><span>이메일</span></th>
                 <td class="member_email">
                     <div class="member_warning">
-						<input type="hidden" name="email" id="email" value="alfkdlej5@gmail.com">
-                        <input type="text" name="email_head" id="email_head" value="alfkdlej5" style="width: 181px;margin-right:7px;"">
-                        <input type="text" name="email_next" id="email_next" value="gmail.com"  style="width: 181px;">
-						 <select id="emailDomain" name="emailDomain" class="chosen-select" style="width:180px;">
+						<input type="hidden" name="email" id="email" value="${chanConfirmVO.email}">
+                        <input type="text" name="email_head" id="email_head" value="${resultId}" style="width: 181px;margin-right:7px;"">
+                        <input type="text" name="email_next" id="email_next" value="${resultEmail}"  style="width: 181px;">
+						 <!-- <select id="emailDomain" name="emailDomain" class="chosen-select" style="width:190px;">
                             <option value="self">직접입력</option>
                             <option value="naver.com">naver.com</option>
                             <option value="hanmail.net">hanmail.net</option>
@@ -877,7 +941,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <option value="hotmail.com">hotmail.com</option>
                             <option value="gmail.com">gmail.com</option>
                             <option value="icloud.com">icloud.com</option>
-                        </select>
+                        </select> -->
                        
                     </div>
 					<div class="member_warning js_email"></div>
@@ -888,13 +952,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </td>
             </tr>
             <tr>
-                <th><span >휴대폰번호</span></th>
+                <th><span class="greenStar">*&nbsp;</span><span >휴대폰번호</span></th>
                 <td class="member_address">
                     <div class="address_postcode">
-                        <input type="text" id="cellPhone" name="cellPhone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="01089684952"   style="width: calc( 100% - 187px) ;">
+                        <input type="text" id="phone" name="phone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="${chanConfirmVO.phone}"   style="width: calc( 100% - 195px) ;">
 
                         <!-- s onnomad -->
-                        <button class="btn_post_search" type="button" id="btnAuthPhoneVf" style="width:165px;">
+                        <!-- <button class="btn_post_search" type="button" id="btnAuthPhoneVf" style="width:165px;">
                             인증번호받기
                         </button>
                         <input style="margin-top:5px;display: none" type="text" id="cellPhoneVf" name="cellPhoneVf" maxlength="5" placeholder="인증번호입력" data-pattern="gdNum" >
@@ -904,8 +968,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <button style="display: none" class="btn_post_search" type="button" id="btnAuthPhoneVfRe">
                             재전송
                         </button>
-                        <p id="vfInfo" style="float:left; margin: 10px 0 0 10px;color:#e10505;display: none;">인증이 완료 되었습니다!</p>
-                        <script>
+                        <p id="vfInfo" style="float:left; margin: 10px 0 0 10px;color:#e10505;display: none;">인증이 완료 되었습니다!</p> -->
+                        <!-- <script>
                             var vfNum;
                             var isVfChecked = false;
 
@@ -957,7 +1021,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <script>
                             isVfChecked = true;
                             $("#btnAuthPhoneVf").hide();
-                        </script>
+                        </script> -->
                         <!-- e onnomad -->
                     </div>
 <!--                    <div class="form_element">-->
@@ -969,12 +1033,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </tbody>
         </table>
     </div>
+    </form>
     <!-- //base_info_sec -->
 </div>
 <!-- //base_info_box --><!-- 회원가입/정보 기본정보 -->
                         <!-- 회원가입/정보 사업자정보 --><!-- 회원가입/정보 사업자정보 -->
                         <!-- 회원가입/정보 부가정보 --><div class="addition_info_box">
-    <h3>부가정보</h3>
+    <!-- <h3>부가정보</h3>
     <div class="addition_info_sec">
         <table border="0" cellpadding="0" cellspacing="0">
             <colgroup>
@@ -1015,9 +1080,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </ul>
                         </div>
                     </div>
-                    <!-- //member_warning -->
+                    //member_warning
 
-                    <!-- 평생회원 이벤트 안내문구 -->
+                    평생회원 이벤트 안내문구
                     <div class="member_warning_info dn">
                         <div class="info_title">평생회원 이벤트</div>
                         <div class="info_text">
@@ -1025,17 +1090,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             휴면회원으로 전환되지 않으며 고객님의 정보가 탈퇴 시까지 안전하게 보관됩니다.<br>
                         </div>
                     </div>
-                    <!-- 평생회원 이벤트 안내문구 -->
+                    평생회원 이벤트 안내문구
                 </td>
             </tr>
             </tbody>
         </table>
-    </div>
+    </div> -->
     <!-- //addition_info_sec -->
 </div>
 <!-- //addition_info_box -->
 
-<div class="site_info_box">
+<!-- <div class="site_info_box">
     <h3>계정 연결정보</h3>
     <div class="site_sns_info">
         <div class="site_sns_list">
@@ -1052,7 +1117,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</a>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- N : 약관동의 시작 -->
 <!-- N : 약관동의 끝 -->
@@ -1060,11 +1125,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- 회원가입/정보 부가정보 -->
 
                         <div class="btn_center_box">
-                            <button type="button" class="btn_member_cancel">취소</button>
-                            <button type="button" class="btn_comfirm js_btn_join" value="정보수정">정보수정</button>
+                            <button type="button" class="btn_myPageCancel" 
+                            onclick="history.back();">취소</button>
+                            <input type="button" class="btn_myPageConfirm" 
+                            id="btn_myPageConfirm" value="정보수정" disabled="disabled">
                         </div>
                         <!-- //btn_center_box -->
-                    </form>
+                    <!-- </form> -->
                 </div>
                 <!-- //member_cont -->
             </div>
@@ -1080,7 +1147,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- //content -->
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     var snsConnection = {"snsJoinFl":null,"snsTypeFl":""};
     var $formJoin;
 
@@ -1210,7 +1277,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			}
 		});
 	}
-</script>
+	
+	
+</script> -->
 
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <script type="text/javascript">
@@ -1387,7 +1456,7 @@ var sTime = new Date().getTime();
 
 
         <!-- 우측 스크롤 배너 -->
-        <div id="scroll_right">
+        <!-- <div id="scroll_right">
 <div class="qmenu_wrap">
 	<ul class="qm qm1">
 		<li><a href="/mypage/order_list.jsp"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_deli.png" alt=""></a></li>
@@ -1405,7 +1474,7 @@ var sTime = new Date().getTime();
         <button type="button" class="bnt_scroll_prev" title="최근본 이전 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_top.png" alt=""></button>
 
     </div>
-   <!--  <h4>TODAY VIEW</h4> -->
+    <h4>TODAY VIEW</h4>
     <ul>
         <li>
             <a href="../goods/goods_view.jsp?goodsNo=1000000239">
@@ -1416,7 +1485,7 @@ var sTime = new Date().getTime();
                     <em>4주 정기배송 샐러드 주 5일</em>
                         <strong>92,400<b>원</b></strong>
                 </span>
-                <!-- //src_box -->
+                //src_box
             </a>
         </li>
         <li>
@@ -1428,7 +1497,7 @@ var sTime = new Date().getTime();
                     <em>2주 정기배송 샐러드 주 5일</em>
                         <strong>46,500<b>원</b></strong>
                 </span>
-                <!-- //src_box -->
+                //src_box
             </a>
         </li>
         <li>
@@ -1440,7 +1509,7 @@ var sTime = new Date().getTime();
                     <em>하루에 한 끼를 샐러드로 5일</em>
                         <strong>23,350<b>원</b></strong>
                 </span>
-                <!-- //src_box -->
+                //src_box
             </a>
         </li>
 
@@ -1455,7 +1524,7 @@ var sTime = new Date().getTime();
                     <em>4주 정기배송 샐러드 주 3일</em>
                         <strong>55,800<b>원</b></strong>
                 </span>
-                <!-- //src_box -->
+                //src_box
             </a>
         </li>
         <li>
@@ -1467,7 +1536,7 @@ var sTime = new Date().getTime();
                     <em>그릴 닭가슴살볼 3종 혼합 6팩</em>
                         <strong>16,100<b>원</b></strong>
                 </span>
-                <!-- //src_box -->
+                //src_box
             </a>
         </li>
 
@@ -1475,10 +1544,10 @@ var sTime = new Date().getTime();
 
     <div class="scr_paging scr_paging2">
 
-        <!-- <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span> -->
+        <span><strong class="js_current">0</strong>/<span class="js_total" style="float:none;width:auto;">2</span></span>
         <button type="button" class="bnt_scroll_next" title="최근본 다음 상품"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/q_menu_bottom.png" alt=""></button>
     </div>
-    <!-- //scr_paging -->
+    //scr_paging
 </div>
 
 </div>
@@ -1539,11 +1608,11 @@ var sTime = new Date().getTime();
         });
 
         // 이전버튼 클릭
-        element.prev.click(function (e) {
+        /* element.prev.click(function (e) {
             setting.page = 1 == setting.page ? setting.total : setting.page - 1;
             init();
         });
-
+ */
         // 다음버튼 클릭
         element.next.click(function (e) {
             setting.page = setting.total == setting.page ? 1 : setting.page + 1;
@@ -1555,7 +1624,7 @@ var sTime = new Date().getTime();
     };
 </script>
         </div>
-        <!-- //scroll_right -->
+        //scroll_right -->
         <!-- //우측 스크롤 배너 -->
 
 
@@ -1628,10 +1697,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Start Script for IFDO ( 회원분석 )-->
 <!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
 
-<script type='text/javascript'>
+<!-- <script type='text/javascript'>
 var _NB_ID='tester21';
 var _NB_UDF={'udf01':'테스터','udf03':'010-8968-4952','udf06':'포켓탐색 Lv.1'};
-</script>
+</script> -->
 
 <!-- End Script for IFDO -->
 <!-- Start Script for IFDO -->
@@ -1653,8 +1722,9 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 </script>
 <!-- Enliple Tracker End -->
 
+
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
 
-</body>.
+</body>
 </html>

@@ -112,7 +112,7 @@ background:url(../../img/icon/etc/icon_board_list.png) no-repeat 7px 15px;}
 .date_check_list button:hover,
 .date_check_list button.on{color:#ffffff; background:#aeaeae;}
 .date_check_calendar{float:left; margin:0 10px 0 10px;}
-.date_check_calendar .anniversary{background:url(../../img/member/icon_calendar.png) no-repeat right center;}
+.date_check_calendar .anniversary{background:url(http://localhost/salad_mvc/resources/images/main/icon_calendar.png) no-repeat right center;}
 .date_faq_list{display:inline-block; width:70%;}
 .date_faq_list h2{padding:0 0 10px 0;}
 .date_faq_list input[type="text"]{width:70%;}

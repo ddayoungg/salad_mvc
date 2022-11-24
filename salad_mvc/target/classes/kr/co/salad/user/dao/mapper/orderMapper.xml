@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.orderMapper">
+	<!-- 주문번호 -->
+	<select id="selectOrderNum" resultType="int">
+		select	max(order_num)
+		from	product_order
+	</select>
+	
+	<!-- 배송지 추가 -->
+	<insert id="insertDeli" parameterType="kr.co.salad.user.vo.OrderVO">
+		insert into delivery_address(order_num, deli_zipcode, deli_addr, deli_detail_addr, receiver, deli_phone)
+		values (#{orderNum}, #{deliZipcode}, #{deliAddr}, #{deliDetailAddr}, #{receiver}, #{deliPhone})
+	</insert>
+	
+	<!-- 주문 추가 -->
+	<insert id="insertOrder" parameterType="kr.co.salad.user.vo.OrderVO">
+		insert into product_order(order_num, id, order_total_price, order_date, deli_req, exist_addr_flag)
+		values (#{orderNum}, #{id}, #{orderTotalPrice}, sysdate, #{deliReq}, #{existAddrFlag})
+	</insert>
+	
+	<!-- 배송 상세 추가 -->
+	<insert id="insertOrderDetail" parameterType="kr.co.salad.user.domain.CartDomain">
+		insert into	order_detail(order_num, prd_num, order_cnt, order_price)
+		values		(#{orderNum}, #{prdNum}, #{cartPrdCnt}, #{orderPrice})
+	</insert>
+	
+	<!-- 주문자 정보 및 기본 배송지 출력 -->
+	<select id="selectMyInfo" resultType="kr.co.salad.user.domain.OrderDomain" parameterType="String">
+		select	id, name, phone, email, zipcode, addr, de_addr
+		from	member
+		where	id=#{id}
+	</select>
+	
+	<!-- 주문 완료 -->
+	<select id="selectOrder" resultType="Date" parameterType="int">
+		select	order_date
+		from	product_order
+		where	order_num=#{orderNum}
+	</select>
+	
+	<!-- 주문 상품 -->
+	<select id="selectOrderPrd" resultType="kr.co.salad.user.domain.CartDomain" parameterType="int">
+		select	prd_num, thum, prd_name, prd_price, prd_discount	
+		from	product
+		where	prd_num=#{prdNum}
+	</select>
+	
+</mapper>

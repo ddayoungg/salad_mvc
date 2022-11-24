@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.salad.user.dao.mapper.PrdDetailRevMapper">
+  <select id="selectBestRevList" resultType="kr.co.salad.user.domain.PrdDetailRevDomain" 
+  parameterType="int">
+    select	REV_NUM, NAME, REV_WRITE_DATE, REV_TITLE, REV_CONT
+	from		(select	ROW_NUMBER() OVER (ORDER BY r.REV_WRITE_DATE DESC) as rnum,
+							r.REV_NUM, m.NAME, r.REV_WRITE_DATE, r.REV_TITLE, r.REV_CONT
+				from	  REVIEW r, MEMBER m
+				where		m.id=r.id and
+								r.PRD_NUM=#{prdNum} and r.BEST_FLAG=1
+				ORDER BY r.REV_WRITE_DATE DESC
+				)
+	WHERE 	RNUM BETWEEN 1 AND 4
+  </select>
+  <select id="selectRevImgList" resultType="String" 
+  parameterType="int">
+	select		rai.rev_img
+	from	  		REVIEW_ADD_IMG rai, REVIEW r
+	where		r.rev_num=rai.rev_num and
+					rai.rev_num=#{revNum}
+  </select>
+  <select id="selectRevTotalCount" resultType="int" 
+  parameterType="int">
+	select		count(REV_NUM)
+	from	  		REVIEW
+	where		PRD_NUM=#{prdNum}
+	
+  </select>
+  <select id="selectRevList" resultType="kr.co.salad.user.domain.PrdDetailRevDomain" 
+  parameterType="kr.co.salad.user.vo.PrdDetailRevVO">
+	select	REV_NUM, NAME, REV_WRITE_DATE, REV_TITLE, REV_CONT, REV_HITS
+	from		(select	ROW_NUMBER() OVER 
+					(
+						<choose>
+							<when test=" sortType== 'latest' and orderBy=='desc' ">
+								ORDER BY r.REV_WRITE_DATE desc
+							</when>
+							<when test=" sortType== 'rank' and orderBy=='asc' ">
+								ORDER BY r.REV_HITS asc
+							</when>
+							<when test=" sortType== 'rank' and orderBy=='desc' ">
+								ORDER BY r.REV_HITS desc
+							</when>
+							<otherwise>
+								ORDER BY r.REV_WRITE_DATE asc
+							</otherwise>
+						</choose>
+					) as rnum,
+								r.REV_NUM, m.NAME, r.REV_WRITE_DATE, r.REV_TITLE, r.REV_CONT, r.REV_HITS
+				from	  REVIEW r, MEMBER m
+				where		m.id=r.id(+) and
+								r.PRD_NUM=#{prdNum}
+				<choose>
+					<when test=" sortType== 'latest' and orderBy=='desc' ">
+						ORDER BY r.REV_WRITE_DATE desc
+					</when>
+					<when test=" sortType== 'rank' and orderBy=='asc' ">
+						ORDER BY r.REV_HITS asc
+					</when>
+					<when test=" sortType== 'rank' and orderBy=='desc' ">
+						ORDER BY r.REV_HITS desc
+					</when>
+					<otherwise>
+						ORDER BY r.REV_WRITE_DATE asc
+					</otherwise>
+				</choose>
+				)
+	WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
+  </select>
+  <update id="updateRevHits" 
+  parameterType="int">
+	update	 REVIEW
+	set		 REV_HITS=REV_HITS+1
+	where	 REV_NUM=#{revNum}
+  </update>
+  <select id="selectRevDetail" resultType="kr.co.salad.user.domain.PrdDetailRevDomain" 
+  parameterType="int">
+	select	r.REV_NUM, m.NAME, r.REV_WRITE_DATE, r.REV_TITLE, r.REV_CONT, r.REV_HITS
+	from	REVIEW r, MEMBER m
+	where	m.id=r.id(+) and
+			r.REV_NUM=#{revNum}
+  </select>
+  <select id="selectLastRevNum" resultType="int" >
+		SELECT MAX(REV_NUM) FROM REVIEW
+  </select>
+  <select id="selectRevWriteOrderNum" resultType="int" 
+  parameterType="kr.co.salad.user.vo.PrdDetailRevVO">
+	select	nvl(max(od.ORDER_NUM), 0) as ORDER_NUM
+	from	 	ORDER_DETAIL od, PRODUCT_ORDER po
+	where	od.ORDER_NUM=po.ORDER_NUM AND
+				po.id=#{id} AND od.PRD_NUM=#{prdNum}		 
+  </select>
+ <insert id="insertRevWrite" parameterType="kr.co.salad.user.vo.PrdDetailRevVO">
+	INSERT INTO REVIEW(REV_NUM, ID, ORDER_NUM, PRD_NUM, REV_TITLE, REV_CONT)
+	VALUES(#{revNum}, #{id}, #{orderNum}, #{prdNum}, #{revTitle}, #{revCont})
+</insert>
+ <update id="updateRevWrite" parameterType="kr.co.salad.user.vo.PrdDetailRevVO">
+	update	ORDER_DETAIL
+	set		 REV_FLAG='1'
+	where	 ORDER_NUM=#{orderNum} AND PRD_NUM=#{prdNum}
+</update>
+<insert id="insertRevImgWrite" parameterType="kr.co.salad.user.vo.PrdDetailRevVO">
+		INSERT INTO REVIEW_ADD_IMG(REV_NUM, REV_IMG)
+		VALUES(#{revNum}, #{revImg})
+</insert>
+</mapper>
