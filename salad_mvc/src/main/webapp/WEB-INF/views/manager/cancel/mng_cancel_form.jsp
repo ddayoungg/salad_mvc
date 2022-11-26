@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=" "%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -388,7 +389,7 @@
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderNum}</td>
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.id}</td>
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderDate}</td>
-								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderTotalPrice}원</td>
+								<td style="border: 1px solid #f0f0f0;"><fmt:formatNumber value="${cancelOrder.orderTotalPrice}" pattern="#,###"/>원</td>
 								<%-- </c:forEach> --%>
 							</tr>
 						</tbody>

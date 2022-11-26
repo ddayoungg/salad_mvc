@@ -123,15 +123,25 @@
 
   gtag('config', 'AW-955276942');
 </script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#MyRevMainBtn").click(function(){ //목록 - 나의후기 리스트로이동
+	
+/* 	$("#delBtn").click(function(){ //삭제버튼
+		alert("1");
+		location.href="mypage_review_remove_process.do?revNum="+$("#revNum").val();
+		alert("2");
+	}); */
+	
+	$("#MyRevBtn").click(function(){ //목록 - 나의후기 리스트로이동
 		location.href="mypage_review_list.do";
 	});//click
 	
-});
+})
 </script>
+
 </head>
 
 <body class="body-board body-list pc"  >
@@ -190,15 +200,12 @@ $(function(){
 
         </div>
 
-        <div class="btn_right_box" style="display: flex; justify-content: space-between; margin: 20px 0px; width: 90%">
-        	<div>
-				<input type="button" class="btn_board_list" value="이전"  class="button">
-				<input type="button" class="btn_board_list" value="다음" class="button">
-			</div>
+        <div class="btn_right_box"  >
 			<div>
-				<input type="button" class="btn_board_list" value="삭제" id="delBtn" class="button">
-				<input type="button" class="btn_board_list" value="수정" id="edBtn" class="button" style="width: 150px;">
-				<input type="button" class="btn_board_list" value="목록" id="MyRevBtn" class="button">
+<!-- 				<input type="button" class="btn_board_list" value="삭제" id="delBtn" style="border:1px solid #14CEA9">
+				<input type="button" class="btn_board_list" value="수정" id="edFormBtn" style="border:1px solid #14CEA9" >
+				<input type="button" class="btn_board_list" value="수정완료" id="edNoti" style="border:1px solid #14CEA9; display: none;"> -->
+				<input type="button" class="btn_board_list" value="목록" id="MyRevBtn" style="border:1px solid #14CEA9">
 			</div>
 		</div>
     </div>

@@ -56,7 +56,7 @@ public class WishController {
 	}//wishListForm
 	
 	@ResponseBody
-	@RequestMapping(value="/user/mypage/my_total_ajax.do", method={GET, POST}, produces="application/json; charset=UTF-8")
+	@RequestMapping(value="/my_total_ajax.do", method={GET, POST}, produces="application/json; charset=UTF-8")
 	public String searchMyTotalAjax(HttpSession session) {
 		
 		WishVO wVO=new WishVO();

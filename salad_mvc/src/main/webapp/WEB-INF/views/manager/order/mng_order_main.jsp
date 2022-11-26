@@ -53,68 +53,101 @@
 			background-color: #f0f0f0;
 		}
         </style>
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>   		   		
+   		<script src="https://code.jquery.com/jquery-3.4.1.js"></script> 
+   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         
         <!-- 소현 -->
         <script type="text/javascript">
-        
-        	$(function () {
-        		
-				pagenation();
+			$(function(){
+				setOrderList(1);//주문 리스트
 				
-				$(".detailBtn").on("click", function (element) {
-					var orderNum = $(element).find().val();
-					location.href="/manager/order/mng_order_detail.do?orderNum="+orderNum;
-				})//detailBtn
+				//검색어 기능
+		    	$("#searchBtn").click(function(){
+		    		setOrderList($("#currentPage").val());
+		    	}); 
 				
-			})//ready
-
-			<%-- function pagenation() {
-				var pagenationHTML = ``;
-				<% 
-				// total_page
-				int totalPage = (int)Math.ceil((double)reviewList.size()/10);
-				System.out.println("totalPage : "+totalPage);
-				
-				// page
-				String nowPage = request.getParameter("nowPage");
-				System.out.println("nowPage : "+nowPage);
-				if(nowPage==null){
-					nowPage = "1";
-					System.out.println("nowPage : "+nowPage);
-				}
-				
-				// page_group
-				int pageGroup=(int)Math.ceil(Double.valueOf(nowPage)/10);
-				System.out.println("pageGroup : "+pageGroup);
-				
-				// last
-				int lastIdx = Integer.valueOf(nowPage)*10;
-				System.out.println("lastIdx : "+lastIdx);
-				
-				// first
-				int firstIdx = lastIdx-9;
-				System.out.println("firstIdx : "+firstIdx);%>
-				
-				// first~last 페이지 프린트
-				pagenationHTML += 
-					`<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-				    </li>`;
-				<%for(int i=1; i<=totalPage; i++){%>
-					pagenationHTML += 
-					`<li class="page-item"><a class="page-link" href="user_review.jsp?nowPage=<%=i%>"><%=i%></a></li>`;
-				<%}%>
-				pagenationHTML += 
-					`<li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>`;
-				document.querySelector(".pagination").innerHTML = pagenationHTML;
-			} --%>
+			});//ready
 			
-        </script>
+			function setOrderList(currentPage){
+				$.ajax({
+					url:"my_order_list_ajax111.do",
+					data:"currentPage="+currentPage+"&searchText="+$("#searchText").val(),
+					dataType:"json",
+					error:function( xhr ){
+						alert("취소 목록 리스트를 불러오는데 실패했습니다.");
+						console.log(xhr.status);
+					},
+					success:function(jsonObj){
+						var tbOutput="<table class='table'>";
+						tbOutput+="<thead class='table-light' style='height: 50px;'>";
+						tbOutput+="<tr>";
+						tbOutput+="<th>주문번호</th>";
+						tbOutput+="<th>주문자</th>";
+						tbOutput+="<th>주문 일자</th>";
+						tbOutput+="<th>총 주문 가격</th>";
+						tbOutput+="<th>주문 현황</th>";
+						tbOutput+="<th>상세 정보</th>";
+						tbOutput+="</tr>";
+						tbOutput+="</thead>";
+						tbOutput+="<tbody>";
+					    if(!jsonObj.isEmpty){
+							$.each(jsonObj.list, function(i, json){
+							    tbOutput+="<tr>";
+							    tbOutput+="<td>"+json.orderNum+"</td>";
+							    tbOutput+="<td>"+json.name+"</td>";
+							    tbOutput+="<td>"+json.orderDate+"</td>";
+							    tbOutput+="<td>"+json.orderTotalPrice+"원</td>";
+							    tbOutput+="<td>"+json.orderStatus+"</td>";
+							    tbOutput+="<td><input type='button' class='btn btn-light btn-sm detailBtn' onclick='location.href=\"mng_order_detail.do?orderNum="+json.orderNum+"&existAddrFlag="+json.existAddrFlag+"\"' value='상세보기'></td>";
+								tbOutput+="</tr>";
+								
+							});//each
+						} else {
+								tbOutput+="<tr><td colspan=5>데이터가 존재하지 않습니다.</td></tr>";
+						}//end else
+							tbOutput+="</tbody>";
+							tbOutput+="</table>";
+						
+							$("#orderListOutput").html(tbOutput);
+							/* 페이징 버튼 */
+							var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'><ul class='pagination'>";
+							if( jsonObj.startPage != 1 ) {
+								pgOutput+="<li class='page-item'>";
+								pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ 1 +")' tabindex='-1'";
+								pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+							}//end if
+							if( jsonObj.startPage != 1 ) {
+								pgOutput+="<li class='page-item'>";
+								pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.startPage-1) +")' tabindex='-1'";
+								pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+							}//end if
+							for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+								if(currentPage==i) {
+									pgOutput+="<li class='on a_none'>";
+								} else {
+									pgOutput+="<li class='page-item'>";
+								}//end else
+								pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ i +")'>"+ i +"</a></li>";
+							}//end for
+							if(jsonObj.totalPage != jsonObj.endPage) {
+								pgOutput+="<li class='page-item'>";
+								pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.endPage + 1) +")'>&gt;<!-- > --></a></li>";
+							}//end if
+							if(jsonObj.totalPage != jsonObj.endPage) {
+								pgOutput+="<li class='page-item'>";
+								pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.totalPage) +")'>&gt&gt;<!-- >> --></a></li>";
+							}//end if
+							pgOutput+="</ul></nav>";
+							
+							pgOutput+="<input type='hidden' id='currentPage' value='"+currentPage+"'>";
+							
+							$("#orderPageOutput").html(pgOutput);
+					}//success
+				})//ajax
+			}//setOrderList
+			
+			</script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -127,10 +160,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                       <!--  <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <!-- <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li> -->
-                        <li><a class="dropdown-item" href="mng_index.do">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
@@ -141,24 +174,24 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">메인</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
                                 -대시보드
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
                             style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="#">회원 관리</a></div>
+                            href="mng_member.do">회원 관리</a></div>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">상품 관리</div>
-                            <a class="nav-link" href="index.html">
-                                -상품 등록
+                            <a class="nav-link" href="mng_prd.do">
+                                -상품 등록<
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
                                 -상품 후기
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">주문 관리</div>
-                            <a class="nav-link" href="mng_order.do">
+                            <a class="nav-link" href="mng_order_main.do">
                                 -주문 관리
                             </a>
                             <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
@@ -169,12 +202,12 @@
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">게시판 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
                                 -공지사항
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">문의 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
                                 -상품문의
                             </a>
                         </div>
@@ -198,7 +231,7 @@
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
-                    </div>
+                        </div>
                       <div class="row" style="--bs-gutter-x:0;">
                      			<!-- 내역 -->
                       		<div style="width:100%; display:flex; justify-content:center;
@@ -212,93 +245,55 @@
                       		</div>
                       		<!-- 내역 끝 -->
                       		<!-- 건수 -->
-                     		<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
-                        	<div style="margin:0 100px 0 0;">
-                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
-                        	border-radius:35px; ">
-                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
-		                        	<div style=" color:white; font-weight:bold; font-size:20px; ">
-		                        	주문건수
+                       		 	<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
+		                        	<div style="margin:0 100px 0 0;">
+		                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
+		                        	border-radius:35px; ">
+		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
+				                        	<div style=" color:white; font-weight:bold; font-size:20px; ">
+				                        	주문건수
+				                        	</div>
+				                        	<div style="color:white; font-weight:bold; font-size:20px;">
+				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayT") %></span>건
+				                        	</div>
+			                        	</div>
 		                        	</div>
-		                        	<div style="color:white; font-weight:bold; font-size:20px;">
-		                        	<span style="font-size:30px;">50</span>건
 		                        	</div>
-	                        	</div>
-                        	</div>
-                        	</div>
-                        	
-                        	<div style="background:rgb(186,212,206); width:150px; height:155px;
-                        	border-radius:35px;">
-                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
-		                        	<div style=" color:white; font-weight:bold; font-size:20px;">
-		                        	주문건수
+		                        	
+		                        	<div style="background:rgb(186,212,206); width:150px; height:155px;
+		                        	border-radius:35px;">
+		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
+				                        	<div style=" color:white; font-weight:bold; font-size:20px;">
+				                        	주문건수
+				                        	</div>
+				                        	<div style="color:white; font-weight:bold; font-size:20px;">
+				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayM") %></span>건
+				                        	</div>
+			                        	</div>
 		                        	</div>
-		                        	<div style="color:white; font-weight:bold; font-size:20px;">
-		                        	<span style="font-size:30px;">50</span>건
-		                        	</div>
-	                        	</div>
-                        	</div>
-                     	</div>
-                     	<!-- 건수 끝  -->
+                       		 </div>
+                       		 <!-- 건수 끝 --> 
                     </div>
 					<div class="row px-4"  style="--bs-gutter-x:0;">
-						<div style="width: 80%; margin: 10px auto; text-align: center;">
-						<form name="category_frm" style="display: flex; justify-content: end; margin-bottom: 10px;">
-							<input type="text" name="searchText" id="searchText" style="width: 200px;">
-							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn" style="margin-left:5px; width: 100px;">
-						</form>
+						<div style="margin: 10px auto; text-align: center;">
+							<form id="searchFrm" name="searchFrm"  action="mng_notice.do">
+				               	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="right">
+				               		<input type="text"  placeholder="주문자명을 입력하세요." id="searchText" name="searchText">
+				               		<input type="text" style="display: none;"/>
+				               		<input type="button" value="검색" id="searchBtn" name="searchBtn">
+				               	</div>
+				            </form>
 						</div>	
-		            	<div style="width: 80%; margin: 10px auto; text-align: center;">
-               				<table class="table">
-					  			<thead class="table-light" style="height: 50px;">
-									<tr>
-										<th>주문번호</th>
-										<th>주문자</th>
-										<th>주문 일자</th>
-										<th>총 주문 가격</th>
-										<th>주문 현황</th>
-										<th>상세 정보</th>
-									</tr>
-					  			</thead>
-					  			
-					  			<tbody>
-					  			<c:forEach var="order" items="${ orderList }">
-						 		<tr>
-									<td><c:out value="${ order.orderNum }"/></td>
-									<td><c:out value="${ order.name }"/></td>
-									<td><fmt:formatDate value="${ order.orderDate }" pattern="yyyy-MM-dd"/></td>
-									<td><c:out value="${ order.orderTotalPrice }"/>원</td>
-									<td>주문 접수</td>
-									<td><button type="button" class="btn btn-light btn-sm tableMainBtn" onclick="location.href='mng_order_detail.do?orderNum=${order.orderNum}&existAddrFlag=${order.existAddrFlag}'">상세보기</button></td>
-								</tr>
-								</c:forEach>
-					  			</tbody>소현
-							</table>
-							<!-- 페이징 -->
-							<input type="hidden" value="${ orderList.size() }" class="orderListSize">
-							
+		            	<div style="margin: 10px auto; text-align: center;">
+							<div class="mypage_table_type" id="orderListOutput">
+			    				
+							</div>
                			</div>
 					</div> <!--표 끝  -->    
                 </main>
-                <div>
-	               	<nav aria-label="Page navigation example" style="display: flex; justify-content: center; margin: 40px 0px;" >
-					  <ul class="pagination">
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li class="page-item"><a class="page-link" href="#">1</a></li>
-					    <li class="page-item"><a class="page-link" href="#">2</a></li>
-					    <li class="page-item"><a class="page-link" href="#">3</a></li>
-					    <li class="page-item">
-					      <a class="page-link" href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
-               	</div>
+				<div id="orderPageOutput">
+				
+				</div>
                 <!-- 푸터 -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">

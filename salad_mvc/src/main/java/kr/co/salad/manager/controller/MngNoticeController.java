@@ -31,8 +31,9 @@ public class MngNoticeController {
 	@RequestMapping(value = "mng_notice.do",method = GET)
 	public String notice(HttpSession session,Model model) {
 		String url=null;
-		session.setAttribute("mngId", "admin"); //로그인 대신 세션심어주기
-		
+		/*
+		 * session.setAttribute("mngId", "admin"); //로그인 대신 세션심어주기
+		 */		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) {
 			url="redirect:http://localhost/salad_mvc/mng_index.do";

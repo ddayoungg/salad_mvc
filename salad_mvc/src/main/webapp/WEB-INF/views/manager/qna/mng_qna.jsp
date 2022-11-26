@@ -208,17 +208,17 @@
     
  <body class="sb-nav-fixed">
  <!-- 상단 우측 네비 -->   
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="index.html"><img alt="img" src="../images/saladLogo.png" height="50px"></a>
+            href="mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조 관리자님, 어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
@@ -231,40 +231,40 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">메인</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/dashboard.do">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
                                 -대시보드
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
                             style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="#">회원 관리</a></div>
+                            href="mng_member.do">회원 관리</a></div>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">상품 관리</div>
-                            <a class="nav-link" href="http://localhost/salad_mvc/mng_prd.do">
+                            <a class="nav-link" href="mng_prd.do">
                                 -상품 등록
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://localhost/salad_mvc/mng_review.do">
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
                                 -상품 후기
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">주문 관리</div>
-                            <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do">
+                            <a class="nav-link" href="mng_order_main.do">
                                 -주문 관리
                             </a>
-                            <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel_main.do">
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
                                 -취소 관리
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://localhost/salad_mvc/mng_deli_main.do">
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
                                 -배송 관리
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">게시판 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_notice.do">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
                                 -공지사항
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">문의 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_qna.do">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
                                 -상품문의
                             </a>
                         </div>

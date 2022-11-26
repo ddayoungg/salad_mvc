@@ -239,9 +239,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         }).open();
     }
-</script>
-<script type="text/javascript">
-	$(function () {
+
+    $(function () {
 		setTotalPrice();
 		
 		$("#shippingNew").on("click", function () {
@@ -264,6 +263,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		
 		// 결제하기 버튼 클릭 시
 		$(".orderPayBtn").on("click", function (index, element) {
+			
+			if(!checkInfo()) {return;}
+			
 			$(".existAddrFlagInput").val("0");
 			$(".deliZipcodeInput").val($("input[name='receiverZipcode']").val());
 			$(".deliAddrInput").val($("input[name='receiverAddress']").val());
@@ -298,6 +300,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			$(".addOrderFrm").append(formContents);
 			$(".addOrderFrm").submit();
 			
+			
 		});//orderPayBtn
 		
 	});//ready
@@ -317,6 +320,84 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		$(".orderTotalPriceInput").val(totalPrice-totalDis);
 		
     }//setTotalPrice
+    
+    function checkInfo(){
+    	var orderName=$("#orderName").val().replace(" ","");
+    	var orderCellPhone=$("#orderCellPhone").val().replace(" ","");
+    	var orderEmail=$("#orderEmail").val().replace(" ","");
+    	
+    	var receiverName=$("input[name='receiverName']").val().replace(" ","");
+    	var receiverAddress=$("input[name='receiverAddress']").val().replace(" ","");
+    	var receiverAddressSub=$("input[name='receiverAddressSub']").val().replace(" ","");
+    	var receiverZipcode=$("input[name='receiverZipcode']").val().replace(" ","");
+    	var receiverCellPhone=$("input[name='receiverCellPhone']").val().replace(" ","");
+
+    	var pass = true;
+    	
+    	if(orderName.length==0){
+    		alert("주문자 이름을 입력하세요.");
+    		$("#orderName").focus();
+    		return;
+    	}
+    	
+    	if(orderCellPhone.length==0){
+    		alert("휴대폰 번호를 입력하세요.");
+    		$("#orderCellPhone").focus();
+    		return;
+    	}
+    	
+    	if(orderEmail.length==0){
+    		alert("이메일을 입력하세요.");
+    		$("#orderEmail").focus();
+    		return;
+    	}
+    	
+    	if(receiverName.length==0){
+    		alert("받으실 분을 입력하세요.");
+    		$("input[name='receiverName']").focus();
+    		return;
+    	}
+    	
+    	if(receiverAddress.length==0){
+    		alert("주소를 입력하세요.");
+    		$("input[name='receiverAddress']").focus();
+    		return;
+    	}
+    	
+    	if(receiverAddressSub.length==0){
+    		alert("상세주소를 입력하세요.");
+    		$("input[name='receiverAddressSub']").focus();
+    		return;
+    	}
+    	
+    	if(receiverZipcode.length==0){
+    		alert("우편번호를 입력하세요.");
+    		$("input[name='receiverZipcode']").focus();
+    		return;
+    	}
+    	
+    	if(receiverCellPhone.length==0){
+    		alert("받으실 분의 휴대폰 번호를 입력하세요.");
+    		$("input[name='receiverCellPhone']").focus();
+    		return;
+    	}
+    	
+        /*
+         * 필수 동의 항목 검증
+         */
+        $(':checkbox.require').each(function (idx, item) {
+            var $item = $(item);
+            if (!$item.prop('checked')) {
+                pass = false;
+                alert("필수항목에 체크해주세요!")
+                _.delay(function () {
+                    $item.focus();
+                }, 1000);        
+                return false;
+            }
+        });
+        
+    }
 	    
 </script>
 
@@ -526,19 +607,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><a href="../member/join_method.jsp">회원가입</a></li>
-					<li><a href="../member/login.jsp">로그인</a></li>
-
+					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
+				</ul>
+				<ul class="list_2">
+					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+                    </li>
 				</ul>
 			</div>
         </div>
@@ -771,13 +856,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	                           <tr>
 	                               <th scope="row"><span class="important">휴대폰 번호</span></th>
 	                               <td>
-	                                   <input type="text" id="mobileNum" name="orderCellPhone" value="${ orderInfo.phone }" maxlength="20" />
+	                                   <input type="text" id="orderCellPhone" name="orderCellPhone" value="${ orderInfo.phone }" maxlength="20" placeholder="-없이 입력하세요" />
 	                               </td>
 	                           </tr>
 	                           <tr>
 	                               <th scope="row"><span class="important">이메일</span></th>
 	                               <td class="member_email">
-	                                   <input type="text" name="orderEmail" value="${ orderInfo.email }" />
+	                                   <input type="text" name="orderEmail" id="orderEmail" value="${ orderInfo.email }" />
 	
 	                                   <select id="emailDomain" class="chosen-select" style="width:178px;">
 	                                       <option value="self">직접입력</option>
@@ -917,7 +1002,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	                       </div>
 	                       
 	                       <form action="add_order_process.do" method="get" class="addOrderFrm">
-	                       	<input type="hidden" name="id" value="test">
+	                       	<input type="hidden" name="id" value="${ userId }">
 	                       	<input type="hidden" name="deliZipcode" class="deliZipcodeInput">
 	                       	<input type="hidden" name="deliAddr" class="deliAddrInput">
 	                       	<input type="hidden" name="deliDetailAddr" class="deliDetailAddrInput">

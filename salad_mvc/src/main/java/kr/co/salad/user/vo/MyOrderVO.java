@@ -57,7 +57,7 @@ public class MyOrderVO {
 
 	@Override
 	public String toString() {
-		return "MyCancelVO [orderNum=" + orderNum + ", startNum=" + startNum + ", endNum=" + endNum + ", currentPage="
+		return "MyOrderVO [orderNum=" + orderNum + ", startNum=" + startNum + ", endNum=" + endNum + ", currentPage="
 				+ currentPage + ", id=" + id + "]";
 	}
 

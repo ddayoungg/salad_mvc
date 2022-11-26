@@ -43,12 +43,12 @@ public class MngQnaADAO {
 	public void answerWrite(MngQnaAVO mqaVO) {
 		int lastQnaANum=0;
 		
-		MngQnaADAO mpaDAO=new MngQnaADAO();
+		MngQnaADAO mqaDAO=new MngQnaADAO();
 		
-		lastQnaANum=mpaDAO.selectLastQnaANum();
+		lastQnaANum=mqaDAO.selectLastQnaANum();
 		
 		mqaVO.setQnaANum(lastQnaANum+1);
-		 System.out.println("=================="+mqaVO);
+		 System.out.println("answerWrite=================="+mqaVO);
 		//MyBatis Handler 얻기
 		MyBatisHandler mbh=MyBatisHandler.getInstance();
 		SqlSession ss=mbh.getHandler();
@@ -64,6 +64,15 @@ public class MngQnaADAO {
 			System.out.println("데이터 추가 실패했습니다.");
 			commitFlag=false;
 		}//end else
+		
+		int upCnt=ss.update("kr.co.salad.manager.dao.mapper.MngQnaAMapper.updateWrite", mqaVO.getQnaNum());
+		if(upCnt != 0) {
+			System.out.println("데이터가 추가 되었습니다.");
+		}else {
+			System.out.println("데이터 추가 실패했습니다.");
+			commitFlag=false;
+		}//end else
+		
 		
 		if(commitFlag) {//트랜잭션
 			ss.commit();

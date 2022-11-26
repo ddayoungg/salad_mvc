@@ -296,7 +296,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			setTotalPrice($(".checkTd"));
 		});
 		
-		$(".up").on("click", function () {
+		$(".up").click(function () {
 			var upCnt = $(this).parent("span").find("input").val();
 			$(this).parent("span").find("input").val(++upCnt);
 		});
@@ -356,8 +356,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				}//if
 			});//checkTd
 			
-			$(".orderFrm").html(formContents);
-			$(".orderFrm").submit();
+			if(formContents==''){
+				alert("선택하신 상품이 없습니다.");
+			}else{
+				alert(orderNum);
+				$(".orderFrm").html(formContents);
+				$(".orderFrm").submit();
+			}
 			
 		});//orderBtn
 		
@@ -617,19 +622,23 @@ End Channel Plugin -->
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><a href="../member/join_method.jsp">회원가입</a></li>
-					<li><a href="../member/login.jsp">로그인</a></li>
-
+					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
+				</ul>
+				<ul class="list_2">
+					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+                    </li>
 				</ul>
 			</div>
         </div>
@@ -778,10 +787,6 @@ End Channel Plugin -->
                             <tr>
                                 <th class="first" colspan="8">
 									<div class="left_con_th">
-                                    <div class="form_element">
-                                        <input type="checkbox" id="allCheck1" class="gd_select_all_goods" data-target-id="cartSno1_" data-target-form="#frmCart" checked="checked">
-                                        <label for="allCheck1" class="check_s on"><b>전체선택</b></label>
-                                    </div>
 									</div>
 									<div class="right_con_th">
 										<button type="button" class="delBtn">선택 삭제</button>
@@ -816,7 +821,7 @@ End Channel Plugin -->
                                     <div class="order_goods_num">
 										<span class="numcon">
 											<button type="button" class="down goods_cnt" title="감소">감소</button>
-                                            <input type="text" class="text" id="${ cart.prdNum }" title="수량" value="${ cart.cartPrdCnt }" >
+                                            <input type="text" class="text" id="${ cart.prdNum }" title="수량" value="${ cart.cartPrdCnt }" min="1">
 											<button type="button" class="up goods_cnt" title="증가">증가</button>
 										</span>
                                     </div>
@@ -839,7 +844,6 @@ End Channel Plugin -->
             
             <!-- 수량 수정 form -->
             <form action="edit_cart_cnt.do" method="get" class="updateCntFrm">
-            	<input type="hidden" name="id" value="test">
             	<input type="hidden" name="cartPrdCnt" class="updateCartPrdCnt">
             	<input type="hidden" name="prdNum" class="updatePrdNum">
             </form>
@@ -851,7 +855,6 @@ End Channel Plugin -->
             
             <!-- 주문 form -->
             <form action="order.do" method="get" class="orderFrm">
-            	<input type="hidden" name="id" value="test">
             </form>
 
             <div class="price_sum">

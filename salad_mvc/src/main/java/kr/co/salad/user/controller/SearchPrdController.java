@@ -30,7 +30,7 @@ public class SearchPrdController {
 	@Autowired(required = false)
 	private KategoriePrdService kpService;
 	
-	@RequestMapping(value="/goods/goods_search.do", method=GET)
+	@RequestMapping(value="/goods_search.do", method=GET)
 	public String goodsSearchForm(HttpSession session ,String keyword, Model model) {
 		String url="user/goods/goods_search";
 		
@@ -51,7 +51,7 @@ public class SearchPrdController {
 	}//goodsSearchForm
 	
 	@ResponseBody
-	@RequestMapping(value="/goods/search_prd_box_list_ajax.do", method=GET, produces="application/json; charset=UTF-8")
+	@RequestMapping(value="/search_prd_box_list_ajax.do", method=GET, produces="application/json; charset=UTF-8")
 	public String searchSrchPrdBoxListAjax(SearchPrdVO spVO) {
 		
 		//상품 박스형 리스트

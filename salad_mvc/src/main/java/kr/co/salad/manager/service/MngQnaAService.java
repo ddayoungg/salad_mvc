@@ -25,8 +25,5 @@ public class MngQnaAService {
 		mqaDAO.answerWrite(mqaVO);
 	}
 	
-	public void answerEdit(MngQnaAVO mqaVO) {
-		mqaDAO.answerEdit(mqaVO);
-	}
 	
 }

@@ -2,6 +2,7 @@
 <%@page import="kr.co.salad.manager.vo.MngLoginVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,7 +119,10 @@
 				                        	총 정산 금액
 				                        	</div>
 				                        	<div style="color:#000000; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;" ><%= request.getAttribute("payDayT") %></span>원
+				                        	<%-- <span style="font-size:30px;" ><%= request.getAttribute("payDayT") %></span>원 --%>
+				                        	<span style="font-size:30px;" >
+											<fmt:formatNumber value="${payDayT}" pattern="#,###"/>
+											</span>원
 				                        	</div>
 			                        	</div>
 		                        	</div>
@@ -132,7 +136,8 @@
 				                        	총 정산 금액
 				                        	</div>
 				                        	<div style="color:#000000; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;"><%= request.getAttribute("payDayM") %></span>원
+				                        	<%-- <span style="font-size:30px;"><%= request.getAttribute("payDayM") %></span>원 --%>
+				                        	<span style="font-size:30px;"><fmt:formatNumber value="${payDayM}" pattern="#,###"/></span>원
 				                        	</div>
 			                        	</div>
 		                        		</div>

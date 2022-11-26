@@ -5,8 +5,8 @@
 <mapper namespace="kr.co.salad.manager.dao.mapper.MngQnaMapper">
  
  <select id="selectQnaTotalCount" resultType="int" 
-  parameterType="kr.co.salad.manager.vo.MngQnaVO">
-	select		count(*)
+  parameterType="int">
+	select		count(id)
 	from	  		QA q
 	inner join product p
 	on q.prd_num=p.prd_num
@@ -14,11 +14,16 @@
 		<when test=" subCateNum != 0 ">
 			where SUB_CATE_NUM=#{subCateNum} AND qna_cont LIKE '%'||#{keyword}||'%' 					
 		</when>
+		<when test=" filedName== 'qnaAFlag' and  keyword== '미답변' ">
+				where qna_a_flag = '0'
+		</when>
+		<when test=" filedName== 'qnaAFlag'  and  keyword == '답변' ">
+				where qna_a_flag = '1'
+		</when>
 		<otherwise>
 				where qna_cont LIKE '%'||#{keyword}||'%'
 		</otherwise>
 	</choose>
-	
   </select>
   <select id="selectMainCate" resultType="kr.co.salad.manager.domain.MngQnaDomain">
   select main_cate_num, main_cate_name
@@ -51,7 +56,7 @@ from		(select	ROW_NUMBER() OVER (ORDER BY QNA_WRITE_DATE DESC) as rnum,
 				where qna_cont LIKE '%'||#{keyword}||'%'
 		</otherwise>
 	</choose>
-				ORDER BY QNA_A_FLAG ASC , QNA_WRITE_DATE DESC
+				ORDER BY qna_num DESC
 				)
 WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
   </select>

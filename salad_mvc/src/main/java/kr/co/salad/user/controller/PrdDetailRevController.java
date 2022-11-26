@@ -57,7 +57,7 @@ public class PrdDetailRevController {
 	public String revPopupAjax(int revNum) {
 		
 		//조회수 증가
-		//int upCnt=pdrService.editRevHits(revNum);
+		int upCnt=pdrService.editRevHits(revNum);
 		
 		//후기 팝업
 		String jsonObj=pdrService.searchRevDetailJson(revNum);

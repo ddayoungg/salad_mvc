@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=" "%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -251,7 +252,7 @@
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">문의 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="#">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
                                 -상품문의
                             </a>
                         </div>
@@ -383,12 +384,16 @@
 					  	<tbody id="afterTr">
 					  	<c:forEach var="allCancel" items="${allCancelList}">
 						 <tr>
-							<td><a id="searchOrder"  class="tableMainNum" href="mng_order_detail?orderNum=${allCancel.orderNum}
-							&existAddrFlag=${allCancel.existAddrFlag}">${allCancel.orderNum}</a></td>
+						 	<!-- 환불 조회 기능 구현 못해서 막아놓음 -->
+							<%-- <td><a id="searchOrder"  class="tableMainNum" href="mng_cancel_detail.do?orderNum=${allCancel.orderNum}
+							&orderStatus=${allCancel.orderStatus}">${allCancel.orderNum}</a></td> --%>
+							<td class="tableMainNum" >
+							${allCancel.orderNum}</td>
 							<td>${allCancel.id}</td>
 							<td>${allCancel.name}</td>
 							<td>${allCancel.orderDate}</td>
-							<td>${allCancel.orderTotalPrice}원</td>
+							<%-- <td>${allCancel.orderTotalPrice}원</td> --%>
+							<td><fmt:formatNumber value="${allCancel.orderTotalPrice}" pattern="#,###"/>원</td> 
 							<td>
 							<button id="mngOrderBtn" value="mng_orderDetail.do?orderNum=${allCancel.orderNum}" type="button" class="btn btn-light btn-sm tableMainBtn" 
 							onclick="if(this.value)location.href=(this.value);">
@@ -483,7 +488,7 @@
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderNum}</td>
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.name}</td>
 								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderDate}</td>
-								<td style="border: 1px solid #f0f0f0;">${cancelOrder.orderTotalPrice}</td>
+								<td style="border: 1px solid #f0f0f0;"><fmt:formatNumber value="${cancelOrder.orderTotalPrice}" pattern="#,###"/></td>
 								<%-- </c:forEach> --%>
 							</tr>
 						</tbody>

@@ -5,10 +5,18 @@
 <mapper namespace="kr.co.salad.user.MyRevMapper">
 
 <!-- 총 페이지 수 -->
-<select id="selectTotalPage" parameterType="kr.co.salad.user.vo.MyRevVO" resultType="int">
-select	count(distinct r.rev_num)
-from	review r, member m, product p
-where	r.id = m.id and r.prd_num = p.prd_num and  id=#{ id }	
+<select id="selectTotalPage" parameterType="String" resultType="int">
+select 	count(*)
+from  	review
+where	id=#{id}
+<!--   	<choose>
+		<when test="searchFlag == 1 ">
+			where rev_title Like '%' || #{searchText}  || '%'
+		</when>
+		<when test="searchFlag == 2 ">
+			where rev_cont Like '%' || #{searchText}  || '%'
+		</when>
+	</choose> -->	
 </select>
 
 
@@ -16,19 +24,19 @@ where	r.id = m.id and r.prd_num = p.prd_num and  id=#{ id }
 <select id="selectRevList" parameterType="kr.co.salad.user.vo.MyRevVO"  resultType="kr.co.salad.user.domain.MyRevDomain">
 select rev_num, prd_body_thum, rev_title, rev_write_date, rev_hits
 from(
-	select	r.rev_num,r.rev_title, row_number() over(order by R.REV_WRITE_DATE desc) r_num,
-					to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits,
+	select	r.rev_num,r.rev_title, row_number() over(order by r.rev_write_date desc) r_num,
+					to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits, r.rev_cont,
 					m.name, m.id, p.prd_body_thum			
 	from	review r, member m, product p
-	where	r.id = m.id and r.prd_num = p.prd_num and id=#{ id }
-	<choose>
-		<when test="searchFlag == 'title' ">
-			where rev_title Like '%' || #{searchText}  || '%'
+	where	r.id = m.id and r.prd_num = p.prd_num and  m.id=#{id}
+<!--   	<choose>
+		<when test="searchFlag == 1 ">
+			where r.rev_title Like '%' || #{searchText}  || '%'
 		</when>
-		<when test="searchFlag == 'cont' ">
-			where rev_cont Like '%' || #{searchText}  || '%'
+		<when test="searchFlag == 2 ">
+			where r.rev_cont Like '%' || #{searchText}  || '%'
 		</when>
-	</choose>	
+	</choose>	 -->  
 	)
 where  r_num BETWEEN #{startNum} AND #{endNum}
 </select>
@@ -50,23 +58,30 @@ where 	r.id=m.id and r.prd_num = p.prd_num and rev_num=#{ rev_num }
 </select>
 
 <!-- 후기 수정 --><!-- 이미지도 추가하는 쿼리 다시 작성 -->
-<update id="updateRev" parameterType="kr.co.salad.user.vo.MyRevVO">
+<!-- <update id="updateRev" parameterType="kr.co.salad.user.vo.MyRevVO">
 update REVIEW
 set REV_TITLE=#{REV_TITLE}, REV_CONT=#{REV_CONT}, 
 where REV_NUM=#{REV_NUM}
-</update>
+</update> -->
 
 
 <!-- 후기 글 삭제 -->
-<delete id="deleteRev" parameterType="int">
+<!-- <delete id="deleteRev" parameterType="int">
   	delete from review
   	where rev_num=#{revNum}
-</delete>
+</delete> -->
   
 <!-- 후기 이미지 삭제 -->
-<delete id="deleteImgRev" parameterType="int">
+<!-- <delete id="deleteImgRev" parameterType="int">
   	delete from review_add_img
   	where rev_num=#{revNum}
-</delete>
+</delete> -->
+
+<!-- 나의 후기 조회수 증가 -->
+<update id="updateMyRevCount" parameterType="int">
+	update	review
+	set		rev_hits = rev_hits+1
+	where	rev_num = #{revNum}
+</update>
   
 </mapper>

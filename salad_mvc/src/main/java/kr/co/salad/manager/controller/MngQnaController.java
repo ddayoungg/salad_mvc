@@ -32,13 +32,13 @@ public class MngQnaController {
 	public String mngQnaMain(HttpSession session, MngQnaVO mqVO, Model model) {
 		String url="manager/qna/mng_qna";
 		
-		String mngId=(String)session.getAttribute("mngId");
-		if(mngId==null) {
+		String mngId=(String)session.getAttribute("mngId");//세션 가져오기
+		if(mngId==null) {//로그인이 안되어있으면
 			url="redirect:http://localhost/salad_mvc/mng_index.do";
-			model.addAttribute("eMsg", "로그인을 해주세요");
-		}else {
-			url="manager/qna/mng_qna";
-		}
+			model.addAttribute("eMsg", "로그인을 해주세요.");
+		} else {//로그인이 되어있으면
+			model.addAttribute("mngId", mngId);
+		}//end else
 		
 		return url;
 	}
@@ -48,7 +48,7 @@ public class MngQnaController {
 	public String mngQnaTotalAjax() {
 		//전체 문의수, 답변, 미답변
 		String jsonObj=mqService.searchQnaTotalJson();
-		
+		System.out.println(jsonObj);
 		return jsonObj;
 	}
 	
@@ -85,13 +85,13 @@ public class MngQnaController {
 	public String mngQnaDetail(HttpSession session, int qnaNum, Model model) {
 		String url="manager/qna/mng_qna_detail";
 		
-		String mngId=(String)session.getAttribute("mngId");
-		if(mngId==null) {
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
-			model.addAttribute("eMsg", "로그인을 해주세요");
-		}else {
-			url="manager/qna/mng_qna";
-		}
+//		String mngId=(String)session.getAttribute("mngId");
+//		if(mngId==null) {
+//			url="redirect:http://localhost/salad_mvc/mng_index.do";
+//			model.addAttribute("eMsg", "로그인을 해주세요");
+//		}else {
+//			url="manager/qna/mng_qna";
+//		}
 		
 		MngQnaDomain mqDomain = mqService.searchQnaDetail(qnaNum);
 		model.addAttribute("qnaData", mqDomain);

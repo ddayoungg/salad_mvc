@@ -41,7 +41,6 @@ public class KategoriePrdDAO {
 	
 	public int selectPrdTotalCount(KategoriePrdVO kpVO) {//전체 상품 리스트 행의 수
 		int totalCnt=0;
-		System.out.println(kpVO);
 		//MyBatis Handler 얻기
 		MyBatisHandler mbh=MyBatisHandler.getInstance();
 		SqlSession ss=mbh.getHandler();

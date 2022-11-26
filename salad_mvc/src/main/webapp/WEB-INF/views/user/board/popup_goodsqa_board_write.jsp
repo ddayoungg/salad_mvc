@@ -101,14 +101,18 @@
 	    })//closeBtn
 	})//ready
 
-	function loginChk() {
+function loginChk() {
 		
+		var loginFlag=true;
+    	
 		<c:if test="${ sessionScope.userId eq null }">
 			alert("로그인을 해주세요.");
 			window.close();
-			return false;
+			//location.href="http://localhost/salad_mvc/login.do";
+			loginFlag= false;
 		</c:if>
 		
+		return loginFlag;
 	}//loginChk
 	
 	function nullChk(){

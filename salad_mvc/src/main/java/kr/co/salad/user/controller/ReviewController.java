@@ -6,11 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import kr.co.salad.user.domain.KategoriePrdDomain;
 import kr.co.salad.user.domain.ReviewDomain;
+import kr.co.salad.user.service.KategoriePrdService;
 import kr.co.salad.user.service.ReviewService;
 import kr.co.salad.user.vo.ReviewVO;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 public class ReviewController {
@@ -18,9 +23,16 @@ public class ReviewController {
 	@Autowired(required = false)
 	private ReviewService revService;
 	
+	@Autowired(required = false)
+	private KategoriePrdService kpService;
+	
 	//리얼후기 전체리스트
 	@RequestMapping(value = "goodsreview_list.do",method =GET )
 	public String ReviewRequest(ReviewVO revVO, Model model) {
+		
+		//전체 카테고리
+		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList);//메인 메뉴
 		return "user/board/goodsreview_list";
 	}
 	
@@ -35,12 +47,12 @@ public class ReviewController {
 	}//searchRevListAjax
 	
 	
-	//후기관리 상세보기
+	//후기 상세보기
 	@RequestMapping(value = "goodsreview_view.do",method =GET )
 	public String ReviewDetail(int revNum, Model model) {
 		ReviewDomain revDomain=revService.searchRevDetail(revNum);
-		//revService.updateNotiCount(notiNum);
 		
+		revService.updateRevCount(revNum);
 		
 		//가격 계산
 		double disCountPro=revDomain.getPrdDiscount()*0.01;
@@ -58,6 +70,9 @@ public class ReviewController {
 		model.addAttribute("revImg", revDomain.getRevImg());
 		model.addAttribute("revCont", revDomain.getRevCont());
 		
+		//전체 카테고리
+		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList);//메인 메뉴
 		return "user/board/goodsreview_view";
 	}
 }

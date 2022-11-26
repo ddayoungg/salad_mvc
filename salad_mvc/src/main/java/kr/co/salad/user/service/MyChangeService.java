@@ -18,43 +18,40 @@ public class MyChangeService {
 	@Autowired(required = false)
 	private MyChangeDAO chanDAO;
 	
-	@Autowired(required = false)
-	private PasswordEncoder passwordEncoder;
 	
 	//회원정보 들어가기전 비번 확인
 	public boolean searchMyChangePass(MyChangeVO chanVO) {
-		boolean passConfirm = false;
-		MyChangeVO passVO = new MyChangeVO();
-		passVO.setPass(chanVO.getPass());
+		boolean passMatch = false;
+//		MyChangeVO passVO = new MyChangeVO();
+//		passVO.setPass(chanVO.getPass());
 		
-		passConfirm = chanDAO.selectMyChangePass(chanVO);
+		passMatch = chanDAO.selectMyChangePass(chanVO);
 		
 //		System.out.println("복호화 전 상태 "+passConfirm);
-		
+//		
 //		if(!passwordEncoder.matches(passVO.getPass(), chanVO.getPass())) {
 //			System.out.println("비밀번호 일치 x");
 //			return passConfirm = false;
 //		} 
 		
-		return passConfirm;
+		return passMatch;
 	}//
 	
 	//내 정보 불러오기
 	public MyChangeVO searchMyMember(MyChangeVO chanVO) {
-		MyChangeVO chanConfirmVO = new MyChangeVO();
+		//MyChangeVO chanConfirmVO = new MyChangeVO();
 		
-		chanConfirmVO = chanDAO.selectMyMember(chanVO);
+		MyChangeVO resultVO = chanDAO.selectMyMember(chanVO);
 		
-		return chanConfirmVO;
+		return resultVO;
 	}//
 	
 	//비번 변경 시 원래 비번 맞는 지 확인
-	public boolean searchMemberPass(MyChangeVO chanVO) {
-		boolean reconfirmPass = false;
+	public MyChangeVO searchMemberPass(MyChangeVO chanVO) {
 		
-		reconfirmPass = chanDAO.selectMemberPass(chanVO);
+		MyChangeVO resultVO = chanDAO.selectMemberPass(chanVO);
 		
-		return reconfirmPass;
+		return resultVO;
 	}//
 	
 	//내 정보 변경

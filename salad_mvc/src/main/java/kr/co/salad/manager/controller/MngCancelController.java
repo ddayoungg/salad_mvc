@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.salad.manager.domain.MngCancelDomain;
+import kr.co.salad.manager.domain.MngOrderDomain;
+import kr.co.salad.manager.domain.MngOrderPrdDomain;
 import kr.co.salad.manager.service.MngCancelService;
 import kr.co.salad.manager.service.MngDashboardService;
+import kr.co.salad.manager.service.MngOrderService;
 import kr.co.salad.manager.vo.MngCancelVO;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -249,7 +252,37 @@ public class MngCancelController {
 		
 		
 		return url;
-	}
+	}//
+	
+	
+	//환불 내역 확인 하는 기능 구현 못해서 막아놓음
+//	@RequestMapping(value="/mng_cancel_detail.do",method = GET)
+//	public String mngCancelDetail(HttpSession session, MngOrderDomain mod, Model model) {
+//		String url="/manager/order/mng_cancel_detail";
+//		
+//		String mngId=(String)session.getAttribute("mngId");//세션 가져오기
+//		if(mngId==null) {//로그인이 안되어있으면
+//			url="redirect:http://localhost/salad_mvc/mng_index.do";
+//			model.addAttribute("eMsg", "로그인을 해주세요.");
+//		} else {//로그인이 되어있으면
+//			model.addAttribute("mngId", mngId);
+//		}//end else
+//		
+//		MngOrderService mds = new MngOrderService();
+//		
+//		List<MngOrderPrdDomain> orderPrdList = mds.searchOrderPrd(mod.getOrderNum());
+//		model.addAttribute("orderPrdList", orderPrdList);
+//		
+//		MngOrderDomain memberInfo = mds.searchOrderMember(mod.getOrderNum());
+//		model.addAttribute("memberInfo", memberInfo);
+//
+//		if("1".equals(mod.getOrderStatus())) {
+//			MngOrderDomain deliInfo = mds.searchOrderDeli(mod.getOrderNum());
+//			model.addAttribute("deliInfo", deliInfo);
+//		}
+//		
+//		return url;
+//	}//
 	
 	//취소 상태 보기 창 변경 확인
 //	@RequestMapping(value="/mng_cancel_form_1.do",method = GET)

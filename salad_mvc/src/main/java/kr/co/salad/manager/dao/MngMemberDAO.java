@@ -17,7 +17,6 @@ public class MngMemberDAO {
 	
 	public int selectMemberTotalCount(MngMemberVO mmVO) {//전체 회원 리스트 행 수 및 전체 회원 수, 가입 수, 탈퇴 수
 		int totalCnt=0;
-		System.out.println(mmVO);
 		//MyBatis Handler 얻기
 		MyBatisHandler mbh=MyBatisHandler.getInstance();
 		SqlSession ss=mbh.getHandler();

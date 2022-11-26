@@ -90,7 +90,7 @@
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -121,7 +121,7 @@ $(function(){
 
 function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
 	$.ajax({
-		url:"../user/mypage/my_total_ajax.do",
+		url:"http://localhost/salad_mvc/my_total_ajax.do",
 		dataType:"json",
 		error:function( request, status, error ){
 			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
@@ -355,7 +355,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="cs_in">
 							<ul >
 								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/prd_rev_list.do">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
@@ -482,16 +482,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <ul class="sub_menu_mypage">
         <li>쇼핑정보
             <ul class="sub_depth1">
-                <li><a href="http://localhost/salad_mvc/my_order_list.do">- 주문목록/배송조회</a></li>
+                <li><a href="http://localhost/salad_mvc/order_list.do">- 주문목록/배송조회</a></li>
                 <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
                 <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
         <li>회원정보
             <ul class="sub_depth1">
-                <li><a href="http://localhost/salad_mvc/mypage/my_change_index.do">- 회원정보 변경</a></li>
+                <li><a href="http://localhost/salad_mvc/my_change_index.do">- 회원정보 변경</a></li>
 				<li><a href="http://localhost/salad_mvc/mypage_deli.do">- 배송지 관리</a></li>
-                <li><a href="http://localhost/salad_mvc/mypage_out_form">- 회원 탈퇴</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_out_pwChk.do">- 회원 탈퇴</a></li>
+            </ul>
+        </li>
+        <li>나의 상품후기
+            <ul class="sub_depth1">
+                <li><a href="http://localhost/salad_mvc/mypage_goods_review.do">- 나의 상품후기</a></li>
             </ul>
         </li>
         <li>나의 상품문의
@@ -516,7 +521,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		    <div class="mypage_top_info">
 		    <div class="mypage_top_txt">
 		        <div class="grade_txt">
-		            <p>김도희님의</p><p> 마이페이지입니다.</p>
+		            <p><c:out value="${ sessionScope.userName }"/>님의</p><p> 마이페이지입니다.</p>
 		            <div class="btn_layer">
 		
 		            </div>
@@ -584,7 +589,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		        <!-- //pick_add_info -->
 		    	</td>
 		    	<td><c:out value="${ order.orderCnt }"/>개</td>
-		    	<td><strong><fmt:formatNumber value='${ (order.prdPrice-(order.prdPrice/order.prdDiscount)) }' pattern="#,#00"/></strong>원</td>
+		    	<td><strong><fmt:formatNumber value='${ (order.prdPrice-(order.prdPrice*(order.prdDiscount/100))) }' pattern="#,#00"/></strong>원</td>
 			</tr>
 		</c:forEach>
         </tbody>

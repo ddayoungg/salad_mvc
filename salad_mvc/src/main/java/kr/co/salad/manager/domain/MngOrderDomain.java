@@ -1,20 +1,18 @@
 package kr.co.salad.manager.domain;
 
-import java.util.Date;
-
 public class MngOrderDomain {
 	private int orderNum, orderTotalPrice;
 	private String name, orderStatus, phone, email, existAddrFlag, zipcode, deliZipcode, addr, deAddr, deliAddr,
 			deliDetailAddr, receiver, deliPhone, deliReq;
-	private Date orderDate;
+	private String orderDate, searchText;
 
 	public MngOrderDomain() {
 	}
 
 	public MngOrderDomain(int orderNum, int orderTotalPrice, String name, String orderStatus, String phone,
 			String email, String existAddrFlag, String zipcode, String deliZipcode, String addr, String deAddr,
-			String deliAddr, String deliDetailAddr, String receiver, String deliPhone, String deliReq, Date orderDate) {
-		super();
+			String deliAddr, String deliDetailAddr, String receiver, String deliPhone, String deliReq, String orderDate,
+			String searchText) {
 		this.orderNum = orderNum;
 		this.orderTotalPrice = orderTotalPrice;
 		this.name = name;
@@ -32,6 +30,7 @@ public class MngOrderDomain {
 		this.deliPhone = deliPhone;
 		this.deliReq = deliReq;
 		this.orderDate = orderDate;
+		this.searchText = searchText;
 	}
 
 	public int getOrderNum() {
@@ -162,12 +161,20 @@ public class MngOrderDomain {
 		this.deliReq = deliReq;
 	}
 
-	public Date getOrderDate() {
+	public String getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 
 	@Override
@@ -176,7 +183,8 @@ public class MngOrderDomain {
 				+ ", orderStatus=" + orderStatus + ", phone=" + phone + ", email=" + email + ", existAddrFlag="
 				+ existAddrFlag + ", zipcode=" + zipcode + ", deliZipcode=" + deliZipcode + ", addr=" + addr
 				+ ", deAddr=" + deAddr + ", deliAddr=" + deliAddr + ", deliDetailAddr=" + deliDetailAddr + ", receiver="
-				+ receiver + ", deliPhone=" + deliPhone + ", deliReq=" + deliReq + ", orderDate=" + orderDate + "]";
+				+ receiver + ", deliPhone=" + deliPhone + ", deliReq=" + deliReq + ", orderDate=" + orderDate
+				+ ", searchText=" + searchText + "]";
 	}
 
 }

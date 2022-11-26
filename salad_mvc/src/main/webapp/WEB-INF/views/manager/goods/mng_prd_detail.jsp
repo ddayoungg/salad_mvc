@@ -103,14 +103,14 @@ function movePrdList() {//목록 버튼 클릭 시 상품 리스트 페이지로
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-	    href="index.html"><img alt="img" src="images/saladLogo.png" height="50px"></a>
-	    <div class="ms-auto" style="color:white;">3조 관리자님,어서오세요.&nbsp;&nbsp;</div>
+	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+	    <div class="ms-auto" style="color:white;"><c:out value="${ sessionScope.mngId }"/>님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
 	            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-	                <li><a class="dropdown-item" href="#!">Logout</a></li>
+	                <li><a class="dropdown-item" href="http://localhost/salad_mvc/mng_logout.do">Logout</a></li>
 	            </ul>
 	        </li>
 	    </ul> 
@@ -119,7 +119,7 @@ function movePrdList() {//목록 버튼 클릭 시 상품 리스트 페이지로
 		<div id="layoutSidenav_nav">
 		    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		        <div class="sb-sidenav-menu">
-		            <div class="nav">
+		           <div class="nav">
 		                <div class="sb-sidenav-menu-heading">메인</div>
 		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_dashboard.do">
 		                    -대시보드
@@ -170,7 +170,7 @@ function movePrdList() {//목록 버튼 클릭 시 상품 리스트 페이지로
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="images/socialMedia.png" width="130px">
+							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>

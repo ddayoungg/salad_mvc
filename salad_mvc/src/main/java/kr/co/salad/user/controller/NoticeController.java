@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.salad.user.domain.KategoriePrdDomain;
 import kr.co.salad.user.domain.NoticeDomain;
+import kr.co.salad.user.service.KategoriePrdService;
 import kr.co.salad.user.service.NoticeService;
 import kr.co.salad.user.vo.NoticeVO;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -21,10 +23,16 @@ public class NoticeController {
 	@Autowired(required = false)
 	private NoticeService noService;
 	
+	@Autowired(required = false)
+	private KategoriePrdService kpService;
 	
 	//공지사항 메인
 	@RequestMapping(value = "notice.do",method = GET)
 	public String notice(NoticeVO noVO, Model model) {
+		
+		//전체 카테고리
+		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
+		model.addAttribute("mainCateList", mainCateList);//메인 메뉴
 		return "user/service/notice";// header
 	}
 	
@@ -49,7 +57,7 @@ public class NoticeController {
 	//공지사항 상세보기
 	@RequestMapping(value = "view.do",method = GET)
 	public String searchnoticeDetail(int notiNum, Model model) {
-		//noService.updateNotiCount(notiNum);
+		noService.updateNotiCount(notiNum);
 		
 		
 		NoticeDomain noDomain=noService.searchNoticeDetail(notiNum);

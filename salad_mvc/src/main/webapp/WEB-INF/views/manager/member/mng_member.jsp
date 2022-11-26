@@ -88,11 +88,15 @@ $(function(){
 
 function loginChk() {
 	
+	var loginFlag=true;
+	
 	<c:if test="${ sessionScope.mngId eq null }">
 		alert("로그인을 해주세요.");
 		location.href="http://localhost/salad_mvc/mng_index.do";
-		return false;
+		loginFlag=false;
 	</c:if>
+	
+	return loginFlag;
 }//loginChk
 
 function setHide(id, display){
@@ -264,7 +268,11 @@ function setDetailPopup(id) {//회원 상세 팝업
 
 function setOutMsg() {//회원 탈퇴 메시지
 	
-	if(!loginChk()){
+	if(!loginChk()){//로그인 상태 확인
+		return;
+	}//end if
+	
+	if(!nullChk()){//강제 탈퇴 입력 사항 확인
 		return;
 	}//end if
 	
@@ -297,26 +305,42 @@ function setFail() {//강제 회원 실패하여 확인 메시지 확인 누를 
 	setHide("popup4", "hide");
 }//setFinal
 
+
+function nullChk(){
+	
+	var nullFlag=true;
+	
+	if($("#outReason").val().trim()=="") {
+		alert("강제 탈퇴 사유를 입력해주세요.");
+		$("#outReason").val("");//화이트 스페이스 초기화
+		$("#outReason").focus();//커서 이동
+		nullFlag=false;
+	}//end if
+	
+	return nullFlag;
+	
+}//nullChk
+
 </script>
 
 </head>
 <body class="sb-nav-fixed">
 
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="index.html"><img alt="img" src="images/saladLogo.png" height="50px"></a>
-            <div class="ms-auto" style="color:white;">3조 관리자님,어서오세요.&nbsp;&nbsp;</div>
-            <!-- Navbar-->
-             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
-                    </ul>
-                </li>
-            </ul> 
-        </nav>
+	    <!-- Navbar Brand-->
+	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
+	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+	    <div class="ms-auto" style="color:white;"><c:out value="${ sessionScope.mngId }"/>님,어서오세요.&nbsp;&nbsp;</div>
+	    <!-- Navbar-->
+	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+	        <li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+	            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+	                <li><a class="dropdown-item" href="http://localhost/salad_mvc/mng_logout.do">Logout</a></li>
+	            </ul>
+	        </li>
+	    </ul> 
+	</nav>
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
 		    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -369,10 +393,10 @@ function setFail() {//강제 회원 실패하여 확인 메시지 확인 누를 
 					<div style="display:flex; justify-content:space-between; flex-direction:row;padding:20px 0 30px 0;">
 						<div>
 							<h1 id="clock" class="mt-4" style="font-size:20px; color:rgb(94,94,94); font-weight:bold;">clock</h1>
-							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
+							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! <c:out value="${ sessionScope.mngId }"/>님.</div>
 						</div>
 						<div>
-							<img src="images/socialMedia.png" width="130px">
+							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>

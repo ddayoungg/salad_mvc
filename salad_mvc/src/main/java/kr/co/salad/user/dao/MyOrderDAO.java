@@ -1,6 +1,7 @@
 package kr.co.salad.user.dao;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,7 +30,7 @@ public class MyOrderDAO {
 		return rowCnt;
 	}//selectMyCcTotalCnt
 	
-	public List<MyOrderDomain> selectMyCancelList(MyOrderVO mcVO) { //나의 취소 목록 리스트
+	public List<MyOrderDomain> selectMyOrderList(MyOrderVO mcVO) { //나의 취소 목록 리스트
 		List<MyOrderDomain> list=new ArrayList<MyOrderDomain>();
 		
 		//MyBatis Handler 얻기
@@ -37,10 +38,11 @@ public class MyOrderDAO {
 		SqlSession ss=mbh.getHandler();
 												
 		//쿼리실행
-		list=ss.selectList("kr.co.salad.user.dao.mapper.MyOrderMapper.selectMyCancelList", mcVO);
+		list=ss.selectList("kr.co.salad.user.dao.mapper.MyOrderMapper.selectMyOrderList", mcVO);
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		
+		System.out.println("list : "+list);
 		return list;
 	}//selectMyCancelList
 	
@@ -67,7 +69,7 @@ public class MyOrderDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
-		existAddrFlag=ss.selectOne("kr.co.salad.user.dao.mapper.MyCancelMapper.selectCcExistAddrFlag", mcVO);
+		existAddrFlag=ss.selectOne("kr.co.salad.user.dao.mapper.MyOrderMapper.selectCcExistAddrFlag", mcVO);
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

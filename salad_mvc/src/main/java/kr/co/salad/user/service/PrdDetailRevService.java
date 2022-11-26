@@ -18,14 +18,6 @@ public class PrdDetailRevService {
 	@Autowired(required = false)
 	private PrdDetailRevDAO pdrDAO;
 	
-	public int searchRevTotalCount(int prdNum) {
-		int totalRevCnt=0;
-		
-		totalRevCnt=pdrDAO.selectRevTotalCount(prdNum);
-		
-		return totalRevCnt;
-	}//searchRevTotalCount
-	
 	
 	public List<PrdDetailRevDomain> searchBestRevList(int prdNum) {
 		//이부분은 다시 한번 보기..
@@ -55,7 +47,7 @@ public class PrdDetailRevService {
 		int currentPage=1;//현재 페이지
 		int totalCount=0;//전체 행 수
 		int totalPage=0;//전체 페이지 수
-		int pageScale=3;//한 페이지 보여줄 행 수
+		int pageScale=10;//한 페이지 보여줄 행 수
 		int startNum=0;//페이지의 시작 지점
 		int endNum=0;//페이지의 끝 지점
 		
@@ -88,9 +80,9 @@ public class PrdDetailRevService {
 		list=pdrDAO.selectRevList(pdrVO);
 		
 		//페이지 블럭
-		int pageLength=3;//페이지 블록 길이 1~5페이지
+		int pageLength=5;//페이지 블록 길이 1~5페이지
 				
-		int currentBlock=currentPage % pageLength == 0 ? currentPage / pageLength : (currentPage / pageLength) +1;//현재 페이지가 어디 블럭에 속해있는지 알려줌.
+		int currentBlock=currentPage % pageLength == 0 ? (currentPage / pageLength) : (currentPage / pageLength) +1;//현재 페이지가 어디 블럭에 속해있는지 알려줌.
 		int startPage = (currentBlock - 1) * pageLength + 1;
 		int endPage=startPage + pageLength - 1;
 				

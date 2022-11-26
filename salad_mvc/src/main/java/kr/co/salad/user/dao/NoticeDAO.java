@@ -49,10 +49,7 @@ private static NoticeDAO noDao;
 		MyBatisHandler mbh=MyBatisHandler.getInstance();
 		SqlSession session=mbh.getHandler();
 		
-		System.out.println("전"+notiNum);	
 		noDomain=session.selectOne("kr.co.salad.user.NoticeMapper.selectNotiDetail",notiNum);
-		System.out.println("후"+noDomain);
-		System.out.println(noDomain);
 		if(noDomain!=null) { 
 			System.out.println("공지사항 상세보기 "+ noDomain);
 			session.commit();
@@ -91,9 +88,7 @@ private static NoticeDAO noDao;
 		MyBatisHandler mbh=MyBatisHandler.getInstance();
 		SqlSession session=mbh.getHandler();
 		
-		System.out.println("1");
 		hitsCnt=session.update("kr.co.salad.user.NoticeMapper.updateNotiCount", notiNum);
-		System.out.println("2");
 		
 		if(hitsCnt != 0) {
 			session.commit();

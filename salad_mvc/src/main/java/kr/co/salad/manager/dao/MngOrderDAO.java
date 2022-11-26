@@ -8,10 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import kr.co.salad.dao.handler.MyBatisHandler;
 import kr.co.salad.manager.domain.MngOrderDomain;
 import kr.co.salad.manager.domain.MngOrderPrdDomain;
+import kr.co.salad.manager.vo.MngOrderVO;
 
 public class MngOrderDAO {
 
-	public List<MngOrderDomain> selectOrderList() {
+	public List<MngOrderDomain> selectOrderList(MngOrderVO moVO) {
 		List<MngOrderDomain> list = null;
 
 		// 1. MyBatis Handler 얻기
@@ -20,7 +21,7 @@ public class MngOrderDAO {
 
 		// 2. 쿼리문 실행
 		try {
-			list = ss.selectList("kr.co.salad.manager.dao.mapper.MngOrderMapper.selectOrderList");
+			list = ss.selectList("kr.co.salad.manager.dao.mapper.MngOrderMapper.selectOrderList", moVO);
 		} catch (PersistenceException pe) {
 			pe.printStackTrace();
 		}

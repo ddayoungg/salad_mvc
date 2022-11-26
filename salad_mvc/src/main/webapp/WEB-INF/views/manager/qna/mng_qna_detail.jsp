@@ -48,7 +48,7 @@
 
 $(function(){
 	
-	$()
+	
 	
 	$("#writeBtn").click(function(){
 		answerWrite()
@@ -58,26 +58,24 @@ $(function(){
 		moveQnaList();
 	})//click
 	
-	hide();
+	boxhide();
 	
 });//ready
 
-function hide(){
-	var content="<c:out value="+${answer.qnaACont }+"/>";
-	
-	if(content !== null && content !== ""){
-		$("#answerTable").css("display","none");
-	}else{
-		$("#answerTable").css("display","block");
-	}
+function boxhide(){
+if('${qnaData.qnaAFlag}'==1){
+	$('#answerTable').hide();
 }
+
+}
+
 
 
 function answerWrite(){
 	$.ajax({
 		url:"mng_qna_detail_answerWrite.do",
 		type:"POST",
-		data:$("#answerWrite").serialize(),
+		data:$("#answerWranswerTable").serialize(),
 		error:function(xhr){
 			alert("작성에 실패했습니다")
 			console.log(xhr.status);
@@ -113,7 +111,7 @@ function moveQnaList() {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="mng_logout.do">Logout</a></li>
                     </ul>
                 </li>
             </ul> 
@@ -127,40 +125,40 @@ function moveQnaList() {
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">메인</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
                                 -대시보드
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
                             style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="#">회원 관리</a></div>
+                            href="mng_member.do">회원 관리</a></div>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">상품 관리</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="mng_prd.do">
                                 -상품 등록
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="index.html">
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
                                 -상품 후기
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">주문 관리</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="mng_order_main.do">
                                 -주문 관리
                             </a>
-                            <a class="nav-link" style="padding-top:0;"href="index.html">
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
                                 -취소 관리
                             </a>
-                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="index.html">
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
                                 -배송 관리
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">게시판 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
                                 -공지사항
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">문의 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="index.html">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
                                 -상품문의
                             </a>
                         </div>
@@ -228,11 +226,12 @@ function moveQnaList() {
 							</td>
 						</tr>
 						
-						<tr style="border-top: 1px solid; background-color: #ECECEC; height: 60px;">
+						<tr  style="border-top: 1px solid; background-color: #ECECEC; height: 60px;">
 							<th style ="padding-left: 10px;">A.</th>
 							<td>
 								<text style="border: 0px; width: 100%; height: 40px;">
 								안녕하세요 건강한 샐러드입니다.
+								</text>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid;  background-color: #ECECEC; height: 60px;">
@@ -240,6 +239,7 @@ function moveQnaList() {
 							<td>
 								<text style="border: 0px; width: 100%; height: 40px;">
 								관리자 | <c:out value="${answer.qnaAWriteDate }"/>
+								</text>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid;  border-bottom: 1px solid;  background-color: #ECECEC; height: 50px;">
@@ -262,17 +262,18 @@ function moveQnaList() {
 							<td colspan="2">
 								<text style="border: 0px; width: 100%; height: 40px;">
 								안녕하세요 건강한 샐러드입니다.
+								</text>
 							</td>
 						</tr>
 						<tr style="border-top: 1px solid;  border-bottom: 1px solid;  background-color: #ECECEC; height: 300px;">
 							<th>답변 내용</th>
 							<td>
-								<textarea style="border: 0px; width: 100%; height: 200px;" name="qnaACont"></textarea>
+								<textarea  style="border: 0px; width: 100%; height: 200px;" name="qnaACont"></textarea>
 		 					</td>
 								<td style="width:5%;"><input type="button" class="button" id="writeBtn" value="작성"></td>
 						</tr>
 						</table>
-		 					<input type="hidden" name="qnaNum" value="${qnaData.qnaNum }"/>
+		 					<input type="hidden" name="qnaNum" value="${param.qnaNum}"/>
 					</form>
              </div>
                
@@ -282,7 +283,6 @@ function moveQnaList() {
 					<input type="button" value="다음 문의글" class="button">
 				</div> -->
 				<div style="display: flex;">
-					<input type="button" value="답변" id="answerBtn" class="button" >
 					<input type="button" value="목록" id="listBtn" class="button">
 				</div>
 			</div>

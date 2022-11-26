@@ -133,44 +133,48 @@
 						<div style="width: 319px;"></div>
 					</div>
 				</div>
-				<div class="row">
-					<!-- 내역 -->
-					<div
-						style="width: 100%; display: flex; justify-content: center; font-size: 16px; font-weight: bold; padding: 10px 0 20px 0;">
-						<div style="width: 150px; margin: 0 100px 0 0;">오늘_내역</div>
-						<div style="width: 150px;">이번달_내역</div>
-					</div>
-					<!-- 건수 -->
-					<div
-						style="width: 100%; position: relative; display: flex; justify-content: center; align-items: center; padding: 0 0 60px 0;">
-						<div style="margin: 0 100px 0 0;">
-							<div
-								style="background: rgb(141, 216, 198); width: 150px; height: 155px; border-radius: 35px;">
-								<div
-									style="display: flex; flex-direction: column; align-items: center; height: 150px; justify-content: center;">
-									<div style="color: white; font-weight: bold; font-size: 20px;">
-										주문건수</div>
-									<div style="color: white; font-weight: bold; font-size: 20px;">
-										<span style="font-size: 30px;">50</span>건
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div
-							style="background: rgb(186, 212, 206); width: 150px; height: 155px; border-radius: 35px;">
-							<div
-								style="display: flex; flex-direction: column; align-items: center; height: 150px; justify-content: center;">
-								<div style="color: white; font-weight: bold; font-size: 20px;">
-									주문건수</div>
-								<div style="color: white; font-weight: bold; font-size: 20px;">
-									<span style="font-size: 30px;">50</span>건
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 건수 끝 -->
-				</div>
+				<div class="row" style="--bs-gutter-x:0;">
+                     			<!-- 내역 -->
+                      		<div style="width:100%; display:flex; justify-content:center;
+                      		 font-size:16px; font-weight:bold; padding:10px 0 20px 0; ">
+                        		<div style="width:150px; margin:0 100px 0 0;">
+                        		오늘_내역
+                        		</div>
+                        		<div style="width:150px;">
+                        		이번달_내역
+                        		</div>
+                      		</div>
+                      		<!-- 내역 끝 -->
+                      		<!-- 건수 -->
+                       		 	<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
+		                        	<div style="margin:0 100px 0 0;">
+		                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
+		                        	border-radius:35px; ">
+		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
+				                        	<div style=" color:white; font-weight:bold; font-size:20px; ">
+				                        	주문건수
+				                        	</div>
+				                        	<div style="color:white; font-weight:bold; font-size:20px;">
+				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayT") %></span>건
+				                        	</div>
+			                        	</div>
+		                        	</div>
+		                        	</div>
+		                        	
+		                        	<div style="background:rgb(186,212,206); width:150px; height:155px;
+		                        	border-radius:35px;">
+		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
+				                        	<div style=" color:white; font-weight:bold; font-size:20px;">
+				                        	주문건수
+				                        	</div>
+				                        	<div style="color:white; font-weight:bold; font-size:20px;">
+				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayM") %></span>건
+				                        	</div>
+			                        	</div>
+		                        	</div>
+                       		 </div>
+                       		 <!-- 건수 끝 --> 
+                    </div>
 				<div class="row" style="margin: 0 50px 0 50px;">
 					<div
 						style="font-size: 20px; font-weight: bold; padding: 0 0 10px 0;">주문서
@@ -187,9 +191,7 @@
 						</thead>
 						<tbody align="center">
 							<tr>
-								<td style="font-size: 16px; height: 150px;"
-									rowspan="${ orderPrdList.size()+1 }"><fmt:formatDate
-										value="${ memberInfo.orderDate }" pattern="yyyy-MM-dd" /><br>
+								<td style="font-size: 16px; height: 150px;" rowspan="${ orderPrdList.size()+1 }"><c:out value="${ memberInfo.orderDate }" /><br>
 									<div
 										style="text-decoration: underline; padding: 15px 0 0 0; color: rgb(26, 188, 165);">
 										<strong><c:out value="${ memberInfo.orderNum }" /></strong>

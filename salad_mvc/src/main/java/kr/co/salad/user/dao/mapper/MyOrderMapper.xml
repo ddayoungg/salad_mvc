@@ -7,9 +7,9 @@
 resultType="int">
 select	count(*)
 from	PRODUCT_ORDER
-where	id =#{id} AND ORDER_STATUS IN('4','5')
+where	id=#{id} AND ORDER_STATUS in ('0','1','2','3')
 </select>
-<select id="selectMyCancelList" parameterType="kr.co.salad.user.vo.MyOrderVO"
+<select id="selectMyOrderList" parameterType="kr.co.salad.user.vo.MyOrderVO"
 resultType="kr.co.salad.user.domain.MyOrderDomain">
 select	ORDER_DATE, ORDER_NUM, PRD_NUM, THUM, PRD_NAME, PRD_PRICE, PRD_DISCOUNT, ORDER_CNT, ORDER_STATUS, REV_FLAG
 from	(select	ROW_NUMBER() OVER (ORDER BY po.ORDER_DATE DESC) as rnum,
@@ -18,7 +18,7 @@ from	(select	ROW_NUMBER() OVER (ORDER BY po.ORDER_DATE DESC) as rnum,
 				p.PRD_NUM, p.THUM, p.PRD_NAME, p.PRD_PRICE, p.PRD_DISCOUNT
 		from	PRODUCT_ORDER po, ORDER_DETAIL od, PRODUCT p
 		where	(po.ORDER_NUM=od.ORDER_NUM AND od.PRD_NUM=p.PRD_NUM) AND
-				po.id=#{id} AND po.ORDER_STATUS not IN('4','5')
+				po.id=#{id} AND po.ORDER_STATUS in ('0','1','2','3')
 		ORDER BY po.ORDER_DATE DESC
 		)
 WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}

@@ -143,7 +143,7 @@ public class MyOrderDomain {
 
 	@Override
 	public String toString() {
-		return "MyCancelDomain [orderNum=" + orderNum + ", prdNum=" + prdNum + ", orderCnt=" + orderCnt + ", prdPrice="
+		return "MyOrderDomain [orderNum=" + orderNum + ", prdNum=" + prdNum + ", orderCnt=" + orderCnt + ", prdPrice="
 				+ prdPrice + ", prdDiscount=" + prdDiscount + ", totalPrdPrice=" + totalPrdPrice + ", totalPrdDiscount="
 				+ totalPrdDiscount + ", orderTotalPrice=" + orderTotalPrice + ", prdName=" + prdName + ", thum=" + thum
 				+ ", revFlag=" + revFlag + ", orderStatus=" + orderStatus + ", existAddrFlag=" + existAddrFlag

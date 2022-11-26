@@ -37,12 +37,19 @@
 		});
 	});
 	</script>
+	<script type="text/javascript">
+	/* 세션 종료 후 뒤로가기 방지  */
+	window.history.forward(); 
+	function noBack(){ 
+		  window.history.forward();
+	}
+	</script>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="/mng_index.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="mng_index.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
         <!-- <div class="ms-auto"><a href="/mng_index.do" style=" color:white; text-decoration: none;">로그인&nbsp;&nbsp;</a>
         </div> -->
         <!-- Navbar-->

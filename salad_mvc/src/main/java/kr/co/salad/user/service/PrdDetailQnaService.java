@@ -3,13 +3,16 @@ package kr.co.salad.user.service;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.salad.dao.handler.MyBatisHandler;
 import kr.co.salad.user.dao.PrdDetailQnaDAO;
 import kr.co.salad.user.domain.PrdDetailQnaDomain;
+import kr.co.salad.user.domain.QnaDetailDomain;
 import kr.co.salad.user.vo.PrdDetailQnaVO;
 @Component
 public class PrdDetailQnaService {
@@ -17,18 +20,9 @@ public class PrdDetailQnaService {
 	@Autowired(required = false)
 	private PrdDetailQnaDAO pdqDAO;
 	
-	public int searchQnaTotalCount(int prdNum) {
-		int totalQnaCnt=0;
-		
-		totalQnaCnt=pdqDAO.selectQnaTotalCount(prdNum);
-		
-		return totalQnaCnt;
-	}//searchRevTotalCount
-	
 	public String searchQnaListJson(PrdDetailQnaVO pdqVO) {
 		List<PrdDetailQnaDomain> list=null;
 		
-		int prdNum=pdqVO.getPrdNum();
 		int paramCurrentPage=pdqVO.getCurrentPage();
 		
 		//페이징 시작
@@ -46,7 +40,7 @@ public class PrdDetailQnaService {
 		}//end catch
 		
 		//전체 데이터 개수
-		totalCount=pdqDAO.selectQnaTotalCount(prdNum);
+		totalCount=pdqDAO.selectQnaTotalCount(pdqVO);
 		//총 페이지 수
 		totalPage = totalCount % pageScale == 0 ? totalCount/pageScale : (totalCount/pageScale) + 1;
 		if(totalPage==0) {
@@ -96,6 +90,8 @@ public class PrdDetailQnaService {
 			jsonTemp=new JSONObject();
 			strDate=new SimpleDateFormat("yyyy-MM-dd").format(tempDomain.getQnaWriteDate());
 
+			jsonTemp.put("id", tempDomain.getId());
+			jsonTemp.put("prdNum", tempDomain.getPrdNum());
 			jsonTemp.put("qnaNum", tempDomain.getQnaNum());
 			jsonTemp.put("qnaTitle", tempDomain.getQnaTitle());
 			jsonTemp.put("name", tempDomain.getName());
@@ -108,12 +104,22 @@ public class PrdDetailQnaService {
 		jsonObj.put("list", jsonArr);
 		
 		return jsonObj.toJSONString();
-	}//searchQna
+	}//searchQnaListJson
 	
 	public void addQnaWrite(PrdDetailQnaVO pdqVO) {
 		
 		pdqDAO.insertQnaWrite(pdqVO);
 		
 	}//addQna
+	
+	public QnaDetailDomain searchQnaDetail(int qnaNum) {//상품문의 상세정보
+		
+		QnaDetailDomain qdDomain=new QnaDetailDomain();
+		
+		qdDomain=pdqDAO.selectQnaDetail(qnaNum);
+		
+		
+		return qdDomain;
+	}//searchQnaDetail
 	
 }//class

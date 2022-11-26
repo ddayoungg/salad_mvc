@@ -19,9 +19,9 @@
   
   <!--  전체 리뷰리스트 -->
   <select id="selectNotiList" parameterType="kr.co.salad.manager.vo.MngNoticeVO"  resultType="kr.co.salad.manager.domain.MngNoticeDomain">
-  		select noti_num,noti_title,noti_cont,noti_write_date,r_num
+  		select noti_num,noti_title,noti_hits,noti_cont,noti_write_date,r_num
 		from(
-		select noti_num,noti_title,noti_cont,TO_CHAR(noti_write_date, 'YYYY-MM-DD') as noti_write_date ,
+		select noti_num,noti_title,noti_hits,noti_cont,TO_CHAR(noti_write_date, 'YYYY-MM-DD') as noti_write_date ,
 		row_number() over(order by noti_write_date desc)r_num
 		from notice
 		<choose>

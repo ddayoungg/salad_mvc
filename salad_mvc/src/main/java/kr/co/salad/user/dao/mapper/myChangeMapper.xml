@@ -8,29 +8,29 @@
 	<select id="confirmMyPass" resultType="kr.co.salad.user.vo.MyChangeVO">
 	SELECT ID,PASS
 	FROM MEMBER
-	WHERE PASS = #{pass}
+	WHERE ID = #{id} 
 	</select>
 	
 	<!-- 내 정보 불러오기 -->
 	<select id="callMyPage" resultType="kr.co.salad.user.vo.MyChangeVO">
 	SELECT ID,NAME,PASS,EMAIL,PHONE
 	FROM MEMBER
-	WHERE PASS = #{pass}
+	WHERE ID = #{id} 
 	</select>
 	
 	<!-- 비번 변경시 원래 비번 맞는 지 확인 -->
 	<select id="reConfirmMyPass" parameterType="kr.co.salad.user.vo.MyChangeVO"
 	resultType="kr.co.salad.user.vo.MyChangeVO">
-	SELECT ID,PASS
+	SELECT ID,NAME,PASS,EMAIL,PHONE
 	FROM MEMBER
-	WHERE PASS = #{pass} AND ID = #{id}
+	WHERE ID = #{id}
 	</select>
 	
 	<!-- 내 정보 변경 -->
 	<select id="changeMypage"  parameterType="kr.co.salad.user.vo.MyChangeVO"
 	>
 	UPDATE MEMBER
-	SET NAME = #{name} , EMAIL =#{email}, PHONE=#{phone}, PASS = #{pass}
+	SET NAME = #{name} , EMAIL =#{email}, PHONE=#{phone}, PASS = #{newPass}
 	WHERE ID = #{id}
 	</select>
 </mapper>

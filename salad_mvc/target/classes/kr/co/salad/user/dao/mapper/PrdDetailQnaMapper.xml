@@ -4,30 +4,54 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.salad.user.dao.mapper.PrdDetailQnaMapper">
   <select id="selectQnaTotalCount" resultType="int" 
-  parameterType="int">
-	select		count(qna_num)
-	from	  		qa
-	where		PRD_NUM=#{prdNum}
+  parameterType="kr.co.salad.user.vo.PrdDetailQnaVO">
+	select		count(*)
+	from	  	qa
+	<where>
+		<if test=" prdNum != 0 ">
+			PRD_NUM=#{prdNum}
+		</if>
+		<if test=" id != null and prdNum == 0 ">
+			ID=#{id}
+		</if>
+	</where>
 	
   </select>
   <select id="selectQnaList" resultType="kr.co.salad.user.domain.PrdDetailQnaDomain" 
   parameterType="kr.co.salad.user.vo.PrdDetailQnaVO">
-	select	 QNA_NUM, QNA_TITLE, QNA_CONT, NAME, QNA_WRITE_DATE, QNA_A_FLAG, ID
+	select	 QNA_NUM, QNA_TITLE, QNA_CONT, NAME, QNA_WRITE_DATE, QNA_A_FLAG, ID, PRD_NUM
 	from		(select	ROW_NUMBER() OVER (ORDER BY q.QNA_WRITE_DATE desc) as rnum,
-								q.QNA_NUM, q.QNA_TITLE, q.QNA_CONT, m.NAME, q.QNA_WRITE_DATE, q.QNA_A_FLAG, q.ID
-				from	  QA q, MEMBER m
-				where		m.id=q.id and
-								q.PRD_NUM=#{prdNum}
+						q.QNA_NUM, q.QNA_TITLE, q.QNA_CONT, m.NAME, q.QNA_WRITE_DATE, q.QNA_A_FLAG, q.ID, q.PRD_NUM
+				from	QA q, MEMBER m
+				where	m.id=q.id
+						<choose>
+							<when test=" prdNum != 0 ">
+								AND q.PRD_NUM=#{prdNum}
+							</when>
+							<when test=" id != null and prdNum == 0 ">
+								AND q.ID=#{id}
+							</when>
+						</choose>
 				ORDER BY q.QNA_WRITE_DATE desc
 				)
 	WHERE 	RNUM BETWEEN #{startNum} AND #{endNum}
 	
   </select>
   <select id="selectLastQnaNum" resultType="int" >
-		SELECT MAX(QNA_NUM) FROM QA
+	SELECT MAX(QNA_NUM) FROM QA
   </select>
   <insert id="insertQnaWrite" parameterType="kr.co.salad.user.vo.PrdDetailQnaVO">
 	INSERT INTO QA(QNA_NUM, ID, PRD_NUM, QNA_TITLE, QNA_CONT)
 	VALUES((#{qnaNum}+1), #{id}, #{prdNum}, #{qnaTitle}, #{qnaCont})
 	</insert>
+
+<select id="selectQnaDetail" resultType="kr.co.salad.user.domain.QnaDetailDomain" 
+  parameterType="int">
+SELECT	q.QNA_NUM, q.ID, q.PRD_NUM, q.QNA_TITLE, q.QNA_CONT, TO_CHAR(q.QNA_WRITE_DATE, 'YYYY-MM-DD') as QNA_WRITE_DATE, q.QNA_A_FLAG,
+	    qa.QNA_A_NUM, qa.QNA_A_CONT, TO_CHAR(qa.QNA_A_WRITE_DATE, 'YYYY-MM-DD') as QNA_A_WRITE_DATE,
+	    m.NAME
+FROM	QA q, QA_ANSWER qa, MEMBER m
+WHERE	(q.QNA_NUM=qa.QNA_NUM(+) AND m.ID=q.ID) AND
+		q.QNA_NUM=#{ qnaNum }
+</select>
 </mapper>

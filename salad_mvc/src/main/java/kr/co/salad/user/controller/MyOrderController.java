@@ -28,13 +28,12 @@ public class MyOrderController {
 	public String MyOrderList(HttpSession session, Model model) {
 		String url = "user/mypage/order_list";
 		
-		String mngId=(String)session.getAttribute("userId");//세션 가져오기
-		if(mngId==null) {//로그인이 안되어있으면
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
-			model.addAttribute("eMsg", "로그인을 해주세요.");
-		} else {//로그인이 되어있으면
-			model.addAttribute("mngId", mngId);
-		}//end else
+		String userId=(String)session.getAttribute("userId");//세션 가져오기
+		if(userId==null) {//로그인이 안되어있으면
+		url="redirect:http://localhost/salad_mvc/login.do";
+		model.addAttribute("eMsg", "로그인을 해주세요."); } else {//로그인이 되어있으면
+		model.addAttribute("userId", userId); }//end else*/
+		//model.addAttribute("userId", "test");
 		
 		//전체 카테고리
 		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
@@ -50,9 +49,11 @@ public class MyOrderController {
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		//String userId = "test";
 		mcVO.setId(userId);
-		MyOrderService mcService = new MyOrderService();
-		String jsonObj=mcService.searchMyOrderListJson(mcVO);//찜 리스트
 		
+		MyOrderService mos = new MyOrderService();
+		System.out.println("mcVO : " + mcVO);
+		String jsonObj=mos.searchMyOrderListJson(mcVO);//찜 리스트
+		System.out.println("jsonObj : " + jsonObj);
 		return jsonObj;
 	}//MyCancelListAjax
 

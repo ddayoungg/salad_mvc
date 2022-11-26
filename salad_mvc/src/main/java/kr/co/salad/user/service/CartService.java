@@ -3,13 +3,13 @@ package kr.co.salad.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import kr.co.salad.user.dao.CartDAO;
-import kr.co.salad.user.dao.OrderDAO;
 import kr.co.salad.user.domain.CartDomain;
 import kr.co.salad.user.vo.CartVO;
 
+@Component
 public class CartService {
 
 	// 장바구니 리스트

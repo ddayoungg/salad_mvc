@@ -51,7 +51,7 @@
     <style type="text/css"> 
     .greenStar{
     color:#00af85;
-    font-weight: bold;
+    font-weight:bold;
     }
     .btn_myPageCancel{
     width:238px;
@@ -106,6 +106,29 @@
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
 <!-- 김도희 추가  -->
+<!-- 검색 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
+    
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
 <script type="text/javascript">
 $(document).ready(function(){
 		let message = "${confirmMsg}";
@@ -114,139 +137,86 @@ $(document).ready(function(){
 			alert("회원정보가 변경되었습니다."); 
 		} else if (message === "회원정보가 변경되지 않았습니다.") {
 			alert("회원정보가 변경되지 않았습니다."); 
+		} else if ( message ==="올바르지않은 비밀번호입니다."){
+			alert("올바르지않은 비밀번호입니다.");
+		} else if (message === "비밀번호가 확인되었습니다."){
+			alert("비밀번호가 확인되었습니다.");
 		}
-		/* if (message != ""){
-			alert(message);
-		} else {
-			
-		} */
 	}) 
 </script>  
 <script type="text/javascript">
-/* $(function(){
-	
-	$("#allMenuToggle").click(function(){
-		$("#gnbAllMenu").toggle();
-	});//click
-	
-});//ready */
 
-/* 현재 비밀번호 확인 */
- $(function(){
-	
-	$("#btn_passReConfirm").click(function(){
-	var pass =  "${chanConfirmVO.pass}";
-	var passRe = document.getElementById('passReConfirm');
-	console.log("맞니?"+pass);
-	console.log("맞니?"+passRe);
-	
-		if(pass == passRe.value){
-			alert("비밀번호가 확인되었습니다");
-		} else{
-			alert("비밀번호가 올바르지않습니다.");
-		}
-	});
-}); 
 
 $(function() {
-	//$("#newPassword").hide();
-	//$("#pass").hide();
 	
 	$("input").keyup(function() {
-		var newPass = $("#newPassword").val();
-		var newPassChk = $("#pass").val();
-		
+		var newPass = $("#newPass").val();
+		var newPassChk = $("#newPassword").val();
+        var SC = ["!","@","#","$","%"];
+        var check_SC = 0;
+			
+        
+        for(var i=0;i<SC.length;i++){
+            if(newPass.indexOf(SC[i]) != -1){
+                check_SC = 1;
+            }
+        }
+               		
 		if(newPass != "" ||  newPassChk != ""){
-			if (newPass == newPassChk){
-				$("#alert-success").show();
-				$("#alert-danger").hide();
-				
-			} else{
+			if (newPass != newPassChk && newPass.length < 6 || newPass.length>16 || check_SC == 0){
 				$("#alert-success").hide();
 				$("#alert-danger").show();
+				$("#alert-charDanger").show();
 				$("#btn_myPageConfirm").attr("disabled",false);
+				
+			} else if(newPass == newPassChk ) {
+				$("#alert-success").show();
+				$("#alert-danger").hide();
+				$("#alert-charDanger").hide();
 			}
 		}//
 	});
 });
 
 
-$(function() {
+</script> 
+<!-- <script>
+
+/* 정보 변경 */
+ $(function() {
  $("#btn_myPageConfirm").click(function(){
 	var name = $("#name").val();
-	var newEmail = "";
+	//var newEmail = "";
 	var newEmailHead = $("#email_head").val();
 	var newEmailNext = $("#email_next").val();
 	var newPhone = $("#phone").val();
-   	var email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
-	var newPass = $("#newPassword").val();
-	var newPassChk = $("#pass").val();
-	var recentPass = $("#passReConfirm").val();
+	var newPass = $("#newPass").val();
+	var newPassChk = $("#newPassword").val();
+	var recentPass = $("#pass").val();
 	
-	if(!newEmailHead){
-		alert("이메일을 입력해주세요.");
-		$("#email_head").focus();
-		return false;
-	}
-	if(!newEmailNext){
-		alert("도메인을 입력해주세요.");
-		$("#email_next").focus();
-		return false;
-	}
-	newEmail = newEmailHead+"@"+newEmailNext;
-	$("#email").val(newEmail);
 	
-	if(!email_rule.test(newEmail)){
-		alert("이메일을 형식에 맞게 입력해주세요.");
-		return false;
-	}
-		
+
 	if (newPass == "" ||  newPassChk == "" || recentPass == ""){
 		alert("변경하실 비밀번호를 입력해주세요.");
+		$("#btn_myPageConfirm").attr("disabled",false);
 	}
 	else if (newPass != newPassChk){		 
 		alert("비밀번호가 일치하지 않습니다.");
 		$("#btn_myPageConfirm").attr("disabled",false);
+	 } else (newEmailHead = "" || newEmailNext = "" || newPhone = ""){
+		alert("정보를 빠짐없이 입력해주세요.");
+		$("#btn_myPageConfirm").attr("disabled",false);
 	 }
+	
 	$("#btn_myPageConfirm").attr("disabled",true);
+	$("#confirmFrm").attr("action","my_change_update.do");
 	$("#confirmFrm").submit();
  });
 });
-//$(function(){
-	//$("#btn_passReConfirm").click(function(){
-		/* $("#confirmFrm").submit(); */
-		//$("#confirmFrm").attr("action","pw_chk_process.do");
-	//});
-//});
 
-/* $(document).ready(function(){
-$("#btn_passReConfirm").click(function(){
-	console.log("맞니?");
-	document.confirmFrm.action="pw_chk_process.do";
-	document.confirmFrm.submit();
-	//$("#confirmFrm").attr("action","pw_chk_process.do");
-});
-}); */
 
-</script> 
-<script type="text/javascript">
-/* $(document).ready(function(){
-$("#btn_passReConfirm").click(function(){
-	console.log("맞니?");
-	
-	var f = document.getElementById("#confirmFrm");
-	f.action="pw_chk_process.do";
-	f.submit();
-	
-});
-}); */
-/* $(function(){
-	$("#btn_myPageConfirm").click(function(){
-		$("#confirmFrm").submit();
-	});
-}); */
-</script>
+</script>  -->
 <!-- 김도희 끝 -->  
     <!-- 전체 카테고리 -->
 <script type="text/javascript">
@@ -502,7 +472,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../main/index.jsp" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -510,103 +480,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="header_search">
 				<div class="header_search_cont">
 
-					<!-- 검색 폼 -->
-<!-- 					<div class="top_search">
-    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
+<!-- 검색 폼 -->
+	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off">
-                    <input type="image" src="http://localhost/salad_mvc/resources/img/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
-                //top_text_cont
-                <div class="search_cont" style="display:none;">
-                    <input type="hidden" name="recentCount" value="5" />
-
-                    <script type="text/javascript">
-    $(function(){
-
-        /* 상단 검색 */
-        $('.top_search_cont input[name="keyword"]').on({
-            'focus':function(){
-                $(this).parents().find('.search_cont').show();
-            },
-            'blur':function(){
-                $('body').click(function(e){
-                    if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
-                        $(this).parents().find('.search_cont').hide();
-                    }
-                });
-                $('.btn_top_search_close').click(function(){
-                    $(this).parents().find('.search_cont').hide();
-                });
-            }
-        });
-
-        if($("input[name=recentCount]").val() > 0) {
-            $('.js_recom_box').removeClass('recom_box_only').addClass('recom_box');
-        }else{
-            $('.js_recom_box').removeClass('recom_box').addClass('recom_box_only');
-        }
-
-    });
-</script>
-<div class="js_recom_box " style="display:none;">
-    <dl>
-        <dt>추천상품</dt>
-        <dd>
-            <div class="recom_item_cont">
-                //recom_icon_box
-                <div class="recom_tit_box">
-                    <a href="../goods/goods_view.jsp?goodsNo=">
-                    </a>
-                </div>
-                //recom_tit_box
-                <div class="recom_money_box">
-                </div>
-                //recom_money_box
-                <div class="recom_number_box">
-                </div>
-                //recom_number_box
-            </div>
-            //recom_item_cont
-        </dd>
-    </dl>
-</div>
-
-                    //recom_box
-
-                    <div class="recent_box">
-                        <dl class="js_recent_area">
-                            <dt>최근검색어</dt>
-                            <dd>
-                                <ul class="js_recent_list">
-                                    <li>
-                                        <a href="../goods/goods_search.jsp?keyword=%EB%8B%AD%EA%B0%80%EC%8A%B4">닭가슴</a>
-                                        <span><button type="button" class="btn_top_search_del" data-recent-keyword="닭가슴">
-                                            <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/btn/btn_top_search_del.png" alt="삭제"></button>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </dd>
-                        </dl>
-                    </div>
-                    //recent_box
-                    <div class="seach_top_all">
-<button type="button" class="btn_top_search_all_del"><strong>전체삭제</strong></button>                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
-                    </div>
-                    //seach_top_all
-
-                </div>
-                //search_cont
-            </div>
-            //top_search_cont
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
         </fieldset>
-    </form>
-</div> -->
-<!-- //top_search -->
-					<!-- 검색 폼 -->
+	</div>
+			<!-- //top_search -->
+<!-- 검색 폼 -->
 
 				</div>
 				<!-- //header_search_cont -->
@@ -615,7 +504,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">테스터님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
@@ -784,16 +673,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="mypage_out_pwChk.do">- 회원 탈퇴</a></li>
             </ul>
         </li>
-        <!-- <li>나의 상품문의
-            <ul class="sub_depth1">
-                <li><a href="../mypage/mypage_goods_qa.jsp">- 나의 상품문의</a></li>
-            </ul>
-        </li> -->
         <li>나의 상품후기
             <ul class="sub_depth1">
                 <li><a href="user_my_rev.do">- 나의 상품후기</a></li>
             </ul>
         </li>
+         <li>나의 상품문의
+            <ul class="sub_depth1">
+                <li><a href="my_qna.do">- 나의 상품문의</a></li>
+            </ul>
+        </li> 
     </ul>
 </div>
 <!-- //sub_menu_box -->
@@ -829,9 +718,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		</style>
  
 
-    <span class="important"><span class="greenStar">*&nbsp;</span>표시는 반드시 입력하셔야 하는 항목입니다.</span>
-	
-    <form id="confirmFrm" action="my_change_update.do" method="post">
+    <span><span class="greenStar">*&nbsp;</span>표시는 반드시 입력하셔야 하는 항목입니다.</span>
+	<!-- action="my_change_update.do" -->
+    <form id="confirmFrm"  method="post">
    
     <div class="base_info_sec">
         <table border="0" cellpadding="0" cellspacing="0">
@@ -844,15 +733,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <tbody>
           
             <tr>
-                <th><span class="greenStar">*&nbsp;</span><span class="important">아이디</span></th>
+                <th><span class="greenStar">*&nbsp;</span>아이디</th>
                 <td>
                     <input type="hidden" name="id" id="id" value="${chanConfirmVO.id}"/>
-                   ${chanConfirmVO.id}
+                   ${userId}
                 </td>
 
             </tr>
             <tr class="">
-                <th><span class="greenStar">*&nbsp;</span><span class="important">비밀번호</span></th>
+                <th><span class="greenStar">*&nbsp;</span>비밀번호</th>
                 <td class="member_password">
                     <div class="btn_common_box">
                         <span class="btn_gray_list"><a href="#memberNewPw" class="btn_gray_mid"><em>비밀번호 변경</em></a></span>
@@ -885,12 +774,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <dl class="">
                             <dt>현재 비밀번호</dt>
                             <dd>
+                           
                                 <div class="member_warning">
                                 	<%-- <input type="hidden" name="id" id="id" value="${chanConfirmVO.id}"/> --%>
-                                    <input type="password" id="passReConfirm" style="width:58%;" />
-                                    <input type="button" id="btn_passReConfirm" class="btn_myPass" style="width: 10%;"
-                                    value="확인"/>
+                                    <input type="password" id="pass" name="pass" value="${confirmPass}" style="width:58%;" />
+                                    <input type="button" id="btn_passReConfirm" name="btn_passReConfirm" class="btn_myPass" style="width: 10%;"
+                                    value="확인" />
                                 </div>
+                                
                             </dd>
                         </dl>
                                             
@@ -898,7 +789,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <dt>새 비밀번호</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="newPassword" name="memPw" style="width:70%;" />
+                                    <input type="password" id="newPass" name="newPass" style="width:70%;" />
                                 </div>
                             </dd>
                         </dl>
@@ -906,10 +797,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <dt>새 비밀번호 확인</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="pass" name="pass" style="width:70%;" />
+                                    <input type="password" id="newPassword" name="newPassword" style="width:70%;" />
                                 </div>
                                 <div id="alert-success" style="color:#00af85; display: none;">비밀번호가 일치합니다.</div>
                                 <div id="alert-danger" style="color:red; display: none;">비밀번호가 일치하지 않습니다.</div>
+                                <div id="alert-charDanger" style="color:red; display: none;">!,@,#,$,% 의 특수문자포함 6~15글자이내로 입력.</div>
                             </dd>
                         </dl>
                     </div>
@@ -917,7 +809,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </td>
             </tr>
             <tr>
-                <th><span class="greenStar">*&nbsp;</span><span class="important">이름</span></th>
+                <th><span class="greenStar">*&nbsp;</span>이름</th>
                 <td>
                     <div class="member_warning">
                         <input style="width:48.5%;"
@@ -932,7 +824,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<input type="hidden" name="email" id="email" value="${chanConfirmVO.email}">
                         <input type="text" name="email_head" id="email_head" value="${resultId}" style="width: 181px;margin-right:7px;"">
                         <input type="text" name="email_next" id="email_next" value="${resultEmail}"  style="width: 181px;">
-						 <!-- <select id="emailDomain" name="emailDomain" class="chosen-select" style="width:190px;">
+						<!--  <select id="emailDomain" name="emailDomain" class="chosen-select" style="width:190px;">
                             <option value="self">직접입력</option>
                             <option value="naver.com">naver.com</option>
                             <option value="hanmail.net">hanmail.net</option>
@@ -941,7 +833,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <option value="hotmail.com">hotmail.com</option>
                             <option value="gmail.com">gmail.com</option>
                             <option value="icloud.com">icloud.com</option>
-                        </select> -->
+                        </select>  -->
                        
                     </div>
 					<div class="member_warning js_email"></div>
@@ -955,7 +847,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <th><span class="greenStar">*&nbsp;</span><span >휴대폰번호</span></th>
                 <td class="member_address">
                     <div class="address_postcode">
-                        <input type="text" id="phone" name="phone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="${chanConfirmVO.phone}"   style="width: calc( 100% - 195px) ;">
+                        <input type="text" id="phone" name="phone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="${chanConfirmVO.phone}" style="width: calc( 100% - 195px) ;"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 
                         <!-- s onnomad -->
                         <!-- <button class="btn_post_search" type="button" id="btnAuthPhoneVf" style="width:165px;">
@@ -1128,7 +1021,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <button type="button" class="btn_myPageCancel" 
                             onclick="history.back();">취소</button>
                             <input type="button" class="btn_myPageConfirm" 
-                            id="btn_myPageConfirm" value="정보수정" disabled="disabled">
+                            id="btn_myPageConfirm" value="정보수정" >
                         </div>
                         <!-- //btn_center_box -->
                     <!-- </form> -->
@@ -1722,7 +1615,102 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 </script>
 <!-- Enliple Tracker End -->
 
+<!-- 비밀번호 중복 확인 -->
+<script>
+document.getElementById("btn_passReConfirm").onclick = function () {
 
+		$("#confirmFrm").attr("action","pw_chk_process.do");
+		$("#confirmFrm").submit();	  
+
+	 }; 
+	 
+</script> 
+<!-- <script>
+
+/* 정보 변경 */
+var buttonClick = documet.getElementById("btn_myPageConfirm");
+buttonClick.onclick = function () {
+	var name = $("#name").val();
+	var newEmailHead = $("#email_head").val();
+	var newEmailNext = $("#email_next").val();
+	var newPhone = $("#phone").val();
+	
+	var newPass = $("#newPass").val();
+	var newPassChk = $("#newPassword").val();
+	var recentPass = $("#pass").val();
+	
+
+	/* if (newPass == "" ||  newPassChk == "" || recentPass == ""){
+		alert("변경하실 비밀번호를 입력해주세요.");
+		//$("#btn_myPageConfirm").attr("disabled",true);
+		buttonClick.disabled = true;
+	}
+	else if (newPass != newPassChk){		 
+		alert("비밀번호가 일치하지 않습니다.");
+		//$("#btn_myPageConfirm").attr("disabled",true);
+		buttonClick.disabled = true;
+	 } else if (newEmailHead = "" || newEmailNext = "" || newPhone = ""){
+		alert("정보를 빠짐없이 입력해주세요.");
+		//$("#btn_myPageConfirm").attr("disabled",true);
+		buttonClick.disabled = true;
+	 }
+	 */
+	//$("#btn_myPageConfirm").attr("disabled",false);
+	buttonClick.disabled =false;
+	$("#confirmFrm").attr("action","my_change_update.do");
+	$("#confirmFrm").submit();
+ };
+</script>  --> 
+<script type="text/javascript">
+$(function() {
+	 $("#btn_myPageConfirm").click(function(){
+		var name = $("#name").val();
+		var newEmail = "";
+		var newEmailHead = $("#email_head").val();
+		var newEmailNext = $("#email_next").val();
+		var newPhone = $("#phone").val();
+	   	var email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		var newPass = $("#newPassword").val();
+		var newPassChk = $("#pass").val();
+		var recentPass = $("#passReConfirm").val();
+		
+		if(!newEmailHead){
+			alert("이메일을 입력해주세요.");
+			$("#email_head").focus();
+			return false;
+		}
+		if(!newEmailNext){
+			alert("도메인을 입력해주세요.");
+			$("#email_next").focus();
+			return false;
+		}
+		newEmail = newEmailHead+"@"+newEmailNext;
+		$("#email").val(newEmail);
+		
+		if(!email_rule.test(newEmail)){
+			alert("이메일을 형식에 맞게 입력해주세요.");
+			return false;
+		}
+			
+		if (newPass == "" ||  newPassChk == "" || recentPass == ""){
+			alert("변경하실 비밀번호를 입력해주세요.");
+			$("#btn_myPageConfirm").attr("disabled",false);
+		}
+		else if (newPass != newPassChk){		 
+			alert("비밀번호가 일치하지 않습니다.");
+			$("#btn_myPageConfirm").attr("disabled",false);
+		 } else if (newPass != "" &&  newPassChk != "" && recentPass != "" 
+				 && newPass == newPassChk && newEmailHead != "" && newEmailNext != "" &&
+				 newPhone != ""){
+				$("#btn_myPageConfirm").attr("disabled",true);
+				$("#confirmFrm").attr("action","my_change_update.do");
+				$("#confirmFrm").submit();		 
+		 }
+		$("#btn_myPageConfirm").attr("disabled",false);
+	 });
+	});
+</script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
 

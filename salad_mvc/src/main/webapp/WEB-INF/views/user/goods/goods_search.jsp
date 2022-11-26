@@ -85,7 +85,7 @@
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -428,7 +428,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     		</div>
         </fieldset>
 	</div>
-			<!-- //top_search -->
 <!-- 검색 폼 -->
 
 				</div>
@@ -452,11 +451,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="cs_in">
 							<ul >
 								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/prd_rev_list.do">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
+							
 						</div>
 					</li>
 				</ul>
+				<ul class="list_2">
+								<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+								<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+			                    </li>
+							</ul>
 			</div>
         </div>
         <!-- //header_top_cont -->

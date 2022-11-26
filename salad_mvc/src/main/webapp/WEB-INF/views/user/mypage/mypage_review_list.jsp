@@ -121,21 +121,24 @@
 $(function(){
 	setRevList(1);
 	
-	$("#searchBtn").click(function() {
+/* 	$("#searchBtn").click(function() {
 		setRevList($("#currentPage").val());
 	});
 	
 	$('#searchFlag').change(function() {
+ 	alert("제목 클릭1");
 	    var result = $('#searchFlag option:selected').val();
-	    if (result == 'title') {
+	    if (result == '1') {
+ 	alert("제목 클릭2");
 	    	$("#searchText").val("");
 	    	$("input#searchText").attr("placeholder", "제목을 입력해주세요");
 	    }
-	    if (result == 'cont') {
+	    if (result == '2') {
+ 	alert("내용 클릭");
 	    	$("#searchText").val("");
 	    	$("input#searchText").attr("placeholder", "내용을 입력해주세요");
 	    }
-	  });
+	  }); */
 	
 })
 
@@ -145,6 +148,7 @@ function setDetail(revNum){
 
 //후기 리스트 
 function setRevList(currentPage){
+	console.log(currentPage);
 	$.ajax({
 		url:"myrev_list_ajax.do",
 		data:"currentPage="+currentPage,
@@ -236,8 +240,8 @@ function setRevList(currentPage){
         </div>
         <!-- //board_zone_list -->
         
-        
-     	<form id="searchFrm" name="searchFrm"  action="mypage_goods_review.do">
+<!--         
+     	<form id="searchFrm" name="searchFrm"  action="mypage_review_list.do">
                	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="center">
                		<select style="width: 100px; height: 37px;"id="searchFlag" name="searchFlag">
                			<option value="1">제목</option>
@@ -247,7 +251,7 @@ function setRevList(currentPage){
                		<input type="text" style="display: none;"/>
                		<input type="button" value="검색" id="searchBtn" name="searchBtn" style="width: 100px; height: 37px; background-color: #14CEA9; color: white; ">
                	</div>
-        </form>   
+        </form>  -->  
     </div>
     <!-- //board_zone_cont -->
 </div>

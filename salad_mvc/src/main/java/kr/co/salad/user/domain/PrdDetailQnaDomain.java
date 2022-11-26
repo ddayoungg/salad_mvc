@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PrdDetailQnaDomain {
 	
-	private int qnaNum;
+	private int qnaNum, prdNum;
 	private String qnaTitle, qnaCont, id, name;
 	private Date qnaWriteDate;
 	private char qnaAFlag;
@@ -12,11 +12,11 @@ public class PrdDetailQnaDomain {
 	public PrdDetailQnaDomain() {
 		super();
 	}
-	
-	public PrdDetailQnaDomain(int qnaNum, String qnaTitle, String qnaCont, String id, String name, Date qnaWriteDate,
-			char qnaAFlag) {
+	public PrdDetailQnaDomain(int qnaNum, int prdNum, String qnaTitle, String qnaCont, String id, String name,
+			Date qnaWriteDate, char qnaAFlag) {
 		super();
 		this.qnaNum = qnaNum;
+		this.prdNum = prdNum;
 		this.qnaTitle = qnaTitle;
 		this.qnaCont = qnaCont;
 		this.id = id;
@@ -24,12 +24,17 @@ public class PrdDetailQnaDomain {
 		this.qnaWriteDate = qnaWriteDate;
 		this.qnaAFlag = qnaAFlag;
 	}
-	
 	public int getQnaNum() {
 		return qnaNum;
 	}
 	public void setQnaNum(int qnaNum) {
 		this.qnaNum = qnaNum;
+	}
+	public int getPrdNum() {
+		return prdNum;
+	}
+	public void setPrdNum(int prdNum) {
+		this.prdNum = prdNum;
 	}
 	public String getQnaTitle() {
 		return qnaTitle;
@@ -69,8 +74,9 @@ public class PrdDetailQnaDomain {
 	}
 	@Override
 	public String toString() {
-		return "QnaDomain [qnaNum=" + qnaNum + ", qnaTitle=" + qnaTitle + ", qnaCont=" + qnaCont + ", id=" + id
-				+ ", name=" + name + ", qnaWriteDate=" + qnaWriteDate + ", qnaAFlag=" + qnaAFlag + "]";
+		return "PrdDetailQnaDomain [qnaNum=" + qnaNum + ", prdNum=" + prdNum + ", qnaTitle=" + qnaTitle + ", qnaCont="
+				+ qnaCont + ", id=" + id + ", name=" + name + ", qnaWriteDate=" + qnaWriteDate + ", qnaAFlag="
+				+ qnaAFlag + "]";
 	}
 	
 }//class

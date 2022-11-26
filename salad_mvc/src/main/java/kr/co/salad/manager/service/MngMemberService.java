@@ -136,8 +136,6 @@ public class MngMemberService {
 		
 		MngMemberDomain mmDomain=mmDAO.selectMemberDetail(id);
 		
-		System.out.println(mmDomain);
-		
 		JSONObject jsonObj=new JSONObject();
 		
 		jsonObj.put("name", mmDomain.getName());

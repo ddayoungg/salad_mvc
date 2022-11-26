@@ -30,13 +30,14 @@ public class OrderController {
 	@RequestMapping(value = "/order.do", method = GET)
 	public String orderRequest(HttpSession session, CartListDomain cld, Model model) {
 		String url = "user/order/order";
+		
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		if(userId==null) {//로그인이 안되어있으면
-			url="redirect:http://localhost/salad_mvc/login.do";
-			model.addAttribute("eMsg", "로그인을 해주세요.");
-		} else {//로그인이 되어있으면
-			model.addAttribute("userId", userId);
-		}//end else
+		url="redirect:http://localhost/salad_mvc/login.do";
+		model.addAttribute("eMsg", "로그인을 해주세요."); } else {//로그인이 되어있으면
+		model.addAttribute("userId", userId); }//end else
+				
+		//String userId = "test";
 		
 		//전체 카테고리
 		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();

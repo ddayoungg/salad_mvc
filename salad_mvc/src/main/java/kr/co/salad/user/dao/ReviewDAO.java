@@ -85,7 +85,7 @@ public class ReviewDAO {
 			return pageCnt;
 		}//selectRevListCount
 		
-		 //공지사항 조회수
+		 //후기 조회수
 		public int updateRevCount(int revNum) {
 			int hitsCnt=0;
 			

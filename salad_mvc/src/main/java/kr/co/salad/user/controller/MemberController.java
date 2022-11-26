@@ -186,6 +186,8 @@ public class MemberController {
 		System.out.println("비밀번호 변경 : "+mVO);
 		int pwEdit=ms.editPassReser(mVO);
 		if(pwEdit==1) { //비밀번호 변경 성공
+			List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
+			model.addAttribute("mainCateList",mainCateList);
 			System.out.println("비번 변경 성공");
 			updatePwUri="user/member/find_password_complete";
 		}else { //비밀번호 변경 실패

@@ -21,10 +21,10 @@
 	values(#{qnaANum}, #{qnaNum}, #{qnaACont})
 </insert>
 
-<update id="answerEdit" parameterType="kr.co.salad.manager.vo.MngQnaAVO">
-	update QA_ANSWER
-	set QNA_A_CONT=#{qnaACont}
-	where QNA_A_CONT=#{qnaACont} and QNA_NUM=#{qnaNum}	
+<update id="updateWrite" parameterType="int">
+	update QA
+	set QNA_A_FLAG='1'
+	where QNA_NUM=#{qnaNum}	
 </update>
 
 </mapper>

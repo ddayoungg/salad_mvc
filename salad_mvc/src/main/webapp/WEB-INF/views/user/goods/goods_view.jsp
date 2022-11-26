@@ -98,7 +98,7 @@
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -123,6 +123,18 @@ $(function(){
 	
 	setPrdCnt("none");//상품의 수량에 따른 총 합계
 	
+	$("#plusBtn").click(function(){//+버튼 누를 경우
+		setPrdCnt("plus");//상품의 수량에 따른 총 합계
+	})//click
+	
+	$("#minusBtn").click(function(){//-버튼 누를 경우
+		setPrdCnt("minus");//상품의 수량에 따른 총 합계
+	})//click
+	
+	$("#prdCnt").focusout(function(){
+		setPrdCnt("input");//상품의 수량에 따른 총 합계
+	})//keyup
+	
 	$("#cartBtn").click(function(){//장바구니 버튼 클릭 시
 		frmCart();
 	})//click
@@ -132,6 +144,12 @@ $(function(){
 		addOrder();
 		
 	})//click
+	
+	$(".orderBtn").on("click", function () {
+
+		   
+		         
+		});//orderBtn
 	
     $("#latestBtn").click(function(){//최신순 정렬
     	
@@ -155,11 +173,14 @@ $(function(){
 
 function loginChk() {
 	
+	var loginFlag=true;
+	
 	<c:if test="${ sessionScope.userId eq null }">
 		alert("로그인이 필요합니다.");
-		return false;
+		loginFlag=false;
 	</c:if>
 	
+	return loginFlag;
 }//loginChk
 
 function setDn(id){
@@ -203,19 +224,25 @@ function moveCart(){//장바구니로 이동
 		return;
 	}//end if
 	
-	location.href="cart.do";
+	location.href="http://localhost/salad_mvc/cart.do";
 }//moveChar
 
 function addOrder(){//바로 구매
 	
-	if(loginChk()){
+	if(!loginChk()){
 		return;
 	}//end if
 	
-	//form으로 보낼 값을 hidden에 set
-	$("#orderPrdNum").val( ${param.prdNum} ); //제품 번호
-	$("#orderPrdCnt").val($("#prdCnt").val());//수량
-	$("#orderFrm").submit();
+	var formContents="";
+	
+	var prdNumInput = "<input name='orders[0].prdNum' type='hidden' value='${param.prdNum}'>";//제품 번호
+		formContents += prdNumInput;
+	var cartPrdCntInput = "<input name='orders[0].cartPrdCnt' type='hidden' value='" + $("#prdCnt").val() + "'>";
+		formContents += cartPrdCntInput;
+
+	   $("#orderFrm").html(formContents);
+	   $("#orderFrm").submit();
+	
 }//addOrder
 
 function eventWishBtn(){//찜 버튼 누를 경우
@@ -223,24 +250,39 @@ function eventWishBtn(){//찜 버튼 누를 경우
 		return;
 	}//end if
 	
+	console.log("찜 버튼");
+	
 	setWishBtn("eventSet");//찜 버튼 이벤트로 ajax 실행
 }//setWishBtn
 
 function setPrdCnt(type){
-		  var cnt = parseInt($("#prdCnt").val());
+	var cnt = parseInt($("#prdCnt").val());
 		  
-		  // 더하기/빼기
-		  if(type == 'plus') {
-			  cnt = cnt + 1;
-		  }else if(type == 'minus' && cnt > 1)  {
-			  cnt = cnt - 1;
-		  }//end else if
-		  var totalPrice=Math.floor(${ prdData.prdPrice-(prdData.prdPrice*(prdData.prdDiscount/100)) }*cnt);
+	// 더하기/빼기
+	if(type == 'plus') {
+		cnt = cnt + 1;
+	}else if(type == 'minus' && cnt > 1)  {
+		cnt = cnt - 1;
+	}else if(type == 'none' || cnt > 0) {
+		/* 패스 하는 경우 */
+	}else {
+		var msg="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0보다 큰 수를 입력해 주세요."
+		$("#prdCntMsg").show();
+		$("#prdCntMsg").html(msg);
+		
+		$("#prdCntMsg").fadeOut(2000);//2초 후 사라짐
+		//$("#prdCntMsg").hide(5000);//5초 후 사라짐
+		
+		$("#prdCnt").val(1);
+		cnt = 1;
+	}//end else
+	
+	var totalPrice=Math.floor(${ prdData.prdPrice-(prdData.prdPrice*(prdData.prdDiscount/100)) }*cnt);
 		  
-		 const totalPriceOutput=totalPrice.toLocaleString('ko-KR');
+	const totalPriceOutput=totalPrice.toLocaleString('ko-KR');
   		
-		  $("#prdCnt").val(cnt);
-		  $("#totalPrice").html( totalPriceOutput );
+	$("#prdCnt").val(cnt);
+	$("#totalPrice").html( totalPriceOutput );
 }//setPrdCnt
 
 /**
@@ -310,8 +352,20 @@ function gd_open_write_popup(writeType){
 		writeURL="add_qna_write.do";//상품 문의 작성 팝업 창 URL
 	}//end if
 	
-	window.open("http://localhost/salad_mvc/board/"+writeURL+"?prdNum=${ param.prdNum }", "상품리뷰 쓰기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
-}//recPopup
+	window.open("http://localhost/salad_mvc/board/"+writeURL+"?prdNum=${ param.prdNum }", "포켓 상품", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+}//gd_open_write_popup
+
+function gdqna_open_detail_popup(qnaNum){
+	
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	var leftVal=(document.body.offsetWidth / 2) - (100 / 2);
+	var topVal=(window.screen.height / 2) - (100 / 2);
+	
+	window.open("http://localhost/salad_mvc/qna_detail.do?prdNum=${ param.prdNum }&qnaNum="+qnaNum, "상품문의 상세보기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+}//gd_open_write_popup
 
 function setWishBtn(setFlag){
 	$.ajax({
@@ -528,9 +582,18 @@ function setQnaList(currentPage){
 					tbOutput+="<tr class='js_data_row'>";
 					tbOutput+="<td>"+json.qnaNum +"</td>";
 					
-					json.qnaTitle=(json.qnaTitle.length>20?json.qnaTitle.substring(0,20)+"...":json.qnaTitle);//글자 수 초과시 자르기
+					var userId="${ sessionScope.userId }";//로그인된 아이디
 					
-					tbOutput+="<td><a href='user_my_rev_detail.do?qnaNum="+json.qnaNum+"'>"+json.qnaTitle+"</a></td>";
+					var qnaTitle="해당 글은 비밀 글입니다.";
+					
+					var tempOutput="<td>"+qnaTitle+"</td>";
+					
+					if(userId == json.id) {//로그인된 아이디와 게시판 작성한 아이디와 비교
+						qnaTitle=(json.qnaTitle.length>20?json.qnaTitle.substring(0,20)+"...":json.qnaTitle);//글자 수 초과시 자르기
+						tempOutput="<td><a href='#void' onclick='gdqna_open_detail_popup("+json.qnaNum+")'>"+qnaTitle+"</a></td>";
+					}//end if
+					
+					tbOutput+=tempOutput;
 					
 					var name= json.name;//이름 마스킹
 					name=( name.length < 3 ? name.replace(/(?<=.{0})./gi, "*") : name.replace(/(?<=.{1})./gi, "*"));
@@ -895,7 +958,7 @@ $(function() {
 						<div class="cs_in">
 							<ul >
 								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/prd_rev_list.do">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
@@ -1215,14 +1278,12 @@ $(function() {
 						<dl  class="reg_dl" >
                             <dt>총 수량</dt>
 							<dd>
-								<div class="form_element" style="width: 145px">
-									<span class="numcon" style="width: 145px">
-											<!-- <button type="button" class="down goods_cnt dev_goods_cnt" title="감소"  value="dn^|^0">감소</button>
-                                            <input type="text" name="" class="text goodsCnt_0 dev_regular_goods_cnt" title="수량" value="1" data-key="0" data-value="1" data-stock="0" onchange="goodsViewController.input_count_change_regular(this, '1');return false;" />
-											<button type="button" class="up goods_cnt dev_goods_cnt" title="증가"  value="up^|^0">증가</button> -->
-											<button id="plusBtn" type="button" onclick="setPrdCnt('plus')" class="btn_plus_minus">+</button>
-											<input type="text" id="prdCnt" name="prdCnt" title="수량" value="1"  maxlength="3"/>
-											<button id="plusBtn" type="button" onclick="setPrdCnt('minus')" class="btn_plus_minus">-</button>
+								<div class="form_element" style="width: 350px">
+									<span class="numcon" style="width: 350px">
+											<button id="plusBtn" type="button" class="btn_plus_minus">+</button>
+											<input type="text" id="prdCnt" name="prdCnt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  title="수량" value="1"  maxlength="3"/>
+											<button id="minusBtn" type="button" class="btn_plus_minus">-</button>
+											<small><span id="prdCntMsg" style="color: #FF0000"></span></small><!-- 0보다 작은 수를 적을 경우의 메시지 표시 -->
 									</span>
 								</div>
 							</dd>
@@ -1283,11 +1344,12 @@ $(function() {
                         </div>
                         
 						<div>
-							<form  action="order.do" method="get" id="orderFrm">
-                        		<input type="hidden" id="orderPrdNum" name="prdNum" value="${ param.prdNum }"/>
-                        		<input type="hidden" id="orderPrdCnt" name="orderCnt" value="1"/>
-                        		<button type="button" class="btn_add_order" id="addOrderBtn">바로 구매</button>
+							<form  action="http://localhost/salad_mvc/order.do" method="get" id="orderFrm">
+								
                         	</form>
+                        		<%-- <input type="hidden" id="orderPrdNum" name="prdNum" value="${ param.prdNum }"/>
+                        		<input type="hidden" id="orderPrdCnt" name="orderCnt" value="1"/>  --%>
+                        		<button type="button" class="btn_add_order" id="addOrderBtn">바로 구매</button>
                     	</div>
                 </div>
                 <!-- //btn_choice_box -->
@@ -1452,7 +1514,7 @@ $(function() {
 					</div>
 				</div>
 				<div class="btn_reviews_box">
-					<a href="../board/goodsreview_list.jsp?bdId=goodsreview" class="btn_reviews_more">상품후기 전체보기</a>
+					<a href="http://localhost/salad_mvc/goodsreview_list.do" class="btn_reviews_more">상품후기 전체보기</a>
 
 				</div>
 			</div>

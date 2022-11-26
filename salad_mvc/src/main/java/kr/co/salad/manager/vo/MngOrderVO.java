@@ -1,31 +1,30 @@
 package kr.co.salad.manager.vo;
 
-import java.util.Date;
-
 public class MngOrderVO {
-	private String orderNum, orderStatus, existAddrFlag, name;
-	private Date orderDate;
+	private String id, orderStatus, existAddrFlag, name;
+	private int currentPage;
+	private String orderDate, searchText;
 
 	public MngOrderVO() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public MngOrderVO(String orderNum, String orderStatus, String existAddrFlag, String name, Date orderDate) {
-		super();
-		this.orderNum = orderNum;
+	public MngOrderVO(String id, String orderStatus, String existAddrFlag, String name, int currentPage,
+			String orderDate, String searchText) {
+		this.id = id;
 		this.orderStatus = orderStatus;
 		this.existAddrFlag = existAddrFlag;
 		this.name = name;
+		this.currentPage = currentPage;
 		this.orderDate = orderDate;
+		this.searchText = searchText;
 	}
 
-	public String getOrderNum() {
-		return orderNum;
+	public String getId() {
+		return id;
 	}
 
-	public void setOrderNum(String orderNum) {
-		this.orderNum = orderNum;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getOrderStatus() {
@@ -52,18 +51,35 @@ public class MngOrderVO {
 		this.name = name;
 	}
 
-	public Date getOrderDate() {
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public String getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 
 	@Override
 	public String toString() {
-		return "MngOrderVO [orderNum=" + orderNum + ", orderStatus=" + orderStatus + ", existAddrFlag=" + existAddrFlag
-				+ ", name=" + name + ", orderDate=" + orderDate + "]";
+		return "MngOrderVO [id=" + id + ", orderStatus=" + orderStatus + ", existAddrFlag=" + existAddrFlag + ", name="
+				+ name + ", currentPage=" + currentPage + ", orderDate=" + orderDate + ", searchText=" + searchText
+				+ "]";
 	}
 
 }

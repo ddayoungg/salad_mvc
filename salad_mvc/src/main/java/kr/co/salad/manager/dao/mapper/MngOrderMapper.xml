@@ -4,10 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.salad.manager.dao.mapper.MngOrderMapper">
 	<!-- 주문번호 별 회원 주문 내역 -->
-	<select id="selectOrderList" resultType="kr.co.salad.manager.domain.MngOrderDomain">
-		select po.order_num, m.name, po.order_total_price, po.order_date, po.order_status, po.exist_addr_flag
+	<select id="selectOrderList" parameterType="kr.co.salad.manager.vo.MngOrderVO" resultType="kr.co.salad.manager.domain.MngOrderDomain">
+		select po.order_num, m.name, po.order_total_price, to_char(po.order_date, 'yyyy-mm-dd') as order_date, po.order_status, po.exist_addr_flag
 		from product_order po, member m
-		where po.id=m.id and po.order_status=0
+		where po.id=m.id and po.order_status in ('0')
+		<if test='  searchText != "" '>
+			and m.name like '%' || #{searchText}  || '%'
+		</if>
 		order by po.order_num desc
 	</select>
 	

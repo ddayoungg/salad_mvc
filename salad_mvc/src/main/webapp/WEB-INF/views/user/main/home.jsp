@@ -232,61 +232,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 <body id="body" class="body-main body-index pc"  >
 <!-- Channel Plugin Scripts -->
-<script>
-  function parsePureNumber(number) {
-    var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
-    if (ch_pureNumber === "") {
-      return null;
-    }
-    return parseFloat(ch_pureNumber) || 0;
-  }
-  var settings = {
-    // action banner z index is 199997 ~ 199998
-    "zIndex": 100000,
-    "pluginKey": "ad67ea36-ae1a-452d-9419-cc8a83a650a3"
-  };
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  if (settings && settings.memberId && settings.memberId.indexOf('=gSess.memId') >= 0) {
-    console.error('You do not using godomall 5. please visit https://developers.channel.io/docs/guide-for-famous-builders and find correct one');
-  } else {
-    ChannelIO('boot', settings);
-  }
-</script>
-<!-- End Channel Plugin -->
+
 
 	<div class="top_area"></div>
 <div id="wrap" >
@@ -336,30 +282,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><a href="../member/join_method.jsp">회원가입</a></li>
-					<li><a href="login.do">로그인</a></li>
-
-					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
+					<c:choose>
+						<c:when test="${ sessionScope.userName eq null }">
+							<li><a href="http://localhost/salad_mvc/login.do">로그인</a></li>
+							<li><a href="http://localhost/salad_mvc/join.do">회원가입</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
+							<li><a href="http://localhost/salad_mvc/logout_process.do">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
+					
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="notice.do">공지사항</a></li>
+								<li><a href="goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
-
-
 					</li>
-
 				</ul>
 				<ul class="list_2">
-					<li><a href="../mypage/index.jsp"><img src="http://localhost/salad_mvc/resources/images/main/top_cs_icn.png" alt="마이페이지"></a></li>
-					<li class="cart"><a href="../order/cart.jsp"><img src="http://localhost/salad_mvc/resources/images/main/top_cart_icn.png" alt="장바구니"></a>
+					<li><a href="mypage_pass.do"><img src="http://localhost/salad_mvc/resources/images/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="cart.do"><img src="http://localhost/salad_mvc/resources/images/main/top_cart_icn.png" alt="장바구니"></a>
 
-                      <strong><b><a href="../order/cart.jsp" class="z">0</a></b></strong>
 
                     </li>
 
@@ -680,7 +627,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="btn_goods_more">
 
 
-            <a href="goods_list.do?mainCateNum=1&subCateNum=2" class="btn_goods_view_more">더보기</a>
+            <a href="goods_list.do?mainCateNum=2&subCateNum=6" class="btn_goods_view_more">더보기</a>
 
         </div>
     </div>
@@ -694,8 +641,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000239&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
-								<img src="http://localhost/salad_mvc/common/images/product/${ list[35].thum }" alt="베스트 샐러드 6종 맛보기" title="베스트 샐러드 6종 맛보기" class="middle">
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
+								<img src="http://localhost/salad_mvc/common/images/product/${ list[35].thum }" alt="${ list[35].prdName }" title="${ list[35].prdName }" class="middle">
 
                     </a>
 
@@ -708,7 +655,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000239&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[35].prdName }"/></strong>
                         </a>
                     </div>
@@ -738,7 +685,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=68&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[37].prdNum }"  >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[37].thum }" width="570" alt=<c:out value="${ list[37].prdName }"/> title=<c:out value="${ list[37].prdName }"/> class="middle"  />
 
                     </a>
@@ -752,7 +699,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=68&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[37].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[37].prdName }"/></strong>
                         </a>
                     </div>
@@ -763,7 +710,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[37].prdPrice-(list[37].prdPrice/list[37].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[37].prdPrice-(list[37].prdPrice*(list[37].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[37].prdPrice }" pattern="#,###"/>원 </span>
@@ -782,7 +729,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=69&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[39].prdNum }" >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[39].thum }" width="570" alt=<c:out value="${ list[39].prdName }"/> title=<c:out value="${ list[39].prdName }"/> class="middle"  />
 
                     </a>
@@ -796,7 +743,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=69&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[39].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[39].prdName }"/></strong>
                         </a>
                     </div>
@@ -807,7 +754,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[39].prdPrice-(list[39].prdPrice/list[39].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[39].prdPrice-(list[39].prdPrice*(list[39].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[39].prdPrice }" pattern="#,###"/>원</span>
@@ -826,7 +773,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000061&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[38].prdNum }"  >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[38].thum }" width="570" alt=<c:out value="${ list[38].prdName }"/> title=<c:out value="${ list[38].prdName }"/> class="middle"  />
 
                     </a>
@@ -840,7 +787,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000061&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[38].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[38].prdName }"/></strong>
                         </a>
                     </div>
@@ -851,7 +798,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[38].prdPrice-(list[38].prdPrice/list[38].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[38].prdPrice-(list[38].prdPrice*(list[38].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[38].prdPrice }" pattern="#,###"/>원</span>
@@ -870,7 +817,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=245&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[32].prdNum }"  >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[32].thum }" width="570" alt=<c:out value="${ list[32].prdName }"/> title=<c:out value="${ list[32].prdName }"/> class="middle"  />
 
                     </a>
@@ -884,7 +831,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=245&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[32].prdName }"/></strong>
                         </a>
                     </div>
@@ -895,7 +842,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[32].prdPrice-(list[32].prdPrice/list[32].prdDiscount) }"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[32].prdPrice-(list[32].prdPrice*(list[32].prdDiscount/100)) }"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[32].prdPrice }" pattern="#,###"/>원</span>
@@ -914,7 +861,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=116&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[33].prdNum }"  >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[33].thum }" width="570" alt=<c:out value="${ list[33].prdName }"/> title=<c:out value="${ list[33].prdName }"/> class="middle"  />
 
                     </a>
@@ -928,7 +875,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=116&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[33].prdNum }" >
                             <strong class="item_name"><c:out value="${ list[33].prdName }"/></strong>
                         </a>
                     </div>
@@ -939,7 +886,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[33].prdPrice-(list[33].prdPrice/list[33].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[33].prdPrice-(list[33].prdPrice*(list[33].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[33].prdPrice }" pattern="#,###"/>원 </span>
@@ -958,7 +905,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="../goods/goods_view.jsp?goodsNo=70&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[34].prdNum }"  >
 							<img src="http://localhost/salad_mvc/common/images/product/${ list[34].thum }" width="570" alt=<c:out value="${list[34].prdName }"/> title=<c:out value="${list[34].prdName }"/> class="middle"  />
 
                     </a>
@@ -972,7 +919,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=70&mtn=1%5E%7C%5E%EA%B0%80%EC%9E%A5+%ED%95%AB%ED%95%9C+%EC%83%90%EB%9F%AC%EB%93%9C%5E%7C%5En">
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[34].prdNum }" >
                             <strong class="item_name"><c:out value="${list[34].prdName }"/></strong>
                         </a>
                     </div>
@@ -983,7 +930,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[34].prdPrice-(list[34].prdPrice/list[34].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list[34].prdPrice-(list[34].prdPrice*(list[34].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
                         <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[34].prdPrice }" pattern="#,###"/>원</span>
@@ -1170,6 +1117,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="goods_list main_wrap_3">
     <div class="goods_list_tit">
         <h3>나에게 맞는 정기배송은?</h3>
+        <div class="btn_goods_more">
+
+
+            <a href="goods_list.do?mainCateNum=1&subCateNum=0" class="btn_goods_view_more">더보기</a>
+
+        </div>
+        
     </div>
     <div class="goods_list_cont goods_content_3">
 <!-- 탭진열형 -->
@@ -1191,11 +1145,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="goods_tab_cont">
         <div class="goods_tab_box on">
             <ul>
+                <c:forEach var="list" items="${list }" begin="19" end="22">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=260&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/10/15/260/260_main_029.jpg" width="570" alt="2주 정기배송 샐러드 주 5일" title="2주 정기배송 샐러드 주 5일" class="middle"  />
+                            <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                                <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                             </a>
                         </div>
 						<span class="best-icon">
@@ -1205,15 +1160,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <!-- //item_photo_box -->
                         <div class="item_info_cont">
                             <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=260&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">2주 정기배송 샐러드 주 5일</strong>
+                                <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }">
+                                    <strong class="item_name">${ list.prdName }</strong>
                                 </a>
                             </div>
                             <!-- //item_tit_box -->
                             <div class="item_money_box">
 								<!-- 할인퍼센트 S-->
 								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
+                                        <span class="item_discount"><em>${ list.prdDiscount }%</em></span>
 								</div>
 								<!-- 할인퍼센트 E-->
 								<div class="all_price">
@@ -1221,12 +1176,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                                 <strong class="item_price">
                                     <span  style="">
-                                        46,500<i class="won">원</i>
+                                         <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                                     </span>
                                 </strong>
 
                                 <span class="d_price" style="">
-                                    62,000원 </span>
+                                    <fmt:formatNumber value= "${ list.prdPrice}" pattern="#,###"/>원 </span>
 								</div>
                             </div>
                             <!-- //item_money_box -->
@@ -1235,182 +1190,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </div>
                             <!-- //item_icon_box -->
 
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 81</span>
-                            </div>
 
                         </div>
                         <!-- //item_info_cont -->
                     </div>
                     <!-- //item_cont -->
                 </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000382&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000382/1000000382_main_062.jpg" width="570" alt="2주 정기배송 샐러드 주 6일" title="2주 정기배송 샐러드 주 6일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000382"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000382&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">2주 정기배송 샐러드 주 6일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        55,800<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    74,400원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 7</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000412&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/06/26/1000000412/1000000412_main_047.jpg" width="570" alt="2주 정기배송 짜여진 식단" title="2주 정기배송 짜여진 식단" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000412"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							<img src="https://atowertr6856.cdn-nhncommerce.com/data/icon/goods_icon/icon_16.png"  alt="NEW 테이스티 샐러드" title="NEW 테이스티 샐러드" class="middle"  /> 
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000412&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">2주 정기배송 짜여진 식단</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-        								<span class="item_discount"><em>15%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        80,300<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    94,600원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 2</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000385&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000385/1000000385_main_017.jpg" width="570" alt="2주 정기배송 샐러드+간편식 주 5일" title="2주 정기배송 샐러드+간편식 주 5일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000385"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000385&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">2주 정기배송 샐러드+간편식 주 ..</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>28%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        81,100<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    112,000원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 5</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
+                 </c:forEach>
             </ul>
 
-					<div class="main_deli_pdt_morebtn devMoreLink">
-						<a href="goods_list.do?mainCateNum=1&subCateNum=2">정기배송 더보기</a>
-					</div>
 
 					<script type="text/javascript">
 					<!--
@@ -1449,13 +1237,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
+               <c:forEach var="list" items="${list }" begin="24" end="27">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000239&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000239/1000000239_main_080.jpg" width="570" alt="4주 정기배송 샐러드 주 5일" title="4주 정기배송 샐러드 주 5일" class="middle"  />
+                            <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                                <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                             </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000239"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
                         </div>
 						<span class="best-icon">
 							
@@ -1464,15 +1252,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <!-- //item_photo_box -->
                         <div class="item_info_cont">
                             <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000239&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">4주 정기배송 샐러드 주 5일</strong>
+                                <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }">
+                                    <strong class="item_name">${ list.prdName }</strong>
                                 </a>
                             </div>
                             <!-- //item_tit_box -->
                             <div class="item_money_box">
 								<!-- 할인퍼센트 S-->
 								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
+                                        <span class="item_discount"><em>${ list.prdDiscount }%</em></span>
 								</div>
 								<!-- 할인퍼센트 E-->
 								<div class="all_price">
@@ -1480,12 +1268,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                                 <strong class="item_price">
                                     <span  style="">
-                                        92,400<i class="won">원</i>
+                                         <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                                     </span>
                                 </strong>
 
                                 <span class="d_price" style="">
-                                    124,000원 </span>
+                                    <fmt:formatNumber value= "${ list.prdPrice}" pattern="#,###"/>원 </span>
 								</div>
                             </div>
                             <!-- //item_money_box -->
@@ -1494,182 +1282,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </div>
                             <!-- //item_icon_box -->
 
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 1263</span>
-                            </div>
 
                         </div>
                         <!-- //item_info_cont -->
                     </div>
                     <!-- //item_cont -->
                 </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000240&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/02/07/1000000240/1000000240_main_028.jpg" width="570" alt="4주 정기배송 샐러드 주 3일" title="4주 정기배송 샐러드 주 3일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000240"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000240&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">4주 정기배송 샐러드 주 3일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        55,800<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    74,400원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://localhost/pocket/images/icon/review_60x63_02.png"> 156</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000388&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000388/1000000388_main_048.jpg" width="570" alt="4주 정기배송 샐러드 주 4일" title="4주 정기배송 샐러드 주 4일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000388"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000388&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">4주 정기배송 샐러드 주 4일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        74,400<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    99,200원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 5</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000411&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/06/26/1000000411/1000000411_main_03.jpg" width="570" alt="4주 정기배송 짜여진 식단" title="4주 정기배송 짜여진 식단" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000411"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							<img src="https://atowertr6856.cdn-nhncommerce.com/data/icon/goods_icon/icon_16.png"  alt="NEW 테이스티 샐러드" title="NEW 테이스티 샐러드" class="middle"  /> 
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000411&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">4주 정기배송 짜여진 식단</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-        								<span class="item_discount"><em>11%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        101,000<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    113,400원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 2</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
+                 </c:forEach>
             </ul>
 
-					<div class="main_deli_pdt_morebtn devMoreLink">
-						<a href="goods_list.do?mainCateNum=1&subCateNum=3">정기배송 더보기</a>
-					</div>
+
 
 					<script type="text/javascript">
 					<!--
@@ -1708,13 +1330,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
+                <c:forEach var="list" items="${list }" begin="5" end="8">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000391&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000391/1000000391_main_02.jpg" width="570" alt="6주 정기배송 샐러드 주 3일" title="6주 정기배송 샐러드 주 3일" class="middle"  />
+                            <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                                <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                             </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000391"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
                         </div>
 						<span class="best-icon">
 							
@@ -1723,15 +1345,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <!-- //item_photo_box -->
                         <div class="item_info_cont">
                             <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000391&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">6주 정기배송 샐러드 주 3일</strong>
+                                <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }">
+                                    <strong class="item_name">${ list.prdName }</strong>
                                 </a>
                             </div>
                             <!-- //item_tit_box -->
                             <div class="item_money_box">
 								<!-- 할인퍼센트 S-->
 								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
+                                        <span class="item_discount"><em>${ list.prdDiscount }%</em></span>
 								</div>
 								<!-- 할인퍼센트 E-->
 								<div class="all_price">
@@ -1739,12 +1361,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                                 <strong class="item_price">
                                     <span  style="">
-                                        83,700<i class="won">원</i>
+                                         <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                                     </span>
                                 </strong>
 
                                 <span class="d_price" style="">
-                                    111,600원 </span>
+                                    <fmt:formatNumber value= "${ list.prdPrice}" pattern="#,###"/>원 </span>
 								</div>
                             </div>
                             <!-- //item_money_box -->
@@ -1753,182 +1375,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </div>
                             <!-- //item_icon_box -->
 
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 0</span>
-                            </div>
 
                         </div>
                         <!-- //item_info_cont -->
                     </div>
                     <!-- //item_cont -->
                 </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000413&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/06/26/1000000413/1000000413_main_026.jpg" width="570" alt="6주 정기배송 짜여진 식단" title="6주 정기배송 짜여진 식단" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000413"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							<img src="https://atowertr6856.cdn-nhncommerce.com/data/icon/goods_icon/icon_16.png"  alt="NEW 테이스티 샐러드" title="NEW 테이스티 샐러드" class="middle"  /> 
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000413&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">6주 정기배송 짜여진 식단</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-        								<span class="item_discount"><em>11%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        150,100<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    169,200원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 0</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000392&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000392/1000000392_main_075.jpg" width="570" alt="8주 정기배송 샐러드 주 5일" title="8주 정기배송 샐러드 주 5일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000392"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000392&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">8주 정기배송 샐러드 주 5일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>28%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        178,400<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    248,000원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 5</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000414&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/06/26/1000000414/1000000414_main_089.jpg" width="570" alt="8주 정기배송 짜여진 식단" title="8주 정기배송 짜여진 식단" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000414"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							<img src="https://atowertr6856.cdn-nhncommerce.com/data/icon/goods_icon/icon_16.png"  alt="NEW 테이스티 샐러드" title="NEW 테이스티 샐러드" class="middle"  /> 
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000414&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">8주 정기배송 짜여진 식단</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-        								<span class="item_discount"><em>11%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        201,400<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    227,400원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 1</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
+                 </c:forEach>
             </ul>
 
-					<div class="main_deli_pdt_morebtn devMoreLink">
-						<a href="goods_list.do?mainCateNum=1&subCateNum=4">정기배송 더보기</a>
-					</div>
 
 					<script type="text/javascript">
 					<!--
@@ -1967,13 +1422,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
+               <c:forEach var="list" items="${list }" begin="15" end="18">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000376&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000376/1000000376_main_086.jpg" width="570" alt="하루에 한 끼를 샐러드로 5일" title="하루에 한 끼를 샐러드로 5일" class="middle"  />
+                            <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                                <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                             </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000376"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
                         </div>
 						<span class="best-icon">
 							
@@ -1982,15 +1437,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <!-- //item_photo_box -->
                         <div class="item_info_cont">
                             <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000376&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">하루에 한 끼를 샐러드로 5일</strong>
+                                <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }">
+                                    <strong class="item_name">${ list.prdName }</strong>
                                 </a>
                             </div>
                             <!-- //item_tit_box -->
                             <div class="item_money_box">
 								<!-- 할인퍼센트 S-->
 								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
+                                        <span class="item_discount"><em>${ list.prdDiscount }%</em></span>
 								</div>
 								<!-- 할인퍼센트 E-->
 								<div class="all_price">
@@ -1998,12 +1453,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                                 <strong class="item_price">
                                     <span  style="">
-                                        23,350<i class="won">원</i>
+                                         <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                                     </span>
                                 </strong>
 
                                 <span class="d_price" style="">
-                                    31,000원 </span>
+                                    <fmt:formatNumber value= "${ list.prdPrice}" pattern="#,###"/>원 </span>
 								</div>
                             </div>
                             <!-- //item_money_box -->
@@ -2012,185 +1467,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </div>
                             <!-- //item_icon_box -->
 
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 14</span>
-                            </div>
 
                         </div>
                         <!-- //item_info_cont -->
                     </div>
                     <!-- //item_cont -->
                 </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=109&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/16/07/14/109/109_main_061.jpg" width="570" alt="하루에 두 끼를 샐러드로 5일" title="하루에 두 끼를 샐러드로 5일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="109"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=109&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">하루에 두 끼를 샐러드로 5일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>25%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        46,500<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    62,000원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 133</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=1000000379&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/22/03/10/1000000379/1000000379_main_011.jpg" width="570" alt="샐러드와 닭가슴살로 5일" title="샐러드와 닭가슴살로 5일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="1000000379"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=1000000379&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">샐러드와 닭가슴살로 5일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>31%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        35,250<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    51,000원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 0</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
-                <li  style="width:25%;">
-                    <div class="item_cont">
-                        <div class="item_photo_box" >
-                            <a href="../goods/goods_view.jsp?goodsNo=243&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En" alt="">
-                                <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/19/06/05/243/243_main_049.png" width="570" alt="샐러드와 간편식으로 5일" title="샐러드와 간편식으로 5일" class="middle"  />
-                            </a>
-							<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_3 btn_open_layer" data-mode="cartIn" data-goods-no="243"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                        </div>
-						<span class="best-icon">
-							
-						</span>
-
-                        <!-- //item_photo_box -->
-                        <div class="item_info_cont">
-                            <div class="item_tit_box">
-                                <a href="../goods/goods_view.jsp?goodsNo=243&mtn=3%5E%7C%5E%EB%82%98%EC%97%90%EA%B2%8C+%EB%A7%9E%EB%8A%94+%EC%A0%95%EA%B8%B0%EB%B0%B0%EC%86%A1%EC%9D%80%3F%5E%7C%5En">
-                                    <strong class="item_name">샐러드와 간편식으로 5일</strong>
-                                </a>
-                            </div>
-                            <!-- //item_tit_box -->
-                            <div class="item_money_box">
-								<!-- 할인퍼센트 S-->
-								<div class="per_wrap">
-                                        <span class="item_discount"><em>27%</em></span>
-								</div>
-								<!-- 할인퍼센트 E-->
-								<div class="all_price">
-
-
-                                <strong class="item_price">
-                                    <span  style="">
-                                        40,750<i class="won">원</i>
-                                    </span>
-                                </strong>
-
-                                <span class="d_price" style="">
-                                    56,000원 </span>
-								</div>
-                            </div>
-                            <!-- //item_money_box -->
-                            <!-- //item_number_box -->
-							<div class="item_icon_box">
-                            </div>
-                            <!-- //item_icon_box -->
-
-                            <div class="item_review_count">
-                                <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 16</span>
-                            </div>
-
-                        </div>
-                        <!-- //item_info_cont -->
-                    </div>
-                    <!-- //item_cont -->
-                </li>
+                 </c:forEach>
             </ul>
 
-					<div class="main_deli_pdt_morebtn devMoreLink">
-						<a href="goods_list.do?mainCateNum=1&subCateNum=1">정기배송 더보기</a>
-					</div>
 
 					<script type="text/javascript">
-					<!--
+					
 					$(document).ready(function() {
 						$('.tab_goods_3 .goods_tab_tit li').click(function(e){
 							e.preventDefault();
@@ -2221,7 +1509,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 						});
 					});
-					//-->
+					
 				</script>
         </div>
     </div>
@@ -2248,7 +1536,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <!-- //item_vl_tab_type -->
 <script type="text/javascript">
-    <!--
+
     $(document).ready(function() {
         $('.tab_goods_3 .goods_tab_tit li').click(function(e){
             e.preventDefault();
@@ -2259,7 +1547,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             $('.tab_goods_3 .goods_tab_cont > .goods_tab_box').eq($(this).index()).addClass('on').siblings().removeClass('on');	//해당 탭 내용 열고 나머지 닫기
         });
     });
-    //-->
+
 </script>
 
 
@@ -2399,7 +1687,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="btn_goods_more">
 
 
-            <a href="goods_list.do?mainCateNum=3&subCateNum=3" class="btn_goods_view_more">더보기</a>
+            <a href="goods_list.do?mainCateNum=3&subCateNum=12" class="btn_goods_view_more">더보기</a>
 
         </div>
     </div>
@@ -2414,7 +1702,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000408&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[74].prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list[74].thum }" width="570" alt="${ list[74].prdName }" title="${ list[74].prdName }" class="middle"  />
                     </a>
                 </div>
@@ -2427,7 +1715,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000408&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[74].prdNum }" >
                             <strong class="item_name" style="direction:ltr;"><c:out value="${ list[74].prdName }"/></strong>
                         </a>
                     </div>
@@ -2444,7 +1732,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                               <fmt:formatNumber value="${ list[74].prdPrice-(list[74].prdPrice/list[74].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+                               <fmt:formatNumber value="${ list[74].prdPrice-(list[74].prdPrice*(list[74].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -2471,7 +1759,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000403&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[75].prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list[75].thum }" width="570" alt="${ list[75].prdName }" title="${ list[75].prdName }" class="middle"  />
                     </a>
                 </div>
@@ -2480,7 +1768,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000403&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[75].prdNum }" >
                             <strong class="item_name" style="direction:ltr;"><c:out value="${ list[75].prdName }"/></strong>
                         </a>
                     </div>
@@ -2497,7 +1785,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                                <fmt:formatNumber value="${ list[75].prdPrice-(list[75].prdPrice/list[75].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+                                <fmt:formatNumber value="${ list[75].prdPrice-(list[75].prdPrice*(list[75].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -2524,7 +1812,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000404&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[76].prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list[76].thum }" width="570" alt="${ list[76].prdName }" title="${ list[76].prdName }" class="middle"  />
                     </a>
                 </div>
@@ -2534,7 +1822,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000404&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[76].prdNum }" >
                             <strong class="item_name" style="direction:ltr;"><c:out value="${ list[76].prdName }"/></strong>
                         </a>
                     </div>
@@ -2552,7 +1840,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                                <fmt:formatNumber value="${ list[76].prdPrice-(list[76].prdPrice/list[76].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+                                <fmt:formatNumber value="${ list[76].prdPrice-(list[76].prdPrice*(list[76].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -2579,7 +1867,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000405&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[77].prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list[77].thum }" width="570" alt=<c:out value="${list[77].prdName }"/> title=<c:out value="${list[77].prdName }"/> class="middle"  />
                     </a>
                 </div>
@@ -2589,7 +1877,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000405&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[77].prdNum }" >
                             <strong class="item_name" style="direction:ltr;"><c:out value="${list[77].prdName }"/></strong>
                         </a>
                     </div>
@@ -2606,7 +1894,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                                <fmt:formatNumber value="${ list[77].prdPrice-(list[77].prdPrice/list[77].prdDiscount)}" pattern="#,###"/><i class="won">원</i>
+                                <fmt:formatNumber value="${ list[77].prdPrice-(list[77].prdPrice*(list[77].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -2633,16 +1921,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000406&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[78].prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list[78].thum }" width="570" alt=<c:out value="${list[78].prdName }"/> title=<c:out value="${list[78].prdName }"/> class="middle"  />
                     </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_22 btn_open_layer" data-mode="cartIn" data-goods-no="1000000406"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
                 </div>
 
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000406&mtn=22%5E%7C%5E%EC%83%88%EB%A1%9C+%EB%82%98%EC%99%94%EC%96%B4%EC%9A%94+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[78].prdNum }" >
                             <strong class="item_name" style="direction:ltr;"><c:out value="${list[78].prdName }"/></strong>
                         </a>
                     </div>
@@ -2659,7 +1946,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                                <fmt:formatNumber value="${ list[78].prdPrice-(list[78].prdPrice/list[78].prdDiscount)}" pattern="#,###"/><i class="won">원</i>
+                                <fmt:formatNumber value="${ list[78].prdPrice-(list[78].prdPrice*(list[78].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -2764,7 +2051,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="btn_goods_more">
 
 
-            <a href="goods_list.do?mainCateNum=4&subCateNum=14" class="btn_goods_view_more">더보기</a>
+            <a href="goods_list.do?mainCateNum=4&subCateNum=18" class="btn_goods_view_more">더보기</a>
 
         </div>
     </div>
@@ -2779,7 +2066,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=239&mtn=10%5E%7C%5E%EA%B0%84%EC%8B%9D%EB%8F%84+%EA%B1%B4%EA%B0%95%ED%95%98%EA%B2%8C+%21%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                     </a>
                 </div>
@@ -2792,7 +2079,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=239&mtn=10%5E%7C%5E%EA%B0%84%EC%8B%9D%EB%8F%84+%EA%B1%B4%EA%B0%95%ED%95%98%EA%B2%8C+%21%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
                             <strong class="item_name" style="direction:ltr;">${ list.prdName }</strong>
                         </a>
                     </div>
@@ -2809,12 +2096,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                                <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice/list.prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+                                <fmt:formatNumber value= "${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
                         <span class="d_price" style=";">
-                            <fmt:formatNumber value= "${ list.prdPrice }" pattern="#,###"/></span>
+                            <fmt:formatNumber value= "${ list.prdPrice }" pattern="#,###"/>원</span>
 
 						<!-- //item_money_box -->
 						</div>
@@ -3295,7 +2582,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="../goods/goods_view.jsp?goodsNo=444&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
                         <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                     </a>
                 </div>
@@ -3307,7 +2594,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=444&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
                             <strong class="item_name" style="direction:ltr;">${ list.prdName }</strong>
                         </a>
                     </div>
@@ -3324,7 +2611,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                               <fmt:formatNumber value=" ${ list.prdPrice-(list.prdPrice/list.prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+                               <fmt:formatNumber value=" ${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
@@ -3348,433 +2635,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- //item_cont -->
         </li>
         </c:forEach>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=1000000286&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/21/05/20/1000000286/1000000286_main_029.jpg" width="570" alt="포켓닭 11종 골라담기" title="포켓닭 11종 골라담기" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="1000000286"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=1000000286&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">포켓닭 11종 골라담기</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>40%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                2,400<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            4,000원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 88</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=539&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/09/11/539/539_main_078.jpg" width="570" alt="포켓닭 11종 맛보기" title="포켓닭 11종 맛보기" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="539"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=539&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">포켓닭 11종 맛보기</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>29%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                28,300<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            39,800원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 35</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=399&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/08/07/399/399_main_087.jpg" width="570" alt="닭가슴살 만두 2종 혼합" title="닭가슴살 만두 2종 혼합" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="399"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=399&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">닭가슴살 만두 2종 혼합</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>41%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                4,700<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            8,000원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 105</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=392&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/08/07/392/392_main_025.jpg" width="570" alt="닭가슴살 소시지 3종 혼합" title="닭가슴살 소시지 3종 혼합" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="392"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=392&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">닭가슴살 소시지 3종 혼합</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>27%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                7,700<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            10,500원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 59</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=481&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/08/25/481/481_main_077.jpg" width="570" alt="그릴 닭가슴살볼 3종 혼합" title="그릴 닭가슴살볼 3종 혼합" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="481"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=481&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">그릴 닭가슴살볼 3종 혼합</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>24%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                8,000<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            10,500원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 80</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=371&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/28/371/371_main_090.jpg" width="570" alt="닭가슴살 소시지 구운마늘" title="닭가슴살 소시지 구운마늘" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="371"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=371&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">닭가슴살 소시지 구운마늘</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>26%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                2,600<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            3,500원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 5</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="../goods/goods_view.jsp?goodsNo=375&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                        <img src="https://atowertr6856.cdn-nhncommerce.com/data/goods/20/07/28/375/375_main_050.jpg" width="570" alt="닭가슴살 소시지 매콤치즈" title="닭가슴살 소시지 매콤치즈" class="middle"  />
-                    </a>
-					<button type="button" href="#optionViewLayer" class="btn_basket_cart btn_add_cart_25 btn_open_layer" data-mode="cartIn" data-goods-no="375"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/main_pdt_cart_icn.png" alt=""><span>장바구니</span></button>
-                </div>
-
-				<span class="best-icon">
-					
-				</span>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="../goods/goods_view.jsp?goodsNo=375&mtn=25%5E%7C%5E%EB%8B%AD%EA%B0%80%EC%8A%B4%EC%82%B4%EB%A1%9C+%EB%93%A0%EB%93%A0%ED%95%A8%EC%9D%84+%EB%8D%94%ED%95%B4%EB%B4%90%EC%9A%94%5E%7C%5En" >
-                            <strong class="item_name" style="direction:ltr;">닭가슴살 소시지 매콤치즈</strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em>26%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                2,600<i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            3,500원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-                    <div class="item_review_count">
-                        <span class="review_count"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png"> 23</span>
-                    </div>
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
     </ul>
 </div>
 
@@ -3847,7 +2707,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <!-- cs하단 -->
-<div class="cs_bottom_con">
+<!-- <div class="cs_bottom_con">
 	<div class="cs_bottom_in">
 		<div class="content_info_wrap">
 			<div class="content_info">
@@ -3863,7 +2723,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<li><a href="../mypage/order_list.jsp"><i></i><span>배송조회</span></a></li>
 					</ul>
 				</div>
-				<!-- //cs_center -->
+				//cs_center
 				<div class="bank_info">
 					<h3>입금 계좌 안내</h3>
 					<p>예금주 : (주)에이타워</p>
@@ -3879,12 +2739,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			우리은행
 </b><span>1005003043705</span></div>
 				</div>
-				<!-- //bank_info -->
+				//bank_info
 
-				<!-- //notice_list -->
+				//notice_list
 				<div class="foot_notice_scroll">
 					<h3>공지사항</h3><div class="more-btn"><a href="../board/list.jsp?&bdId=notice">더보기</a></div>
-					<!--스크롤 게시글 시작-->
+					스크롤 게시글 시작
 						<ul>
 		<li>
 			<a href="../board/view.jsp?bdId=notice&sno=98"><b>[결제관련이슈] 네이버 페이 결제 이슈 사항 건 <span></span></b>
@@ -3904,14 +2764,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		</li>
 	</ul>
 
-					<!--스크롤 게시글 끝-->
+					스크롤 게시글 끝
 				</div>
 			</div>
-			<!-- //content_info -->
+			//content_info
 		</div>
 	</div>
 
-</div>
+</div> -->
 <!-- cs하단 -->
 <!-- //main_cont_slide_ban -->
 <script>

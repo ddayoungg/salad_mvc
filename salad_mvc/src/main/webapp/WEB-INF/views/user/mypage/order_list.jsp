@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
 <html>
@@ -159,32 +159,32 @@ function setOrderList(currentPage){
 			
 				$("#cancelListOutput").html(tbOutput);
 				/* 페이징 버튼 */
-				var pgOutput="<nav><ul>";
+				var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'><ul class='pagination'>";
 				if( jsonObj.startPage != 1 ) {
-					pgOutput+="<li>";
-					pgOutput+="<a href='#void' onclick='setOrderList("+ 1 +")' tabindex='-1'";
+					pgOutput+="<li class='page-item'>";
+					pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ 1 +")' tabindex='-1'";
 					pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
 				}//end if
 				if( jsonObj.startPage != 1 ) {
-					pgOutput+="<li>";
-					pgOutput+="<a href='#void' onclick='setOrderList("+ (jsonObj.startPage-1) +")' tabindex='-1'";
+					pgOutput+="<li class='page-item'>";
+					pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.startPage-1) +")' tabindex='-1'";
 					pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
 				}//end if
 				for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
 					if(currentPage==i) {
 						pgOutput+="<li class='on a_none'>";
 					} else {
-						pgOutput+="<li>";
+						pgOutput+="<li class='page-item'>";
 					}//end else
-					pgOutput+="<a href='#void' onclick='setOrderList("+ i +")'>"+ i +"</a></li>";
+					pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ i +")'>"+ i +"</a></li>";
 				}//end for
 				if(jsonObj.totalPage != jsonObj.endPage) {
-					pgOutput+="<li>";
-					pgOutput+="<a href='#void' onclick='setOrderList("+ (jsonObj.endPage + 1) +")'>&gt;<!-- > --></a></li>";
+					pgOutput+="<li class='page-item'>";
+					pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.endPage + 1) +")'>&gt;<!-- > --></a></li>";
 				}//end if
 				if(jsonObj.totalPage != jsonObj.endPage) {
-					pgOutput+="<li>";
-					pgOutput+="<a href='#void' onclick='setOrderList("+ (jsonObj.totalPage) +")'>&gt&gt;<!-- >> --></a></li>";
+					pgOutput+="<li class='page-item'>";
+					pgOutput+="<a class='page-link' href='#void' onclick='setOrderList("+ (jsonObj.totalPage) +")'>&gt&gt;<!-- >> --></a></li>";
 				}//end if
 				pgOutput+="</ul></nav>";
 				
@@ -467,21 +467,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><a href="../member/join_method.jsp">회원가입</a></li>
-					<li><a href="../member/login.jsp">로그인</a></li>
-
+					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
-						<a href="../service/faq.jsp">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="../service/notice.jsp">공지사항</a></li>
-								<li><a href="../service/faq.jsp">자주하는 질문</a></li>
-								<li><a href="../mypage/mypage_qa.jsp">1:1 문의</a></li>
-								<li><a href="http://localhost/salad_mvc/resources/user/board/goodsreview_list.jsp">리얼후기</a></li>								
+								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
+								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
+				</ul>
+				<ul class="list_2">
+					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+                    </li>
 				</ul>
 			</div>
         </div>
@@ -597,43 +599,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <ul class="sub_menu_mypage">
         <li>쇼핑정보
             <ul class="sub_depth1">
-                <li><a href="order_list.do">- 주문목록/배송조회</a></li>
-                <li><a href="cancel_list.do">- 취소 내역</a></li>
-                <!-- <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li> -->
-                <li><a href="wish_list.do">- 찜리스트</a></li>
+                <li><a href="http://localhost/salad_mvc/order_list.do">- 주문목록/배송조회</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
-        <!-- <li>혜택관리
-            <ul class="sub_depth1">
-                <li><a href="../mypage/coupon.jsp">- 쿠폰</a></li>
-	
-                <li><a href="../mypage/mileage.jsp">- 적립금</a></li>
-            </ul>
-        </li>
-        <li>고객센터
-            <ul class="sub_depth1">
-				<li><a href="../service/notice.jsp">- 공지사항</a></li>
-				<li><a href="../mypage/mypage_qa.jsp">- 1:1문의</a></li>
-				<li><a href="../service/faq.jsp">- FAQ</a></li>
-            </ul>
-        </li> -->
         <li>회원정보
             <ul class="sub_depth1">
-                <li><a href="my_change_index.do">- 회원정보 변경</a></li>
-				<li><a href="mypage_deli.do">- 배송지 관리</a></li>
-                <li><a href="mypage_out_pwChk.do">- 회원 탈퇴</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/my_change_index.do">- 회원정보 변경</a></li>
+				<li><a href="http://localhost/salad_mvc/mypage_deli.do">- 배송지 관리</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_out_form">- 회원 탈퇴</a></li>
             </ul>
         </li>
-        <!-- <li>나의 상품문의
-            <ul class="sub_depth1">
-                <li><a href="../mypage/mypage_goods_qa.jsp">- 나의 상품문의</a></li>
-            </ul>
-        </li> -->
         <li>나의 상품후기
             <ul class="sub_depth1">
-                <li><a href="user_my_rev.do">- 나의 상품후기</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_goods_review.do">- 나의 상품후기</a></li>
             </ul>
         </li>
+        <li>나의 상품문의
+      <ul class="sub_depth1">
+      <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
+    </ul>
+</li>
     </ul>
 </div>
 <!-- //sub_menu_box -->
@@ -651,7 +638,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		    <div class="mypage_top_info">
 		    <div class="mypage_top_txt">
 		        <div class="grade_txt">
-		            <p>김도희님의</p><p> 마이페이지입니다.</p>
+		            <p>${ userId }님의 마이페이지입니다.</p>
 		            <div class="btn_layer">
 		
 		            </div>

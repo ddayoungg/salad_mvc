@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.salad.user.dao.MyOrderDAO;
@@ -13,14 +12,15 @@ import kr.co.salad.user.domain.CcMemberDomain;
 import kr.co.salad.user.domain.MyOrderDomain;
 import kr.co.salad.user.domain.PrdDetailDomain;
 import kr.co.salad.user.vo.MyOrderVO;
+
 @Component
 public class MyOrderService {
 	
-	public String searchMyOrderListJson(MyOrderVO mcVO) {//나의 취소 리스트
+	public String searchMyOrderListJson(MyOrderVO moVO) {//나의 취소 리스트
 		List<MyOrderDomain> list=null;
 		MyOrderDAO mcDAO = new MyOrderDAO();
 		
-		int paramCurrentPage=mcVO.getCurrentPage();
+		int paramCurrentPage=moVO.getCurrentPage();
 		
 		//페이징 시작
 		int currentPage=1;//현재 페이지
@@ -37,7 +37,7 @@ public class MyOrderService {
 		}//end catch
 		
 		//전체 데이터 개수
-		totalCount=mcDAO.selectMyCcTotalCnt(mcVO.getId());
+		totalCount=mcDAO.selectMyCcTotalCnt(moVO.getId());
 		
 		//총 페이지 수
 		totalPage = totalCount % pageScale == 0 ? totalCount/pageScale : (totalCount/pageScale) + 1;
@@ -55,10 +55,12 @@ public class MyOrderService {
 		System.out.println(startNum+"/"+endNum);
 		
 		//VO set
-		mcVO.setStartNum(startNum);
-		mcVO.setEndNum(endNum);
+		moVO.setStartNum(startNum);
+		moVO.setEndNum(endNum);
 		
-		list=mcDAO.selectMyCancelList(mcVO);
+		System.out.println("                              moVO : "+moVO);
+		list=mcDAO.selectMyOrderList(moVO);
+		System.out.println("                              list : "+list);
 		
 		//페이지 블럭
 		int pageLength=5;//페이지 블록 길이 1~5페이지
@@ -84,7 +86,6 @@ public class MyOrderService {
 		JSONArray jsonArr=new JSONArray();
 		JSONObject jsonTemp=null;
 		
-		
 		List<String> revImgList=null;
 		PrdDetailDomain pDomain=new PrdDetailDomain();
 		
@@ -99,12 +100,12 @@ public class MyOrderService {
 			jsonTemp.put("prdDiscount", tempDomain.getPrdDiscount());
 			jsonTemp.put("orderCnt", tempDomain.getOrderCnt());
 			
-			String orderStatus=("4".equals(tempDomain.getOrderStatus())?"취소요청":"취소확정");
+			String orderStatus = "";
 			if("0".equals(tempDomain.getOrderStatus())){
 				orderStatus = "주문 접수";
 			}else if("1".equals(tempDomain.getOrderStatus())){
 				orderStatus = "배송 준비 중";
-			}else if("1".equals(tempDomain.getOrderStatus())){
+			}else if("2".equals(tempDomain.getOrderStatus())){
 				orderStatus = "배송 중";
 			}else {
 				orderStatus = "배송 완료";
@@ -135,7 +136,6 @@ public class MyOrderService {
 	public MyOrderDomain searchMyCcOrderTotalPrice(List<MyOrderDomain> list) { //나의 주문 관련 총 합계
 		MyOrderDomain mcDomain=new MyOrderDomain();
 		
-		
 		int totalPrdPrice=0;//총 상품금액
 		int totalPrdDiscount=0;//총 할인금액
 		int orderTotalPrice=0;//합계
@@ -143,7 +143,6 @@ public class MyOrderService {
 		int prdPrice=0;
 		int prdDiscount=0;
 		int orderCnt=0;
-		
 		
 		for(MyOrderDomain tempDomain : list) {
 			prdPrice=tempDomain.getPrdPrice();
@@ -154,8 +153,6 @@ public class MyOrderService {
 			totalPrdDiscount+=prdPrice/prdDiscount;
 			orderTotalPrice+=(prdPrice*orderCnt)-(prdPrice/prdDiscount);
 		}//end for
-		
-		
 		
 		orderTotalPrice=orderTotalPrice+3000;//배송비
 		

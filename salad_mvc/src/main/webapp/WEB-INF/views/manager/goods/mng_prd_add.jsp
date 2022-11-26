@@ -128,12 +128,15 @@ $(function(){
 
 function loginChk() {
 	
+	var loginFlag=true;
+	
 	<c:if test="${ sessionScope.mngId eq null }">
 		alert("로그인을 해주세요.");
 		location.href="http://localhost/salad_mvc/mng_index.do";
-		return false;
+		loginFlag=false;
 	</c:if>
 	
+	return loginFlag;
 }//loginChk
 
 function setMainCate(){
@@ -290,8 +293,26 @@ function nullChk(){
 		return;
 	}//end if
 	
+	var prdDiscount=parseInt($("#prdDiscount").val());
+	
+	if(!(prdDiscount >= 0 && prdDiscount <= 100)) {
+		alert("할인 0부터 100까지의 숫자를 입력해주세요.");
+		$("#prdDiscount").val(0);//화이트 스페이스 초기화
+		$("#prdDiscount").focus();//커서 이동
+		return;
+	}//end if
+	
 	if($("#prdPrice").val().trim()=="") {
 		alert("원가를 입력해주세요.");
+		$("#prdPrice").val("");//화이트 스페이스 초기화
+		$("#prdPrice").focus();//커서 이동
+		return;
+	}//end if
+	
+	var prdPrice=parseInt($("#prdPrice").val());
+	
+	if(!(prdPrice >= 0)) {
+		alert("원가에 0과 같거나 큰 수를 입력해주세요.");
 		$("#prdPrice").val("");//화이트 스페이스 초기화
 		$("#prdPrice").focus();//커서 이동
 		return;
@@ -384,14 +405,14 @@ function save() {//등록
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-	    href="index.html"><img alt="img" src="images/saladLogo.png" height="50px"></a>
-	    <div class="ms-auto" style="color:white;">3조 관리자님,어서오세요.&nbsp;&nbsp;</div>
+	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+	    <div class="ms-auto" style="color:white;"><c:out value="${ sessionScope.mngId }"/>님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
 	            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-	                <li><a class="dropdown-item" href="#!">Logout</a></li>
+	                <li><a class="dropdown-item" href="http://localhost/salad_mvc/mng_logout.do">Logout</a></li>
 	            </ul>
 	        </li>
 	    </ul> 
@@ -451,7 +472,7 @@ function save() {//등록
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="images/socialMedia.png" width="130px">
+							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>
@@ -536,7 +557,7 @@ function save() {//등록
 							<tr>
 								<th >할인</th>
 								<td style="width: 25px; border-right: none; font-weight: bold;">
-									<input type="text" id="prdDiscount" name="prdDiscount" placeholder="할인율 입력해주세요." value="0" maxlength="3">
+									<input type="text" id="prdDiscount" name="prdDiscount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="할인율 입력해주세요." value="0" maxlength="3">
 								</td>
 								<td style="border-right: none;">%</td>
 								<td>미적용시 0을 입력해주세요</td>
@@ -544,7 +565,7 @@ function save() {//등록
 							<tr>
 								<th>원가</th>
 								<td style="width: 25px; border-right: none; font-weight: bold;">
-									<input type="text" id="prdPrice" name="prdPrice" placeholder="정가를 입력해주세요." value="" maxlength="7">
+									<input type="text" id="prdPrice" name="prdPrice" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="정가를 입력해주세요." value="" maxlength="7">
 								</td>
 								<td style="border-right: none;">원</td>
 								<td></td>
