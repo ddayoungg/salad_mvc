@@ -70,7 +70,7 @@ public class MngCancelController {
 		String mngid = (String)session.getAttribute("mngId");
 		
 		if(mngid==null) {
-			url= "redirect:http://localhost/salad_mvc/mng_index.do";
+			url= "redirect:http://salad.sist.co.kr/mng_index.do";
 		} else if (mngid.equals("admin")) {
 			url = "/manager/cancel/mng_cancel_main";
 		}
@@ -192,7 +192,7 @@ public class MngCancelController {
 		String mngid = (String)session.getAttribute("mngId");
 		
 		if(mngid==null) {
-			url= "redirect:http://localhost/salad_mvc/mng_index.do";
+			url= "redirect:http://salad.sist.co.kr/mng_index.do";
 		} else if (mngid.equals("admin")) {
 			url = "/manager/cancel/mng_cancel_form";
 		}
@@ -231,7 +231,7 @@ public class MngCancelController {
 		String mngid = (String)session.getAttribute("mngId");
 		
 		if(mngid==null) {
-			url= "redirect:http://localhost/salad_mvc/mng_index.do";
+			url= "redirect:http://salad.sist.co.kr/mng_index.do";
 		} else if (mngid.equals("admin")) {
 			url = "/manager/cancel/mng_cancel_form2";
 		}
@@ -277,7 +277,7 @@ public class MngCancelController {
 //		
 //		String mngId=(String)session.getAttribute("mngId");//세션 가져오기
 //		if(mngId==null) {//로그인이 안되어있으면
-//			url="redirect:http://localhost/salad_mvc/mng_index.do";
+//			url="redirect:http://salad.sist.co.kr/mng_index.do";
 //			model.addAttribute("eMsg", "로그인을 해주세요.");
 //		} else {//로그인이 되어있으면
 //			model.addAttribute("mngId", mngId);

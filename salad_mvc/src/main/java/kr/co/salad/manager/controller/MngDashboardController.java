@@ -29,7 +29,7 @@ public class MngDashboardController {
 		String mngid = (String)session.getAttribute("mngId");
 		
 		if(mngid==null) {
-			url= "redirect:http://localhost/salad_mvc/mng_index.do";
+			url= "redirect:http://salad.sist.co.kr/mng_index.do";
 		} else if (mngid.equals("admin")) {
 		
 		//대시 보드 => 이번달, 오늘 판매 금액 구하기

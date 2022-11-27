@@ -38,7 +38,7 @@ public class MyRevController {
 	String userId=(String)session.getAttribute("userId"); //세션 가져오기 
 	System.out.println(userId);
 	if(userId==null) { //로그인이 안되어있는경우 - 로그인화면으로 이동 
-		chkURL="redirect:http://localhost/salad_mvc/login.do";
+		chkURL="redirect:http://salad.sist.co.kr/login.do";
 	  	model.addAttribute("eMsg", "로그인을 해주세요"); }
 	else{ //로그인이 되어어있는 경우
 	  model.addAttribute("userId", userId); }
@@ -111,7 +111,7 @@ public class MyRevController {
 	//후기 수정
 //	@RequestMapping(value = "mypage_review_view.do",method = GET) 
 //	public String editMyRevProcess(HttpSession session, HttpServletRequest request,Model model) {
-//		String edURL="redirect:http://localhost/salad_mvc/.do";
+//		String edURL="redirect:http://salad.sist.co.kr/.do";
 //		MyRevVO mrVO = new MyRevVO();
 //	mrVO.setRevNum(edVO.getRevNum());	
 //	mrVO.setRevNum(edVO.getRevTitle());	
@@ -134,6 +134,6 @@ public class MyRevController {
 //		}else {		
 //			model.addAttribute("eMsg", "해당 후기를 삭제하지 못했습니다.");
 //		}
-//		return "redirect:http://localhost/salad_mvc/mypage_review_list.do";
+//		return "redirect:http://salad.sist.co.kr/mypage_review_list.do";
 //	}
 }

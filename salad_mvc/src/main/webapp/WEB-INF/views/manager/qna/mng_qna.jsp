@@ -91,7 +91,7 @@
     
     function setMainCate(){
     	$.ajax({
-    		url:"http://localhost/salad_mvc/mng_qna_main_cate_ajax.do",
+    		url:"http://salad.sist.co.kr/mng_qna_main_cate_ajax.do",
     		dataType: "json",
     		error: function( xhr ){
     			alert("메인 카테고리를 조회하는 문제 발생했습니다.");
@@ -111,7 +111,7 @@
     
     function setSubCate(){
     	$.ajax({
-    		url:"http://localhost/salad_mvc/mng_qna_sub_cate_ajax.do",
+    		url:"http://salad.sist.co.kr/mng_qna_sub_cate_ajax.do",
     		data:"mainCateNum="+$("#mainCate").val(),
     		dataType:"json",
     		error:function( xhr ){
@@ -211,7 +211,7 @@
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+            href="mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조 관리자님, 어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -286,7 +286,7 @@
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
+	                        <img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>

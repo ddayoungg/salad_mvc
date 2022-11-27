@@ -35,7 +35,7 @@ public class MngDeilController {
 		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) { //세션이 없을때 (로그인화면으로 이동)
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){ //관리자 로그인시
 			url="/manager/deli/mng_deli_main";
 		}
@@ -59,7 +59,7 @@ public class MngDeilController {
 		System.out.println(mdVO);
 		mdService.editDeilStatus(mdVO);
 		model.addAttribute("msg", "배송상태가변경되었습니다.");
-		return "redirect:http://localhost/salad_mvc/mng_deli.do";
+		return "redirect:http://salad.sist.co.kr/mng_deli.do";
 	}
 	
 

@@ -36,7 +36,7 @@ public class MyDeliController {
 		String url=null;
 		String userId=(String) session.getAttribute("userId");
 		if(userId==null) {
-			url="redirect:http://localhost/salad_mvc/login.do";
+			url="redirect:http://salad.sist.co.kr/login.do";
 			model.addAttribute("eMsg", "로그인을해주세요");
 		}else {
 			MyDeliDomain mdDomain=mdService.searchDeli(userId);
@@ -64,7 +64,7 @@ public class MyDeliController {
 		dbmdVO.setId("ekdud3674"); //세션대신 
 		int resultFlag=mdService.editDeli(dbmdVO);
 		model.addAttribute("eMsg", true);
-		return "redirect:http://localhost/salad_mvc/delipopup.do";
+		return "redirect:http://salad.sist.co.kr/delipopup.do";
 	}
 	
 

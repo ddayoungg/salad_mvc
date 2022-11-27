@@ -81,18 +81,18 @@ function answerWrite(){
 			console.log(xhr.status);
 		},
 		success:function(xh){
-			location.href="http://localhost/salad_mvc/mng_qna_detail.do?qnaNum="+${param.qnaNum};
+			location.href="http://salad.sist.co.kr/mng_qna_detail.do?qnaNum="+${param.qnaNum};
 		}
 	})
 	
 }
 
 /* function moveQnaAnswer() {
-	location.href="http://localhost/salad_mvc/mng_qna_answer.do?qnaNum="+${param.qnaNum};
+	location.href="http://salad.sist.co.kr/mng_qna_answer.do?qnaNum="+${param.qnaNum};
 }//movePrdEdit */
 
 function moveQnaList() {
-	location.href="http://localhost/salad_mvc/mng_qna.do";
+	location.href="http://salad.sist.co.kr/mng_qna.do";
 }//movePrdList
 
 </script>

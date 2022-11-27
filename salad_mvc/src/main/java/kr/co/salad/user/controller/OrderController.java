@@ -33,7 +33,7 @@ public class OrderController {
 		
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		if(userId==null) {//로그인이 안되어있으면
-		url="redirect:http://localhost/salad_mvc/login.do";
+		url="redirect:http://salad.sist.co.kr/login.do";
 		model.addAttribute("eMsg", "로그인을 해주세요."); } else {//로그인이 되어있으면
 		model.addAttribute("userId", userId); }//end else
 				

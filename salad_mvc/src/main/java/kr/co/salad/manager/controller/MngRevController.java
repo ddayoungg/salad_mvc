@@ -33,7 +33,7 @@ public class MngRevController {
 		String mngid=(String) session.getAttribute("mngId");
 		System.out.println("세션확인 : "+mngid);
 		if(mngid==null) { //세션이 없을때 (로그인화면으로 이동)
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){ //관리자 로그인시
 			url="manager/review/mng_review";
 		}
@@ -58,7 +58,7 @@ public class MngRevController {
 		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) { //세션이 없을때 (로그인화면으로 이동)
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){ //관리자 로그인시
 			url="manager/review/mng_review_detail";
 		}
@@ -96,7 +96,7 @@ public class MngRevController {
 		}else {
 			model.addAttribute("eMsg", "후기가삭제되지 않았습니다..");
 		}
-		return "redirect:http://localhost/salad_mvc/mng_rev.do";
+		return "redirect:http://salad.sist.co.kr/mng_rev.do";
 	}
 	
 	//후기베스트 등록
@@ -109,7 +109,7 @@ public class MngRevController {
 		}else {
 			model.addAttribute("eMsg", "후기글이 베스트후기글로 등록되지 않았습니다.");
 		}
-		return "redirect:http://localhost/salad_mvc/mng_rev.do";
+		return "redirect:http://salad.sist.co.kr/mng_rev.do";
 	}
 	
 	//카테고리 메인

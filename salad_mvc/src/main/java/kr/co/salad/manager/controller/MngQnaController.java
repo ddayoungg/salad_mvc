@@ -34,7 +34,7 @@ public class MngQnaController {
 		
 		String mngId=(String)session.getAttribute("mngId");//세션 가져오기
 		if(mngId==null) {//로그인이 안되어있으면
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 			model.addAttribute("eMsg", "로그인을 해주세요.");
 		} else {//로그인이 되어있으면
 			model.addAttribute("mngId", mngId);
@@ -87,7 +87,7 @@ public class MngQnaController {
 		
 //		String mngId=(String)session.getAttribute("mngId");
 //		if(mngId==null) {
-//			url="redirect:http://localhost/salad_mvc/mng_index.do";
+//			url="redirect:http://salad.sist.co.kr/mng_index.do";
 //			model.addAttribute("eMsg", "로그인을 해주세요");
 //		}else {
 //			url="manager/qna/mng_qna";
@@ -109,7 +109,7 @@ public class MngQnaController {
 //		
 //		/*
 //		 * String mngId=(String)session.getAttribute("mngId"); if(mngId==null) {
-//		 * url="redirect:http://localhost/salad_mvc/mng_index.do";
+//		 * url="redirect:http://salad.sist.co.kr/mng_index.do";
 //		 * model.addAttribute("eMsg", "로그인을 해주세요"); }else {
 //		 * url="manager/qna/mng_qna_finish"; }
 //		 */
@@ -125,7 +125,7 @@ public class MngQnaController {
 //		
 //		String mngId=(String)session.getAttribute("mngId");
 //		if(mngId==null) {
-//			url="redirect:http://localhost/salad_mvc/mng_index.do";
+//			url="redirect:http://salad.sist.co.kr/mng_index.do";
 //			model.addAttribute("eMsg", "로그인을 해주세요");
 //		}else {
 //			model.addAttribute("mngId", mngId);

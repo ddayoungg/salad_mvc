@@ -27,7 +27,7 @@
 .date_check_list button:hover,
 .date_check_list button.on{color:#ffffff; background:#aeaeae;}
 .date_check_calendar{position:relative;  width:286px; display:inline-block;vertical-align:top; margin-left:7px; }
-.date_check_calendar .anniversary{width:129px; background:url('http://localhost/salad_mvc/resources/images/main/icon_calendar.png') no-repeat right center;}
+.date_check_calendar .anniversary{width:129px; background:url('http://salad.sist.co.kr/resources/images/main/icon_calendar.png') no-repeat right center;}
 .date_check_calendar *{ font-size:12px; }
 /* 자주묻는 질문 검색 */
 .date_faq_list{display:inline-block; width:70%;}

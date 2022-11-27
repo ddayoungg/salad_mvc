@@ -36,7 +36,7 @@ public class MyUserOutController {
 		
 		String userId=(String)session.getAttribute("userId"); //세션 가져오기
 		if(userId==null) { //로그인이 안되어있으면
-			chkURL="redirect:http://localhost/salad_mvc/login.do";
+			chkURL="redirect:http://salad.sist.co.kr/login.do";
 			model.addAttribute("eMsg", "로그인을해주세요");
 		}else { //로그인이 되어있으면(세션있음)
 			List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
@@ -55,7 +55,7 @@ public class MyUserOutController {
 		String url=null;
 		String userId=(String) session.getAttribute("userId");
 		if(userId==null) {
-			url="redirect:http://localhost/salad_mvc/login.do";
+			url="redirect:http://salad.sist.co.kr/login.do";
 			model.addAttribute("eMsg", "로그인을해주세요");
 		}else {
 

@@ -86,7 +86,7 @@ $(function(){
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+            href="mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조 관리자님, 어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -162,7 +162,7 @@ $(function(){
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
+	                        <img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
@@ -257,15 +257,15 @@ $(function(){
       <script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_js/js/scripts.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_js/js/scripts.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
         <script>
     var Target = document.getElementById("clock");
     function clock() {

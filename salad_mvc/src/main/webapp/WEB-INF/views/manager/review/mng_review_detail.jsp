@@ -15,7 +15,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
 	rel="stylesheet" />
-<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
+<link href="http://salad.sist.co.kr/resources/mng_css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
 	crossorigin="anonymous"></script>
 <style type="text/css">
@@ -81,7 +81,7 @@ $(function(){
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+            href="mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조 관리자님,어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -148,7 +148,7 @@ $(function(){
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
+							<img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>
@@ -194,7 +194,7 @@ $(function(){
 											<table  style="width: 100%;height: 100%">
 												<tr>
 													<td rowspan="2" style="width: 160px">
-													<img class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${thum}">
+													<img class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${thum}">
 													</td>
 													<td>
 													<strong>${prdName}</strong><br>
@@ -209,7 +209,7 @@ $(function(){
 										<textarea readonly=“readonly” style="border: 0px; width: 100%;">${revCont}</textarea>
 										<div style="display: flex;">
 											<c:forEach var="img" items="${revImg}">
-												<img class="imgSmall" src="http://localhost/salad_mvc/common/images/review/${img}">
+												<img class="imgSmall" src="http://salad.sist.co.kr/common/images/review/${img}">
 											</c:forEach>	
 										</div>
 									</td>
@@ -257,15 +257,15 @@ $(function(){
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_js/js/scripts.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_js/js/scripts.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_assets/assets/demo/chart-area-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_assets/assets/demo/chart-bar-demo.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
 		crossorigin="anonymous"></script>
-	<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+	<script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
 	<script>
 	    var Target = document.getElementById("clock");
 	    function clock() {

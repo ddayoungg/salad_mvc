@@ -29,55 +29,55 @@
 
     <link rel="icon" href="/data/common/favicon.ico" type="image/x-icon" />
 
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/reset.css?ts=1647562972">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/common.css?ts=1659591193">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/layer/layer.css?ts=1666243530">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/layout/layout.css?ts=1662982669">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/list.css?ts=1662515260">
-	<!-- <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979"> -->
-	<link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/goods.css?ts=1660635983" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/custom.css?ts=1660281178" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/reset.css?ts=1647562972">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/common.css?ts=1659591193">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/layer/layer.css?ts=1666243530">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/layout/layout.css?ts=1662982669">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/goods/list.css?ts=1662515260">
+	<!-- <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/button.css?ts=1644979979"> -->
+	<link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/button.css">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/goods/goods.css?ts=1660635983" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/custom.css?ts=1660281178" />
 
     <!-- 온노마드 css 추가 -->
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/nd_custom.css?ts=1662983189" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/swiper.css?ts=1610501674" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/nd_custom.css?ts=1662983189" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/swiper.css?ts=1610501674" />
 
     <!-- Add style : start -->
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/js/jquery/chosen-imageselect/src/ImageSelect.css" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/js/jquery/chosen-imageselect/src/ImageSelect.css" />
     <!-- Add style : end -->
 
     <script type="text/javascript">
         var json_locale_data = {"domain":"messages","locale_data":{"messages":{"":{"lang":"ATF","plural-forms":"nplurals=1; plural=0"}}}}
     </script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_gettext.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/underscore/underscore-min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/validation/jquery.validate.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/validation/additional-methods.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/numeral/numeral.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/global/accounting.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/global/money.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.jquery.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/placeholder/placeholders.jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_gettext.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/underscore/underscore-min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/validation/jquery.validate.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/validation/additional-methods.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/numeral/numeral.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/global/accounting.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/global/money.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/chosen/chosen.jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/placeholder/placeholders.jquery.min.js?ts=1610501674"></script>
     <![if gt IE 8]>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/copyclipboard/clipboard.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/copyclipboard/clipboard.min.js?ts=1610501674"></script>
     <![endif]>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/vticker/jquery.vticker.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_ui.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
-    <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/vticker/jquery.vticker.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_ui.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
+    <script type="text/javascript" defer src="http://salad.sist.co.kr/resources/js/slider/slick/slick.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/swiper.js?ts=1610501674"></script>
     
-     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
+     <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_common.js?ts=1610501674"></script>
 
     <!-- Add script : start -->
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-24T23%3A02%3A49%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22goods_view.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_goods_view.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/chosen-imageselect/src/ImageSelect.jquery.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-24T23%3A02%3A49%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22goods_view.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/slider/slick/slick.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_goods_view.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/chosen-imageselect/src/ImageSelect.jquery.js?v=2020120404"></script>
     <!-- Add script : end -->
 
 <!-- 검색 시작 -->
@@ -98,7 +98,7 @@
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://salad.sist.co.kr/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -224,7 +224,7 @@ function moveCart(){//장바구니로 이동
 		return;
 	}//end if
 	
-	location.href="http://localhost/salad_mvc/cart.do";
+	location.href="http://salad.sist.co.kr/cart.do";
 }//moveChar
 
 function addOrder(){//바로 구매
@@ -292,13 +292,13 @@ function setPrdCnt(type){
 function gd_change_image(keyNo, type) {
     if (typeof keyNo == 'string') {
         var detailKeyID = new Array();
-        	detailKeyID[0] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ prdData.thum }\" width=\"570\"  class=\"middle\"  />";
+        	detailKeyID[0] = "<img src=\"http://salad.sist.co.kr/common/images/product/${ prdData.thum }\" width=\"570\"  class=\"middle\"  />";
         <c:forEach varStatus="prdImgStatus" var="prdImg" items="${ prdData.prdImgList }">
-        	detailKeyID[${ prdImgStatus.count }] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ prdImg }\" width=\"570\"  class=\"middle\"  />";
+        	detailKeyID[${ prdImgStatus.count }] = "<img src=\"http://salad.sist.co.kr/common/images/product/${ prdImg }\" width=\"570\"  class=\"middle\"  />";
         </c:forEach>
 
         var magnifyKeyID = new Array();
-        magnifyKeyID[0] = "<img src=\"http://localhost/salad_mvc/common/images/product/${ thum }\" width=\"570\" class=\"middle\"  />";
+        magnifyKeyID[0] = "<img src=\"http://salad.sist.co.kr/common/images/product/${ thum }\" width=\"570\" class=\"middle\"  />";
 
         if (type == 'detail') {
             $('#mainImage').html(detailKeyID[keyNo]);
@@ -351,7 +351,7 @@ function gd_open_write_popup(writeType){
 		writeURL="add_qna_write.do";//상품 문의 작성 팝업 창 URL
 	}//end if
 	
-	window.open("http://localhost/salad_mvc/board/"+writeURL+"?prdNum=${ param.prdNum }", "포켓 상품", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+	window.open("http://salad.sist.co.kr/board/"+writeURL+"?prdNum=${ param.prdNum }", "포켓 상품", "width=800, height=750, left="+leftVal+", top="+topVal+"");
 }//gd_open_write_popup
 
 function gdqna_open_detail_popup(qnaNum){
@@ -363,7 +363,7 @@ function gdqna_open_detail_popup(qnaNum){
 	var leftVal=(document.body.offsetWidth / 2) - (100 / 2);
 	var topVal=(window.screen.height / 2) - (100 / 2);
 	
-	window.open("http://localhost/salad_mvc/qna_detail.do?prdNum=${ param.prdNum }&qnaNum="+qnaNum, "상품문의 상세보기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+	window.open("http://salad.sist.co.kr/qna_detail.do?prdNum=${ param.prdNum }&qnaNum="+qnaNum, "상품문의 상세보기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
 }//gd_open_write_popup
 
 function setWishBtn(setFlag){
@@ -380,8 +380,8 @@ function setWishBtn(setFlag){
 			if(jsonObj.wishFlag) {
 				wishIcon="s_detail_like_chk_icn.png";
 			}//end if
-			/* $("#wishImg").attr("src","http://localhost/salad_mvc/resources/images/main/"+wishIcon); */
-			var output="<input type=\"button\" id=\"wishBtn\" onclick=\"eventWishBtn()\" class=\"btn_add_wish\" style=\"background:url('http://localhost/salad_mvc/resources/images/main/"+wishIcon+"') no-repeat 0 0; border:0 none; font-size:0; width:42px;height:42px;\"/>"
+			/* $("#wishImg").attr("src","http://salad.sist.co.kr/resources/images/main/"+wishIcon); */
+			var output="<input type=\"button\" id=\"wishBtn\" onclick=\"eventWishBtn()\" class=\"btn_add_wish\" style=\"background:url('http://salad.sist.co.kr/resources/images/main/"+wishIcon+"') no-repeat 0 0; border:0 none; font-size:0; width:42px;height:42px;\"/>"
 			$("#wishFlag").val(jsonObj.wishFlag);
 			$("#wishBtnSpan").html(output);
 		}//success
@@ -419,7 +419,7 @@ function setRevList(currentPage){
 					tbOutput+="<div class='under_review_imgbx'>";
 					if(json.revImgList!=null) {
 						 $.each(json.revImgList, function(i, revImg){
-							tbOutput+="<img src='http://localhost/salad_mvc/common/images/review/"+ revImg +"' style='max-width:90px;''/>";
+							tbOutput+="<img src='http://salad.sist.co.kr/common/images/review/"+ revImg +"' style='max-width:90px;''/>";
 						});//each
 					}//end if
 					tbOutput+="</div>";
@@ -501,14 +501,14 @@ function revPopup(revNum) {//후기 팝업 띄우기
 		 output+="<div class='goods_rvin_dim' style='position: absolute; margin: 0px; top: 0px; left: 0px;'>";
 		 output+="<div class='goods_rvin_pop'>";
 		 output+="<div class='gds_rvin_popwrap'>";
-		 output+="<span class='gds_rv_xbtn ly_close layer_close'><img src='http://localhost/salad_mvc/resources/images/main/close_btn.png' style='width: 30px;'/></span>";
+		 output+="<span class='gds_rv_xbtn ly_close layer_close'><img src='http://salad.sist.co.kr/resources/images/main/close_btn.png' style='width: 30px;'/></span>";
 		 output+="<div class='cell cell1'>";
 		 output+="<div class='bx-wrapper' style='max-width: 100%;'><div class='bx-viewport' aria-live='polite' style='width: 100%; overflow: hidden; position: relative; height: 500px;'>";
 		 output+="<ul>";
 		 if(jsonObj.revImgThum != null) {//이미지가 존재 시
-			 output+="<li><img src='http://localhost/salad_mvc/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
+			 output+="<li><img src='http://salad.sist.co.kr/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
 		 } else {//이미지가 없을 시 대체 사진
-			 output+="<li><img src='http://localhost/salad_mvc/resources/images/main/noimage.jpg' style='max-width:500px'></li>";
+			 output+="<li><img src='http://salad.sist.co.kr/resources/images/main/noimage.jpg' style='max-width:500px'></li>";
 		 }//end if
 	     output+="</ul></div><div class='bx-controls bx-has-controls-direction'><div class='bx-controls-direction'><a class='bx-prev' href=''>Prev</a><a class='bx-next' href=''>Next</a></div></div></div>";
 		 output+="</div>";
@@ -536,7 +536,7 @@ function revPopup(revNum) {//후기 팝업 띄우기
 	    
 	     if(jsonObj.revImgList!=null) {
 		     $.each(jsonObj.revImgList, function(i, revImg){
-		    	 output+="<a href='#void' onclick=\"gd_change_image('${ prdImgStatus.count-1 }', 'detail')\" ><img src='http://localhost/salad_mvc/common/images/review/"+ revImg +"' style='max-width:40px;'></a>";
+		    	 output+="<a href='#void' onclick=\"gd_change_image('${ prdImgStatus.count-1 }', 'detail')\" ><img src='http://salad.sist.co.kr/common/images/review/"+ revImg +"' style='max-width:40px;'></a>";
 		    	 //<a href="javascript:gd_change_image('${ prdImgStatus.count-1 }', 'detail');">
 		     });//each
 	     }
@@ -711,7 +711,7 @@ function showPopup(hasFilter, id) {
     </style>
     
     <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript" src="http://localhost/salad_mvc/resources/js/naver/naverCommonInflowScript.js?Path=/goods/goods_view.jsp&amp;Referer=https://www.pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
+<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/naver/naverCommonInflowScript.js?Path=/goods/goods_view.jsp&amp;Referer=https://www.pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <!--
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
@@ -893,8 +893,8 @@ $(function() {
 	
 
 	
-	<link rel="stylesheet" href="http://localhost/salad_mvc/resources/css/selectric.css">
-	<script src="http://localhost/salad_mvc/resources/js/jquery.selectric.js"></script>
+	<link rel="stylesheet" href="http://salad.sist.co.kr/resources/css/selectric.css">
+	<script src="http://salad.sist.co.kr/resources/js/jquery.selectric.js"></script>
 	<script>
 		$(function() {
 		  $('.c-select').selectric();
@@ -906,7 +906,7 @@ $(function() {
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="http://localhost/salad_mvc/index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="http://salad.sist.co.kr/index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -921,7 +921,7 @@ $(function() {
             <div class="top_search_cont">
                 <div class="top_text_cont">
                     <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
-                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
+                    <input type="image" src="http://salad.sist.co.kr/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
             <!-- //top_text_cont -->
                 <div class="search_cont" style="display:none;"></div>
@@ -939,27 +939,27 @@ $(function() {
 				<ul class="list_1">
 					<c:choose>
 						<c:when test="${ sessionScope.userId eq null }">
-							<li><a href="http://localhost/salad_mvc/login.do">로그인</a></li>
-							<li><a href="http://localhost/salad_mvc/join.do">회원가입</a></li>
+							<li><a href="http://salad.sist.co.kr/login.do">로그인</a></li>
+							<li><a href="http://salad.sist.co.kr/join.do">회원가입</a></li>
 						</c:when>
 						<c:otherwise>
 							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
-							<li><a href="http://localhost/salad_mvc/logout_process.do">로그아웃</a></li>
+							<li><a href="http://salad.sist.co.kr/logout_process.do">로그아웃</a></li>
 						</c:otherwise>
 					</c:choose>
 					<li class="cs">
 						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="http://localhost/salad_mvc/notice.do">공지사항</a></li>
-								<li><a href="http://localhost/salad_mvc/goodsreview_list.do">리얼후기</a></li>								
+								<li><a href="http://salad.sist.co.kr/notice.do">공지사항</a></li>
+								<li><a href="http://salad.sist.co.kr/goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
 					</li>
 				</ul>
 				<ul class="list_2">
-					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
-					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+					<li><a href="http://salad.sist.co.kr/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
+					<li class="cart"><a href="http://salad.sist.co.kr/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
                     </li>
 
 				</ul>
@@ -979,7 +979,7 @@ $(function() {
 <!-- 전체 카테고리 출력 레이어 시작 -->
 <div class="gnb_all">
 <strong>ALL CATEGORY</strong>
-<a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
+<a href="#void" id="allMenuToggle"><img src="http://salad.sist.co.kr/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
 
 <div class="gnb_allmenu_wrap">
@@ -989,10 +989,10 @@ $(function() {
 	<c:forEach var="mainCate" items="${ mainCateList }">
 	<li style="width:20%;">
 		<div class="all_menu_cont">
-			<a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
+			<a href="http://salad.sist.co.kr/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0"><c:out value="${ mainCate.mainCateName }"/></a>
 			<ul class="all_depth1">
 				<c:forEach var="subCate" items="${ mainCate.subCateList }">
-					<li><a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
+					<li><a href="http://salad.sist.co.kr/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=${ subCate.subCateNum }"><c:out value="${ subCate.subCateName }"/></a></li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -1010,7 +1010,7 @@ $(function() {
     <ul class="depth0 gnb_menu0">
         <c:forEach var="mainCate" items="${ mainCateList }">
         <li>
-            <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
+            <a href="http://salad.sist.co.kr/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
     	</c:forEach>
     </ul>
@@ -1042,8 +1042,8 @@ $(function() {
             });
         });
 	</script>
-	<link rel="stylesheet" href="http://localhost/salad_mvc/resources/css/selectric.css">
-	<script src="http://localhost/salad_mvc/resources/js/jquery.selectric.js"></script>
+	<link rel="stylesheet" href="http://salad.sist.co.kr/resources/css/selectric.css">
+	<script src="http://salad.sist.co.kr/resources/js/jquery.selectric.js"></script>
 	<script>
 		$(function() {
 		  $('.c-select').selectric();
@@ -1093,10 +1093,10 @@ $(function() {
                 <div class="item_photo_big">
 
 				<%-- <a href="#void" id="mainImage" class="zoom_layer_open btn_open_layer">
-					<img src="http://localhost/salad_mvc/common/images/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
+					<img src="http://salad.sist.co.kr/common/images/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
 				</a>  --%>
 				<span id="mainImage">
-					<img src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
+					<img src="http://salad.sist.co.kr/common/images/product/${ prdData.thum }" width="570"  title="${ prdData.thum }" class="middle"  />
 				</span> 
                     <!-- <a href="#lyZoom" class="btn_zoom zoom_layer_open btn_open_layer">
                     <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/goods_icon/icon_zoom.png" alt=""></a> -->
@@ -1109,9 +1109,9 @@ $(function() {
                 <div class="item_photo_slide">
                     <ul class="slider_wrap slider_goods_nav">
                     <c:if test="${ prdData.prdImgList ne null }">
-                       	 	<li><a href="javascript:gd_change_image('0', 'detail');"><img src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }" width="68" title="${ prdData.thum }" class="middle"  /></a></li>
+                       	 	<li><a href="javascript:gd_change_image('0', 'detail');"><img src="http://salad.sist.co.kr/common/images/product/${ prdData.thum }" width="68" title="${ prdData.thum }" class="middle"  /></a></li>
                     	<c:forEach varStatus="prdImgStatus" var="prdImg" items="${ prdData.prdImgList }">
-                       	 	<li><a href="javascript:gd_change_image('${ prdImgStatus.count }', 'detail');"><img src="http://localhost/salad_mvc/common/images/product/${ prdImg }" width="68" title="${ prdImg }" class="middle"  /></a></li>
+                       	 	<li><a href="javascript:gd_change_image('${ prdImgStatus.count }', 'detail');"><img src="http://salad.sist.co.kr/common/images/product/${ prdImg }" width="68" title="${ prdImg }" class="middle"  /></a></li>
                         </c:forEach>
                     </c:if>
                     </ul>
@@ -1126,7 +1126,7 @@ $(function() {
                     <div class="item_detail_tit">
                         <h3><c:out value="${ prdData.prdName }"/></h3>
                         <div class="btn_layer btn_qa_share_box">
-							<span class="wish_btn_wrap" id="wishBtnSpan"><!-- <a href="#void" onclick="eventWishBtn()"><img id="wishImg" src="http://localhost/salad_mvc/resources/images/main/s_detail_like_icn.png"/></a> --></span>
+							<span class="wish_btn_wrap" id="wishBtnSpan"><!-- <a href="#void" onclick="eventWishBtn()"><img id="wishImg" src="http://salad.sist.co.kr/resources/images/main/s_detail_like_icn.png"/></a> --></span>
 							<input type="hidden" name="wishFlag" id="wishFlag" /> 
                             <!-- <span class="btn_gray_list target_sns_share"><a href="#lySns" class="btn_gray_mid"><em>공유</em></a></span> -->
 
@@ -1161,7 +1161,7 @@ $(function() {
             
                                                 
                     <li><a href="javascript:shareStory();" id="shareKakaoStoryBtn" data-sns="kakaostory"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/btn/sns-kakaostory.png" alt="카카오스토리 공유"><br /><span>카카오스토리</span></a></li>
-                    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/kakao/kakao.min.js"></script>
+                    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/kakao/kakao.min.js"></script>
                     <script type="text/javascript">
                         //<![CDATA[
                         /* Kakao.init(""); */
@@ -1338,7 +1338,7 @@ $(function() {
                         </div>
                         
 						<div>
-							<form  action="http://localhost/salad_mvc/order.do" method="get" id="orderFrm">
+							<form  action="http://salad.sist.co.kr/order.do" method="get" id="orderFrm">
 								
                         	</form>
                         		<%-- <input type="hidden" id="orderPrdNum" name="prdNum" value="${ param.prdNum }"/>
@@ -1371,7 +1371,7 @@ $(function() {
 
 	<!-- 탭컨텐츠 ul -->
 
-<script src="http://localhost/salad_mvc/resources/js/fixed-top-animated-menu.1.0.js"></script>
+<script src="http://salad.sist.co.kr/resources/js/fixed-top-animated-menu.1.0.js"></script>
 
 <div class="navbar detail_btm_tab_menu_box">
 
@@ -1405,11 +1405,11 @@ $(function() {
 							<div class="image-manual"><!-- 이미지 --></div>
 							<div class="txt-manual">
 <!-- 상품상세 공통정보 관리를 상세정보 상단에 노출-->
-	<img alt="대표내용이미지" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdBodyThum }">
-	<img src="http://localhost/salad_mvc/resources/images/main/blank.jpg"><!-- 여백 -->
+	<img alt="대표내용이미지" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdBodyThum }">
+	<img src="http://salad.sist.co.kr/resources/images/main/blank.jpg"><!-- 여백 -->
 <c:forEach var="prdBodyImg" items="${ prdData.prdBodyImgList }">
-	<img alt="내용이미지" src="http://localhost/salad_mvc/common/images/product/${ prdBodyImg }">
-	<img src="http://localhost/salad_mvc/resources/images/main/blank.jpg"><!-- 여백 -->
+	<img alt="내용이미지" src="http://salad.sist.co.kr/common/images/product/${ prdBodyImg }">
+	<img src="http://salad.sist.co.kr/resources/images/main/blank.jpg"><!-- 여백 -->
 </c:forEach>
 
 <p>&nbsp;</p>
@@ -1463,7 +1463,7 @@ $(function() {
 							
 							<span class="img">
 							<c:if test="${ bestRev.revImgList != null }">
-								<img src="http://localhost/salad_mvc/common/images/review/${ bestRev.revImgList[0] }" style="max-width:130px; height:100%;">
+								<img src="http://salad.sist.co.kr/common/images/review/${ bestRev.revImgList[0] }" style="max-width:130px; height:100%;">
 							</c:if>
 							</span>
 							
@@ -1508,7 +1508,7 @@ $(function() {
 					</div>
 				</div>
 				<div class="btn_reviews_box">
-					<a href="http://localhost/salad_mvc/goodsreview_list.do" class="btn_reviews_more">상품후기 전체보기</a>
+					<a href="http://salad.sist.co.kr/goodsreview_list.do" class="btn_reviews_more">상품후기 전체보기</a>
 
 				</div>
 			</div>
@@ -1673,7 +1673,7 @@ $(function() {
 <div id="lyPhotoListPop" class="layer_wrap board_view_layer dn"></div>
 
 
-<script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_board_goods.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_board_goods.js" charset="utf-8"></script>
 
 <script>
 	$(function(){
@@ -2072,7 +2072,7 @@ g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/j
 <!-- Enliple Tracker End -->
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>
+<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/nd_kakao.js?ts=1662087469"></script>
 
 </body>.
 </html>

@@ -36,7 +36,7 @@ public class MngNoticeController {
 		 */		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) {
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){
 			url="manager/notice/mng_notice";
 		}
@@ -61,7 +61,7 @@ public class MngNoticeController {
 		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) { //세션이 없을때 (로그인화면으로 이동)
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){ //관리자 로그인시
 			url="manager/notice/mng_notice_detail";
 		}
@@ -82,7 +82,7 @@ public class MngNoticeController {
 		
 		String mngid=(String) session.getAttribute("mngId");
 		if(mngid==null) { //세션이 없을때 (로그인화면으로 이동)
-			url="redirect:http://localhost/salad_mvc/mng_index.do";
+			url="redirect:http://salad.sist.co.kr/mng_index.do";
 		}else if(mngid.equals("admin")){ //관리자 로그인시
 			url="manager/notice/mng_notice_write";
 		}
@@ -99,7 +99,7 @@ public class MngNoticeController {
 		writeVO.setNotiCont(mnVO.getNotiCont());
 		mnService.addNotice(writeVO);
 		model.addAttribute("eMsg", "공지사항이 등록되었습니다.");
-		return "redirect:http://localhost/salad_mvc/mng_notice.do";
+		return "redirect:http://salad.sist.co.kr/mng_notice.do";
 	}
 	
 	//공지사항 수정하기
@@ -115,7 +115,7 @@ public class MngNoticeController {
 		}else {
 			model.addAttribute("eMsg", "공지사항 수정에 실패하였습니다.");
 		}
-		return "redirect:http://localhost/salad_mvc/mng_notice.do";
+		return "redirect:http://salad.sist.co.kr/mng_notice.do";
 	}
 	
 	//공지사항 삭제하기
@@ -127,7 +127,7 @@ public class MngNoticeController {
 		}else {		
 			model.addAttribute("eMsg", "공지사항 삭제에 실패하였습니다.");
 		}
-		return "redirect:http://localhost/salad_mvc/mng_notice.do";
+		return "redirect:http://salad.sist.co.kr/mng_notice.do";
 	}
 	
 

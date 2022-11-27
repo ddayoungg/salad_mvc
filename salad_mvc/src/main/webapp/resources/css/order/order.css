@@ -88,7 +88,7 @@
 .order_end .order_table_type .table_left tr:last-of-type td{ padding-bottom:30px;}
 .order_end .order_table_type .table_left tr:last-of-type th{ padding-bottom:30px;}
 /* 반드시 입력 표시 */
-th > .important{margin: 0 0 0 -10px; padding:0 0 0 10px; background:url('http://localhost/salad_mvc/resources/images/main/icon_dot_03.png') no-repeat 0 center;}
+th > .important{margin: 0 0 0 -10px; padding:0 0 0 10px; background:url('http://salad.sist.co.kr/resources/images/main/icon_dot_03.png') no-repeat 0 center;}
 
 /* 업체 리스트 */
 .cart_cont_list{margin:50px 0 0px 0;}

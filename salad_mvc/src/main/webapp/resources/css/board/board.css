@@ -90,7 +90,7 @@
 .date_check_list button:hover,
 .date_check_list button.on{color:#ffffff; background:#aeaeae;}
 .date_check_calendar{position:relative;margin:0 0px 0 7px;  display:inline-block;vertical-align:top;}
-.date_check_calendar .anniversary{background:url('http://localhost/salad_mvc/resources/images/main/icon_calendar.png') no-repeat right center; font-size:16px; }
+.date_check_calendar .anniversary{background:url('http://salad.sist.co.kr/resources/images/main/icon_calendar.png') no-repeat right center; font-size:16px; }
 
 
 /* ------------- 기본 게시판 테이블 리스트  ------------- */
@@ -491,7 +491,7 @@
 .ly_date_check_list button:hover,
 .ly_date_check_list button.on{color:#ffffff; background:#aeaeae;}
 .ly_date_check_calendar{position:relative; float:left; margin:0 10px 0 10px;}
-.ly_date_check_calendar .anniversary{width:114px; background:url('http://localhost/salad_mvc/resources/images/main/icon_calendar.png') no-repeat right center;}
+.ly_date_check_calendar .anniversary{width:114px; background:url('http://salad.sist.co.kr/resources/images/main/icon_calendar.png') no-repeat right center;}
 /* 카테고리 영역 */
 .ly_date_select_list{margin:0 0 10px 0;}
 .ly_date_select_list h5{float:left; width:67px; color:#777777; font-size:16px; line-height:38px; padding: 0px 15px 0 0;}
@@ -589,7 +589,7 @@ input[name='searchWord']{width:278px; margin-left:7px; }
 .board_list_event .event_list ul > li.event_cont_nodata{ text-align:center !important; width:100% !important; font-size:16px; }
 
 .date_check_calendar{position:relative;  width:286px; display:inline-block;vertical-align:top; }
-.date_check_calendar .anniversary{width:129px; background:url('http://localhost/salad_mvc/resources/images/main/icon_calendar.png') no-repeat right center;}
+.date_check_calendar .anniversary{width:129px; background:url('http://salad.sist.co.kr/resources/images/main/icon_calendar.png') no-repeat right center;}
 .date_check_calendar *{ font-size:12px; }
 .date_check_calendar .dropdown-menu{ box-sizing:border-box !important; display:block !important;  }
 

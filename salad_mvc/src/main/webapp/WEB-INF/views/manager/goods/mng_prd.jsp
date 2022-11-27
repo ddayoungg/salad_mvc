@@ -12,15 +12,15 @@
 <meta name="author" content="" />
 <title>Dashboard - SB Admin</title>
 
-<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
+<link href="http://salad.sist.co.kr/resources/mng_css/styles.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
 
 
-<script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
-<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
-<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_js/scripts.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-area-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-bar-demo.js"></script>
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
 
 <!-- JQuery google CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -110,7 +110,7 @@ function setPrdTotal() {//등록된 전체 상품 수 표시
 
 function setMainCate(){
 	$.ajax({
-		url:"http://localhost/salad_mvc/mng_prd_main_cate_ajax.do",
+		url:"http://salad.sist.co.kr/mng_prd_main_cate_ajax.do",
 		dataType: "json",
 		error: function( xhr ){
 			alert("메인 카테고리를 조회하는 문제 발생했습니다.");
@@ -130,7 +130,7 @@ function setMainCate(){
 
 function setSubCate(){
 	$.ajax({
-		url:"http://localhost/salad_mvc/mng_prd_sub_cate_ajax.do",
+		url:"http://salad.sist.co.kr/mng_prd_sub_cate_ajax.do",
 		data:"mainCateNum="+$("#mainCate").val(),
 		dataType:"json",
 		error:function( xhr ){
@@ -182,7 +182,7 @@ function setPrdList(currentPage){//상품 관리 리스트
 				$.each(jsonObj.list, function(i, json){
 			tbOutput+="<tr style='vertical-align: middle;'>";
 			tbOutput+="<td>"+json.prdNum+"</td>";
-			tbOutput+="<td><img class='imgSmall' src='http://localhost/salad_mvc/common/images/product/"+json.thum+"'></td>";
+			tbOutput+="<td><img class='imgSmall' src='http://salad.sist.co.kr/common/images/product/"+json.thum+"'></td>";
 			tbOutput+="<td>"+json.prdName+"</td>";
 			tbOutput+="<td>"+json.prdRegistDate+"</td>";
 			
@@ -239,11 +239,11 @@ function setPrdList(currentPage){//상품 관리 리스트
 }//setPrdList
 
 function movePrdDetail(prdNum) {//상세보기 버튼 클릭 시 해당 물품의 상세페이지로 이동
-	location.href="http://localhost/salad_mvc/mng_prd_detail.do?prdNum="+prdNum;
+	location.href="http://salad.sist.co.kr/mng_prd_detail.do?prdNum="+prdNum;
 }//movePrdDetail
 
 function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페이지로 이동
-	location.href="http://localhost/salad_mvc/mng_prd_add.do";
+	location.href="http://salad.sist.co.kr/mng_prd_add.do";
 }//movePrdAdd
 
 </script>
@@ -253,14 +253,14 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+	    href="http://salad.sist.co.kr/mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
 	    <div class="ms-auto" style="color:white;">3조&nbsp;관리자님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
 	            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-	                <li><a class="dropdown-item" href="http://localhost/salad_mvc/mng_logout.do">Logout</a></li>
+	                <li><a class="dropdown-item" href="http://salad.sist.co.kr/mng_logout.do">Logout</a></li>
 	            </ul>
 	        </li>
 	    </ul> 
@@ -271,41 +271,41 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 		        <div class="sb-sidenav-menu">
 		           <div class="nav">
 		                <div class="sb-sidenav-menu-heading">메인</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_dashboard.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_dashboard.do">
 		                    -대시보드
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
 		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="http://localhost/salad_mvc/mng_member.do">회원 관리</a></div>
+		                href="http://salad.sist.co.kr/mng_member.do">회원 관리</a></div>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">상품 관리</div>
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_prd.do">
+		                <a class="nav-link" href="http://salad.sist.co.kr/mng_prd.do">
 		                    -상품 등록
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://localhost/salad_mvc/mng_rev.do">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://salad.sist.co.kr/mng_rev.do">
 		                    -상품 후기
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		               <!--  <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do"> -->
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order_main.do">
+		               <!--  <a class="nav-link" href="http://salad.sist.co.kr/mng_order.do"> -->
+		                <a class="nav-link" href="http://salad.sist.co.kr/mng_order_main.do">
 		                    -주문 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
+		                <a class="nav-link" style="padding-top:0;"href="http://salad.sist.co.kr/mng_cancel.do">
 		                    -취소 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://localhost/salad_mvc/mng_deli.do">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://salad.sist.co.kr/mng_deli.do">
 		                    -배송 관리
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">게시판 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_notice.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_notice.do">
 		                    -공지사항
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">문의 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_qna.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_qna.do">
 		                    -상품문의
 		                </a>
 		            </div>
@@ -321,7 +321,7 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
+							<img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>
@@ -380,7 +380,7 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
+	                        		<img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>

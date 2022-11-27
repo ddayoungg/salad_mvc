@@ -90,32 +90,32 @@ select{height:38px; color:#717171; vertical-align:top; outline:none;}
 /* 체크박스 라디오버튼 스타일 */
 .form_element{display:inline-block; overflow:hidden; position:relative;vertical-align:top; }
 span.form_element{display:inline-block;}
-.form_element label{position:relative;top:0;left:0;display:inline-block;min-width:16px;min-height:16px;padding:0 0 0 27px;background:url('http://localhost/salad_mvc/resources/images/main/check_off.png') no-repeat 0px 50%; 
+.form_element label{position:relative;top:0;left:0;display:inline-block;min-width:16px;min-height:16px;padding:0 0 0 27px;background:url('http://salad.sist.co.kr/resources/images/main/check_off.png') no-repeat 0px 50%; 
 
 color:#333;font-size:15px; letter-spacing:-1px; line-height:1; }
 
-.form_element label:hover{background:url('http://localhost/salad_mvc/resources/images/main/check_over.png') no-repeat 0px 50%;}
-.form_element label.on{background:url('http://localhost/salad_mvc/resources/images/main/check_on.png') no-repeat 1px 50%;}
-.form_element label.choice{    background: url(http://localhost/salad_mvc/resources/images/main/radio_off_small.png) no-repeat 1px 50%;background-size: 16px 16px; }
-.form_element label.choice:hover{background: url(http://localhost/salad_mvc/resources/images/main/radio_over_small.png) no-repeat 1px 50%;
+.form_element label:hover{background:url('http://salad.sist.co.kr/resources/images/main/check_over.png') no-repeat 0px 50%;}
+.form_element label.on{background:url('http://salad.sist.co.kr/resources/images/main/check_on.png') no-repeat 1px 50%;}
+.form_element label.choice{    background: url(http://salad.sist.co.kr/resources/images/main/radio_off_small.png) no-repeat 1px 50%;background-size: 16px 16px; }
+.form_element label.choice:hover{background: url(http://salad.sist.co.kr/resources/images/main/radio_over_small.png) no-repeat 1px 50%;
     background-size: 16px 16px;}
 .form_element label.choice.on{
-background: url(http://localhost/salad_mvc/resources/images/main/radio_on_small.png) no-repeat 1px 50%;
+background: url(http://salad.sist.co.kr/resources/images/main/radio_on_small.png) no-repeat 1px 50%;
     background-size: 16px 16px;
 }
-.form_element label.check_s{min-width:16px;padding:0 0 0 22px;background:url('http://localhost/salad_mvc/resources/images/main/check_off_small.png') no-repeat 1px 0px; background-size:16px 16px;}
-.form_element label.check_s:hover{background:url('http://localhost/salad_mvc/resources/images/main/check_on_small.png') no-repeat 1px 0px; background-size:16px 16px;}
-.form_element label.check_s.on{background:url('http://localhost/salad_mvc/resources/images/main/check_on_small.png') no-repeat 1px 0px; background-size:16px 16px;}
-.form_element label.choice_s{min-width:16px;padding:0 0 0 0px;background:url('http://localhost/salad_mvc/resources/images/main/radio_off_small.png') no-repeat 1px 50%; background-size:16px 16px;} /* 다영수정 */
-.form_element label.choice_s:hover{background:url('http://localhost/salad_mvc/resources/images/main/radio_over_small.png') no-repeat 1px 50%; background-size:16px 16px;}
-.form_element label.choice_s.on{background:url('http://localhost/salad_mvc/resources/images/main/radio_on_small.png') no-repeat 1px 50%; background-size:16px 16px;}
+.form_element label.check_s{min-width:16px;padding:0 0 0 22px;background:url('http://salad.sist.co.kr/resources/images/main/check_off_small.png') no-repeat 1px 0px; background-size:16px 16px;}
+.form_element label.check_s:hover{background:url('http://salad.sist.co.kr/resources/images/main/check_on_small.png') no-repeat 1px 0px; background-size:16px 16px;}
+.form_element label.check_s.on{background:url('http://salad.sist.co.kr/resources/images/main/check_on_small.png') no-repeat 1px 0px; background-size:16px 16px;}
+.form_element label.choice_s{min-width:16px;padding:0 0 0 0px;background:url('http://salad.sist.co.kr/resources/images/main/radio_off_small.png') no-repeat 1px 50%; background-size:16px 16px;} /* 다영수정 */
+.form_element label.choice_s:hover{background:url('http://salad.sist.co.kr/resources/images/main/radio_over_small.png') no-repeat 1px 50%; background-size:16px 16px;}
+.form_element label.choice_s.on{background:url('http://salad.sist.co.kr/resources/images/main/radio_on_small.png') no-repeat 1px 50%; background-size:16px 16px;}
 .form_element label.single{width:21px;height:21px;padding:1px 0 0;background-color:transparent;text-indent:-9999px;}
 .form_element label.single:hover{background-color:transparent;}
 .form_element label span{color:#979797;}
 .form_element label img{vertical-align:middle;}
 .form_element input{position:absolute;top:3px;left:1px;width:0;z-index:-1;visibility:hidden;}
 /** 체크박스용 비활성화 **/
-.form_element label.check_dis_s { background-image: url('http://localhost/salad_mvc/resources/images/main/check_dis_s.png'); }
+.form_element label.check_dis_s { background-image: url('http://salad.sist.co.kr/resources/images/main/check_dis_s.png'); }
 
 /* 경고 텍스트 */
 #wrap .login_input .member_warning{display:block;}
@@ -398,7 +398,7 @@ background: url(http://localhost/salad_mvc/resources/images/main/radio_on_small.
 .order_money_use .check_s{ line-height:19px !important; font-size:12px;  }
 
 .payment_final .payment_final_check .form_element label.check_s{ line-height:20px; padding:0 0 0 24px; }
-.chosen-single div b{ background: url(http://localhost/salad_mvc/resources/images/main/pc_sb_select_bul1.png) no-repeat 0 15px !important;}
+.chosen-single div b{ background: url(http://salad.sist.co.kr/resources/images/main/pc_sb_select_bul1.png) no-repeat 0 15px !important;}
 /* 다영수정 */
 
 .order_table_type .table_left td .form_element{   width:700px; height:40px; vertical-align:top; line-height:40px; }

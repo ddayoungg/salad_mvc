@@ -45,7 +45,7 @@ public class MyChangeController {
 			
 			
 			  if(userId==null) {//로그인이 안되어있으면
-			  chkURL="redirect:http://localhost/salad_mvc/login.do";
+			  chkURL="redirect:http://salad.sist.co.kr/login.do";
 			  model.addAttribute("eMsg","로그인을 해주세요"); 
 			  } else {//로그인이 되어있으면(세션있음)
 				  List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
@@ -72,7 +72,7 @@ public class MyChangeController {
 		String userId = (String)session.getAttribute("userId");//세션 가져오기
 		
 		if(userId==null) {//로그인이 안되어있으면
-			chkURL="redirect:http://localhost/salad_mvc/login.do";
+			chkURL="redirect:http://salad.sist.co.kr/login.do";
 			model.addAttribute("eMsg","로그인을 해주세요");
 		} else {//로그인이 되어있으면(세션있음)
 			//chkURL="user/mypage/my_page";
@@ -128,7 +128,7 @@ public class MyChangeController {
 		String userId = (String)session.getAttribute("userId");//세션 가져오기
 		
 		if(userId==null) {//로그인이 안되어있으면
-			chkURL="redirect:http://localhost/salad_mvc/login.do";
+			chkURL="redirect:http://salad.sist.co.kr/login.do";
 			model.addAttribute("eMsg","로그인을 해주세요");
 		} else {//로그인이 되어있으면(세션있음)
 			chkURL="user/mypage/my_page";

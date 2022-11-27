@@ -57,7 +57,7 @@ public class MemberController {
 			System.out.println("로그인한 ID : "+mVO.getId());
 			model.addAttribute("userId",mVO.getId()); //id세션설정
 			model.addAttribute("userName",loginname); //name세션설정
-			loginUri="redirect:http://localhost/salad_mvc/index.do";
+			loginUri="redirect:http://salad.sist.co.kr/index.do";
 			
 		}
 		
@@ -207,7 +207,7 @@ public class MemberController {
 	
 		ss.setComplete();
 		
-		return "redirect:http://localhost/salad_mvc/index.do";
+		return "redirect:http://salad.sist.co.kr/index.do";
 	}
 	
 	//이용약관동의화면이동

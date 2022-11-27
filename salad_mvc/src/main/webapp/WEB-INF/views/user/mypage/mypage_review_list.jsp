@@ -27,38 +27,38 @@
 
     <link rel="icon" href="/data/common/favicon.ico" type="image/x-icon" />
 
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/reset.css?ts=1647562972">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/common.css?ts=1659591193">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/layer/layer.css?ts=1666243530">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/layout/layout.css?ts=1666674309">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/list.css?ts=1662515260">
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/board/board.css?ts=1666243429" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/reset.css?ts=1647562972">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/common.css?ts=1659591193">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/layer/layer.css?ts=1666243530">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/layout/layout.css?ts=1666674309">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/goods/list.css?ts=1662515260">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/button.css?ts=1644979979" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/board/board.css?ts=1666243429" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
 
     <!-- Add style : start -->
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/plugins/bootstrap-datetimepicker.min.css" />
-    <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/plugins/bootstrap-datetimepicker-standalone.css" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/plugins/bootstrap-datetimepicker.min.css" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/plugins/bootstrap-datetimepicker-standalone.css" />
     <!-- Add style : end -->
 
     <script type="text/javascript">
         var json_locale_data = {"domain":"messages","locale_data":{"messages":{"":{"lang":"ATF","plural-forms":"nplurals=1; plural=0"}}}}
     </script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_gettext.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/jquery.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/underscore/underscore-min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/validation/jquery.validate.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/validation/additional-methods.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/numeral/numeral.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/global/accounting.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/global/money.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.jquery.min.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/placeholder/placeholders.jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_gettext.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/underscore/underscore-min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/validation/jquery.validate.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/validation/additional-methods.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/numeral/numeral.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/global/accounting.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/global/money.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/chosen/chosen.jquery.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/placeholder/placeholders.jquery.min.js?ts=1610501674"></script>
     <![if gt IE 8]>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/copyclipboard/clipboard.min.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/copyclipboard/clipboard.min.js?ts=1610501674"></script>
     <![endif]>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/vticker/jquery.vticker.js?ts=1610501674"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_ui.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/vticker/jquery.vticker.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_ui.js?ts=1610501674"></script>
 
     <script type="text/javascript">
         // 고도몰5 통화정책
@@ -87,14 +87,14 @@
         }
     </script>
 
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_common.js?ts=1610501674"></script>
 
     <!-- Add script : start -->
     <script type="text/javascript" src="/admin/gd_share/script/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-25T22%3A05%3A59%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22list.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData="></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_board_common.js"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/moment/moment.js"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/moment/locale/ko.js"></script>
-    <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_board_common.js"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/moment.js"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/locale/ko.js"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/datetimepicker/bootstrap-datetimepicker.js"></script>
     <!-- Add script : end -->
 
     
@@ -171,7 +171,7 @@ function setRevList(currentPage){
 				$.each(jsonObj.list, function(i, json){
 					tbOutput+="<tr>";
 					tbOutput+="<td>"+json.revNum+"</td>";
-					tbOutput+="<td>"+"<img src='http://localhost/salad_mvc/common/images/product/"+json.thum+"' width=100px height=100px></td>";
+					tbOutput+="<td>"+"<img src='http://salad.sist.co.kr/common/images/product/"+json.thum+"' width=100px height=100px></td>";
 					tbOutput+="<td>"+"<a href='#void' onclick='setDetail("+json.revNum+")'>"+json.revTitle+"</td>";
 					tbOutput+="<td>"+json.revWriteDate+"</td>";
 					tbOutput+="<td>"+json.revHits+"</td>";
@@ -282,11 +282,11 @@ function setRevList(currentPage){
 </form>
 
 <div id="layerDim" class="dn">&nbsp;</div>
-<script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_board_list.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_board_list.js" charset="utf-8"></script>
 <script>
     $(document).ready(function () {
         $('img.js_image_load').error(function () {
-            $(this).css('background', 'url("http://localhost/salad_mvc/resources/board/skin/default/img/etc/noimg.png") no-repeat center center');
+            $(this).css('background', 'url("http://salad.sist.co.kr/resources/board/skin/default/img/etc/noimg.png") no-repeat center center');
             $(this).attr('src', '/data/skin/front/kaimen_pc_n/img/etc/blank.gif');
         })
             .each(function () {

@@ -16,7 +16,7 @@
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
+        <link href="http://salad.sist.co.kr/resources/mng_css/styles.css" rel="stylesheet" />
         <style type="text/css"> 
         
         .tableMainBtn{
@@ -112,7 +112,7 @@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-            href="mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+            href="mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
             <div class="ms-auto" style="color:white;">3조&nbsp;관리자님,어서오세요.&nbsp;&nbsp;</div>
             <!-- Navbar-->
              <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -186,7 +186,7 @@
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
+	                        <img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>
@@ -281,7 +281,7 @@
 					  <tbody id="beforeTr" >
 					  	<!-- 카테고리 검색 전 표시되는 테이블  -->
 					 	 <tr>
-						 	<td colspan="6" style="border-bottom:none;"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/processMan.png" style="width:100px; margin:20px 0 0 0;"></td>
+						 	<td colspan="6" style="border-bottom:none;"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/processMan.png" style="width:100px; margin:20px 0 0 0;"></td>
 						 	</tr>
 						 	<tr height="80px">
 						 	<td colspan="6"style="border-top:none; font-weight:bold;">내용을 조회중 입니다.</td>
@@ -356,7 +356,7 @@
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
+	                        		<img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>
@@ -452,12 +452,12 @@
 		  </div>
 		  <!-- 끝 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
+        <script src="http://salad.sist.co.kr/resources/mng_js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
-        <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+        <script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-area-demo.js"></script>
+        <script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+        <script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
         <script>
     var Target = document.getElementById("clock");
     function clock() {

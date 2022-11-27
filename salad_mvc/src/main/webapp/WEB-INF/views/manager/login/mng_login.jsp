@@ -12,7 +12,7 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
+    <link href="http://salad.sist.co.kr/resources/mng_css/styles.css" rel="stylesheet" />
     <style type="text/css">
         .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
             padding-left: 0;
@@ -49,7 +49,7 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="mng_index.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+        <a class="navbar-brand ps-3" style="padding:10px 0 0 0; " href="mng_index.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
         <!-- <div class="ms-auto"><a href="/mng_index.do" style=" color:white; text-decoration: none;">로그인&nbsp;&nbsp;</a>
         </div> -->
         <!-- Navbar-->
@@ -79,7 +79,7 @@
                             <div class="card-body">
                                 <form id="loginFrm" action="mng_login.do" method="post">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <img style="margin: 0 0 0 50px;" src="http://localhost/salad_mvc/resources/mng_images/business-report.png" width="145px">
+                                        <img style="margin: 0 0 0 50px;" src="http://salad.sist.co.kr/resources/mng_images/business-report.png" width="145px">
                                         <div style="flex-direction: column; margin: 25px 0 0 0;">
                                             <div class="form-floating mb-3" style="width: 400px;">
                                                 <input class="form-control" id="mngId" name="mngId" type="email"
@@ -123,7 +123,7 @@
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
+	                        		<img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>
@@ -134,12 +134,12 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
+    <script src="http://salad.sist.co.kr/resources/mng_js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
-    <script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+    <script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-area-demo.js"></script>
+    <script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+    <script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

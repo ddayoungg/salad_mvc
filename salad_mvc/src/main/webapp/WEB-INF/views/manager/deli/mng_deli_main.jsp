@@ -216,7 +216,7 @@ function setDetailPopup(status) {// 배송 상세 팝업
 	output+="<div style='font-weight: bold; font-size: 20px; border-bottom: 2px solid #ddd; padding: 15px;' align='left'>";
 	output+="배송 현황";
 	output+="<div style='width: 800px; display: flex; flex-direction:column; justify-content: center; align-items: center;'>"; 
-	output+="<img alt='img' src=\"http://localhost/salad_mvc/resources/mng_images/shipped.png\" style='width:150px;'>"; 
+	output+="<img alt='img' src=\"http://salad.sist.co.kr/resources/mng_images/shipped.png\" style='width:150px;'>"; 
 	output+="<div style='font-size:18px;'>현재 "
 	output+=array[1]
 	output+="님의 배송 현황은 <span style='color:rgb(22,160,133);'>[ "

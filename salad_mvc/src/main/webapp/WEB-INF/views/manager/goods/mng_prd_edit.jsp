@@ -13,15 +13,15 @@
 <meta name="author" content="" />
 <title>Dashboard - SB Admin</title>
 
-<link href="http://localhost/salad_mvc/resources/mng_css/styles.css" rel="stylesheet" />
+<link href="http://salad.sist.co.kr/resources/mng_css/styles.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
 
 
-<script src="http://localhost/salad_mvc/resources/mng_js/scripts.js"></script>
-<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-area-demo.js"></script>
-<script src="http://localhost/salad_mvc/resources/mng_assets/demo/chart-bar-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_js/scripts.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-area-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_assets/demo/chart-bar-demo.js"></script>
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-<script src="http://localhost/salad_mvc/resources/mng_js/datatables-simple-demo.js"></script>
+<script src="http://salad.sist.co.kr/resources/mng_js/datatables-simple-demo.js"></script>
 
 <!-- JQuery google CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -126,7 +126,7 @@ $(function(){
 	});
 	
 	$("#backBtn").click(function() {//이전 버튼 누를 시
-		location.href="http://localhost/salad_mvc/mng_prd.do";
+		location.href="http://salad.sist.co.kr/mng_prd.do";
 		/* history.back(); */
 	});
 	
@@ -142,7 +142,7 @@ function loginChk() {
 	
 	<c:if test="${ sessionScope.mngId eq null }">
 		alert("로그인을 해주세요.");
-		location.href="http://localhost/salad_mvc/mng_index.do";
+		location.href="http://salad.sist.co.kr/mng_index.do";
 		loginFlag=false;
 	</c:if>
 	
@@ -151,7 +151,7 @@ function loginChk() {
 
 function setMainCate(){
 	$.ajax({
-		url:"http://localhost/salad_mvc/mng_prd_main_cate_ajax.do",
+		url:"http://salad.sist.co.kr/mng_prd_main_cate_ajax.do",
 		dataType: "json",
 		async:false,
 		error: function( xhr ){
@@ -177,7 +177,7 @@ function setMainCate(){
 
 function setSubCate(){
 	$.ajax({
-		url:"http://localhost/salad_mvc/mng_prd_sub_cate_ajax.do",
+		url:"http://salad.sist.co.kr/mng_prd_sub_cate_ajax.do",
 		data:"mainCateNum="+$("#mainCate").val(),
 		dataType:"json",
 		error:function( xhr ){
@@ -414,7 +414,7 @@ function edit() {//수정
 		},
 		success : function(xh){
 			alert("해당 상품이 수정 되었습니다.");
-			location.href="http://localhost/salad_mvc/mng_prd_detail.do?prdNum=${param.prdNum}";
+			location.href="http://salad.sist.co.kr/mng_prd_detail.do?prdNum=${param.prdNum}";
 		}
 	});
 	
@@ -428,14 +428,14 @@ function edit() {//수정
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
-	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
+	    href="http://salad.sist.co.kr/mng_dashboard.do"><img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png" height="50px"></a>
 	    <div class="ms-auto" style="color:white;">3조&nbsp;관리자님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
 	            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-	                <li><a class="dropdown-item" href="http://localhost/salad_mvc/mng_logout.do">Logout</a></li>
+	                <li><a class="dropdown-item" href="http://salad.sist.co.kr/mng_logout.do">Logout</a></li>
 	            </ul>
 	        </li>
 	    </ul> 
@@ -446,40 +446,40 @@ function edit() {//수정
 		        <div class="sb-sidenav-menu">
 		           <div class="nav">
 		                <div class="sb-sidenav-menu-heading">메인</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_dashboard.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_dashboard.do">
 		                    -대시보드
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
 		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="http://localhost/salad_mvc/mng_member.do">회원 관리</a></div>
+		                href="http://salad.sist.co.kr/mng_member.do">회원 관리</a></div>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">상품 관리</div>
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_prd.do">
+		                <a class="nav-link" href="http://salad.sist.co.kr/mng_prd.do">
 		                    -상품 등록
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://localhost/salad_mvc/mng_rev.do">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="http://salad.sist.co.kr/mng_rev.do">
 		                    -상품 후기
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order_main.do">
+		                <a class="nav-link" href="http://salad.sist.co.kr/mng_order_main.do">
 		                    -주문 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
+		                <a class="nav-link" style="padding-top:0;"href="http://salad.sist.co.kr/mng_cancel.do">
 		                    -취소 관리
 		                </a>
-		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://localhost/salad_mvc/mng_deli.do">
+		                <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="http://salad.sist.co.kr/mng_deli.do">
 		                    -배송 관리
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">게시판 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_notice.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_notice.do">
 		                    -공지사항
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">문의 관리</div>
-		                <a class="nav-link" style="padding-bottom:28px;" href="http://localhost/salad_mvc/mng_qna.do">
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_qna.do">
 		                    -상품문의
 		                </a>
 		            </div>
@@ -537,13 +537,13 @@ function edit() {//수정
 									<td id="uploadBox">
 										<span><strong>대표이미지</strong></span>
 										<div style="margin-top: 15px;">
-											<img id="imgOutput0" class="imgBig" src="http://localhost/salad_mvc/common/images/product/${ prdData.thum }">
+											<img id="imgOutput0" class="imgBig" src="http://salad.sist.co.kr/common/images/product/${ prdData.thum }">
 											<input type="file" id="upFile0" name="upFile0" onchange="setFile(0, '')" class="file" title="찾아보기"/>
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.thum }" id="prdImg0" name="thum"/>
 										</div>
 										<span><strong>보조이미지</strong></span>
 										<div class="fileUploadSec" style="margin-top: 15px;">
-											<img id="imgOutput1" class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdImgList[0]}">
+											<img id="imgOutput1" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdImgList[0]}">
 											<input type="file" id="upFile1" name="upFile1" onchange="setFile(1, '')" class="file" title="찾아보기" />
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdImgList[0] }" id="prdImg1" name="prdImgArr"/>
 											<input type="button" id="addUploadBtn" class="button2" value="+ 추가">
@@ -552,7 +552,7 @@ function edit() {//수정
 											<c:forEach varStatus="status" var="prdImg" items="${ prdData.prdImgList }">
 												<c:if test="${ !status.first }"><!-- 첫 번째 보조 이미지 X -->
 													<div class="fileUploadSec" style="margin-top: 15px;">
-														<img id="imgOutput${ status.index+1 }" class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${ prdImg }">
+														<img id="imgOutput${ status.index+1 }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdImg }">
 														<input type="file" id="upFile${ status.index+1 }" name="upFile${ status.index+1 }" onchange="setFile('${ status.index+1 }', '')" class="file" title="찾아보기" />
 														<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index+1 }" value="${ prdImg }" name="prdImgArr"/>
 														<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
@@ -567,13 +567,13 @@ function edit() {//수정
 									<td id="uploadBodyBox">
 										<span><strong>대표이미지</strong></span>
 										<div style="margin-top: 15px;">
-											<img id="imgBodyOutput0" class="imgBig" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdBodyThum }">
+											<img id="imgBodyOutput0" class="imgBig" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdBodyThum }">
 											<input type="file" id="upBodyFile0" name="upBodyFile0" onchange="setFile(0, 'Body')" class="file" title="찾아보기"/>
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdBodyThum }" id="prdBodyImg0" name="prdBodyThum"/>
 										</div>
 										<span><strong>보조이미지</strong></span>
 										<div class="fileBodyUploadSec" style="margin-top: 15px;">
-											<img id="imgBodyOutput1" class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${ prdData.prdBodyImgList[0] }">
+											<img id="imgBodyOutput1" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdBodyImgList[0] }">
 											<input type="file" id="upBodyFile1" name="upBodyFile1" onchange="setFile(1, 'Body')" class="file" title="찾아보기" />
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdBodyImgList[0] }" id="prdBodyImg1" name="prdBodyImgArr"/>
 											<input type="button" id="addUploadBodyBtn" class="button2" value="+ 추가">
@@ -582,7 +582,7 @@ function edit() {//수정
 											<c:forEach varStatus="status" var="prdBodyImg" items="${ prdData.prdBodyImgList }">
 												<c:if test="${ !status.first }"><!-- 첫 번째 보조 이미지 X -->
 														<div class="fileBodyUploadSec" style="margin-top: 15px;">
-															<img id="imgBodyOutput${ status.index+1 }" class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${ prdBodyImg }">
+															<img id="imgBodyOutput${ status.index+1 }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdBodyImg }">
 															<input type="file" id="upBodyFile${ status.index+1 }" name="upFile${ status.index+1 }" onchange="setFile('${ status.index+1 }', 'Body')" class="file" title="찾아보기" />
 															<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index+1 }" value="${ prdBodyImg }" name="prdBodyImgArr"/>
 															<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
