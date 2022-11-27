@@ -55,7 +55,11 @@ public class PrdDetailQnaDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
-		qnaNum=ss.selectOne("kr.co.salad.user.dao.mapper.PrdDetailQnaMapper.selectLastQnaNum");
+		try {
+			qnaNum=ss.selectOne("kr.co.salad.user.dao.mapper.PrdDetailQnaMapper.selectLastQnaNum");
+		}catch (NullPointerException npe) {
+			qnaNum=0;
+		}//end catch
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

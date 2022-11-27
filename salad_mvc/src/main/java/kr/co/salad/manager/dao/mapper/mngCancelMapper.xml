@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.salad.mngCancelMapper">
 	<!-- 전체 취소 내역 불러오기 -->
 	<select id="selectAllCancel" resultType="kr.co.salad.manager.domain.MngCancelDomain">
-	SELECT DISTINCT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	<!-- SELECT DISTINCT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
 	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM, O.EXIST_ADDR_FLAG
 	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
 	WHERE O.ORDER_STATUS IN ('4','5') AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
@@ -16,18 +16,18 @@
 	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
 	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
 	AND O.ID = ME.ID
-	ORDER BY ORDER_NUM
+	ORDER BY ORDER_NUM -->
 	
-	<!-- SELECT DISTINCT O.ORDER_NUM, O.ID, M.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
-	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM  
-	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER M
-	WHERE O.ORDER_STATUS IN ('4','5') 
+	SELECT DISTINCT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_STATUS IN ('4','5')
 	AND O.ORDER_NUM = D.ORDER_NUM
 	AND D.PRD_NUM = P.PRD_NUM
 	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
 	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
-	AND O.ID = M.ID
-	ORDER BY ORDER_NUM -->
+	AND O.ID = ME.ID
+	ORDER BY ORDER_NUM
+
 	</select>
 	
 	<!-- 메인 카테고리 얻기  -->
@@ -72,13 +72,28 @@
 	<!-- 검색 창에 NAME&날짜&주문번호 검색 -->
 	<select id="searchCancelMember" parameterType="kr.co.salad.manager.vo.MngCancelVO"
 	resultType="kr.co.salad.manager.domain.MngCancelDomain"> 
-	SELECT DISTINCT O.ORDER_NUM, O.ID,ME.NAME,O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
-	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM
+	SELECT DISTINCT O.ORDER_NUM, O.ID,ME.NAME,O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, MEMBER ME
+	WHERE
+	O.ORDER_STATUS IN ('4','5')
+	<if test='searchText.equals("name")'>
+	AND ME.NAME LIKE  #{search}||'%'
+	</if>
+	<if test='searchText.equals("orderDate")'>
+	AND TO_CHAR(O.ORDER_DATE,'YYYYMMDD') LIKE '%'||#{search}||'%'
+	</if>
+	<if test='searchText.equals("orderNum")'>
+	AND O.ORDER_NUM = #{search}	
+	</if>
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND O.ID = ME.ID 
+	ORDER BY ORDER_NUM
+	
+	<!-- SELECT DISTINCT O.ORDER_NUM, O.ID,ME.NAME,O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS
 	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M,MEMBER ME
 	WHERE
-	O.ORDER_STATUS IN ('4','5')AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
-	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
-	WHERE OO.ORDER_NUM = O.ORDER_NUM)
+	O.ORDER_STATUS IN ('4','5')
 	<if test='searchText.equals("name")'>
 	AND ME.NAME LIKE  #{search}||'%'
 	</if>
@@ -93,13 +108,13 @@
 	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
 	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
 	AND O.ID = ME.ID 
-	ORDER BY ORDER_NUM
+	ORDER BY ORDER_NUM -->
 	</select>
 	
 	<!-- 상세정보 얻기 -->
 	<select id="selectCancelOrder"  parameterType="int"
 	 resultType="kr.co.salad.manager.domain.MngCancelDomain">
-	SELECT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
+	<!-- SELECT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS,
 	S.SUB_CATE_NAME, S.SUB_CATE_NUM, M.MAIN_CATE_NAME, M.MAIN_CATE_NUM
 	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
 	WHERE O.ORDER_NUM = #{orderNum} AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
@@ -109,13 +124,41 @@
 	AND D.PRD_NUM = P.PRD_NUM
 	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
 	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
-	AND O.ID = ME.ID
+	AND O.ID = ME.ID -->
+	
+	SELECT DISTINCT O.ORDER_NUM, O.ID, ME.NAME, O.ORDER_DATE, O.ORDER_TOTAL_PRICE, O.ORDER_STATUS
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_NUM = #{orderNum} 
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID 
 	</select>
 	
 	<!-- 총 페이지 수 출력 -->
 	<select id="selectCancelPage" parameterType="kr.co.salad.manager.vo.MngCancelVO"
 	resultType="int">	
 	SELECT COUNT (DISTINCT O.ORDER_NUM)
+	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
+	WHERE O.ORDER_STATUS IN ('4','5') 
+	<if test="searchText.equals('name') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND ME.NAME LIKE  #{search}||'%'
+	</if>
+	<if test="searchText.equals('orderDate') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND TO_CHAR(O.ORDER_DATE,'YYYYMMDD') LIKE '%'||#{search}||'%'
+	</if>
+	<if test="searchText.equals('orderNum') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
+	AND O.ORDER_NUM = #{search}	
+	</if>
+	<!-- <if test="searchText == null"></if> -->	
+	AND O.ORDER_NUM = D.ORDER_NUM
+	AND D.PRD_NUM = P.PRD_NUM
+	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
+	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
+	AND O.ID = ME.ID
+	
+	<!-- SELECT COUNT (DISTINCT O.ORDER_NUM)
 	FROM PRODUCT_ORDER O,ORDER_DETAIL D,PRODUCT P, CATEGORY_SUB S, CATEGORY_MAIN M, MEMBER ME
 	WHERE O.ORDER_STATUS IN ('4','5') AND S.SUB_CATE_NUM = ( SELECT MIN(SS.SUB_CATE_NUM)
 	FROM CATEGORY_SUB SS, PRODUCT_ORDER OO
@@ -129,12 +172,23 @@
 	<if test="searchText.equals('orderNum') &amp;&amp; searchText != null &amp;&amp; !searchText.equals('')">
 	AND O.ORDER_NUM = #{search}	
 	</if>
-	<!-- <if test="searchText == null"></if> -->
-	
+	<if test="searchText == null"></if>	
 	AND O.ORDER_NUM = D.ORDER_NUM
 	AND D.PRD_NUM = P.PRD_NUM
 	AND P.SUB_CATE_NUM = S.SUB_CATE_NUM
 	AND S.MAIN_CATE_NUM = M.MAIN_CATE_NUM
-	AND O.ID = ME.ID
+	AND O.ID = ME.ID -->
+	</select>
+	
+	<select id="selectCancelRequest" resultType="int">
+	SELECT NVL(COUNT(ORDER_NUM),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS IN ('4')
+	</select>
+	
+	<select id="selectCancelConfirm" resultType="int">
+	SELECT NVL(COUNT(ORDER_NUM),0)
+	FROM PRODUCT_ORDER
+	WHERE ORDER_STATUS IN ('5')
 	</select>
 </mapper>

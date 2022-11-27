@@ -161,7 +161,7 @@
    					
    					/* 페이징 버튼 */
    					//var pgOutput="<nav><ul>";
-   					var pgOutput="";
+   					/* var pgOutput="";
    					if( jsonObj.startPage != 1 ) {
    						pgOutput+="<li>";
    						pgOutput+="<a href='#void' onclick='setCountList(" + 1 + ")' tabindex='-1'";
@@ -188,7 +188,36 @@
    					
    					pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
    					
-   					$("#pageOutput").html(pgOutput);
+   					$("#pageOutput").html(pgOutput); */
+   					var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
+   					pgOutput+="<ul class='pagination'>";
+   				if( jsonObj.startPage != 1 ) {
+   					pgOutput+="<li class='page-item'>";
+   					pgOutput+="<a class='page-link' href='#void' onclick='setDeilList(" + 1 + ")' tabindex='-1'";
+   					pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
+   				}//end if
+   				if( jsonObj.startPage != 1 ) {
+   					pgOutput+="<li class='page-item'>";
+   					pgOutput+="<a class='page-link' href='#void' onclick='setDeilList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
+   					pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
+   				}//end if
+   				for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
+   					pgOutput+="<li class='page-item'>"
+   					pgOutput+="<a class='page-link' href='#void' onclick='setDeilList(" + i  + ")'>"+ i +"</a></li>";
+   				}//end for
+   				if(jsonObj.totalPage != jsonObj.endPage) {
+   					pgOutput+="<li class='page-item'>";
+   					pgOutput+="<a class='page-link' href='#void' onclick='setDeilList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+   				}//end if
+   				if(jsonObj.totalPage != jsonObj.endPage) {
+   					pgOutput+="<li class='page-item'>";
+   					pgOutput+="<a class='page-link' href='#void' onclick='setDeilList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+   				}//end if
+   				pgOutput+="</ul></nav>";
+   				
+   				pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+   				
+   				$("#pageOutput").html(pgOutput);
    				}//success
    			})//ajax
    		}//setMemberList
@@ -282,14 +311,14 @@
                         		<div style="width:100%; display:flex; justify-content:center;
                         		 font-size:16px; font-weight:bold; padding:10px 0 20px 0; ">
 		                        		<div style="width:150px; margin:0 100px 0 0;">
-		                        		오늘_내역
+		                        		취소 요청_내역
 		                        		</div>
 		                        		<div style="width:150px;">
-		                        		이번달_내역
+		                        		취소 확정_내역
 		                        		</div>
                         		</div>
                         		<!-- 건수 -->
-                       		 	<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 60px 0;">
+                       		 	<div style="width:100%; position:relative; display:flex; justify-content:center; align-items:center; padding:0 0 40px 0;">
 		                        	<div style="margin:0 100px 0 0;">
 		                        	<div style="background:rgb(141,216,198); width:150px; height:155px;
 		                        	border-radius:35px; ">
@@ -298,7 +327,7 @@
 				                        	주문건수
 				                        	</div>
 				                        	<div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayT") %></span>건
+				                        	<span style="font-size:30px;"><%= request.getAttribute("cancelRequest") %></span>건
 				                        	</div>
 			                        	</div>
 		                        	</div>
@@ -311,7 +340,7 @@
 				                        	주문건수
 				                        	</div>
 				                        	<div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayM") %></span>건
+				                        	<span style="font-size:30px;"><%= request.getAttribute("cancelConfirm") %></span>건
 				                        	</div>
 			                        	</div>
 		                        	</div>
@@ -319,8 +348,8 @@
                        		 <!-- 건수 끝 --> 
                        	</div>
 					<div class="row px-4"  style="--bs-gutter-x:0;">
-						<div style="width: 90%; margin: 10px auto; text-align: center;">
-						<form id="categoryFrm" name="categoryFrm" action="mng_searchCancel.do" method="post" style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+						<div style="width: 83%; margin: 0 0 0 0; text-align: center;">
+						<form id="categoryFrm" name="categoryFrm" action="#" method="post" style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
 							<!-- <select name="main" id="mai"  style="width: 16%"> -->
 							<%
 							String category = request.getParameter("mainCateNum");
@@ -334,7 +363,7 @@
 							}
 							MngCancelVO cancelVO = new MngCancelVO();
 							%>
-							<select name="searchText" class="select"  style="width: 10%; margin:0 10px 0 0;">
+							<select name="searchText" class="select"  style="width: 150px; margin:0 10px 0 0;">
 								<option value="none">---키워드 선택---</option>
 								<option  value="name"<c:if test="${searchText eq 'name'}">selected</c:if>>
 								이름
@@ -347,11 +376,12 @@
 								</option>
 							</select>
 							<input type="text"  name="search" id="search" value="${search}" style="width: 15%;margin:0 10px 0 0;">
+							<input type="text" style="display: none;">
 							<input type="button" style="width: 10%;" value="검색" class="button2" id="searchBtn" name="searchBtn">
 						</form>
 						</div>
 
-	               	<div style="width: 90%; margin: 10px auto; text-align: center;">
+	               	<div style="width: 83%; margin: 10px auto; text-align: center;">
                		<!-- <form id="orderForm" name="orderForm" action="mng_orderDetail.do" method="get"> -->
 <!-- 						<div id="cancelListOutput">
 						왜 안나와?

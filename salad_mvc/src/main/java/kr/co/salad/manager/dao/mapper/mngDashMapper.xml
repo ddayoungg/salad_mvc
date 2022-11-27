@@ -4,35 +4,35 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.salad.mngDashMapper">
 
-	<!-- 이번 달 판매 완료된 금액 / 추후 플래그 수정 필요 -->
+	<!-- 이번 달 판매 완료된 금액 -->
 	<select id="selectMonthPay" resultType="int">
 	SELECT NVL(SUM(ORDER_TOTAL_PRICE),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS = 0
+	WHERE ORDER_STATUS IN ('1','2','3')
 	AND TO_CHAR(ORDER_DATE,'YYYYMM')=TO_CHAR(SYSDATE,'YYYYMM')
 	</select>
 	
-	<!-- 오늘 판매 완료된 금액 / 추후 플래그 수정 필요 -->
+	<!-- 오늘 판매 완료된 금액 -->
 	<select id="selectTodayPay" resultType="int">
 	SELECT NVL(SUM(ORDER_TOTAL_PRICE),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS = 0
+	WHERE ORDER_STATUS IN ('1','2','3')
 	AND TO_CHAR(ORDER_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
 	</select>
 	
-	<!-- 이번 달 주문 건 수 / 추후 플래그 수정 필요 -->
+	<!-- 이번 달 주문 건 수  -->
 	<select id="selectMonthOrder" resultType="int">
 	SELECT NVL(COUNT(ORDER_NUM),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS = 0
+	WHERE ORDER_STATUS IN ('0','1','2','3')
 	AND TO_CHAR(ORDER_DATE,'YYYYMM')=TO_CHAR(SYSDATE,'YYYYMM')
 	</select>
 	
-	<!-- 이번 달 주문 건 수 / 추후 플래그 수정 필요 -->
+	<!-- 이번 달 주문 건 수  -->
 	<select id="selectTodayOrder" resultType="int">
 	SELECT NVL(COUNT(ORDER_NUM),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS = 0
+	WHERE ORDER_STATUS IN ('0','1','2','3')
 	AND TO_CHAR(ORDER_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
 	</select>
 	

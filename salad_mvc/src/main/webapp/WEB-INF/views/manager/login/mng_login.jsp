@@ -37,13 +37,13 @@
 		});
 	});
 	</script>
-	<script type="text/javascript">
-	/* 세션 종료 후 뒤로가기 방지  */
+	<!-- <script type="text/javascript">
+	/* 세션 종료 후 뒤로가기 방지 뒤로 가기 방지는 되지만 주소 재입력시 세션 유지됨 */
 	window.history.forward(); 
 	function noBack(){ 
 		  window.history.forward();
 	}
-	</script>
+	</script> -->
 </head>
 
 <body class="sb-nav-fixed">

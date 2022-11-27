@@ -1,6 +1,9 @@
 package kr.co.salad.user.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,23 +11,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.salad.user.dao.MyCancelDAO;
-import kr.co.salad.user.dao.PrdDetailDAO;
-import kr.co.salad.user.dao.WishDAO;
 import kr.co.salad.user.domain.CcDeliveryDomain;
 import kr.co.salad.user.domain.CcMemberDomain;
 import kr.co.salad.user.domain.MyCancelDomain;
 import kr.co.salad.user.domain.PrdDetailDomain;
-import kr.co.salad.user.domain.WishDomain;
 import kr.co.salad.user.vo.MyCancelVO;
-import kr.co.salad.user.vo.WishVO;
 @Component
 public class MyCancelService {
 	
 	@Autowired(required = false)
 	private MyCancelDAO mcDAO;
 	
-	public String searchMyCancelListJson(MyCancelVO mcVO) {//나의 취소 리스트
+	public String searchMyOrderListJson(MyCancelVO mcVO) {//나의 취소 리스트
 		List<MyCancelDomain> list=null;
+		
+		String[] orderStatusArr={"4", "5"};//취소 내역 리스트 조건
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("id", mcVO.getId());
+		map.put("orderStatusArr", orderStatusArr);
 		
 		int paramCurrentPage=mcVO.getCurrentPage();
 		
@@ -43,7 +48,7 @@ public class MyCancelService {
 		}//end catch
 		
 		//전체 데이터 개수
-		totalCount=mcDAO.selectMyCcTotalCnt(mcVO.getId());
+		totalCount=mcDAO.selectMyTotalCnt(map);
 		
 		//총 페이지 수
 		totalPage = totalCount % pageScale == 0 ? totalCount/pageScale : (totalCount/pageScale) + 1;
@@ -59,11 +64,11 @@ public class MyCancelService {
 		
 		endNum = startNum+pageScale-1;
 		
-		//VO set
-		mcVO.setStartNum(startNum);
-		mcVO.setEndNum(endNum);
+		//map set
+		map.put("startNum", startNum);
+		map.put("endNum", endNum);
 		
-		list=mcDAO.selectMyCancelList(mcVO);
+		list=mcDAO.selectMyOrderList(map);
 		
 		//페이지 블럭
 		int pageLength=5;//페이지 블록 길이 1~5페이지
@@ -118,13 +123,36 @@ public class MyCancelService {
 		return jsonObj.toJSONString();
 	}//searchMyCancelListJson
 	
-	public List<MyCancelDomain> searchMyCcOrderList(MyCancelVO mcVO) { //나의 주문 목록 리스트
+	public List<MyCancelDomain> searchMyOrderDetailList(MyCancelVO mcVO) { //나의 주문 목록 리스트
 		List<MyCancelDomain> list=null;
 		
-		list=mcDAO.selectMyCcOrderList(mcVO);
+		list=mcDAO.selectMyOrderDetailList(mcVO);
 		
+		List<MyCancelDomain> tempList=new ArrayList<MyCancelDomain>();
 		
-		return list;
+		String orderStatus = "";
+		for(MyCancelDomain tempDomain:list) {
+	        if("0".equals(tempDomain.getOrderStatus())){
+	           orderStatus = "주문 접수";
+	        }else if("1".equals(tempDomain.getOrderStatus())){
+	           orderStatus = "배송 준비 중";
+	        }else if("2".equals(tempDomain.getOrderStatus())){
+	           orderStatus = "배송 중";
+	        }else if("3".equals(tempDomain.getOrderStatus())){
+	           orderStatus = "배송 완료";
+	        }else if("4".equals(tempDomain.getOrderStatus())){
+	        	orderStatus = "취소 요청";
+	        }else if("5".equals(tempDomain.getOrderStatus())){
+	        	orderStatus = "취소 완료";
+	        }else {
+	        	orderStatus = "주문 접수";
+	        }
+	        tempDomain.setStatusName(orderStatus);
+	        
+	        tempList.add(tempDomain);
+		}//end if
+		
+		return tempList;
 	}//searchMyCcOrderList
 	
 	public MyCancelDomain searchMyCcOrderTotalPrice(List<MyCancelDomain> list) { //나의 주문 관련 총 합계
@@ -135,9 +163,9 @@ public class MyCancelService {
 		int totalPrdDiscount=0;//총 할인금액
 		int orderTotalPrice=0;//합계
 		
-		int prdPrice=0;
-		int prdDiscount=0;
-		int orderCnt=0;
+		double prdPrice=0;
+		double prdDiscount=0;
+		double orderCnt=0;
 		
 		
 		for(MyCancelDomain tempDomain : list) {
@@ -146,8 +174,8 @@ public class MyCancelService {
 			orderCnt=tempDomain.getOrderCnt();
 			
 			totalPrdPrice+=prdPrice*orderCnt;
-			totalPrdDiscount+=prdPrice/prdDiscount;
-			orderTotalPrice+=(prdPrice*orderCnt)-(prdPrice/prdDiscount);
+			totalPrdDiscount+=(prdPrice*(prdDiscount/100))*orderCnt;
+			orderTotalPrice+=(prdPrice-(prdPrice*(prdDiscount/100)))*orderCnt;
 		}//end for
 		
 		

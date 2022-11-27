@@ -256,9 +256,12 @@ function setWishList(currentPage){
 function setChkBox(){//체크 박스 모두 선택 이벤트
 	
 	$("#allCheck").click(function() {
-		if($("#allCheck").is(":checked")) $("input[name=prdNumArr]").prop("checked", true);
-		else $("input[name=prdNumArr]").prop("checked", false);
-	});
+		if($("#allCheck").is(":checked")){
+			$("input[name=prdNumArr]").prop("checked", true);
+		}else {
+			$("input[name=prdNumArr]").prop("checked", false);
+		}//end else
+	});//click
 
 	$("input[name=prdNumArr]").click(function() {
 		var total = $("input[name=prdNumArr]").length;

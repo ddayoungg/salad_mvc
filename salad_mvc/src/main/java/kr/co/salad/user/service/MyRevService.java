@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.salad.user.dao.MyRevDAO;
+import kr.co.salad.user.dao.PrdDetailRevDAO;
 import kr.co.salad.user.domain.MyRevDomain;
 import kr.co.salad.user.vo.MyRevVO;
 
@@ -17,6 +18,10 @@ public class MyRevService {
 	
 	@Autowired(required = false)
 	private MyRevDAO mrDAO;
+	
+	@Autowired(required = false)
+	private PrdDetailRevDAO pdrDAO;
+	
 	
 	//나의 후기리스트, 검색리스트
 	public String searchMyRevList(MyRevVO mrVO) { //
@@ -94,10 +99,11 @@ public class MyRevService {
 		for(MyRevDomain tempDomain : list){//예외가 발생했거나 조회결과가 없을 경우
 			jsonTemp=new JSONObject();
 			jsonTemp.put("revNum", tempDomain.getRevNum());
-			jsonTemp.put("prdBodyThum", tempDomain.getPrdBodyThum());
+			jsonTemp.put("thum", tempDomain.getThum());
 			jsonTemp.put("revTitle", tempDomain.getRevTitle());
 			jsonTemp.put("revWriteDate", tempDomain.getRevWriteDate());
 			jsonTemp.put("revHits", tempDomain.getRevHits());
+			jsonTemp.put("prdNum", tempDomain.getPrdNum());
 			
 			jsonArr.add(jsonTemp);
 		}//end for
@@ -111,7 +117,18 @@ public class MyRevService {
 	public MyRevDomain searchMyRevDetail(int revNum) {
 		MyRevDomain mrDomain=new MyRevDomain();
 		mrDomain=mrDAO.selectMyRevDetil(revNum);
+		
 		return mrDomain;
+	}
+	
+	
+	//후기 이미지 리스트
+	public List<String> searchMyRevImgList(int revNum) {
+		List<String> list = new ArrayList<String>();
+		
+		list=pdrDAO.selectRevImgList(revNum);
+		
+		return list;
 	}
 	
 //	//후기 수정하기

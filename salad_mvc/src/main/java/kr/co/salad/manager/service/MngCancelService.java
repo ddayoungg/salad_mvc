@@ -29,6 +29,15 @@ public class MngCancelService {
 		return allCancelList;
 	}//
 	
+	//취소 요청 건수, 취소 확정 건수
+	public int searchTotalCancel(String totalCancel) {
+		int cancelCnt=0;
+		
+		cancelCnt=mCancelDAO.selectTotalCancel(totalCancel);
+		
+		return cancelCnt;
+	}//
+	
 	//메인 카테고리 얻기 ( 검색 안하기로 함 ) 
 //	public List<MngCancelDomain> searchMainCate(){
 //		List<MngCancelDomain> mainCateList = new ArrayList<MngCancelDomain>();

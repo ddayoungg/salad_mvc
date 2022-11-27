@@ -12,12 +12,12 @@
   
 <!--  전체 후기리스트 -->
 <select id="selectRevList" parameterType="kr.co.salad.user.vo.ReviewVO"  resultType="kr.co.salad.user.domain.ReviewDomain">
-	select	rev_num, prd_body_thum, rev_title, rev_write_date, name, rev_hits
+	select	rev_num, thum, rev_title, rev_write_date, name, rev_hits, prd_num
 	from(
 		select	r.rev_num, r.rev_title,  r.rev_hits,
 					to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date,
 				m.name, 
-				p.prd_body_thum,
+				p.thum, p.prd_num,
 				row_number() over(order by r.rev_write_date desc)r_num
 		from	review r, member m, product p
 		where	r.id = m.id and r.prd_num = p.prd_num 
@@ -30,7 +30,7 @@
 <select id="selectRevDetail" resultType="kr.co.salad.user.domain.ReviewDomain" parameterType="int" >
 	select	r.rev_num, r.rev_title, to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits, r.rev_cont,
 			m.name,
-			p.prd_body_thum, p.prd_name, p.prd_price, p.prd_discount
+			p.thum, p.prd_name, p.prd_price, p.prd_discount
 	from	review r, member m, product p
 	where 	r.id=m.id and r.prd_num = p.prd_num and rev_num=#{revNum}
 </select>

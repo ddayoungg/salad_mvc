@@ -75,9 +75,8 @@ public class MngOrderService {
 		
 		JSONArray jsonArr=new JSONArray();
 		JSONObject jsonTemp=null;
-		
-		if(list.size()>0) {
-			for(int i=startNum; i<endNum+1; i++) {
+			for(int i=startNum-1; i<endNum+1; i++) {
+				if(list.size()>0 && i<list.size()) {
 				MngOrderDomain tempDomain = list.get(i);
 				jsonTemp=new JSONObject();
 				jsonTemp.put("orderNum", tempDomain.getOrderNum());
@@ -99,9 +98,8 @@ public class MngOrderService {
 				
 				jsonTemp.put("orderStatus", orderStatus);
 				jsonArr.add(jsonTemp);
+				}//if
 			}//end for
-		}//if
-		
 		jsonObj.put("list", jsonArr);
 		return jsonObj.toJSONString();
 	}// searchOrderList

@@ -6,13 +6,13 @@ import java.util.List;
 
 public class MngRevDomain {
 	private int mainCateNum, subCateNum, revNum, revHits ,prdPrice,prdDiscount;
-	private String mainCateName, subCateName, name, prdName,prdBodyThum,revTitle, revCont,bestFlag,revWriteDate;
+	private String mainCateName, subCateName, name, prdName,thum,revTitle, revCont,bestFlag,revWriteDate;
 	private List<String> revImg;
 	public MngRevDomain() {
 		super();
 	}
 	public MngRevDomain(int mainCateNum, int subCateNum, int revNum, int revHits, int prdPrice, int prdDiscount,
-			String mainCateName, String subCateName, String name, String prdName, String prdBodyThum, String revTitle,
+			String mainCateName, String subCateName, String name, String prdName, String thum, String revTitle,
 			String revCont, String bestFlag, List<String> revImg, String revWriteDate) {
 		super();
 		this.mainCateNum = mainCateNum;
@@ -25,7 +25,7 @@ public class MngRevDomain {
 		this.subCateName = subCateName;
 		this.name = name;
 		this.prdName = prdName;
-		this.prdBodyThum = prdBodyThum;
+		this.thum = thum;
 		this.revTitle = revTitle;
 		this.revCont = revCont;
 		this.bestFlag = bestFlag;
@@ -92,11 +92,11 @@ public class MngRevDomain {
 	public void setPrdName(String prdName) {
 		this.prdName = prdName;
 	}
-	public String getPrdBodyThum() {
-		return prdBodyThum;
+	public String getThum() {
+		return thum;
 	}
-	public void setPrdBodyThum(String prdBodyThum) {
-		this.prdBodyThum = prdBodyThum;
+	public void getThum(String thum) {
+		this.thum = thum;
 	}
 	public String getRevTitle() {
 		return revTitle;
@@ -133,7 +133,7 @@ public class MngRevDomain {
 		return "MngRevDomain [mainCateNum=" + mainCateNum + ", subCateNum=" + subCateNum + ", revNum=" + revNum
 				+ ", revHits=" + revHits + ", prdPrice=" + prdPrice + ", prdDiscount=" + prdDiscount + ", mainCateName="
 				+ mainCateName + ", subCateName=" + subCateName + ", name=" + name + ", prdName=" + prdName
-				+ ", prdBodyThum=" + prdBodyThum + ", revTitle=" + revTitle + ", revCont=" + revCont + ", bestFlag="
+				+ ", thum=" + thum + ", revTitle=" + revTitle + ", revCont=" + revCont + ", bestFlag="
 				+ bestFlag + ", revImg=" + revImg + ", revWriteDate=" + revWriteDate + "]";
 	}
 	

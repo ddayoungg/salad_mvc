@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.salad.user.domain.KategoriePrdDomain;
 import kr.co.salad.user.domain.MyDeliDomain;
@@ -69,6 +70,7 @@ public class MyUserOutController {
 				model.addAttribute("failPwChk", "회원정보가 맞지않습니다.");
 				url="user/mypage/hack_out_pwChk";
 			}else {
+				
 				url="user/mypage/hack_out";
 			}
 		}
@@ -77,15 +79,16 @@ public class MyUserOutController {
 	
 	//탈퇴하기
 	@RequestMapping(value = "mypage_out_process.do",method = POST)
-	public String mypageOutProcess(HttpSession session,String outReason) {
+	public String mypageOutProcess(SessionStatus ss,HttpSession session,String outReason) {
 		String URL="user/mypage/hack_out";
+		String userId=(String) session.getAttribute("userId");
 		System.out.println(outReason);
 		MyUserOutVO muoOutVO=new MyUserOutVO();
-		muoOutVO.setId("ekdud3674");//이자리 세션값
+		muoOutVO.setId(userId);
 		muoOutVO.setOutReason(outReason);
 		int resultFlag=muoService.editUserOut(muoOutVO);
 		if(resultFlag==1) {
-			URL="user/main/home";
+			URL="redirect:/logout_process.do";
 		}
 		return URL;
 	}

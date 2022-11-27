@@ -17,7 +17,12 @@ public class PrdDetailCartDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
+		try {
 		cartNum=ss.selectOne("kr.co.salad.user.dao.mapper.PrdDetailCartMapper.selectLastCartNum");
+		}catch (NullPointerException npe) {
+			cartNum=0;
+		}//end catch
+		
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

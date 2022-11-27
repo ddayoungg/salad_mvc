@@ -126,7 +126,7 @@ public class MngPrdController {
 		MngPrdVO mpVO=new MngPrdVO();
 		
 		//2. FileUpload Component甫 积己(cos.jar)
-		File saveDir=new File("C:/Users/user/git/salad_mvc/salad_mvc/src/main/webapp/common/images/product");
+		File saveDir=new File("/home/ubuntu/salad_mvc/common/images/product");
 		int maxSize=1024*1024*20;//byte * kb * mb * gb
 		
 		List<String> prdImgList=new ArrayList<String>();
@@ -207,7 +207,7 @@ public class MngPrdController {
 		MngPrdVO mpVO=new MngPrdVO();
 		
 		//2. FileUpload Component甫 积己(cos.jar)
-		File saveDir=new File("C:/Users/user/git/salad_mvc/salad_mvc/src/main/webapp/common/images/product");
+		File saveDir=new File("/home/ubuntu/salad_mvc/common/images/product");
 		int maxSize=1024*1024*20;//byte * kb * mb * gb
 		
 		List<String> prdImgList=new ArrayList<String>();

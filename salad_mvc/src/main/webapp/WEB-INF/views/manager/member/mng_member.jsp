@@ -138,7 +138,7 @@ function setMemberList(currentPage){//회원 관리 리스트
 		success:function(jsonObj){
 			/* 페이징 테이블 */
 			$("#memberListOutput").show();
-			var tbOutput="<table class='table'>";
+			var tbOutput="<table class='table' style='table-layout:fixed;'>";
 			 tbOutput+="<thead class='table-light' style='height: 50px;'>";
 			 tbOutput+="<tr><th>아이디</th><th>이름</th><th>가입일자</th><th>탈퇴여부</th><th>상세보기</th></tr>";
 			 tbOutput+="</thead>";
@@ -330,7 +330,7 @@ function nullChk(){
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
 	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
-	    <div class="ms-auto" style="color:white;"><c:out value="${ sessionScope.mngId }"/>님,어서오세요.&nbsp;&nbsp;</div>
+	    <div class="ms-auto" style="color:white;">3조&nbsp;관리자님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
@@ -364,7 +364,7 @@ function nullChk(){
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do">
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order_main.do">
 		                    -주문 관리
 		                </a>
 		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
@@ -393,7 +393,7 @@ function nullChk(){
 					<div style="display:flex; justify-content:space-between; flex-direction:row;padding:20px 0 30px 0;">
 						<div>
 							<h1 id="clock" class="mt-4" style="font-size:20px; color:rgb(94,94,94); font-weight:bold;">clock</h1>
-							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! <c:out value="${ sessionScope.mngId }"/>님.</div>
+							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
 							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
@@ -432,14 +432,18 @@ function nullChk(){
                	
 				<div style="width: 80%; margin: 10px auto; text-align: center;">
 		               	<div style="margin: 10px auto; text-align: right;">
-	               		<select id="filedName" name="filedName">
+	               		<select id="filedName" name="filedName"  style="width: 100px; margin:0 10px 0 0; height:30px;">
 	               			<option value="id">아이디</option>
 	               			<option value="name">이름</option>
 	               			<option value="joinDate">가입일자</option>
 	               			<option value="outFlag">탈퇴여부</option>
 	               		</select>
 	               		<input type="text" id="keyword" name="keyword" placeholder="내용을 입력해주세요" value=""/>
-	               		<input type="button" id="searchBtn" value="검색"/>
+	               		<input type="button" id="searchBtn" value="검색"
+	               		style="width: 14%; background-color: white; 
+						border: 1px solid grey;
+						width: 80px; 
+						margin-left: 10px;" />
 	               		</div>
 	               		
 	               		<div  id="memberListOutput">
@@ -468,7 +472,7 @@ function nullChk(){
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="img/saladLogo.png">
+	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>

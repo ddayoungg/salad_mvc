@@ -41,7 +41,7 @@
   
   <!-- 리뷰 상세보기 -->
   <select id="selectRevDetail" resultType="kr.co.salad.manager.domain.MngRevDomain" parameterType="int" >
-  	select R.rev_num,R.best_flag,M.name,R.rev_title,P.prd_name,P.prd_body_thum,P.prd_price,P.prd_discount,R.rev_cont,TO_CHAR(R.REV_WRITE_DATE, 'YYYY-MM-DD') as REV_WRITE_DATE,R.rev_hits
+  	select R.rev_num,R.best_flag,M.name,R.rev_title,P.prd_name,P.thum,P.prd_price,P.prd_discount,R.rev_cont,TO_CHAR(R.REV_WRITE_DATE, 'YYYY-MM-DD') as REV_WRITE_DATE,R.rev_hits
   	from review R, member M, product P
   	where R.id=M.id and R.prd_num = P.prd_num and rev_num=#{revNum}
   </select>

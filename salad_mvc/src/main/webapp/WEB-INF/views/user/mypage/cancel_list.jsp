@@ -116,6 +116,19 @@ $(function(){
 	setCancelList(1);//취소 리스트
 });//ready
 
+function loginChk() {
+	
+	var loginFlag=true;
+	
+	<c:if test="${ sessionScope.userId eq null }">
+		alert("로그인을 해주세요.");
+		location.href="http://localhost/salad_mvc/login.do";
+		loginFlag=false;
+	</c:if>
+	
+	return loginFlag;
+}//loginChk
+
 function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
 	$.ajax({
 		url:"http://localhost/salad_mvc/my_total_ajax.do",
@@ -131,6 +144,18 @@ function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
 		}//success
 	});//ajax
 }//setMyTotal
+
+function order_open_detail_popup(orderNum){
+	
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	var leftVal=(document.body.offsetWidth / 2) - (100 / 2);
+	var topVal=(window.screen.height / 2) - (100 / 2);
+	
+	window.open("http://localhost/salad_mvc/my_cancel_detail.do?orderNum="+orderNum, "주문내역 상세보기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+}//gd_open_write_popup
 
 function setCancelList(currentPage){
 	$.ajax({
@@ -165,7 +190,7 @@ function setCancelList(currentPage){
 				    tbOutput+="<tr data-order-no='2210251644000099' data-order-goodsno='442263' data-order-status='r3' data-order-userhandlesno='8969'>";
 				    tbOutput+="<td rowspan='1' class='order_day_num aaa'>";
 				    tbOutput+="<em>"+json.orderDate+"</em><br/>";
-				    tbOutput+="<a href='http://localhost/salad_mvc/mypage/my_cancel_detail.do?orderNum="+ json.orderNum +"' target='_blank' class='order_num_link'><span>"+json.orderNum+"</span></a>";
+				    tbOutput+="<a href='#void' onclick=\"order_open_detail_popup('"+ json.orderNum +"')\" class='order_num_link' ><span>"+json.orderNum+"</span></a>";
 				    tbOutput+="<div class='btn_claim'>";
 				    tbOutput+="</div>";
 				    tbOutput+="</td>";

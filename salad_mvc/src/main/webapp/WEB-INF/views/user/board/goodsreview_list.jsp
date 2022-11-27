@@ -275,7 +275,7 @@ function setRevList(currentPage){
 				$.each(jsonObj.list, function(i, json){
 					tbOutput+="<tr>";
 					tbOutput+="<td>"+json.revNum+"</td>";
-					tbOutput+="<td>"+"<img src='http://localhost/salad_mvc/common/images/product/"+json.prdBodyThum+"' width=100px height=100px></td>";   
+					tbOutput+="<td>"+"<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+ json.prdNum +"'>"+"<img src='http://localhost/salad_mvc/common/images/product/"+json.thum+"' width=100px height=100px></td>";   
 					tbOutput+="<td>"+"<a href='#void' onclick='setDetail("+json.revNum+")'>"+json.revTitle+"</td>";
 					tbOutput+="<td>"+json.revWriteDate+"</td>";
 					tbOutput+="<td>"+json.name+"</td>";

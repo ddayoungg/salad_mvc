@@ -71,6 +71,30 @@
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
     
+<!-- 검색 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
+    
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
+
     <!-- 전체 카테고리 -->
 <script type="text/javascript">
     $(function(){
@@ -85,8 +109,33 @@
 
 <script type="text/javascript">
 $(function(){
+	setMyTotal();
 	setOrderList(1);//주문 리스트
 });//ready
+
+function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
+	$.ajax({
+		url:"http://localhost/salad_mvc/my_total_ajax.do",
+		dataType:"json",
+		error:function( request, status, error ){
+			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
+			console.log( "code"+request.status + "\n msg:" + request.responseText+"\n error:"+error);
+		},
+		success : function(jsonObj){
+			$("#totalMyWish").html(jsonObj.totalMyWish);
+			$("#totalMyRev").html(jsonObj.totalMyRev);
+			$("#totalMyQna").html(jsonObj.totalMyQna);
+		}//success
+	});//ajax
+}//setMyTotal
+
+function order_open_detail_popup(orderNum){
+	
+	var leftVal=(document.body.offsetWidth / 2) - (100 / 2);
+	var topVal=(window.screen.height / 2) - (100 / 2);
+	
+	window.open("http://localhost/salad_mvc/popup_order_detail.do?orderNum="+orderNum, "주문내역 상세보기", "width=800, height=750, left="+leftVal+", top="+topVal+"");
+}//gd_open_write_popup
 
 function setOrderList(currentPage){
 	$.ajax({
@@ -94,14 +143,14 @@ function setOrderList(currentPage){
 		data:"currentPage="+currentPage,
 		dataType:"json",
 		error:function( xhr ){
-			alert("취소 목록 리스트를 불러오는데 실패했습니다.");
+			alert("주문 목록 리스트를 불러오는데 실패했습니다.");
 			console.log(xhr.status);
 		},
 		success:function(jsonObj){
 			var tbOutput="<table>";
 			tbOutput+="<colgroup>";
 			tbOutput+="<col style='width:15%'>"; <!-- 날짜/주문번호 -->
-			tbOutput+="<col>";					<!-- 상품명 -->
+			tbOutput+="<col>";					 <!-- 상품명 -->
 			tbOutput+="<col style='width:15%'>"; <!-- 상품금액/수량 -->
 			tbOutput+="<col style='width:15%'>"; <!-- 주문상태 -->
 			tbOutput+="<col style='width:15%'>"; <!-- 확인/리뷰 -->
@@ -121,7 +170,8 @@ function setOrderList(currentPage){
 				    tbOutput+="<tr data-order-no='2210251644000099' data-order-goodsno='442263' data-order-status='r3' data-order-userhandlesno='8969'>";
 				    tbOutput+="<td rowspan='1' class='order_day_num aaa'>";
 				    tbOutput+="<em>"+json.orderDate+"</em><br/>";
-				    tbOutput+="<a href='http://localhost/salad_mvc/mypage/my_cancel_detail.do?orderNum="+ json.orderNum +"' target='_blank' class='order_num_link'><span>"+json.orderNum+"</span></a>";
+				    tbOutput+="<a href='#void' onclick=\"order_open_detail_popup('"+ json.orderNum +"')\" class='order_num_link' ><span>"+json.orderNum+"</span></a>";
+				    tbOutput+="<a href='http://localhost/salad_mvc/my_cancel_detail.do?orderNum="+ json.orderNum +"' target='_blank' class='order_num_link'><span>"+json.orderNum+"</span></a>";
 				    tbOutput+="<div class='btn_claim'>";
 				    tbOutput+="</div>";
 				    tbOutput+="</td>";
@@ -196,7 +246,7 @@ function setOrderList(currentPage){
 }//setOrderList
 
 </script>
-    <script type="text/javascript">
+   <script type="text/javascript">
         // 고도몰5 통화정책
         var gdCurrencyDecimal = 0;
         var gdCurrencyDecimalFormat = '0';
@@ -231,6 +281,8 @@ function setOrderList(currentPage){
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/moment/locale/ko.js?v=2020120404"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery/datetimepicker/bootstrap-datetimepicker.min.js?v=2020120404"></script>
     <!-- Add script : end -->
+
+    
 
     <style type="text/css">
         body {
@@ -364,7 +416,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../main/index.jsp" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="http://localhost/salad_mvc/index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -372,104 +424,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="header_search">
 				<div class="header_search_cont">
 
-					<!-- 검색 폼 -->
-					<div class="top_search">
-    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
+<!-- 검색 폼 -->
+	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" id="keyword" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off" value="">
-                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
-                <!-- //top_text_cont -->
-                <div class="search_cont" style="display:none;">
-                    <input type="hidden" name="recentCount" value="5" />
-
-                    <script type="text/javascript">
-    $(function(){
-
-        /* 상단 검색 */
-        $('.top_search_cont input[name="keyword"]').on({
-            'focus':function(){
-                $(this).parents().find('.search_cont').show();
-            },
-            'blur':function(){
-                $('body').click(function(e){
-                    if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
-                        $(this).parents().find('.search_cont').hide();
-                    }
-                });
-                $('.btn_top_search_close').click(function(){
-                    $(this).parents().find('.search_cont').hide();
-                });
-            }
-        });
-
-        if($("input[name=recentCount]").val() > 0) {
-            $('.js_recom_box').removeClass('recom_box_only').addClass('recom_box');
-        }else{
-            $('.js_recom_box').removeClass('recom_box').addClass('recom_box_only');
-        }
-
-    });
-</script>
-<div class="js_recom_box " style="display:none;">
-    <dl>
-        <dt>추천상품</dt>
-        <dd>
-            <div class="recom_item_cont">
-                <!-- //recom_icon_box -->
-                <div class="recom_tit_box">
-                    <a href="../goods/goods_view.jsp?goodsNo=">
-                    </a>
-                </div>
-                <!-- //recom_tit_box -->
-                <div class="recom_money_box">
-                </div>
-                <!-- //recom_money_box -->
-                <div class="recom_number_box">
-                </div>
-                <!-- //recom_number_box -->
-            </div>
-            <!-- //recom_item_cont -->
-        </dd>
-    </dl>
-</div>
-
-                    <!-- //recom_box -->
-
-                    <div class="recent_box">
-                        <dl class="js_recent_area">
-                            <dt>최근검색어</dt>
-                            <dd>최근 검색어가 없습니다.</dd>
-                        </dl>
-                    </div>
-                    <!-- //recent_box -->
-                    <div class="seach_top_all">
-                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
-                    </div>
-                    <!-- //seach_top_all -->
-
-                </div>
-                <!-- //search_cont -->
-            </div>
-            <!-- //top_search_cont -->
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
         </fieldset>
-    </form>
-</div>
-<!-- //top_search -->
-					<!-- 검색 폼 -->
+	</div>
+			<!-- //top_search -->
+<!-- 검색 폼 -->
 
 				</div>
 				<!-- //header_search_cont -->
 			</div>
 			<!-- //header_search -->
+
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
-					<li><a href="logout_process.do">로그아웃</a></li>
-					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
+					<c:choose>
+						<c:when test="${ sessionScope.userId eq null }">
+							<li><a href="http://localhost/salad_mvc/login.do">로그인</a></li>
+							<li><a href="http://localhost/salad_mvc/join.do">회원가입</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
+							<li><a href="http://localhost/salad_mvc/logout_process.do">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
 					<li class="cs">
 						고객센터
 						<div class="cs_in">
@@ -484,6 +472,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					<li><a href="http://localhost/salad_mvc/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
 					<li class="cart"><a href="http://localhost/salad_mvc/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
                     </li>
+
 				</ul>
 			</div>
         </div>
@@ -495,7 +484,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Google Shopping -->
 <meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
 <!-- Google Shopping -->
-
 
 <div class="gnb">
 <div class="gnb_in">
@@ -544,6 +532,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             </div>
 
+
         </div>
         <!-- //gnb -->
 
@@ -573,9 +562,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	</script>
 </div>
 
-<!-- //header -->
-    </div>
-    <!-- //header_warp -->
+
+
+
+
 <!-- //header -->
     </div>
     <!-- //header_warp -->
@@ -606,9 +596,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </li>
         <li>회원정보
             <ul class="sub_depth1">
-                <li><a href="http://localhost/salad_mvc/mypage/my_change_index.do">- 회원정보 변경</a></li>
+                <li><a href="http://localhost/salad_mvc/my_change_index.do">- 회원정보 변경</a></li>
 				<li><a href="http://localhost/salad_mvc/mypage_deli.do">- 배송지 관리</a></li>
-                <li><a href="http://localhost/salad_mvc/mypage_out_form">- 회원 탈퇴</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_out_pwChk.do">- 회원 탈퇴</a></li>
             </ul>
         </li>
         <li>나의 상품후기
@@ -617,10 +607,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </ul>
         </li>
         <li>나의 상품문의
-      <ul class="sub_depth1">
-      <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
-    </ul>
-</li>
+            <ul class="sub_depth1">
+                <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
 <!-- //sub_menu_box -->
@@ -638,7 +628,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		    <div class="mypage_top_info">
 		    <div class="mypage_top_txt">
 		        <div class="grade_txt">
-		            <p>${ userId }님의 마이페이지입니다.</p>
+		            <p><c:out value="${ sessionScope.userName }"/>님의</p><p> 마이페이지입니다.</p>
 		            <div class="btn_layer">
 		
 		            </div>

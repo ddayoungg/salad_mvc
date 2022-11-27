@@ -109,7 +109,7 @@ public class PrdDetailRevController {
 		pdrVO.setId(userId);
 		
 		//2. FileUpload Component¸¦ »ý¼º(cos.jar)
-		File saveDir=new File("C:/Users/user/git/salad_mvc/salad_mvc/src/main/webapp/common/images/review");
+		File saveDir=new File("/home/ubuntu/salad_mvc/common/images/review");
 		int maxSize=1024*1024*20;//byte * kb * mb * gb
 		
 		List<String> revImgList=new ArrayList<String>();

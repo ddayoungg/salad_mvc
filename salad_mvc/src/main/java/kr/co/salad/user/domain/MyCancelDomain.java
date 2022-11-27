@@ -4,7 +4,7 @@ public class MyCancelDomain {
 	private int orderNum, prdNum, orderCnt, prdPrice, prdDiscount;
 	private int totalPrdPrice, totalPrdDiscount, orderTotalPrice;
 	private String prdName, thum, revFlag;
-	private String orderStatus, existAddrFlag;
+	private String orderStatus, statusName, existAddrFlag;
 	private String orderDate;
 	
 	public MyCancelDomain() {
@@ -12,7 +12,7 @@ public class MyCancelDomain {
 	}
 	public MyCancelDomain(int orderNum, int prdNum, int orderCnt, int prdPrice, int prdDiscount, int totalPrdPrice,
 			int totalPrdDiscount, int orderTotalPrice, String prdName, String thum, String revFlag, String orderStatus,
-			String existAddrFlag, String orderDate) {
+			String statusName, String existAddrFlag, String orderDate) {
 		super();
 		this.orderNum = orderNum;
 		this.prdNum = prdNum;
@@ -26,6 +26,7 @@ public class MyCancelDomain {
 		this.thum = thum;
 		this.revFlag = revFlag;
 		this.orderStatus = orderStatus;
+		this.statusName = statusName;
 		this.existAddrFlag = existAddrFlag;
 		this.orderDate = orderDate;
 	}
@@ -101,6 +102,12 @@ public class MyCancelDomain {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	public String getStatusName() {
+		return statusName;
+	}
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
 	public String getExistAddrFlag() {
 		return existAddrFlag;
 	}
@@ -118,8 +125,8 @@ public class MyCancelDomain {
 		return "MyCancelDomain [orderNum=" + orderNum + ", prdNum=" + prdNum + ", orderCnt=" + orderCnt + ", prdPrice="
 				+ prdPrice + ", prdDiscount=" + prdDiscount + ", totalPrdPrice=" + totalPrdPrice + ", totalPrdDiscount="
 				+ totalPrdDiscount + ", orderTotalPrice=" + orderTotalPrice + ", prdName=" + prdName + ", thum=" + thum
-				+ ", revFlag=" + revFlag + ", orderStatus=" + orderStatus + ", existAddrFlag=" + existAddrFlag
-				+ ", orderDate=" + orderDate + "]";
+				+ ", revFlag=" + revFlag + ", orderStatus=" + orderStatus + ", statusName=" + statusName
+				+ ", existAddrFlag=" + existAddrFlag + ", orderDate=" + orderDate + "]";
 	}
 	
 }//class

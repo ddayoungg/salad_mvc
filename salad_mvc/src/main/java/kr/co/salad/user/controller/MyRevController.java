@@ -86,19 +86,22 @@ public class MyRevController {
 		//가격 계산
 		double disCountPro=mrDomain.getPrdDiscount()*0.01;
 		double disCount= mrDomain.getPrdPrice()*disCountPro;
-		double price=mrDomain.getPrdPrice()-disCount;
+		double price=Math.floor((mrDomain.getPrdPrice()-disCount)/100)*100;
 		
-		model.addAttribute("revNum", mrDomain.getRevNum());
+		//리뷰 이미지
+		List<String> revImgList=mrService.searchMyRevImgList(revNum);
+		
 		model.addAttribute("revNum", mrDomain.getRevNum());
 		model.addAttribute("revTitle", mrDomain.getRevTitle());
 		model.addAttribute("revName", mrDomain.getName());
 		model.addAttribute("revWriteDate", mrDomain.getRevWriteDate());
 		model.addAttribute("revHits", mrDomain.getRevHits());
-		model.addAttribute("prdBodyThum",mrDomain.getPrdBodyThum());
+		model.addAttribute("thum",mrDomain.getThum());
 		model.addAttribute("prdName", mrDomain.getPrdName());
 		model.addAttribute("price", price);
-		model.addAttribute("revImg", mrDomain.getRevImg());
+		model.addAttribute("revImgList", revImgList);
 		model.addAttribute("revCont", mrDomain.getRevCont());
+		model.addAttribute("prdNum", mrDomain.getPrdNum());
 		
 	return "/user/mypage/mypage_review_view"; 
 	} 

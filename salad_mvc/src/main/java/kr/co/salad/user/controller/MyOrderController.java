@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.co.salad.user.domain.KategoriePrdDomain;
 import kr.co.salad.user.service.KategoriePrdService;
 import kr.co.salad.user.service.MyOrderService;
+import kr.co.salad.user.vo.CartVO;
 import kr.co.salad.user.vo.MyOrderVO;
 
 @Controller
@@ -23,6 +24,9 @@ public class MyOrderController {
 	
 	@Autowired(required = false)
 	private KategoriePrdService kpService;
+
+	@Autowired(required = false)
+	private MyOrderService mos;
 	
 	@RequestMapping(value = "/order_list.do", method = GET)
 	public String MyOrderList(HttpSession session, Model model) {
@@ -30,9 +34,11 @@ public class MyOrderController {
 		
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		if(userId==null) {//로그인이 안되어있으면
-		url="redirect:http://localhost/salad_mvc/login.do";
-		model.addAttribute("eMsg", "로그인을 해주세요."); } else {//로그인이 되어있으면
-		model.addAttribute("userId", userId); }//end else*/
+			url="redirect:http://localhost/salad_mvc/login.do";
+			model.addAttribute("eMsg", "로그인을 해주세요."); 
+		} else {//로그인이 되어있으면
+			model.addAttribute("userId", userId); 
+		}//end else*/
 		//model.addAttribute("userId", "test");
 		
 		//전체 카테고리
@@ -51,10 +57,16 @@ public class MyOrderController {
 		mcVO.setId(userId);
 		
 		MyOrderService mos = new MyOrderService();
-		System.out.println("mcVO : " + mcVO);
 		String jsonObj=mos.searchMyOrderListJson(mcVO);//찜 리스트
-		System.out.println("jsonObj : " + jsonObj);
 		return jsonObj;
 	}//MyCancelListAjax
+	
+	// 장바구니 수량 변경
+	@RequestMapping(value = "/cancel_order.do", method = GET)
+	public String cancelOrderProcess(HttpSession session, MyOrderVO moVO) {
+		moVO.setId((String)session.getAttribute("userId"));//세션 가져오기
+		mos.cancelOrder(moVO);
+		return "user/mypage/order_list";
+	}//editCartCntProcess
 
 }//class

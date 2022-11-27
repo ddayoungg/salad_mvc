@@ -3,22 +3,23 @@ package kr.co.salad.user.domain;
 import java.util.List;
 
 public class ReviewDomain {
-	private int revNum, revHits, prdPrice, prdDiscount;
-	private String name, prdName, prdBodyThum, revTitle, revCont, revWriteDate;
+	private int revNum, revHits, prdPrice, prdDiscount, prdNum;
+	private String name, prdName, thum, revTitle, revCont, revWriteDate;
 	private List<String> revImg;
 	public ReviewDomain() {
 		super();
 	}
-	public ReviewDomain(int revNum, int revHits, int prdPrice, int prdDiscount, String name, String prdName,
-			String prdBodyThum, String revTitle, String revCont, String revWriteDate, List<String> revImg) {
+	public ReviewDomain(int revNum, int revHits, int prdPrice, int prdDiscount, int prdNum, String name, String prdName,
+			String thum, String revTitle, String revCont, String revWriteDate, List<String> revImg) {
 		super();
 		this.revNum = revNum;
 		this.revHits = revHits;
 		this.prdPrice = prdPrice;
 		this.prdDiscount = prdDiscount;
+		this.prdNum = prdNum;
 		this.name = name;
 		this.prdName = prdName;
-		this.prdBodyThum = prdBodyThum;
+		this.thum = thum;
 		this.revTitle = revTitle;
 		this.revCont = revCont;
 		this.revWriteDate = revWriteDate;
@@ -48,6 +49,12 @@ public class ReviewDomain {
 	public void setPrdDiscount(int prdDiscount) {
 		this.prdDiscount = prdDiscount;
 	}
+	public int getPrdNum() {
+		return prdNum;
+	}
+	public void setPrdNum(int prdNum) {
+		this.prdNum = prdNum;
+	}
 	public String getName() {
 		return name;
 	}
@@ -60,11 +67,11 @@ public class ReviewDomain {
 	public void setPrdName(String prdName) {
 		this.prdName = prdName;
 	}
-	public String getPrdBodyThum() {
-		return prdBodyThum;
+	public String getThum() {
+		return thum;
 	}
-	public void setPrdBodyThum(String prdBodyThum) {
-		this.prdBodyThum = prdBodyThum;
+	public void setThum(String thum) {
+		this.thum = thum;
 	}
 	public String getRevTitle() {
 		return revTitle;
@@ -93,9 +100,10 @@ public class ReviewDomain {
 	@Override
 	public String toString() {
 		return "ReviewDomain [revNum=" + revNum + ", revHits=" + revHits + ", prdPrice=" + prdPrice + ", prdDiscount="
-				+ prdDiscount + ", name=" + name + ", prdName=" + prdName + ", prdBodyThum=" + prdBodyThum
+				+ prdDiscount + ", prdNum=" + prdNum + ", name=" + name + ", prdName=" + prdName + ", thum=" + thum
 				+ ", revTitle=" + revTitle + ", revCont=" + revCont + ", revWriteDate=" + revWriteDate + ", revImg="
 				+ revImg + "]";
 	}
+	
 
 }

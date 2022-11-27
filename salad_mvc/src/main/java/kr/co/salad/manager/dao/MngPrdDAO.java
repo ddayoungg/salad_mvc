@@ -134,7 +134,11 @@ public class MngPrdDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
-		prdNum=ss.selectOne("kr.co.salad.manager.dao.mapper.MngPrdMapper.selectLastPrdNum");
+		try {
+			prdNum=ss.selectOne("kr.co.salad.manager.dao.mapper.MngPrdMapper.selectLastPrdNum");
+		}catch (NullPointerException npe) {
+			prdNum=0;
+		}//end catch
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

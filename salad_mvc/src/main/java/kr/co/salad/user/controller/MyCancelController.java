@@ -66,14 +66,15 @@ public class MyCancelController {
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		
 		mcVO.setId(userId);
-		String jsonObj=mcService.searchMyCancelListJson(mcVO);//나의 취소 내역 리스트
+		String jsonObj=mcService.searchMyOrderListJson(mcVO);//나의 취소 내역 리스트
 		
 		return jsonObj;
 	}//MyCancelListAjax
 	
-	@RequestMapping(value="/mypage/my_cancel_detail.do", method= GET)
+	@RequestMapping(value="/my_cancel_detail.do", method= GET)
 	public String searchMyCancelDetailForm(HttpSession session, MyCancelVO mcVO, Model model) {//취소 상세 페이지
-		String url="user/mypage/cancel_view";
+		//String url="user/mypage/cancel_view";
+		String url="user/board/popup_order_detail";
 		
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
 		if(userId==null) {//로그인이 안되어있으면
@@ -85,13 +86,8 @@ public class MyCancelController {
 		
 		mcVO.setId(userId);
 		
-		//전체 카테고리
-		List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
-				
-		model.addAttribute("mainCateList", mainCateList);//메인 메뉴
-		
 		//주문 리스트
-		List<MyCancelDomain> orderList=mcService.searchMyCcOrderList(mcVO);
+		List<MyCancelDomain> orderList=mcService.searchMyOrderDetailList(mcVO);
 		
 		model.addAttribute("orderList", orderList);
 		
@@ -104,6 +100,7 @@ public class MyCancelController {
 		String existAddrFlag=mcService.searchCcExistAddrFlag(mcVO);
 		
 		model.addAttribute("existAddrFlag", existAddrFlag);
+		
 		//회원 정보
 		CcMemberDomain cmDomain=mcService.searchMyInfoDetail(mcVO);
 		

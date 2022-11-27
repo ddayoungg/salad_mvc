@@ -65,4 +65,11 @@ where	(da.ORDER_NUM=po.ORDER_NUM) AND
 		po.ID=#{id} AND po.ORDER_NUM=#{orderNum}
 </select>
 
+<!-- 상품 수량 업데이트 -->
+<update id="updateOrder" parameterType="kr.co.salad.user.vo.MyOrderVO">
+	update	product_order
+	set		order_status='4'
+	where	order_num=#{orderNum}
+</update>
+
 </mapper>

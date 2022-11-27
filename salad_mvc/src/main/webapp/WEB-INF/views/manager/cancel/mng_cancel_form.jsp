@@ -410,13 +410,13 @@
 					</div>
 				</div>
 			</div>
-				<div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
-					<input type="button" value="닫기" class="button" onclick="history.back(-1)">
+				<div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">				
 					<c:if test="${cancelOrder.orderStatus eq '4' }">
 					<input type="button" value="취소 확정" class="button" onclick="showPopup(true,'mngCancelForm1')">
 					</c:if>
 					<c:if test="${cancelOrder.orderStatus eq '5' }">
 					</c:if>
+					<input type="button" value="닫기" class="button" onclick="history.back(-1)">
 				</div>
 			</div>
 		</div>
@@ -432,9 +432,9 @@
 					</div>
 					
 					<div style="display: flex; align-items: center; justify-content: center; padding-bottom: 10px;">
-						<input type="button" value="취소" class="button" onclick="closePopup('mngCancelForm1')">	
 						<button type="button" value="mng_orderCancel.do?orderNum=${cancelOrder.orderNum}" class="button" 
 						onclick="if(this.value)location.href=(this.value);">확인</button>
+						<input type="button" value="취소" class="button" onclick="closePopup('mngCancelForm1')">	
 					</div>
 				</div>
 			</div>

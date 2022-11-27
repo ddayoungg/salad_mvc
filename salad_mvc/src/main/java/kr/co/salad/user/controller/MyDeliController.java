@@ -50,8 +50,9 @@ public class MyDeliController {
 
 	//배송지 수정 팝업
 	@RequestMapping(value = "delipopup.do",method = GET)
-	public String DeliPopup(String id,Model model) {
-		MyDeliDomain mdDomain=mdService.searchDeli("ekdud3674");
+	public String DeliPopup(HttpSession session,String id,Model model) {
+		String userId=(String) session.getAttribute("userId");
+		MyDeliDomain mdDomain=mdService.searchDeli(userId);
 		model.addAttribute("mdDomain",mdDomain);
 		return "/user/mypage/deli_popup";
 	}

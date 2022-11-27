@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -137,7 +137,7 @@
 	    height:44px;
 	    color:#00af85;
 	    font-weight:400;
-	    font-size:20px;
+	    font-size:14px;
 	    border:1px solid #00af85;
 	    background: #fff;
 	    cursor: pointer;
@@ -342,7 +342,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -401,7 +401,7 @@ $(document).ready(function(){
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;">${userName}님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
@@ -445,8 +445,7 @@ $(document).ready(function(){
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://localhost/salad_mvc/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-
-<div class="gnb_allmenu_wrap">
+	<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
@@ -466,11 +465,12 @@ $(document).ready(function(){
 </div>
 </div>
 </div>
+
 <!-- 전체 카테고리 출력 레이어 끝 -->
-<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+			<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
-        <c:forEach var="mainCate" items="${ mainCateList }">
+        <c:forEach var="mainCate" items="${mainCateList}">
         <li>
             <a href="http://localhost/salad_mvc/goods_list.do?mainCateNum=${ mainCate.mainCateNum }&subCateNum=0" ><c:out value="${ mainCate.mainCateName }"/></a>
         </li>
@@ -540,9 +540,9 @@ $(document).ready(function(){
         <li>쇼핑정보
             <ul class="sub_depth1">
                 <li><a href="order_list.do">- 주문목록/배송조회</a></li>
-                <li><a href="/mypage/cancel_list.do">- 취소 내역</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
                 <!-- <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li> -->
-                <li><a href="/mypage/wish_list.do">- 찜리스트</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
         <!-- <li>혜택관리
@@ -568,7 +568,7 @@ $(document).ready(function(){
         </li>
         <li>나의 상품후기
             <ul class="sub_depth1">
-                <li><a href="user_my_rev.do">- 나의 상품후기</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_goods_review.do">- 나의 상품후기</a></li>
             </ul>
         </li>
        <li>나의 상품문의

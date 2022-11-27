@@ -194,11 +194,11 @@ $(function(){
 											<table  style="width: 100%;height: 100%">
 												<tr>
 													<td rowspan="2" style="width: 160px">
-													<img class="imgSmall" src="http://localhost/salad_mvc/resources/images/product/body/${prdBodyThum}">
+													<img class="imgSmall" src="http://localhost/salad_mvc/common/images/product/${thum}">
 													</td>
 													<td>
 													<strong>${prdName}</strong><br>
-													<fmt:formatNumber type="currency" value=" ${price}" ></fmt:formatNumber>
+													<fmt:formatNumber value="${price }" pattern="#,#00"/>원
 													</td>
 												</tr>
 												<tr>
@@ -209,7 +209,7 @@ $(function(){
 										<textarea readonly=“readonly” style="border: 0px; width: 100%;">${revCont}</textarea>
 										<div style="display: flex;">
 											<c:forEach var="img" items="${revImg}">
-												<img class="imgSmall" src="http://localhost/salad_mvc/resources/images/review/${img}">
+												<img class="imgSmall" src="http://localhost/salad_mvc/common/images/review/${img}">
 											</c:forEach>	
 										</div>
 									</td>

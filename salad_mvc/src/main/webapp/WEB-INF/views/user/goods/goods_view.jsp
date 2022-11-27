@@ -13,7 +13,7 @@
     <meta name="description" content="신선한 샐러드를 언제 어디서나 간편하게 즐기는 포켓샐러드! 라이스&포켓닭까지 함께 즐겨보세요" />
     <meta name="keywords" content="샐러드, 닭가슴살, 샐러드배달, 샐러드도시락, 다이어트도시락, 포켓닭, 탄단지, 다이어트, 다이어트식단, 식단관리" />
     <meta name="csrf-token" content="MTY2NjYyMDE2OTYxMjE4NzM2MTY0Mjk1OTAyMjU0MjI5MDQzNDcwMzky" />
-   <meta name="facebook-domain-verification" content="l8vlpgoyq5exc97dfww64gqzmnialy" />
+   	<meta name="facebook-domain-verification" content="l8vlpgoyq5exc97dfww64gqzmnialy" />
 	
 
     <meta property="og:type" content="product">
@@ -271,7 +271,6 @@ function setPrdCnt(type){
 		$("#prdCntMsg").html(msg);
 		
 		$("#prdCntMsg").fadeOut(2000);//2초 후 사라짐
-		//$("#prdCntMsg").hide(5000);//5초 후 사라짐
 		
 		$("#prdCnt").val(1);
 		cnt = 1;
@@ -508,11 +507,6 @@ function revPopup(revNum) {//후기 팝업 띄우기
 		 output+="<ul>";
 		 if(jsonObj.revImgThum != null) {//이미지가 존재 시
 			 output+="<li><img src='http://localhost/salad_mvc/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
-			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' aria-hidden='false'><img src='http://localhost/salad_mvc/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
-			 //output+="<li aria-hidden='true' style='float: left; list-style: none; position: relative; width: 500px;'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
-			 //output+="<li aria-hidden='true' style='float: left; list-style: none; position: relative; width: 500px;'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
-			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' aria-hidden='true'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
-			 //output+="<li style='float: left; list-style: none; position: relative; width: 500px;' class='bx-clone' aria-hidden='true'><img src='http://localhost/salad_mvc/common/images/error_temp.jpg' style='max-width:500px'></li>";
 		 } else {//이미지가 없을 시 대체 사진
 			 output+="<li><img src='http://localhost/salad_mvc/resources/images/main/noimage.jpg' style='max-width:500px'></li>";
 		 }//end if
@@ -536,7 +530,7 @@ function revPopup(revNum) {//후기 팝업 띄우기
 	     output+="<div class='inwrap'>";
 	     output+="<dl class='pdt_info'>";
 	     output+="<dt>"+jsonObj.revTitle+"</dt>";
-	     output+="<dd>"+jsonObj.revCont+"</dd>";
+	     output+="<dd><textarea style='border: 0px; width: 100%; height: 200px;' readonly='readonly'>"+jsonObj.revCont+"</textarea></dd>";
 	     output+="</dl>";
 	     output+="<div id='bx-pager' class='gds_rvin_pop_thumb'>";
 	    

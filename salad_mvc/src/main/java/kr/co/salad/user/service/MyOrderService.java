@@ -6,11 +6,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
+import kr.co.salad.user.dao.CartDAO;
 import kr.co.salad.user.dao.MyOrderDAO;
 import kr.co.salad.user.domain.CcDeliveryDomain;
 import kr.co.salad.user.domain.CcMemberDomain;
 import kr.co.salad.user.domain.MyOrderDomain;
 import kr.co.salad.user.domain.PrdDetailDomain;
+import kr.co.salad.user.vo.CartVO;
 import kr.co.salad.user.vo.MyOrderVO;
 
 @Component
@@ -193,5 +195,11 @@ public class MyOrderService {
 		
 		return cdDomain;
 	}//selectMyCcDeliDetail
+	
+	// 주문 취소
+	public void cancelOrder(MyOrderVO moVO) {
+		MyOrderDAO moDAO = new MyOrderDAO();
+		moDAO.updateOrder(moVO);
+	}//updateCnt
 	
 }//class

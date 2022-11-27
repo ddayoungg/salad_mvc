@@ -185,7 +185,7 @@ function loginChk() {
                         <tr>
                             <th scope="row">Q. 내용</th>
                             <td>
-                                <c:out value="${ qnaData.qnaCont }"/>
+                            	<textarea style="border: 0px; width: 100%; height: 200px;" readonly="readonly"><c:out value="${ qnaData.qnaCont }"/></textarea>
                             </td>
                         </tr>
                         <c:choose>
@@ -209,7 +209,7 @@ function loginChk() {
 		                            <th scope="row">A. 내용</th>
 		                            <td class="wirte_editor">
 		                            	<div>
-		                            		<c:out value="${ qnaData.qnaACont }"/>
+		                            		<textarea style="border: 0px; width: 100%; height: 200px;" readonly="readonly"><c:out value="${ qnaData.qnaACont }"/></textarea>
 		                            	</div>
 		                            </td>
 		                        </tr>

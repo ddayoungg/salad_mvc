@@ -35,7 +35,8 @@
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/common/layer/layer.css?ts=1666243530">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/layout/layout.css?ts=1666674309">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/goods/list.css?ts=1662515260">
-	<link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979">
+	<!-- <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css?ts=1644979979"> -->
+	<link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/button.css">
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/order/order.css?ts=1652161547" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
     <link type="text/css" rel="stylesheet" href="http://localhost/salad_mvc/resources/css/custom.css?ts=1660281178" />
@@ -66,11 +67,35 @@
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
     <script type="text/javascript" defer src="http://localhost/salad_mvc/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
-    
-    <!-- 전체 카테고리 -->
+
+<!-- 검색 시작 -->
 <script type="text/javascript">
     $(function(){
     	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
+    
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
+
+
+    <!-- 전체 카테고리 -->
+<script type="text/javascript">
+    $(function(){
     	$("#allMenuToggle").click(function(){
     		$("#gnbAllMenu").toggle();
     	});//click
@@ -80,120 +105,73 @@
 </script>
 
 <script type="text/javascript">
+
 $(function(){
 	
-	setPrdBoxList(1);//상품 박스형 리스트
+	$("#allCheck").click(function() {
+		if($("#allCheck").is(":checked")) {
+			$("input[name=prdNumArr]").prop("checked", true);
+		} else {
+			$("input[name=prdNumArr]").prop("checked", false);
+		}
+		
+		setTotalPrice();//총 가격 갱신
+	});//click
 	
-	$("#sortTypeSel").change(function(){
-		setPrdBoxList(1);
-	})//change
+	$("input[name=prdNumArr]").click(function() {
+		var total = $("input[name=prdNumArr]").length;
+		var checked = $("input[name=prdNumArr]:checked").length;
+		
+		if(total != checked) {
+			$("#allCheck").prop("checked", false);
+		}else {
+			$("#allCheck").prop("checked", true); 
+		}
+	});
 	
 })//redeay
 
-function setPrdBoxList(currentPage){//상품 박스형 리스트
+function setPrdCnt(obj, type){
 	
-	$.ajax({
-		url:"cate_prd_box_list_ajax.do",
-		data:"currentPage="+currentPage+"&mainCateNum="+${param.mainCateNum}+"&subCateNum="+${param.subCateNum}+"&sortType="+$("#sortTypeSel").val() ,
-		dataType:"json",
-		error:function( xhr ){
-			alert("상품 박스형 리스트를 불러오는 중에 문제가 발생했습니다.");
-			console.log(xhr.status);
-		},
-		success:function(jsonObj){
-			/* 페이징 테이블 */
-			
-			$("#prdBoxOutput").show();
-			
-			var ulOutput="<ul>";
-			if(!jsonObj.isEmpty){
-				$.each(jsonObj.list, function(i, json){
-					ulOutput+="<li  style='width:33.333333333333%;'>";
-			        ulOutput+="<div class='item_cont'>";
-			        ulOutput+="<div class='item_photo_box'>";
-			        ulOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+json.prdNum+"'>";
-			        ulOutput+="<img src='http://localhost/salad_mvc/common/images/product/"+json.thum+"' width='570' class='middle'/>";
-			        ulOutput+="</a>";
-			        ulOutput+="<span class='best-icon'>";
-					ulOutput+="</span>";
-			        ulOutput+="</div>";
-			        ulOutput+="<div class='item_info_cont'>";
-			        ulOutput+="<div class='item_tit_box'>";
-			        ulOutput+="<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum="+json.prdNum+"' >";
-			        ulOutput+="<strong class='item_name'>"+json.prdName+"</strong>";
-			        ulOutput+="</a>";
-			        ulOutput+="</div>";
-			        ulOutput+="<div class='item_money_box'>";
-			        ulOutput+="<div class='all_price'>";
-					ulOutput+="<div class='per_wrap'>";
-					ulOutput+="<span class='item_discount'><em>"+json.prdDiscount+"%</em></span>";
-					ulOutput+="</div>";
-					
-					var priceDC=Math.floor(json.prdDCPrice);
-					const prdDCPrice=priceDC.toLocaleString('ko-KR');
-					
-					ulOutput+="<strong class='item_price'><span  style=''>"+prdDCPrice+"<i class='won'>원</i></span></strong>";
-			        
-					var price=Math.floor(json.prdPrice);
-					const prdPrice=price.toLocaleString('ko-KR');
-					
-					ulOutput+="<span class='d_price' style=''>"+prdPrice+"원</span>";
-			        ulOutput+="</div>";
-			        ulOutput+="</div>";
-			        ulOutput+="<div class='item_icon_box'>";
-			        ulOutput+="</div>";
-			        ulOutput+="<div class='item_review_count'>";
-			        ulOutput+=" <span class='review_count'><img src='https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/icon/review_60x63_02.png'>"+json.revCnt+"</span>";
-			        ulOutput+="</div>";
-			        ulOutput+="</div>";
-			        ulOutput+="</div>";
-			        ulOutput+="</li>";
-				});//each
-			} else {
-				ulOutput+="<li>데이터가 존재하지 않습니다.</li>";
-			}
-	        ulOutput+="</ul>";
-	        
-			$("#searchPrdCnt").html(jsonObj.totalCount);
-			$("#prdBoxOutput").html(ulOutput);
-			/* 페이징 버튼 */
-			var pgOutput="<nav aria-label='Page navigation example' style='display: flex; justify-content: center; margin: 40px 0px;'>";
-				pgOutput+="<ul class='pagination'>";
-			if( jsonObj.startPage != 1 ) {
-				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + 1 + ")' tabindex='-1'";
-				pgOutput+="aria-disabled='true'>&lt&lt;<!-- << --></a></li>";
-			}//end if
-			if( jsonObj.startPage != 1 ) {
-				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + (jsonObj.startPage-1) + ")' tabindex='-1'";
-				pgOutput+="aria-disabled='true'>&lt;<!-- < --></a></li>";
-			}//end if
-			for(var i=jsonObj.startPage;i<=jsonObj.endPage;i++){
-				if(currentPage==i) {
-					pgOutput+="<li class='page-item on'>"
-				} else {
-					pgOutput+="<li class='page-item'>"
-				}//end if
-					pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + i  + ")'>"+ i +"</a></li>";
-			}//end for
-			if(jsonObj.totalPage != jsonObj.endPage) {
-				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
-			}//end if
-			if(jsonObj.totalPage != jsonObj.endPage) {
-				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setPrdBoxList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
-			}//end if
-			pgOutput+="</ul></nav>";
-			
-			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
-			
-			$("#pageOutput").html(pgOutput);
-		}//success
-	})//ajax
-}//setPrdList
-    
+	var cnt = parseInt($(obj).parent().children("input[name=prdCnt]").val());
+	var price = parseInt($(obj).parent().children("input[name=hiddPrdPrice]").val());
+	var discount = parseInt($(obj).parent().children("input[name=hiddPrdDiscount]").val());
+	
+	// 더하기/빼기
+	if(type == 'plus') {
+		cnt = cnt + 1;
+	}else if(type == 'minus' && cnt > 1)  {
+		cnt = cnt - 1;
+	}else if(type == 'none' || cnt > 0) {
+		/* 패스 하는 경우 */
+	}else {
+		$(obj).prev().val(1);
+		cnt = 1;
+	}//end else
+	
+  	
+	$(obj).parent().parent().parent().parent().children(".checkTd").
+		children(".prdPriceDis").val((price*discount*0.01)*cnt);
+	
+	$(obj).parent().parent().parent().parent().children(".checkTd").
+		children(".cartPrdCnt").val(cnt);
+	
+	$(obj).parent().parent().parent().parent().children(".checkTd").
+	children(".prdTotal").val(price*cnt);
+	
+	$(obj).parent().children("input[name=prdCnt]").val(cnt);
+	
+	var sumPrice=Math.floor(price*cnt);
+	const sumPriceOutput=sumPrice.toLocaleString('ko-KR');
+	
+	$("#sumPriceOutput").html(sumPriceOutput);
+	
+	setTotalPrice();//총 가격 갱신
+}//setPrdCnt
+
+</script>
+
+
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/gd_common.js?ts=1610501674"></script>
 
     <!-- Add script : start -->
@@ -220,7 +198,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         fbq('init', '1469865633321623', {}, {'agent':'plgodo'});
         fbq('track', 'PageView');
         </script> -->
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469865633321623&ev=PageView&noscript=1"/></noscript>
+        <!-- <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469865633321623&ev=PageView&noscript=1"/></noscript> -->
         <!-- DO NOT MODIFY -->
         <!-- End Facebook Pixel Code --><!-- Global site tag (gtag.js) - Google Analytics -->
         <!-- <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
@@ -519,7 +497,7 @@ End Channel Plugin -->
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../main/index.jsp" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="../salad_mvc/index.do" ><img src="http://localhost/salad_mvc/resources/images/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -527,94 +505,22 @@ End Channel Plugin -->
 			<div class="header_search">
 				<div class="header_search_cont">
 
-					<!-- 검색 폼 -->
-					<div class="top_search">
-    <form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.jsp" method="get">
+<!-- 검색 폼 -->
+	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
             <div class="top_search_cont">
                 <div class="top_text_cont">
-                    <input type="text" id="search_form" id="keyword" name="keyword" class="top_srarch_text" title=""  placeholder="" autocomplete="off" value="">
-                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="btnSearchTop" class="btn_top_srarch" title="검색" value="검색" alt="검색">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
                 </div>
-                <!-- //top_text_cont -->
-                <div class="search_cont" style="display:none;">
-                    <input type="hidden" name="recentCount" value="5" />
-
-                    <script type="text/javascript">
-    $(function(){
-
-        /* 상단 검색 */
-        $('.top_search_cont input[name="keyword"]').on({
-            'focus':function(){
-                $(this).parents().find('.search_cont').show();
-            },
-            'blur':function(){
-                $('body').click(function(e){
-                    if (!$('.search_cont').has(e.target).length && e.target.name != 'keyword') {
-                        $(this).parents().find('.search_cont').hide();
-                    }
-                });
-                $('.btn_top_search_close').click(function(){
-                    $(this).parents().find('.search_cont').hide();
-                });
-            }
-        });
-
-        if($("input[name=recentCount]").val() > 0) {
-            $('.js_recom_box').removeClass('recom_box_only').addClass('recom_box');
-        }else{
-            $('.js_recom_box').removeClass('recom_box').addClass('recom_box_only');
-        }
-
-    });
-</script>
-<div class="js_recom_box " style="display:none;">
-    <dl>
-        <dt>추천상품</dt>
-        <dd>
-            <div class="recom_item_cont">
-                <!-- //recom_icon_box -->
-                <div class="recom_tit_box">
-                    <a href="../goods/goods_view.jsp?goodsNo=">
-                    </a>
-                </div>
-                <!-- //recom_tit_box -->
-                <div class="recom_money_box">
-                </div>
-                <!-- //recom_money_box -->
-                <div class="recom_number_box">
-                </div>
-                <!-- //recom_number_box -->
-            </div>
-            <!-- //recom_item_cont -->
-        </dd>
-    </dl>
-</div>
-
-                    <!-- //recom_box -->
-
-                    <div class="recent_box">
-                        <dl class="js_recent_area">
-                            <dt>최근검색어</dt>
-                            <dd>최근 검색어가 없습니다.</dd>
-                        </dl>
-                    </div>
-                    <!-- //recent_box -->
-                    <div class="seach_top_all">
-                        <button type="button" class="btn_top_search_close"><strong>닫기</strong></button>
-                    </div>
-                    <!-- //seach_top_all -->
-
-                </div>
-                <!-- //search_cont -->
-            </div>
-            <!-- //top_search_cont -->
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
         </fieldset>
-    </form>
-</div>
-<!-- //top_search -->
-					<!-- 검색 폼 -->
+	</div>
+			<!-- //top_search -->
+<!-- 검색 폼 -->
 
 				</div>
 				<!-- //header_search_cont -->
@@ -622,7 +528,7 @@ End Channel Plugin -->
 			<!-- //header_search -->
 			<div class="top_member_box">
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;">${userName}님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
@@ -787,6 +693,8 @@ End Channel Plugin -->
                             <tr>
                                 <th class="first" colspan="8">
 									<div class="left_con_th">
+										<input type="checkbox" id="allCheck" name="allCheck" class="gd_checkbox_all111 dev_checkbox_all" data-target-name="prdNumArr" style="vertical-align: baseline;">
+										<label for="allCheck" class="check_s on"></label>
 									</div>
 									<div class="right_con_th">
 										<button type="button" class="delBtn">선택 삭제</button>
@@ -799,10 +707,10 @@ End Channel Plugin -->
                             <c:forEach var="cart" items="${ cartList }">
                             <tr>
                                 <td class="checkTd">
-                                	<input type="checkbox" class="cartCheckbox" checked="checked">
+                                	<input type="checkbox" class="cartCheckbox" name="prdNumArr">
                                 	<input type="hidden" class="prdNum" value="${ cart.prdNum }">
                                 	<input type="hidden" class="prdPrice" value="${ cart.prdPrice }">
-                                	<input type="hidden" class="prdPriceDis" value="${ cart.prdPrice * cart.prdDiscount * 0.01 }">
+                                	<input type="hidden" class="prdPriceDis" value="${ (cart.prdPrice * cart.prdDiscount * 0.01) * cart.cartPrdCnt  }">
                                 	<input type="hidden" class="cartPrdCnt" value="${ cart.cartPrdCnt }">
                                 	<input type="hidden" class="prdTotal" value="${ cart.prdPrice * cart.cartPrdCnt }">
                                 	<input type="hidden" class="cartNum" value="${ cart.cartNum }">
@@ -810,25 +718,29 @@ End Channel Plugin -->
                                 <td class="td_left td_left_add">
                                     <div class="pick_add_cont">
                                         <span class="pick_add_img">
-                                            <a href="../goods/goods_view.php?goodsNo=540"><img src="${ cart.thum }" width="40" alt="${ cart.prdName }" title="${ cart.prdName }" class="middle" class="imgsize-s" /></a>
+                                        	<a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum=+${ cart.prdNum }+'><img src="http://localhost/salad_mvc/common/images/product/${ cart.thum }" width="40" alt="${ cart.prdName }" title="${ cart.prdName }" class="middle" class="imgsize-s" /></a>
                                         </span>
                                         <div class="pick_add_info">
-                                            <em class="gds-nm-name"><a href="../goods/goods_view.php?goodsNo=540"><c:out value="${ cart.prdName }"/></a></em>
+                                            <em class="gds-nm-name"><a href='http://localhost/salad_mvc/goods/goods_view.do?prdNum=+${ cart.prdNum }+'><c:out value="${ cart.prdName }"/></a></em>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="">
                                     <div class="order_goods_num">
-										<span class="numcon">
-											<button type="button" class="down goods_cnt" title="감소">감소</button>
-                                            <input type="text" class="text" id="${ cart.prdNum }" title="수량" value="${ cart.cartPrdCnt }" min="1">
-											<button type="button" class="up goods_cnt" title="증가">증가</button>
+										<span class="numcon" style="width: 350px">
+											<button type="button" onclick="setPrdCnt(this, 'plus')" class="btn_plus_minus" title="증가">+</button>
+                                            <input type="text" id="prdCnt" name="prdCnt" class="text" id="${ cart.prdNum }" onchange="setPrdCnt(this, 'input')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" title="수량" value="${ cart.cartPrdCnt }" min="1" maxlength="3">
+											<button type="button" onclick="setPrdCnt(this, 'minus')" class="btn_plus_minus" title="감소">-</button>
+											<input type="hidden" name="hiddPrdPrice" value="${ cart.prdPrice }">
+											<input type="hidden" name="hiddPrdDiscount" value="${ cart.prdDiscount }">
 										</span>
                                     </div>
                                 </td>
                                 <td class="right_a1" >
                                     <strong class="order_sum_txt">
-                                    	<fmt:formatNumber value="${ cart.prdPrice * cart.cartPrdCnt }" pattern="#,###"/>
+                                    	<span id="sumPriceOutput">
+                                    		<fmt:formatNumber value="${ cart.prdPrice * cart.cartPrdCnt }" pattern="#,###"/>
+                                    	</span>
                                     	<i class="won">원</i>
                                     </strong>
                                     <p class="add_currency"></p>

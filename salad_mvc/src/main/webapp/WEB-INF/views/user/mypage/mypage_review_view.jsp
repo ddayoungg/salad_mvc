@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+<%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <html>
 <head>
@@ -171,18 +172,22 @@ $(function(){
                 <div class="view_goods_select">
                     <div class="view_goods_select_item">
                         <span class="view_select_item_img">
-                                <img src="http://localhost/salad_mvc/resources/images/product/${prdBodyThum}" width=100px height=100px >
+                                <img src="http://localhost/salad_mvc/common/images/product/${thum}" width=100px height=100px >
                         </span>
                       <span class="view_select_item_info">
                             <em>${prdName}</em>
-                            <strong>판매금액 ${price}원</strong>
+                            <strong>판매금액<fmt:formatNumber type="number" value="${price}" pattern="#,###"></fmt:formatNumber>원</strong>
                         </span>
                         
                     </div>
-                    <div class="view_goods_select_item">    
-                        <span class="view_select_item_img" style="margin:10px 30px 10px 0">
-                        	<img src="http://localhost/salad_mvc/resources/images/review/${revImg}" width=150px height=200px >
-                        </span>
+                    <div class="view_goods_select_item">
+                    <c:if test="${ revImgList ne null }">
+	                    <c:forEach var="revImg" items="${ revImgList }">
+	                        <span class="view_select_item_img" style="margin:10px 30px 10px 0">
+	                        	<img src="http://localhost/salad_mvc/common/images/review/${revImg}" width=150px height=200px >
+	                        </span>
+	                    </c:forEach>
+                    </c:if>
                         <span class="view_select_item_info" style="margin:10px 30px 10px 0">
                             ${revCont}
                         </span>

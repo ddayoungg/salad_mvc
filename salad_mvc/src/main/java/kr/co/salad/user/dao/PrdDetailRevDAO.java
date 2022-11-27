@@ -142,7 +142,12 @@ public class PrdDetailRevDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
-		revNum=ss.selectOne("kr.co.salad.user.dao.mapper.PrdDetailRevMapper.selectLastRevNum");
+		try {
+			revNum=ss.selectOne("kr.co.salad.user.dao.mapper.PrdDetailRevMapper.selectLastRevNum");
+		}catch (NullPointerException npe) {
+			revNum=0;
+		}//end catch
+		
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

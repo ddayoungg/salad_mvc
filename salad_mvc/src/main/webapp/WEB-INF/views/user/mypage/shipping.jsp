@@ -301,7 +301,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">${userId} 님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;">${userName} 님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
@@ -476,7 +476,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="mypage_top_info">
     <div class="mypage_top_txt">
         <div class="grade_txt">
-            <p>홍다영님의<br>마이페이지 입니다. 
+            <p>${mdDomain.name}님의<br>마이페이지 입니다. 
         </div>
         <!-- //grade_txt -->
     </div>

@@ -83,7 +83,7 @@
 	where	m.id=r.id(+) and
 			r.REV_NUM=#{revNum}
   </select>
-  <select id="selectLastRevNum" resultType="int" >
+  <select id="selectLastRevNum" resultType="integer" >
 		SELECT MAX(REV_NUM) FROM REVIEW
   </select>
   <select id="selectRevWriteOrderNum" resultType="int" 

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" info=""%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
@@ -124,7 +124,7 @@
     });//ready
     
     function searchEvent() {//검색 클릭 시 검색 화면으로 이동
-    	location.href="http://localhost/salad_mvc/goods/goods_search.do?keyword="+$("#keyword").val();
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
     }//searchEvent
     
 </script>
@@ -142,16 +142,17 @@ $(document).ready(function(){
 		} else if (message === "비밀번호가 확인되었습니다."){
 			alert("비밀번호가 확인되었습니다.");
 		}
-	}) 
-</script>  
-<script type="text/javascript">
+	}); 
 
-
-$(function() {
+	//비밀번호 유효성 검사
+  $(function() {
 	
-	$("input").keyup(function() {
+	 $("#newPass, #newPassword").on("propertychange change keyup paste input", function() {
+	 /* $("input").keyup(function() { */
 		var newPass = $("#newPass").val();
-		var newPassChk = $("#newPassword").val();
+		var newPassChk = $("#newPassword").val(); 
+		/* var newPass = document.getElementById('newPass').value;
+		var newPassChk = document.getElementById('newPassword').value; */
         var SC = ["!","@","#","$","%"];
         var check_SC = 0;
 			
@@ -161,24 +162,103 @@ $(function() {
                 check_SC = 1;
             }
         }
-               		
+        
+       if(newPass == "" && newPassChk == ""){
+        	$("#alert-success").hide();
+			$("#alert-danger").hide();
+			$("#alert-charDanger").hide();
+			$("#btn_myPageConfirm").attr("disabled",false);
+			
+     	}//비밀번호 "" 일 경우
+              		
 		if(newPass != "" ||  newPassChk != ""){
-			if (newPass != newPassChk && newPass.length < 6 || newPass.length>16 || check_SC == 0){
+		if (newPass != newPassChk || newPass.length < 6 && newPass.length>16 && check_SC == 0){
 				$("#alert-success").hide();
 				$("#alert-danger").show();
 				$("#alert-charDanger").show();
 				$("#btn_myPageConfirm").attr("disabled",false);
 				
-			} else if(newPass == newPassChk ) {
-				$("#alert-success").show();
-				$("#alert-danger").hide();
-				$("#alert-charDanger").hide();
-			}
-		}//
+		} else if ( newPass == newPassChk && check_SC == 0 ){
+			$("#alert-success").hide();
+			$("#alert-danger").hide();
+			$("#alert-charDanger").show();
+			$("#btn_myPageConfirm").attr("disabled",false);
+			
+		}  	else if (newPass != newPassChk){
+			$("#alert-success").hide();
+			$("#alert-danger").show();
+			$("#alert-charDanger").show();
+			$("#btn_myPageConfirm").attr("disabled",false);
+			
+		} else if(newPass == newPassChk &&  newPass.length > 6 && newPass.length<16 && check_SC == 1 ) {
+			$("#alert-success").show();
+			$("#alert-danger").hide();
+			$("#alert-charDanger").hide();
+		} 
+		
+		}//if
+
 	});
+ });
+
+//비밀번호 길이 제한
+function newPassLength(el, max) {
+  if(el.value.length > max) {
+    el.value = el.value.substr(0, max);
+  }
+};
+
+function newPasswordkLength(el, max) {
+	  if(el.value.length > max) {
+	    el.value = el.value.substr(0, max);
+	  }
+	};
+
+//비밀번호 일치확인
+/* $("#newPass, #newPassword").on("propertychange change keyup paste input", function(){
+	var pw = document.getElementById('newPass').value;
+    var SC = ["!","@","#","$","%"];
+    var check_SC = 0;
+		
+    
+    for(var i=0;i<SC.length;i++){
+        if(pw.indexOf(SC[i]) != -1){
+            check_SC = 1;
+        }
+    }
+    if(pw.length < 6 || pw.length>16 || check_SC == 0){
+    	$("#errorPass").text('!,@,#,$,% 의 특수문자포함 6~15글자이내로 입력.')
+    	$("#passPassFlag").val("1"); //사용불가능
+    }else{
+    	$("#errorPass").text("");
+    	$("#passPassFlag").val("0"); //사용가능
+    }
+    
+    if(document.getElementById('newPass').value !="" && document.getElementById('newPassword').value!=""){
+        if(document.getElementById('newPass').value==document.getElementById('newPassword').value){
+        	$("#truePass").css("display","inline-block");
+			$("#falsePass").css("display","none");
+			$("#psChkPassFlag").val("0"); //사용가능
+        }
+        else{
+        	$("#falsePass").css("display","inline-block");
+			$("#truePass").css("display","none");
+			$("#psChkPassFlag").val("1"); //사용불가능
+        }
+    }
 });
 
-
+});//ready
+ */
+//이메일 입력
+  function emailChange(e) {
+  // 선택된 데이터 가져오기
+  const value = e.value;
+  
+  // 데이터 출력
+  document.getElementById('email_next').value
+    = value;
+};
 </script> 
 <!-- <script>
 
@@ -504,7 +584,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;">${userId}님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;">${userName}님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="logout_process.do">로그아웃</a></li>
 					<!--<li><a href="../board/list.jsp?bdId=event&period=current">이벤트</a></li>-->
 					<li class="cs">
@@ -647,9 +727,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li>쇼핑정보
             <ul class="sub_depth1">
                 <li><a href="order_list.do">- 주문목록/배송조회</a></li>
-                <li><a href="cancel_list.do">- 취소 내역</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
                 <!-- <li><a href="../mypage/refund_list.jsp">- 환불/입금 내역</a></li> -->
-                <li><a href="wish_list.do">- 찜리스트</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
         <!-- <li>혜택관리
@@ -675,7 +755,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </li>
         <li>나의 상품후기
             <ul class="sub_depth1">
-                <li><a href="user_my_rev.do">- 나의 상품후기</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage_goods_review.do">- 나의 상품후기</a></li>
             </ul>
         </li>
          <li>나의 상품문의
@@ -789,19 +869,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <dt>새 비밀번호</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="newPass" name="newPass" style="width:70%;" />
+                                    <input type="password" id="newPass" name="newPass" 
+                                    maxlength="15" oninput="newPassLength(this, 15)"
+                                    style="width:70%;" />
+                                    <!-- <input type="hidden" id="passPassFlag" name="passPassFlag" value="1"> -->
                                 </div>
+                                <!-- <div id="errorPass" style="color:red; display: none;"></div> -->
                             </dd>
                         </dl>
                         <dl>
                             <dt>새 비밀번호 확인</dt>
                             <dd>
                                 <div class="member_warning">
-                                    <input type="password" id="newPassword" name="newPassword" style="width:70%;" />
+                                    <input type="password" id="newPassword" name="newPassword"
+                                    maxlength="15" oninput="newPasswordLength(this, 15)"
+                                    style="width:70%;" />
+                              		<!-- <input type="hidden" id="passPassFlag" name="passPassFlag" value="1"> -->
                                 </div>
                                 <div id="alert-success" style="color:#00af85; display: none;">비밀번호가 일치합니다.</div>
                                 <div id="alert-danger" style="color:red; display: none;">비밀번호가 일치하지 않습니다.</div>
                                 <div id="alert-charDanger" style="color:red; display: none;">!,@,#,$,% 의 특수문자포함 6~15글자이내로 입력.</div>
+                               <!--  <div id="truePass" style="color:red; display: none;">비밀번호가 일치합니다.</div>
+                                <div id="falsePass" style="color:red; display: none;">비밀번호가 일치하지 않습니다.</div> -->
+                           
                             </dd>
                         </dl>
                     </div>
@@ -824,7 +914,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<input type="hidden" name="email" id="email" value="${chanConfirmVO.email}">
                         <input type="text" name="email_head" id="email_head" value="${resultId}" style="width: 181px;margin-right:7px;"">
                         <input type="text" name="email_next" id="email_next" value="${resultEmail}"  style="width: 181px;">
-						<!--  <select id="emailDomain" name="emailDomain" class="chosen-select" style="width:190px;">
+						<select id="emailDomain" name="emailDomain" class="chosen-select" style="width:190px;"
+						onchange="emailChange(this)">
                             <option value="self">직접입력</option>
                             <option value="naver.com">naver.com</option>
                             <option value="hanmail.net">hanmail.net</option>
@@ -833,7 +924,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <option value="hotmail.com">hotmail.com</option>
                             <option value="gmail.com">gmail.com</option>
                             <option value="icloud.com">icloud.com</option>
-                        </select>  -->
+                        </select>  
                        
                     </div>
 					<div class="member_warning js_email"></div>
@@ -847,7 +938,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <th><span class="greenStar">*&nbsp;</span><span >휴대폰번호</span></th>
                 <td class="member_address">
                     <div class="address_postcode">
-                        <input type="text" id="phone" name="phone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="${chanConfirmVO.phone}" style="width: calc( 100% - 195px) ;"
+                        <input type="text" id="phone" name="phone" maxlength="11" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="${chanConfirmVO.phone}" style="width: calc( 100% - 195px) ;"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 
                         <!-- s onnomad -->
@@ -1671,8 +1762,8 @@ $(function() {
 		var newPhone = $("#phone").val();
 	   	var email_rule =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 		
-		var newPass = $("#newPassword").val();
-		var newPassChk = $("#pass").val();
+		var newPass = $("#newPass").val();
+		var newPassChk = $("#newPassword").val();
 		var recentPass = $("#passReConfirm").val();
 		
 		if(!newEmailHead){
@@ -1692,6 +1783,24 @@ $(function() {
 			alert("이메일을 형식에 맞게 입력해주세요.");
 			return false;
 		}
+		
+		if(!name){
+			alert("이름을 입력해주세요.");
+			$("#name").focus();
+			return false;
+		}
+		
+		if(!newPhone){
+			alert("휴대폰 번호를 입력해주세요.");
+			$("#phone").focus();
+			return false;
+		}
+		
+		if(newPhone.length < 11){
+			alert("휴대폰 번호 길이를 올바르게 입력해주세요.");
+			$("#phone").focus();
+			return false;
+		}
 			
 		if (newPass == "" ||  newPassChk == "" || recentPass == ""){
 			alert("변경하실 비밀번호를 입력해주세요.");
@@ -1700,7 +1809,7 @@ $(function() {
 		else if (newPass != newPassChk){		 
 			alert("비밀번호가 일치하지 않습니다.");
 			$("#btn_myPageConfirm").attr("disabled",false);
-		 } else if (newPass != "" &&  newPassChk != "" && recentPass != "" 
+		 } else if (newPass == newPassChk  && recentPass != "" 
 				 && newPass == newPassChk && newEmailHead != "" && newEmailNext != "" &&
 				 newPhone != ""){
 				$("#btn_myPageConfirm").attr("disabled",true);
@@ -1710,6 +1819,100 @@ $(function() {
 		$("#btn_myPageConfirm").attr("disabled",false);
 	 });
 	});
+	
+/* //비어있는값 계산
+function joinCheck(){
+	//psChkPassFlag passPassFlag idPassFlag
+	var userid=$("#id").val();
+	var userpass=$("#pass").val();
+	var username=$("#name").val();
+	var userphone=$("#phone").val();
+	var useremailH=$("#email_head").val();
+	var useremailN=$("#email_next").val();
+	var userzipcode=$("#zipcode").val();
+	var userdeaddr=$("#deAddr").val();
+	var idPassFlag=$("#idPassFlag").val();
+	var passPassFlag=$("#passPassFlag").val();
+	var psChkPassFlag=$("#psChkPassFlag").val();
+	
+	if(idPassFlag=='1'){
+		$("#id").focus();
+		return;
+	}
+	
+	if(passPassFlag=='1'){
+		$("#pass").focus();
+		return;
+	}
+	
+	if(psChkPassFlag=='1'){
+		$("#pass_chk").focus();
+		return;
+	}
+	
+	if(userid.length==0){
+		$("#errorId").text("아이디를 입력하세요");
+		$("#id").focus();
+		return;
+	}else{
+		$("#errorId").text("");
+	}
+	
+	if(userpass.length==0){
+		$("#errorPass").text("비밀번호를 입력하세요");
+		$("#pass").focus();
+		return;
+	}else{
+		$("#errorPass").text("");
+	}
+	
+	if(username.length==0){
+		$("#errorName").text("이름을 입력하세요");
+		$("#name").focus();
+		return;
+	}else{
+		$("#errorName").text("");
+	}
+	
+	if(useremailH.length==0){
+		$("#errorEmail").text("이메일을 입력하세요");
+		$("#email_head").focus();
+		return;
+	}else{
+		$("#errorEmail").text("");
+	}
+	
+	if(useremailN.length==0){
+		$("#errorEmail").text("이메일주소를 입력하세요");
+		$("#email_next").focus();
+		return;
+	}else{
+		$("#errorEmail").text("");
+	}
+	
+	if(userphone.length==0){
+		$("#errorPhone").text("전화번호를 입력하세요");
+		$("#phone").focus();
+		return;
+	}else{
+		$("#errorPhone").text("");
+	}
+	
+	if(userzipcode.length==0){
+		$("#errorZipcode").text("우편번호를 입력하세요");
+		$("#zipcode").focus();
+		return;
+	}else{
+		$("#errorZipcode").text("");
+	}
+	
+	if(userdeaddr.length==0){
+		$("#errorDeaddr").text("상세주소를 입력하세요");
+		$("#deAddr").focus();
+		return;
+	}else{
+		$("#errorDeaddr").text("");
+	} */
 </script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/nd_kakao.js?ts=1662087469"></script>

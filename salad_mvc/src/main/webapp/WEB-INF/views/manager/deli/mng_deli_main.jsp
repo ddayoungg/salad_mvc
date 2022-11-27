@@ -152,11 +152,15 @@
 					}else if(json.orderStatus==3){
 						status='배송완료';
 					}
+					
+					var tempPrice=Math.floor(json.orderTotalPrice); //단위
+					const prdPrice=tempPrice.toLocaleString('ko-KR');
+					
 					tbOutput+="<tr>";
 					tbOutput+="<td>"+json.orderNum+"</td>";
 					tbOutput+="<td>"+json.name+"</td>";
 					tbOutput+="<td>"+json.orderDate+"</td>";
-					tbOutput+="<td>"+json.orderTotalPrice+"</td>";
+					tbOutput+="<td>"+prdPrice+"원</td>";
 					tbOutput+="<td><button type='button' class='btn btn-light btn-sm' onclick=\"setDetailPopup('"+status+","+json.name+","+json.orderNum+"')\">" 
 					tbOutput+=status;
 					tbOutput+="</button></td>";
@@ -272,7 +276,7 @@ function setDetailPopup(status) {// 배송 상세 팝업
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">상품 관리</div>
                             <a class="nav-link" href="mng_prd.do">
-                                -상품 등록<
+                                -상품 등록
                             </a>
                             <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
                                 -상품 후기
@@ -337,13 +341,14 @@ function setDetailPopup(status) {// 배송 상세 팝업
                        	</div> 
 			<div>
                	<form id="searchFrm" name="searchFrm"  action="mng_notice.do">
-               	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="right">
-               		<input type="text"  placeholder="주문자명을 입력하세요." id="searchText" name="searchText">
-               		<input type="text" style="display: none;"/>
-               		<input type="button" value="검색" id="searchBtn" name="searchBtn">
-               	</div>
+               	<div style="width: 85%; margin-left: 85px; margin-bottom: 20px;" align="right">
+					<input type="text"  placeholder="주문자명을 입력하세요." id="searchText" name="searchText">
+					<input type="text" style="display: none;"/>
+					<input type="button" class="button2" style="width: 14%; background-color: white;border: 1px solid grey;width: 80px; 
+					margin-left: 10px;" value="검색" id="searchBtn" name="searchBtn">
+				</div>
                	</form>
-               		<div id="DeilListOutput"  style="text-align: center;">
+               		<div id="DeilListOutput"  style="width: 80%; margin: 10px auto; text-align: center;">
                		
                		</div>
 				</div>

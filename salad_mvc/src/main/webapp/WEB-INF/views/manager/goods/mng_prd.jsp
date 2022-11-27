@@ -166,7 +166,7 @@ function setPrdList(currentPage){//상품 관리 리스트
 			/* 페이징 테이블 */
 			$("#prdListOutput").show();
 			
-			var tbOutput="<table class='table'>";
+			var tbOutput="<table class='table' style='table-layout:fixed;'>";
 			tbOutput+="<thead class='table-light' style='height: 50px;'>";
 			tbOutput+="<tr>";
 			tbOutput+="<th>상품번호</th>";
@@ -180,7 +180,7 @@ function setPrdList(currentPage){//상품 관리 리스트
 			tbOutput+="<tbody>";
 			if(!jsonObj.isEmpty){
 				$.each(jsonObj.list, function(i, json){
-			tbOutput+="<tr>";
+			tbOutput+="<tr style='vertical-align: middle;'>";
 			tbOutput+="<td>"+json.prdNum+"</td>";
 			tbOutput+="<td><img class='imgSmall' src='http://localhost/salad_mvc/common/images/product/"+json.thum+"'></td>";
 			tbOutput+="<td>"+json.prdName+"</td>";
@@ -254,7 +254,7 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 	    <!-- Navbar Brand-->
 	    <a class="navbar-brand ps-3" style="padding:10px 0 0 0; "
 	    href="http://localhost/salad_mvc/mng_dashboard.do"><img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png" height="50px"></a>
-	    <div class="ms-auto" style="color:white;"><c:out value="${ sessionScope.mngId }"/>님,어서오세요.&nbsp;&nbsp;</div>
+	    <div class="ms-auto" style="color:white;">3조&nbsp;관리자님,어서오세요.&nbsp;&nbsp;</div>
 	    <!-- Navbar-->
 	     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 	        <li class="nav-item dropdown">
@@ -288,7 +288,8 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">주문 관리</div>
-		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do">
+		               <!--  <a class="nav-link" href="http://localhost/salad_mvc/mng_order.do"> -->
+		                <a class="nav-link" href="http://localhost/salad_mvc/mng_order_main.do">
 		                    -주문 관리
 		                </a>
 		                <a class="nav-link" style="padding-top:0;"href="http://localhost/salad_mvc/mng_cancel.do">
@@ -317,7 +318,7 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 					<div style="display:flex; justify-content:space-between; flex-direction:row;padding:20px 0 30px 0;">
 						<div>
 							<h1 id="clock" class="mt-4" style="font-size:20px; color:rgb(94,94,94); font-weight:bold;">clock</h1>
-							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! <c:out value="${ sessionScope.mngId }"/>님.</div>
+							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
 							<img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
@@ -338,13 +339,13 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 					</div>
 					<div style="width: 80%">
 						<form name="categoryFrm" style="display: flex; justify-content: right; margin-bottom: 10px;">
-							<select name="mainCate" id="mainCate">
+							<select name="mainCate" id="mainCate" style="margin:0 10px 0 0;">
 								<option value="0">---메인 카테고리---</option>
 							</select>
-							<select name="subCate" id="subCate">
+							<select name="subCate" id="subCate" style="margin:0 10px 0 0;">
 								<option value="0">---서브 카테고리---</option>
 							</select>
-							<input type="text" name="keyword" id="keyword" value="" style="width: 30%">
+							<input type="text" name="keyword" id="keyword" value="" style="width: 30%; margin:0 10px 0 0; ">
 							<input type="text" style="display: none"><!-- 자동 submit을 막기 위함 -->
 							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn" style="width: 100px">
 						</form>
@@ -379,7 +380,7 @@ function movePrdAdd() {//상품 등록하기 버튼 클릭 시 상품 등록 페
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="img/saladLogo.png">
+	                        		<img alt="img" src="http://localhost/salad_mvc/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>

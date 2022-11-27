@@ -84,15 +84,29 @@ public class MngCancelController {
 		order=0;
 		order=serviceDash.searchTotalOrder(orderDay);
 		model.addAttribute("orderDayT",order);
+		
+		//취소건수 => 요청/확정 건수 구하기
+		String totalCancel = "cancelRequest";
+		int cancelCnt = 0;
+		cancelCnt=serviceCancel.searchTotalCancel(totalCancel);
+		model.addAttribute("cancelRequest",cancelCnt);
+		
+		totalCancel = "cancelConfirm";
+		cancelCnt = 0;
+		cancelCnt=serviceCancel.searchTotalCancel(totalCancel);
+		model.addAttribute("cancelConfirm",cancelCnt);
+		
 		System.out.println("어떻게 된거니???"+search);
-		if (searchText == "" && search == "" || searchText == "none") {
+		
+		System.out.println(searchText+" / "+search+" / "+searchText);
+		if ("".equals(searchText) && "".equals(search)  || "none".equals(searchText)) {
 			//취소 내역 얻기
 			List<MngCancelDomain> allCancelList = serviceCancel.searchAllCancel();
 			model.addAttribute("allCancelList",allCancelList);
 			System.out.println("어떻게 된거니?"+allCancelList);
 		
 			
-		} else if (searchText != "" && search != "") {		
+		} else if ( !("".equals(searchText)) && !("".equals(search))) {		
 			//검색 창에 name&날짜&주문번호 검색
 			MngCancelVO cancelVO = new MngCancelVO();
 			cancelVO.setSearch(search);
@@ -204,7 +218,7 @@ public class MngCancelController {
 		MngCancelDomain cancelOrder = serviceCancel.searchOrderDetail(orderNum);
 		//System.out.println("번호 전달함"+orderNum);
 		model.addAttribute("cancelOrder",cancelOrder);
-		
+		System.out.println(cancelOrder+"d");
 
 		return url;
 	}//
@@ -253,6 +267,7 @@ public class MngCancelController {
 		
 		return url;
 	}//
+
 	
 	
 	//환불 내역 확인 하는 기능 구현 못해서 막아놓음

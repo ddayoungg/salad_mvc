@@ -4,19 +4,19 @@ import java.util.List;
 
 public class MyRevDomain {
 	
-	private String name, prdName, prdBodyThum, revTitle, revCont, revWriteDate;
+	private String name, prdName, thum, revTitle, revCont, revWriteDate;
 	private int revNum, revHits ,prdNum, prdPrice, prdDiscount;
 	private List<String> revImg;
 	public MyRevDomain() {
 		super();
 	}
-	public MyRevDomain(String name, String prdName, String prdBodyThum, String revTitle, String revCont,
+	public MyRevDomain(String name, String prdName, String thum, String revTitle, String revCont,
 			String revWriteDate, int revNum, int revHits, int prdNum, int prdPrice, int prdDiscount,
 			List<String> revImg) {
 		super();
 		this.name = name;
 		this.prdName = prdName;
-		this.prdBodyThum = prdBodyThum;
+		this.thum = thum;
 		this.revTitle = revTitle;
 		this.revCont = revCont;
 		this.revWriteDate = revWriteDate;
@@ -39,11 +39,11 @@ public class MyRevDomain {
 	public void setPrdName(String prdName) {
 		this.prdName = prdName;
 	}
-	public String getPrdBodyThum() {
-		return prdBodyThum;
+	public String getThum() {
+		return thum;
 	}
-	public void setPrdBodyThum(String prdBodyThum) {
-		this.prdBodyThum = prdBodyThum;
+	public void setThum(String thum) {
+		this.thum = thum;
 	}
 	public String getRevTitle() {
 		return revTitle;
@@ -101,7 +101,7 @@ public class MyRevDomain {
 	}
 	@Override
 	public String toString() {
-		return "MyRevDomain [name=" + name + ", prdName=" + prdName + ", prdBodyThum=" + prdBodyThum + ", revTitle="
+		return "MyRevDomain [name=" + name + ", prdName=" + prdName + ", thum=" + thum + ", revTitle="
 				+ revTitle + ", revCont=" + revCont + ", revWriteDate=" + revWriteDate + ", revNum=" + revNum
 				+ ", revHits=" + revHits + ", prdNum=" + prdNum + ", prdPrice=" + prdPrice + ", prdDiscount="
 				+ prdDiscount + ", revImg=" + revImg + "]";

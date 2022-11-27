@@ -451,7 +451,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <ul class="sub_depth1">
                 <li><a href="http://localhost/salad_mvc/order_list.do">- 주문목록/배송조회</a></li>
                 <li><a href="http://localhost/salad_mvc/mypage/cancel_list.do">- 취소 내역</a></li>
-                <li><a href="http://localhost/salad_mvc/.do">- 찜리스트</a></li>
+                <li><a href="http://localhost/salad_mvc/mypage/wish_list.do">- 찜리스트</a></li>
             </ul>
         </li>
         <li>회원정보
@@ -461,14 +461,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="http://localhost/salad_mvc/mypage_out_pwChk.do">- 회원 탈퇴</a></li>
             </ul>
         </li>
-        <li>나의 상품문의
-            <ul class="sub_depth1">
-                <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
-            </ul>
-        </li>
         <li>나의 상품후기
             <ul class="sub_depth1">
                 <li><a href="http://localhost/salad_mvc/mypage_goods_review.do">- 나의 상품후기</a></li>
+            </ul>
+        </li>
+        <li>나의 상품문의
+            <ul class="sub_depth1">
+                <li><a href="http://localhost/salad_mvc/my_qna.do">- 나의 상품문의</a></li>
             </ul>
         </li>
     </ul>

@@ -2,6 +2,7 @@ package kr.co.salad.user.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import kr.co.salad.user.vo.WishVO;
 @Component
 public class MyCancelDAO {
 	
-	public int selectMyCcTotalCnt(String id) {//나의 취소 리스트 총 행 수
+	public int selectMyTotalCnt(Map<String, Object> map) {//나의 취소 리스트 총 행 수
 		int rowCnt=0;
 		
 		//MyBatis Handler 얻기
@@ -24,14 +25,14 @@ public class MyCancelDAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
-		rowCnt=ss.selectOne("kr.co.salad.user.dao.mapper.MyCancelMapper.selectMyCcTotalCnt", id);
+		rowCnt=ss.selectOne("kr.co.salad.user.dao.mapper.MyCancelMapper.selectMyCcTotalCnt", map);
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		
 		return rowCnt;
 	}//selectMyCcTotalCnt
 	
-	public List<MyCancelDomain> selectMyCancelList(MyCancelVO mcVO) { //나의 취소 목록 리스트
+	public List<MyCancelDomain> selectMyOrderList(Map<String, Object> map) { //나의 취소 목록 리스트
 		List<MyCancelDomain> list=new ArrayList<MyCancelDomain>();
 		
 		//MyBatis Handler 얻기
@@ -39,14 +40,14 @@ public class MyCancelDAO {
 		SqlSession ss=mbh.getHandler();
 												
 		//쿼리실행
-		list=ss.selectList("kr.co.salad.user.dao.mapper.MyCancelMapper.selectMyCancelList", mcVO);
+		list=ss.selectList("kr.co.salad.user.dao.mapper.MyCancelMapper.selectMyCancelList", map);
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		
 		return list;
 	}//selectMyCancelList
 	
-	public List<MyCancelDomain> selectMyCcOrderList(MyCancelVO mcVO) { //나의 주문 목록 리스트
+	public List<MyCancelDomain> selectMyOrderDetailList(MyCancelVO mcVO) { //나의 주문 목록 리스트
 		List<MyCancelDomain> list=new ArrayList<MyCancelDomain>();
 		
 		//MyBatis Handler 얻기
@@ -59,7 +60,7 @@ public class MyCancelDAO {
 		mbh.closeHandler(ss);
 		
 		return list;
-	}//selectMyCcOrderList
+	}//selectMyOrderList
 	
 	public String selectCcExistAddrFlag(MyCancelVO mcVO) { //나의 배송지 상세 내역
 		String existAddrFlag="0";//0: 기본 배송지, 1: 배송지

@@ -183,10 +183,31 @@ public class MngCancelDAO {
 		return pageCnt;
 	}//
 	
+	//취소 요청 건수, 취소 확정 건수
+	public int selectTotalCancel(String totalCancel) {
+		int cancelCnt=0;
+		
+		//MyBatis Handler 얻기
+		MyBatisHandler mbh=MyBatisHandler.getInstance();
+		SqlSession session=MyBatisHandler.getInstance().getHandler();
+		
+		if ( totalCancel == "cancelRequest" ) {
+			cancelCnt = session.selectOne("kr.co.salad.mngCancelMapper.selectCancelRequest", cancelCnt);
+		session.commit();
+		
+		} else if ( totalCancel == "cancelConfirm") {
+			cancelCnt = session.selectOne("kr.co.salad.mngCancelMapper.selectCancelConfirm", cancelCnt);	
+		session.commit();
+		
+		}
+		mbh.closeHandler(session);
+		return cancelCnt;
+	}//
+	
 	public static void main(String[] args) {
 		MngCancelDAO cancelDAO = new MngCancelDAO();
 		MngCancelVO cancelVO = new MngCancelVO();
-		//cancelDAO.selectAllCancel();
+		cancelDAO.selectAllCancel();
 		//cancelDAO.selectMainCate();
 		//cancelDAO.selectSubCate(cancelVO);
 		//cancelDAO.selectCancelMember(cancelVO);	

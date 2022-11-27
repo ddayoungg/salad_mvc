@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.salad.manager.service.MngDashboardService;
@@ -141,28 +142,38 @@ public class MngLoginController {
 		return loginURL;
 	}
 	
+	//로그아웃
+		@RequestMapping(value="/mng_logout.do",method = GET)
+		public String logoutProcess(SessionStatus ss) {
+		
+			ss.setComplete();
+			
+			return "manager/login/mng_login";
+	}
 	
-	 //로그아웃 시 로그인 창으로 이동 
-	@RequestMapping(value="/mng_logout.do", method = GET)
-	 public String mngLogout(HttpServletRequest request) {
-	 
-	 HttpSession session = request.getSession();
-	 session.removeAttribute("mngId");
-	 session.invalidate(); 
-	 //session을 제거할 수 있는 메서드는 총 2개 
-	 //( invalidate():세션 전체 무효화 , removeAttribute() : 특정 이름으로 네이밍한 session객체를 타겟팅하여 삭제)
-	 
-	 //세션 무효화 확인하는 법
-		/*
-		 * Enumeration<?> attrName = session.getAttributeNames(); while
-		 * (attrName.hasMoreElements()) { String attr = (String) attrName.nextElement();
-		 * System.out.println(session.getAttribute(attr)); }
-		 */
-	 //끝
-	  
-	  return "manager/login/mng_login";
-	 
-	  }
+	
+	
+	 //로그아웃 시 로그인 창으로 이동 //세션이 안사라지는 문제 발견
+//	@RequestMapping(value="/mng_logout.do", method = GET)
+//	 public String mngLogout(HttpServletRequest request) {
+//	 
+//	 HttpSession session = request.getSession();
+//	 session.removeAttribute("mngId");
+//	 session.invalidate(); 
+//	 //session을 제거할 수 있는 메서드는 총 2개 
+//	 //( invalidate():세션 전체 무효화 , removeAttribute() : 특정 이름으로 네이밍한 session객체를 타겟팅하여 삭제)
+//	 
+//	 //세션 무효화 확인하는 법
+//		/*
+//		 * Enumeration<?> attrName = session.getAttributeNames(); while
+//		 * (attrName.hasMoreElements()) { String attr = (String) attrName.nextElement();
+//		 * System.out.println(session.getAttribute(attr)); }
+//		 */
+//	 //끝
+//	  
+//	  return "manager/login/mng_login";
+//	 
+//	  }
 	 
 	
 	

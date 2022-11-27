@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.salad.user.dao.PrdDetailRevDAO;
 import kr.co.salad.user.dao.ReviewDAO;
 import kr.co.salad.user.domain.ReviewDomain;
 import kr.co.salad.user.vo.ReviewVO;
@@ -17,6 +18,9 @@ public class ReviewService {
 	
 	@Autowired(required = false)
 	private ReviewDAO revDAO;
+	
+	@Autowired(required = false)
+	private PrdDetailRevDAO pdrDAO;
 	
 	//후기리스트
 	public String searchRevList(ReviewVO revVO) {
@@ -89,9 +93,10 @@ public class ReviewService {
 			jsonTemp.put("revNum", tempDomain.getRevNum());
 			jsonTemp.put("name", tempDomain.getName());
 			jsonTemp.put("revWriteDate", tempDomain.getRevWriteDate());
-			jsonTemp.put("prdBodyThum", tempDomain.getPrdBodyThum());
+			jsonTemp.put("thum", tempDomain.getThum());
 			jsonTemp.put("revTitle", tempDomain.getRevTitle());
 			jsonTemp.put("revHits", tempDomain.getRevHits());
+			jsonTemp.put("prdNum", tempDomain.getPrdNum());
 			
 			jsonArr.add(jsonTemp);
 		}//end for
@@ -106,6 +111,15 @@ public class ReviewService {
 		ReviewDomain revDomain=new ReviewDomain();
 		revDomain=revDAO.selectRevDetail(revNum);
 		return revDomain;
+	}
+	
+	//후기 이미지 리스트
+	public List<String> searchRevImgList(int revNum) {
+		List<String> list = new ArrayList<String>();
+		
+		list=pdrDAO.selectRevImgList(revNum);
+		
+		return list;
 	}
 	
 	//후기 조회수

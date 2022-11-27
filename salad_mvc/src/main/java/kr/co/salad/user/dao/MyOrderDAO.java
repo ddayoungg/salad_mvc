@@ -11,6 +11,7 @@ import kr.co.salad.dao.handler.MyBatisHandler;
 import kr.co.salad.user.domain.CcDeliveryDomain;
 import kr.co.salad.user.domain.CcMemberDomain;
 import kr.co.salad.user.domain.MyOrderDomain;
+import kr.co.salad.user.vo.CartVO;
 import kr.co.salad.user.vo.MyOrderVO;
 @Component
 public class MyOrderDAO {
@@ -105,5 +106,24 @@ public class MyOrderDAO {
 		
 		return cdDomain;
 	}//selectDeliveryDetail
+	
+	public void updateOrder(MyOrderVO moVO) {
+		// 1. MyBatis Handler 얻기
+		MyBatisHandler mbh = MyBatisHandler.getInstance();
+		SqlSession ss = mbh.getHandler();
+		
+		// 2. 쿼리문 실행
+		int cnt = ss.update("kr.co.salad.user.dao.mapper.MyOrderMapper.updateOrder", moVO);
+		if(cnt == 1) {
+			System.out.println(cnt + "건 수정");
+			ss.commit();
+		}else {
+			System.out.println("데이터 수정 실패");
+			ss.rollback();
+		}//else
+		
+		// 3. 연결 끊기
+		mbh.closeHandler(ss);
+	}//updateOrder
 	
 }//class

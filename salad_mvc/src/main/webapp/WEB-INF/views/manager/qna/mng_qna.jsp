@@ -286,7 +286,7 @@
 	                        </div>
 	                        </div>
 	                        <div>
-	                        <img src="../images/socialMedia.png" width="130px">
+	                        <img src="http://localhost/salad_mvc/resources/mng_images/socialMedia.png" width="130px">
 	                        </div>
 	                        <div style="width:319px;"></div>
                         </div>

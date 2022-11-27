@@ -155,7 +155,7 @@ $(function(){
 
                 <div class="seem_cont">
                     <div style="margin:10px 0 10px 0">
-                    	 ${notiCont} 
+                    	 <textarea style="border: 0px; width: 100%; height: 600px; font-size: 20px; color:black;" readonly="readonly" > ${notiCont} </textarea>
                     </div>
                 </div>
                 <!-- //seem_cont -->

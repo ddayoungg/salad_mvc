@@ -34,9 +34,7 @@ public class MyChangeController {
 	
 	@Autowired(required = false)
 	private KategoriePrdService kpService;
-	
-//	@Autowired(required = false)
-//	private PasswordEncoder passwordEncoder;
+
 	
 	
 	//회원정보 들어가기 전 비번 확인
@@ -50,14 +48,15 @@ public class MyChangeController {
 			  chkURL="redirect:http://localhost/salad_mvc/login.do";
 			  model.addAttribute("eMsg","로그인을 해주세요"); 
 			  } else {//로그인이 되어있으면(세션있음)
-			  chkURL="user/mypage/my_page_password"; 
-			  model.addAttribute("userId",userId);
-			  MyChangeVO chanVO = new MyChangeVO();
+				  List<KategoriePrdDomain> mainCateList=kpService.mainCateList();
+					model.addAttribute("mainCateList",mainCateList);
+				  chkURL="user/mypage/my_page_password"; 
+				  model.addAttribute("userId",userId);
+				  MyChangeVO chanVO = new MyChangeVO();
+			  
 			  chanVO.setId(userId);
 			  }
 			  //전체 카테고리 
-			  List<KategoriePrdDomain> mainCateList = kpService.mainCateList();
-			  model.addAttribute("mainCateList",mainCateList);//메인메뉴
 			 
 				
 		return chkURL;

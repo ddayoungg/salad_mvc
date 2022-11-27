@@ -69,6 +69,29 @@
     <script type="text/javascript" src="http://localhost/salad_mvc/resources/js/swiper.js?ts=1610501674"></script>
     
            <!-- 전체 카테고리 -->
+           <!-- 검색 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	$("#topSearchBtn").click(function(){
+    		searchEvent();
+    	})//click
+    	
+    	$("#keyword").keydown(function(keyNum){
+    		//현재의 키보드의 입력값을 keyNum으로 받음
+    		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
+    			$("#topSearchBtn").click()	
+    		}//end if
+    	});//keydown
+    	
+    });//ready
+    
+    function searchEvent() {//검색 클릭 시 검색 화면으로 이동
+    	location.href="http://localhost/salad_mvc/goods_search.do?keyword="+$("#keyword").val();
+    }//searchEvent
+    
+</script>
+<!-- 검색 끝 -->
 <script type="text/javascript">
     $(function(){
     	
@@ -272,7 +295,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<div class="header_search_cont">
 
 					<!-- 검색 폼 -->
-
+<div class="top_search">
+        <fieldset>
+            <legend>검색폼</legend>
+            <div class="top_search_cont">
+                <div class="top_text_cont">
+                    <input type="text" id="keyword" name="keyword" class="top_srarch_text" value="">
+                    <input type="image" src="http://localhost/salad_mvc/resources/images/main/sch_btn.png" id="topSearchBtn" class="btn_top_srarch" title="검색" value="검색">
+                </div>
+            <!-- //top_text_cont -->
+                <div class="search_cont" style="display:none;"></div>
+    		</div>
+        </fieldset>
+	</div>
 <!-- //top_search -->
 					<!-- 검색 폼 -->
 
@@ -432,32 +467,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		<div class="main_v" style='visibility:hidden;'>
 			<div class="slider slider-for">
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/board/view.jsp?period=current&bdId=event&sno=46" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/0553b36db6d9587049ca37ff694f0ac5_25660.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/0553b36db6d9587049ca37ff694f0ac5_25660.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=002004" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/d1e43121cfdbf9c4062765a83153968e_59765.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/d1e43121cfdbf9c4062765a83153968e_59765.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=001" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/38ddcdc0747013dc2cfc19f01590b933_53285.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/38ddcdc0747013dc2cfc19f01590b933_53285.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=027" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/2f6c7d91ad533a0cd04729d8c53dac0d_22618.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/2f6c7d91ad533a0cd04729d8c53dac0d_22618.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/board/view.jsp?period=current&bdId=event&sno=23" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/4ae78d8b0adbb6e9c322962a6d540e12_64293.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/4ae78d8b0adbb6e9c322962a6d540e12_64293.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=002" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/6f8f8f91331d91bd2144ccf9a11d108b_83859.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/6f8f8f91331d91bd2144ccf9a11d108b_83859.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=002" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/c568f4ede64f0ca71ccef503a757be93_12290.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/c568f4ede64f0ca71ccef503a757be93_12290.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=003" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/f66a3032dbfd8c613b1438ef09dbdbdd_13563.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/f66a3032dbfd8c613b1438ef09dbdbdd_13563.jpg"  alt="" title=""   /></a>
 				</div>
 				<div class="slider_bn">
-				 <a href="https://www.pocketsalad.co.kr/goods/goods_list.jsp?cateCd=004" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/313a772751abebc21931f68c93dcac49_61198.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/313a772751abebc21931f68c93dcac49_61198.jpg"  alt="" title=""   /></a>
 				</div>
+				
 				
 			</div>
 			<div class="slider-nav-wrap">
@@ -638,11 +674,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 		<div class="item_basket_type">
     <ul>
+    <c:forEach var="list" items="${list }" begin="30" end="36">
         <li  style="width:25%;">
              <div class="item_cont">
                 <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
-								<img src="http://localhost/salad_mvc/common/images/product/${ list[35].thum }" alt="${ list[35].prdName }" title="${ list[35].prdName }" class="middle">
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+								<img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" alt="${ list.prdName }" title="${ list.prdName }" class="middle">
 
                     </a>
 
@@ -655,21 +692,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont">
                     <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[35].prdName }"/></strong>
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                            <strong class="item_name"><c:out value="${ list.prdName }"/></strong>
                         </a>
                     </div>
                     <!-- //item_tit_box -->
                     <div class="item_money_box">
 						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[35].prdDiscount }"/>%</em></span>
+								<span class="item_discount"><em><c:out value="${ list.prdDiscount }"/>%</em></span>
 						</div>
                         <strong class="item_price">
                             <span  style="">
-								<fmt:formatNumber value="${ list[35].prdPrice-(list[35].prdPrice/list[35].prdDiscount) }" pattern="#,###"/><i class="won">원</i>
+								<fmt:formatNumber value="${ list.prdPrice-(list.prdPrice/list.prdDiscount) }" pattern="#,###"/><i class="won">원</i>
 							</span>
                         </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[35].prdPrice }" pattern="#,###"/>원 </span>
+                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list.prdPrice }" pattern="#,###"/>원 </span>
                     </div>
                     <!-- //item_money_box -->
                     <!-- //item_number_box -->
@@ -682,270 +719,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
             <!-- //item_cont -->
         </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[37].prdNum }"  >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[37].thum }" width="570" alt=<c:out value="${ list[37].prdName }"/> title=<c:out value="${ list[37].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[37].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[37].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[37].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[37].prdPrice-(list[37].prdPrice*(list[37].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[37].prdPrice }" pattern="#,###"/>원 </span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[39].prdNum }" >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[39].thum }" width="570" alt=<c:out value="${ list[39].prdName }"/> title=<c:out value="${ list[39].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[39].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[39].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[39].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[39].prdPrice-(list[39].prdPrice*(list[39].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[39].prdPrice }" pattern="#,###"/>원</span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[38].prdNum }"  >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[38].thum }" width="570" alt=<c:out value="${ list[38].prdName }"/> title=<c:out value="${ list[38].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[38].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[38].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[38].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[38].prdPrice-(list[38].prdPrice*(list[38].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[38].prdPrice }" pattern="#,###"/>원</span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[32].prdNum }"  >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[32].thum }" width="570" alt=<c:out value="${ list[32].prdName }"/> title=<c:out value="${ list[32].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[35].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[32].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[32].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[32].prdPrice-(list[32].prdPrice*(list[32].prdDiscount/100)) }"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[32].prdPrice }" pattern="#,###"/>원</span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[33].prdNum }"  >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[33].thum }" width="570" alt=<c:out value="${ list[33].prdName }"/> title=<c:out value="${ list[33].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[33].prdNum }" >
-                            <strong class="item_name"><c:out value="${ list[33].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${ list[33].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[33].prdPrice-(list[33].prdPrice*(list[33].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[33].prdPrice }" pattern="#,###"/>원 </span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li  style="width:25%;">
-             <div class="item_cont">
-                <div class="item_photo_box" >
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[34].prdNum }"  >
-							<img src="http://localhost/salad_mvc/common/images/product/${ list[34].thum }" width="570" alt=<c:out value="${list[34].prdName }"/> title=<c:out value="${list[34].prdName }"/> class="middle"  />
-
-                    </a>
-
-					<span class="best-icon">
-					
-					</span>
-
-                    <!-- //item_link -->
-                </div>
-                <!-- //item_photo_box -->
-                <div class="item_info_cont">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[34].prdNum }" >
-                            <strong class="item_name"><c:out value="${list[34].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-						<div class="per_wrap">
-								<span class="item_discount"><em><c:out value="${list[34].prdDiscount }"/>%</em></span>
-						</div>
-                        <strong class="item_price">
-                            <span  style="">
-								<fmt:formatNumber value="${ list[34].prdPrice-(list[34].prdPrice*(list[34].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-							</span>
-                        </strong>
-                        <span  class="dc_price"  style=""><fmt:formatNumber value="${ list[34].prdPrice }" pattern="#,###"/>원</span>
-                    </div>
-                    <!-- //item_money_box -->
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
+</c:forEach>
     </ul>
 </div>
 <!-- //item_basket_type -->
@@ -1145,7 +919,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="goods_tab_cont">
         <div class="goods_tab_box on">
             <ul>
-                <c:forEach var="list" items="${list }" begin="19" end="22">
+                <c:forEach var="list" items="${list }" begin="17" end="20">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
@@ -1237,7 +1011,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
-               <c:forEach var="list" items="${list }" begin="24" end="27">
+               <c:forEach var="list" items="${list }" begin="21" end="24">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
@@ -1330,7 +1104,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
-                <c:forEach var="list" items="${list }" begin="5" end="8">
+                <c:forEach var="list" items="${list }" begin="2" end="5">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
@@ -1422,7 +1196,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="goods_tab_box ">
             <ul>
-               <c:forEach var="list" items="${list }" begin="15" end="18">
+               <c:forEach var="list" items="${list }" begin="12" end="15">
                 <li  style="width:25%;">
                     <div class="item_cont">
                         <div class="item_photo_box" >
@@ -1698,12 +1472,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- 메인 첫 구매추천 일 때 S -->
 <div class="item_slide_horizontal" >
     <ul class="slide_horizontal_22">
-        <li >
+        <c:forEach var="list" items="${list }" begin="71" end="76">
+        	<li>
             <div class="item_cont" style="text-align:center;">
                 <div class="item_photo_box" >
 
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[74].prdNum }" >
-                        <img src="http://localhost/salad_mvc/common/images/product/${ list[74].thum }" width="570" alt="${ list[74].prdName }" title="${ list[74].prdName }" class="middle"  />
+                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                        <img src="http://localhost/salad_mvc/common/images/product/${ list.thum }" width="570" alt="${ list.prdName }" title="${ list.prdName }" class="middle"  />
                     </a>
                 </div>
 
@@ -1715,8 +1490,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- //item_photo_box -->
                 <div class="item_info_cont" style="display:block; text-align: center;">
                     <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[74].prdNum }" >
-                            <strong class="item_name" style="direction:ltr;"><c:out value="${ list[74].prdName }"/></strong>
+                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list.prdNum }" >
+                            <strong class="item_name" style="direction:ltr;"><c:out value="${ list.prdName }"/></strong>
                         </a>
                     </div>
                     <!-- //item_tit_box -->
@@ -1724,7 +1499,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					
 						<!-- 할인퍼센트 S-->
 							<div class="per_wrap">
-    							<span class="item_discount"><em><c:out value="${ list[74].prdDiscount }"/>%</em></span>
+    							<span class="item_discount"><em><c:out value="${ list.prdDiscount }"/>%</em></span>
 							</div>
 						<!-- 할인퍼센트 E-->
 
@@ -1732,12 +1507,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                         <strong class="item_price">
                             <span  style=''>
-                               <fmt:formatNumber value="${ list[74].prdPrice-(list[74].prdPrice*(list[74].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
+                               <fmt:formatNumber value="${ list.prdPrice-(list.prdPrice*(list.prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
                             </span>
                             
                         </strong>
                         <span class="d_price" style=";">
-                            <fmt:formatNumber value="${ list[74].prdPrice }" pattern="#,###"/>원</span>
+                            <fmt:formatNumber value="${ list.prdPrice }" pattern="#,###"/>원</span>
 
 						<!-- //item_money_box -->
 						</div>
@@ -1755,221 +1530,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
             <!-- //item_cont -->
         </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[75].prdNum }" >
-                        <img src="http://localhost/salad_mvc/common/images/product/${ list[75].thum }" width="570" alt="${ list[75].prdName }" title="${ list[75].prdName }" class="middle"  />
-                    </a>
-                </div>
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[75].prdNum }" >
-                            <strong class="item_name" style="direction:ltr;"><c:out value="${ list[75].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em><c:out value="${ list[75].prdDiscount }"/>%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                <fmt:formatNumber value="${ list[75].prdPrice-(list[75].prdPrice*(list[75].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            <fmt:formatNumber value="${ list[75].prdPrice }" pattern="#,###"/>원</span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[76].prdNum }" >
-                        <img src="http://localhost/salad_mvc/common/images/product/${ list[76].thum }" width="570" alt="${ list[76].prdName }" title="${ list[76].prdName }" class="middle"  />
-                    </a>
-                </div>
-
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[76].prdNum }" >
-                            <strong class="item_name" style="direction:ltr;"><c:out value="${ list[76].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em><c:out value="${ list[76].prdDiscount }"/>%</em></span>
-    							
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                <fmt:formatNumber value="${ list[76].prdPrice-(list[76].prdPrice*(list[76].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                           <fmt:formatNumber value="${ list[76].prdPrice }" pattern="#,###"/>원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[77].prdNum }" >
-                        <img src="http://localhost/salad_mvc/common/images/product/${ list[77].thum }" width="570" alt=<c:out value="${list[77].prdName }"/> title=<c:out value="${list[77].prdName }"/> class="middle"  />
-                    </a>
-                </div>
-
-
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[77].prdNum }" >
-                            <strong class="item_name" style="direction:ltr;"><c:out value="${list[77].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em><c:out value="${list[77].prdDiscount }"/>%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                <fmt:formatNumber value="${ list[77].prdPrice-(list[77].prdPrice*(list[77].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            <fmt:formatNumber value="${ list[77].prdPrice }" pattern="#,###"/>원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
-        <li >
-            <div class="item_cont" style="text-align:center;">
-                <div class="item_photo_box" >
-
-                    <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[78].prdNum }" >
-                        <img src="http://localhost/salad_mvc/common/images/product/${ list[78].thum }" width="570" alt=<c:out value="${list[78].prdName }"/> title=<c:out value="${list[78].prdName }"/> class="middle"  />
-                    </a>
-                </div>
-
-                <!-- //item_photo_box -->
-                <div class="item_info_cont" style="display:block; text-align: center;">
-                    <div class="item_tit_box">
-                        <a href="http://localhost/salad_mvc/goods/goods_view.do?prdNum=${ list[78].prdNum }" >
-                            <strong class="item_name" style="direction:ltr;"><c:out value="${list[78].prdName }"/></strong>
-                        </a>
-                    </div>
-                    <!-- //item_tit_box -->
-                    <div class="item_money_box">
-					
-						<!-- 할인퍼센트 S-->
-							<div class="per_wrap">
-    							<span class="item_discount"><em><c:out value="${list[78].prdDiscount }"/>%</em></span>
-							</div>
-						<!-- 할인퍼센트 E-->
-
-						<div class="all_price">
-
-                        <strong class="item_price">
-                            <span  style=''>
-                                <fmt:formatNumber value="${ list[78].prdPrice-(list[78].prdPrice*(list[78].prdDiscount/100)) }" pattern="#,###"/><i class="won">원</i>
-                            </span>
-                            
-                        </strong>
-                        <span class="d_price" style=";">
-                            <fmt:formatNumber value="${ list[78].prdPrice }" pattern="#,###"/>원 </span>
-
-						<!-- //item_money_box -->
-						</div>
-                    </div>
-
-                    <!-- //item_number_box -->
-                    <div class="item_icon_box">
-                    </div>
-                    <!-- //item_icon_box -->
-
-
-
-                </div>
-                <!-- //item_info_cont -->
-            </div>
-            <!-- //item_cont -->
-        </li>
+        </c:forEach>
     </ul>
+        
 </div>
 
 <!-- //item_slide_horizontal -->

@@ -57,17 +57,21 @@ public class ReviewController {
 		//가격 계산
 		double disCountPro=revDomain.getPrdDiscount()*0.01;
 		double disCount= revDomain.getPrdPrice()*disCountPro;
-		double price=revDomain.getPrdPrice()-disCount;
+		double price=Math.floor((revDomain.getPrdPrice()-disCount)/100)*100;
 		
+		//리뷰 이미지
+		List<String> revImgList=revService.searchRevImgList(revNum);
+		
+		model.addAttribute("prdNum", revDomain.getPrdNum());
 		model.addAttribute("revNum", revDomain.getRevNum());
 		model.addAttribute("revTitle", revDomain.getRevTitle());
 		model.addAttribute("revName", revDomain.getName());
 		model.addAttribute("revWriteDate", revDomain.getRevWriteDate());
 		model.addAttribute("revHits", revDomain.getRevHits());
-		model.addAttribute("prdBodyThum",revDomain.getPrdBodyThum());
+		model.addAttribute("thum",revDomain.getThum());
 		model.addAttribute("prdName", revDomain.getPrdName());
 		model.addAttribute("price", price);
-		model.addAttribute("revImg", revDomain.getRevImg());
+		model.addAttribute("revImgList", revImgList);
 		model.addAttribute("revCont", revDomain.getRevCont());
 		
 		//전체 카테고리

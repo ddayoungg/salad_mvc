@@ -145,7 +145,7 @@ function setRevList(currentPage){//리뷰 관리 리스트
 		success:function(jsonObj){
 			/* 페이징 테이블 */
 			$("#RevListOutput").show();
-			var tbOutput="<table class='table'>";
+			var tbOutput="<table class='table' style='table-layout:fixed;'>";
 			 tbOutput+="<thead class='table-light' style='height: 50px;'>";
 			 tbOutput+="<tr><th>후기번호</th><th>주문자</th><th>작성일자</th><th>주문상품명</th><th>상세보기</th></tr>";
 			 tbOutput+="</thead>";
@@ -308,9 +308,10 @@ function setRevList(currentPage){//리뷰 관리 리스트
 							</div>
 						</form>
 					</div>
-					<div  id="RevListOutput">
-	               		
-	               	</div>
+					<div style="width: 80%; margin: 10px auto; text-align: center;">
+						<div  id="RevListOutput">	               		
+						</div>
+					</div>
 	               	<div id="pageOutput">
 						
 					</div>

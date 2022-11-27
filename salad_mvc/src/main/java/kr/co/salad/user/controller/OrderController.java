@@ -72,7 +72,8 @@ public class OrderController {
 		
 		model.addAttribute("orderVO", oVO);
 		model.addAttribute("od", od);
-		
+		System.out.println("oVO : "+oVO);
+		System.out.println("od : "+od);
 		return "user/order/order_result";
 	}//addOrderProcess
 	

@@ -22,11 +22,11 @@ where	id=#{id}
 
 <!-- 후기 리스트 -->
 <select id="selectRevList" parameterType="kr.co.salad.user.vo.MyRevVO"  resultType="kr.co.salad.user.domain.MyRevDomain">
-select rev_num, prd_body_thum, rev_title, rev_write_date, rev_hits
+select rev_num, thum, rev_title, rev_write_date, rev_hits,prd_num
 from(
 	select	r.rev_num,r.rev_title, row_number() over(order by r.rev_write_date desc) r_num,
 					to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits, r.rev_cont,
-					m.name, m.id, p.prd_body_thum			
+					m.name, m.id, p.thum, p.prd_num			
 	from	review r, member m, product p
 	where	r.id = m.id and r.prd_num = p.prd_num and  m.id=#{id}
 <!--   	<choose>
@@ -45,7 +45,7 @@ where  r_num BETWEEN #{startNum} AND #{endNum}
 <select id="selectRevDetail" parameterType="int" resultType="kr.co.salad.user.domain.MyRevDomain" >
 select	r.rev_num, r.rev_title, to_char(r.rev_write_date, 'YYYY-MM-DD') as rev_write_date, r.rev_hits, r.rev_cont,
 		m.name,
-		p.prd_body_thum, p.prd_name, p.prd_price, p.prd_discount
+		p.thum, p.prd_name, p.prd_price, p.prd_discount
 from	review r, member m, product p
 where 	r.id=m.id and r.prd_num = p.prd_num and rev_num=#{ rev_num }
 </select>

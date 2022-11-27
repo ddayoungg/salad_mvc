@@ -48,6 +48,12 @@
 /* 바로구매 버튼 */
 .btn_add_order{display:inline-block; width:278px; height:70px; margin:0 0 0 6px; padding:0 10px 0 10px; color:#fff; font-size:20px; border:1px solid #00af85; background:#00af85; text-align:center; font-weight:bold; line-height:70px; }
 .btn_add_order:hover{border:1px solid #00af85; background:#00af85;}
+
+/* 남상민 22-11-10 plus_minus 버튼 css 추가 시작 */
+.btn_plus_minus{display:inline-block; width:40px; height:28px; line-height:10px;  margin:0 0 0 0px; padding:0 0px 0 0px; color:#3e3d3c; font-size:16px; border:1px solid #cccccc; background:#ffffff; text-align:center; font-weight:bold;}
+.btn_plus_minus:hover{border:1px solid #00af85; background:#00af85; color:#FFFFFF;}
+.btn_plus_minus{ float:left; background:#fff; border:1px solid #00af85; color:#00af85; font-size:20px; }
+
 /* 구매불가 버튼 */
 .btn_add_soldout{display:initial; width:390px; height:52px; margin:0 auto; padding:0 10px 0 10px; color:#ffffff; font-size:20px; font-weight:bold; border:1px solid #666666; background:#666666; text-align:center; cursor:default;}
 /* .btn_add_soldout:hover{border:1px solid #829c00; background:#829c00;} */

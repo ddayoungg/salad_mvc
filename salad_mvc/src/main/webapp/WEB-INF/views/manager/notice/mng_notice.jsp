@@ -317,29 +317,36 @@ function setNotiList(currentPage){//공지사항 관리 리스트
                        	</div> 
                        	
 <!-- 본문 리스트 시작 --> 
-               	<div>
+               	
                	<form id="searchFrm" name="searchFrm"  action="mng_notice.do">
-               	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="right">
+               	<div style="width: 85%; margin-left: 85px; margin-bottom: 20px;" align="right">
                		<select style="height: 30px;"id="searchFlag" name="searchFlag">
                			<option value="1">제목</option>
                			<option value="2">작성일자</option>
                		</select>
-               		<input type="text"  placeholder="내용을 입력하세요." id="searchText" name="searchText">
+               		<input type="text"  style="margin-left: 10px;"
+               		placeholder="내용을 입력하세요." id="searchText" name="searchText">
                		<input type="text" style="display: none;"/>
-               		<input type="button" value="검색" id="searchBtn" name="searchBtn">
+               		<input type="button" value="검색" id="searchBtn" name="searchBtn"
+               		 style="width: 14%; 
+						background-color: white; 
+						border: 1px solid grey;
+						width: 80px; 
+						margin-left: 10px;">
                	</div>
                	</form>
-               		<div id="notiListOutput" style="text-align: center;">
-               		
+               		<div style="width: 80%; margin: 10px auto; text-align: center;">
+               		<div id="notiListOutput" style="text-align: center;">               		
                		</div>
 				</div>
 				
-                <div style="justify-content: end; display: flex;align-items: center; width: 90%; margin-left: 85px; margin-bottom: 20px; margin-top:20px;">
-					<input type="button" value="글쓰기"  class="button" id="writeBtn" >
+                <div style="width: 80%; justify-content: end; display: flex;align-items: center; width: 90%; margin-left: 85px; margin-bottom: 20px; margin-top:20px;">
+					<input type="button" value="글쓰기"  class="button" id="writeBtn"
+					style="margin : 0 80px 0 0;" >
 				</div>
 				<div id="pageOutput" style="text-align: center;">
 				
-				</div>			
+				</div>		
               </main>
                
  <!-- 본문 끝 -->               

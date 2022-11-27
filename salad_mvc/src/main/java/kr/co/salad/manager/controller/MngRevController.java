@@ -66,7 +66,7 @@ public class MngRevController {
 		
 		MngRevDomain mrd=mrService.searchRevDetail(revNum);
 	
-		model.addAttribute("prdBodyThum",mrd.getPrdBodyThum());
+		model.addAttribute("thum",mrd.getThum());
 		//가격 계산하기
 		double disCountPro=mrd.getPrdDiscount()*0.01;
 		double disCount= mrd.getPrdPrice()*disCountPro;

@@ -33,7 +33,11 @@ public class MngQnaADAO {
 		SqlSession ss=mbh.getHandler();
 		
 		//쿼리실행
+		try {
 		qnaANum=ss.selectOne("kr.co.salad.manager.dao.mapper.MngQnaAMapper.lastQnaANum");
+		}catch(NullPointerException npe) {
+			qnaANum=0;
+		}
 		//3. MyBatis Handler 종료
 		mbh.closeHandler(ss);
 		

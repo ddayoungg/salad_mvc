@@ -79,7 +79,7 @@
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">문의 관리</div>
-                            <a class="nav-link" style="padding-bottom:28px;" href="#">
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
                                 -상품문의
                             </a>
                         </div>
@@ -145,7 +145,7 @@
 		                        	
 		                        	<!-- <div style="width:100%; display:flex; font-size:16px; font-weight:bold; padding:10px 0 20px 0; margin-top: 30px; "> -->
                         	
-		                        <div style="width:150px; margin:0 50px 0 100px;">
+		                        <div style="width:150px; margin:0 50px 0 60px;">
 		                        	총 주문 건수
 		                        <div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px; margin-top: 20px; ">
 		                        	<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
@@ -159,69 +159,29 @@
 		                        </div>
                        			</div>
                        			
-                       			 <div style="width:150px; margin:0 200px 0 0;">
+                       			 <div style="width:150px; margin:0 130px 0 0;">
 		                        	총 주문 건수
-		                        <div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px; margin-top: 20px; ">
+		                        <div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-top: 20px; ">
 		                        	<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
-				                       	<div style=" color:white; font-weight:bold; font-size:20px;">
+				                       	<div style="  color:#000000; font-weight:bold; font-size:20px;">
 				                        	이번 달 주문
 				                        </div>
-				                        <div style="color:white; font-weight:bold; font-size:20px;">
+				                        <div style=" color:#000000; font-weight:bold; font-size:20px;">
 				                       		<span style="font-size:30px;"><%= request.getAttribute("orderDayM") %></span>건
 				                        </div>
 			                        </div>
 		                        </div>
                        			</div>		                        
 		                        
-		                        <div style="width:400px; height:250px; margin:10px 0 0 0;">
-							  	<canvas id="myChart"></canvas>
-							  	</div>
-		                        
+		                        <div style="width:330px;  margin:0 0 20px 0;">메인 카테고리 별 판매 수 ( 막대 그래프 )
+		                        	<div style="width:330px; margin:10px 0 0 0;">
+							  		<canvas id="myChart"></canvas>
+							  		</div>
+							  	</div>                        
                            	</div>	 
-                       	<!-- </div> -->
-                       	<!-- 	</div> -->
-                       		 
-<!-- 1번째 라인 끝-->
-<!-- 2번째 라인 - 회원 내역 -->
-                        	<!-- <div style="width:100%; display:flex; font-size:16px; font-weight:bold; padding:10px 0 20px 0; margin-top: 30px; "> -->
-                        	
-		                        <%-- <div style="width:150px; margin-left: 30px; margin-right: 50px;">
-		                        	총 주문 건수
-		                        <div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px; margin-top: 20px; ">
-		                        	<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
-				                       	<div style=" color:white; font-weight:bold; font-size:20px;">
-				                        	오늘 주문
-				                        </div>
-				                        <div style="color:white; font-weight:bold; font-size:20px;">
-				                       		<span style="font-size:30px;"><%= request.getAttribute("orderDayT") %></span>건
-				                        </div>
-			                        </div>
-		                        </div>
-                       		</div> --%>
-		                        
-
-		                     <%--    <div style="background:rgb(186,212,206); width:150px; height:155px; border-radius:35px;  margin-right: 400px; margin-top: 45px;">
-		                        	<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
-				                        <div style=" color:white; font-weight:bold; font-size:20px;">
-				                        	이번 달 주문
-				                        </div>
-				                        <div style="color:white; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;"><%= request.getAttribute("orderDayM") %></span>건
-				                       	</div>
-			                        </div>
-		                        </div> --%>
-		                        
-							 <!--  <div style="width:400px; height:400px">
-							  	<canvas id="myChart"></canvas>
-							  </div> -->
-		                        
-                           	<!-- </div> -->	 
-                       	<!-- </div> -->
-                       	<!-- </form> -->
-<!-- 2번째 라인 끝-->
-<!-- 3번째 라인 - 주문내역 -->
+                           	
                         	<div style="width:100%; display:flex; justify-content:flex-start; font-size:16px; font-weight:bold; padding:10px 0 20px 0; margin-top: 20px; ">
-		                        <div style="width:150px; margin:0 0 0 50px;">
+		                        <div style="width:150px; margin:0 0 0 50px; flex-direction:;">
 		                        		전체 회원 내역
 		                        	<div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px; margin-right: 30px; margin-top: 20px;">
 		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
@@ -231,34 +191,35 @@
 				                        	<div style="color:white; font-weight:bold; font-size:20px;">
 				                        	<span style="font-size:30px;"><%= request.getAttribute("memberStatusT") %></span>명
 				                        	</div>
-			                        	</div>
-		                        		</div>
+			                        	</div>		                        		
+		                        	</div>
                         		</div>
-		                        	
-		                        	<div style="background:#F7F7F7;  width:150px; height:155px; border-radius:35px; margin-left: 50px; margin-right: 50px; margin-top: 40px;">
-		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
-				                        	<div style=" color:#000000; font-weight:bold; font-size:20px;">
+		                        <div style="width:150px; margin:0 0 0 50px; flex-direction:;">&nbsp;
+		                        	<div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-right: 30px; margin-top: 20px;">
+		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
+				                        	<div style=" color:#000000;  font-weight:bold; font-size:20px;">
 				                        	가입 회원 수
 				                        	</div>
 				                        	<div style="color:#000000; font-weight:bold; font-size:20px;">
 				                        	<span style="font-size:30px;"><%= request.getAttribute("memberStatusJ") %></span>명
 				                        	</div>
-			                        	</div>
+			                        	</div>		                        		
 		                        	</div>
-		                        	
-		                        	
-		                        	<div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-top: 40px; margin-right:60px">
-		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
-				                        	<div style=" color:#000000; font-weight:bold; font-size:20px;">
+                        		</div>
+		                        <div style="width:150px; margin:0 0 0 50px; flex-direction:;">&nbsp;
+		                        	<div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-right: 30px; margin-top: 20px;">
+		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
+				                        	<div style=" color:#000000;  font-weight:bold; font-size:20px;">
 				                        	탈퇴 회원 수
 				                        	</div>
 				                        	<div style="color:#000000; font-weight:bold; font-size:20px;">
 				                        	<span style="font-size:30px;"><%= request.getAttribute("memberStatusO") %></span>명
 				                        	</div>
-			                        	</div>
+			                        	</div>		                        		
 		                        	</div>
-		                        	
-		                        <div style="width:150px; margin:0 0 0 100px; ">
+                        		</div>
+
+		                        <div style="width:150px; margin:0 0 0 120px; ">
 		                        	상품 문의글
 		                        	<div style="background:rgb(141,216,198); width:150px; height:155px; border-radius:35px; margin-right: 30px; margin-top: 20px;">
 		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
@@ -271,24 +232,26 @@
 			                        	</div>
 		                        		</div>
                         		</div>
-                        		
-		                        	<div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin:40px 200px 0 50px;">
-		                        		<div style="display:flex; flex-direction:column; align-items:center;  height:150px; justify-content:center;">
+		                        <div style=" width:150px;  margin:0 130px 0 50px; ">
+		                        	&nbsp;
+		                        	<div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-right: 30px; margin-top: 20px;">
+		                        		<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
 				                        	<div style=" color:#000000; font-weight:bold; font-size:20px;">
-				                        	답변 문의
+				                        	 답변 문의
 				                        	</div>
 				                        	<div style="color:#000000; font-weight:bold; font-size:20px;">
-				                        	<span style="font-size:30px;"><%=request.getAttribute("answerStatusY") %></span>건
+				                        	<span style="font-size:30px;"><%= request.getAttribute("answerStatusY") %></span>건
 				                        	</div>
 			                        	</div>
-		                        	</div>
+		                        		</div>
+                        		</div>                       		
 		                        	
-		                        	<div style="width:400px; height:250px; margin:10px 0 0 0;">
+		                        	<div style="width:330px;  margin:0 0 20px 0;">메인 카테고리 별 판매 수 ( 원형 그래프 )
+		                        	<div style="width:330px; margin:10px 0 0 0;">
 							  		<canvas id="myChartPie"></canvas>
 							  		</div>
+							  		</div>
                        		 </div>
-
-<!-- 3번째 라인 끝-->
                         </div>
                 </main>
                 
