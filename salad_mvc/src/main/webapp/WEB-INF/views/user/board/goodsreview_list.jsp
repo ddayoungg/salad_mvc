@@ -80,7 +80,7 @@
     	$("#keyword").keydown(function(keyNum){
     		//현재의 키보드의 입력값을 keyNum으로 받음
     		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
-    			$("#topSearchBtn").click()	
+    			$("#topSearchBtn").click();
     		}//end if
     	});//keydown
     	
@@ -307,15 +307,16 @@ function setRevList(currentPage){
 			}//end for
 			if(jsonObj.totalPage != jsonObj.endPage) {
 				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>"
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + (jsonObj.endPage + 1) + ")'>&gt;<!-- > --></a></li>";
 			}//end if
 			if(jsonObj.totalPage != jsonObj.endPage) {
 				pgOutput+="<li class='page-item'>";
-				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>"
+				pgOutput+="<a class='page-link' href='#void' onclick='setRevList(" + jsonObj.totalPage + ")'>&gt&gt;<!-- >> --></a></li>";
 			}//end if
 			pgOutput+="</ul></nav>";
 			
-			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>"
+			pgOutput+="<input type='hidden' id='currentPage' name='currentPage' value='"+jsonObj.currentPage+"'/>";
+
 			
 			$("#pageOutput").html(pgOutput);
 		}//success
@@ -736,8 +737,6 @@ var sTime = new Date().getTime();
     </div>
     <!-- //footer_wrap -->
 
-
-    <div class="scroll_wrap">
 
         <!-- 좌측 스크롤 배너 -->
         <div id="scroll_left">

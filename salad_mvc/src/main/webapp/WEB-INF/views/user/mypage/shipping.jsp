@@ -101,7 +101,35 @@
     	
     });//ready
 </script>
+
+<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	setMyTotal();//나의 전체 찜, 후기, 상품문의 건수
+    	
+    });//ready
     
+    function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
+    	$.ajax({
+    		url:"http://localhost/salad_mvc/my_total_ajax.do",
+    		dataType:"json",
+    		error:function( request, status, error ){
+    			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
+    			console.log( "code"+request.status + "\n msg:" + request.responseText+"\n error:"+error);
+    		},
+    		success : function(jsonObj){
+    			$("#totalMyWish").html(jsonObj.totalMyWish);
+    			$("#totalMyRev").html(jsonObj.totalMyRev);
+    			$("#totalMyQna").html(jsonObj.totalMyQna);
+    		}//success
+    	});//ajax
+    }//setMyTotal
+    
+</script>
+<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 끝 --> 
+
+
     <script type="text/javascript">
         // 고도몰5 통화정책
         var gdCurrencyDecimal = 0;
@@ -482,19 +510,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <!-- //mypage_top_txt -->
 
-    <div class="mypage_top_wallet">
-        <ul>
-            <li>
-                <span><em>나의 위시리스트</em><a href="../mypage/mileage.jsp"><strong>0</strong></a>개</span>
-            </li>
-            <li>
-                <span><em>나의 상품문의</em><a href="../mypage/coupon.jsp"><strong>0</strong></a>개</span>
-            </li>
-            <li>
-				<span><em>나의 상품후기</em><a href="../mypage/wish_list.jsp"><strong>0</strong>개</a></span>
-            </li>
-        </ul>
-    </div>
+    <!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 폼 -->
+		    <div class="mypage_top_wallet">
+		        <ul>
+		            <li>
+		                <span><em>찜하기</em><strong><span id="totalMyWish"></span></strong></span>
+		            </li>
+		            <li>
+		                <span><em>나의 상품문의</em><strong><span id="totalMyQna"></span></strong></span>
+		            </li>
+		            <li>
+						<span><em>나의 상품후기</em><strong><span id="totalMyRev"></span></strong></span>
+		            </li>
+		        </ul>
+		    </div>
+		    <!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 폼 끝 -->
     <!-- //mypage_top_wallet -->
 
 </div>

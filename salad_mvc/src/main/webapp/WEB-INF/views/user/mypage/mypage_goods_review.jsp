@@ -100,7 +100,33 @@
     });//ready
     
 </script>
+
+<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 시작 -->
+<script type="text/javascript">
+    $(function(){
+    	
+    	setMyTotal();//나의 전체 찜, 후기, 상품문의 건수
+    	
+    });//ready
     
+    function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
+    	$.ajax({
+    		url:"http://localhost/salad_mvc/my_total_ajax.do",
+    		dataType:"json",
+    		error:function( request, status, error ){
+    			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
+    			console.log( "code"+request.status + "\n msg:" + request.responseText+"\n error:"+error);
+    		},
+    		success : function(jsonObj){
+    			$("#totalMyWish").html(jsonObj.totalMyWish);
+    			$("#totalMyRev").html(jsonObj.totalMyRev);
+    			$("#totalMyQna").html(jsonObj.totalMyQna);
+    		}//success
+    	});//ajax
+    }//setMyTotal
+    
+</script>
+<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 끝 --> 
     <script type="text/javascript">
         // 고도몰5 통화정책
         var gdCurrencyDecimal = 0;
@@ -312,7 +338,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="top_member_box">
 			
 				<ul class="list_1">
-					<li><span style="color: #333; font-size: 15px;"> ${userId} 님, 오늘도 건강한 하루 되세요.</span></li>
+					<li><span style="color: #333; font-size: 15px;"> ${userName} 님, 오늘도 건강한 하루 되세요.</span></li>
 					<li><a href="http://salad.sist.co.kr/logout_process.do">로그아웃</a></li>
 					<li class="cs">
 						<a href="http://salad.sist.co.kr/notice.do">고객센터</a>
@@ -484,6 +510,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 </style>
 <div class="content">
+
+	<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 폼 -->
+	<div class="mypage_top_wallet">
+		  <ul>
+		     <li>
+		        <span><em>찜하기</em><strong><span id="totalMyWish"></span></strong></span>
+		     </li>
+		  <li>
+		        <span><em>나의 상품문의</em><strong><span id="totalMyQna"></span></strong></span>
+		  </li>
+		     <li>
+				<span><em>나의 상품후기</em><strong><span id="totalMyRev"></span></strong></span>
+		  </li>
+		  </ul>
+	</div>
+	<!-- 남상민 추가 22-11-27 마이페이지 전체 찜, 후기, 상품문의 건수 폼 끝 -->
+	
+
     <div class="mypage_cont">
         <iframe name="ifrmMyPage" src="mypage_review_list.do" width='100%'  marginwidth='0' marginheight='0' frameborder='no' scrolling='no' onload='gd_resize_frame(this)' ></iframe>
     </div>
