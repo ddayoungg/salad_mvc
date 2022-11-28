@@ -286,7 +286,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="../salad_mvc/index.do" ><img src="http://salad.sist.co.kr/resources/images/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="index.do" ><img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -467,31 +467,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		<div class="main_v" style='visibility:hidden;'>
 			<div class="slider slider-for">
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/0553b36db6d9587049ca37ff694f0ac5_25660.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/0553b36db6d9587049ca37ff694f0ac5_25660.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/d1e43121cfdbf9c4062765a83153968e_59765.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/d1e43121cfdbf9c4062765a83153968e_59765.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/38ddcdc0747013dc2cfc19f01590b933_53285.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/38ddcdc0747013dc2cfc19f01590b933_53285.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/2f6c7d91ad533a0cd04729d8c53dac0d_22618.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/2f6c7d91ad533a0cd04729d8c53dac0d_22618.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/4ae78d8b0adbb6e9c322962a6d540e12_64293.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/4ae78d8b0adbb6e9c322962a6d540e12_64293.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/6f8f8f91331d91bd2144ccf9a11d108b_83859.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/6f8f8f91331d91bd2144ccf9a11d108b_83859.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/c568f4ede64f0ca71ccef503a757be93_12290.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/c568f4ede64f0ca71ccef503a757be93_12290.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/f66a3032dbfd8c613b1438ef09dbdbdd_13563.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/f66a3032dbfd8c613b1438ef09dbdbdd_13563.jpg"  alt="" title=""   />
 				</div>
 				<div class="slider_bn">
-				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/313a772751abebc21931f68c93dcac49_61198.jpg"  alt="" title=""   /></a>
+				 <img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/slider_511517418/313a772751abebc21931f68c93dcac49_61198.jpg"  alt="" title=""   />
 				</div>
 				
 				
@@ -2378,7 +2378,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- //foot_list -->
     <div class="foot_cont">
         <div class="foot_logo">
-<img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1f8847929867dc4aa4f12786693d6325_82534.png"  alt="하단로고" title="하단로고"   />        </div>
+<img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="하단로고" title="하단로고"   />        </div>
         <!-- //foot_logo -->
         <div class="foot_info">            
             <div class="foot_info_list">

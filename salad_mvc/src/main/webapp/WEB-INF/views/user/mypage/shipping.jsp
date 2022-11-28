@@ -112,7 +112,7 @@
     
     function setMyTotal() {//나의 전체 찜, 후기, 상품문의 건수
     	$.ajax({
-    		url:"http://localhost/salad_mvc/my_total_ajax.do",
+    		url:"http://salad.sist.co.kr/my_total_ajax.do",
     		dataType:"json",
     		error:function( request, status, error ){
     			alert("나의 전체 찜, 후기, 상품문의 건수를 불러오는데 실패했습니다.")
@@ -297,7 +297,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="index.do" ><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1bb87d41d15fe27b500a4bfcde01bb0e_33003.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="index.do" ><img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -626,7 +626,7 @@ function deliPopup(){
     <!-- //foot_list -->
     <div class="foot_cont">
         <div class="foot_logo">
-<img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/banner/1f8847929867dc4aa4f12786693d6325_82534.png"  alt="하단로고" title="하단로고"   />        </div>
+<img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="하단로고" title="하단로고"   />        </div>
         <!-- //foot_logo -->
         <div class="foot_info">            
             <div class="foot_info_list">

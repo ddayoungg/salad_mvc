@@ -417,7 +417,8 @@
 						 	<!-- 환불 조회 기능 구현 못해서 막아놓음 -->
 							<%-- <td><a id="searchOrder"  class="tableMainNum" href="mng_cancel_detail.do?orderNum=${allCancel.orderNum}
 							&orderStatus=${allCancel.orderStatus}">${allCancel.orderNum}</a></td> --%>
-							<td class="tableMainNum" >
+							<!-- <td class="tableMainNum" > 나중에 링크 탈 때 꾸미는 요소임 -->
+							<td>
 							${allCancel.orderNum}</td>
 							<td>${allCancel.id}</td>
 							<td>${allCancel.name}</td>

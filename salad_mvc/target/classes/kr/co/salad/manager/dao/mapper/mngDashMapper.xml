@@ -24,15 +24,15 @@
 	<select id="selectMonthOrder" resultType="int">
 	SELECT NVL(COUNT(ORDER_NUM),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS IN ('0','1','2','3')
+	WHERE ORDER_STATUS IN ('0')
 	AND TO_CHAR(ORDER_DATE,'YYYYMM')=TO_CHAR(SYSDATE,'YYYYMM')
 	</select>
 	
-	<!-- 이번 달 주문 건 수  -->
+	<!-- 오늘 주문 건 수  -->
 	<select id="selectTodayOrder" resultType="int">
 	SELECT NVL(COUNT(ORDER_NUM),0)
 	FROM PRODUCT_ORDER
-	WHERE ORDER_STATUS IN ('0','1','2','3')
+	WHERE ORDER_STATUS IN ('0')
 	AND TO_CHAR(ORDER_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
 	</select>
 	
@@ -61,14 +61,14 @@
 	<select id="selectYesAnswer" resultType="int">
 	SELECT COUNT(QNA_NUM)
 	FROM QA
-	WHERE QNA_A_FLAG = 0
+	WHERE QNA_A_FLAG = 1
 	</select>
 	
 	<!-- 미답변한 후기 건 수 -->
 	<select id="selectNoAnswer" resultType="int">
 	SELECT COUNT(QNA_NUM)
 	FROM QA
-	WHERE QNA_A_FLAG = 1
+	WHERE QNA_A_FLAG = 0
 	</select>
 	
 	<!-- 메인 카테고리별 판매 수 -->

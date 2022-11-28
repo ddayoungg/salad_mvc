@@ -160,7 +160,7 @@
                        			</div>
                        			
                        			 <div style="width:150px; margin:0 130px 0 0;">
-		                        	ÃÑ ÁÖ¹® °Ç¼ö
+		                        	&nbsp;
 		                        <div style="background:#F7F7F7; width:150px; height:155px; border-radius:35px; margin-top: 20px; ">
 		                        	<div style="display:flex; flex-direction:column; align-items:center; height:150px; justify-content:center;">
 				                       	<div style="  color:#000000; font-weight:bold; font-size:20px;">

@@ -97,7 +97,11 @@
 							    tbOutput+="<td>"+json.orderNum+"</td>";
 							    tbOutput+="<td>"+json.name+"</td>";
 							    tbOutput+="<td>"+json.orderDate+"</td>";
-							    tbOutput+="<td>"+json.orderTotalPrice+"원</td>";
+							    
+								var tempPrice=Math.floor(json.orderTotalPrice); //단위
+								const totalPrice=tempPrice.toLocaleString('ko-KR');
+								
+							    tbOutput+="<td>"+ totalPrice+"원</td>";
 							    tbOutput+="<td>"+json.orderStatus+"</td>";
 							    tbOutput+="<td><input type='button' class='btn btn-light btn-sm detailBtn' onclick='location.href=\"mng_order_detail.do?orderNum="+json.orderNum+"&existAddrFlag="+json.existAddrFlag+"\"' value='상세보기'></td>";
 								tbOutput+="</tr>";
@@ -277,14 +281,15 @@
 					<div class="row px-4"  style="--bs-gutter-x:0;">
 						<div style="margin: 10px auto; text-align: center;">
 							<form id="searchFrm" name="searchFrm"  action="mng_notice.do">
-				               	<div style="width: 90%; margin-left: 85px; margin-bottom: 20px;" align="right">
+				               	<div style="width: 80%; margin-left: 85px; margin-bottom: 20px;" align="right">
 				               		<input type="text"  placeholder="주문자명을 입력하세요." id="searchText" name="searchText">
 				               		<input type="text" style="display: none;"/>
-				               		<input type="button" value="검색" id="searchBtn" name="searchBtn">
+				               		<input type="button" value="검색" id="searchBtn" name="searchBtn"
+				               		style="width: 14%; background-color: white;border: 1px solid grey;width: 80px; margin-left: 10px;" >
 				               	</div>
 				            </form>
 						</div>	
-		            	<div style="margin: 10px auto; text-align: center;">
+		            	<div style="width: 80%; margin: 10px auto; text-align: center;">
 							<div class="mypage_table_type" id="orderListOutput">
 			    				
 							</div>

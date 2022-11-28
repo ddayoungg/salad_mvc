@@ -93,36 +93,44 @@
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
-						<div class="sb-sidenav-menu-heading">메인</div>
-						<a class="nav-link" style="padding-bottom: 28px;"
-							href="index.html"> -대시보드 </a>
-						<hr style="width: 90%; text-align: center; margin: auto;">
-						<div style="padding: 28px 16px 28px 16px;">
-							<a class="sb-sidenav-menu-heading heading-link"
-								style="text-decoration-line: none; font-size: 16px; padding: 0;"
-								href="#">회원 관리</a>
-						</div>
-						<hr style="width: 90%; text-align: center; margin: auto;">
-						<div class="sb-sidenav-menu-heading">상품 관리</div>
-						<a class="nav-link" href="index.html"> -상품 등록 </a> <a
-							class="nav-link" style="padding-top: 0; padding-bottom: 28px;"
-							href="index.html"> -상품 후기 </a>
-						<hr style="width: 90%; text-align: center; margin: auto;">
-						<div class="sb-sidenav-menu-heading">주문 관리</div>
-						<a class="nav-link" href="mng_order.do"> -주문 관리 </a> <a
-							class="nav-link" style="padding-top: 0;" href="mng_cancel.do">
-							-취소 관리 </a> <a class="nav-link"
-							style="padding-top: 0; padding-bottom: 28px" href="mng_deli.do">
-							-배송 관리 </a>
-						<hr style="width: 90%; text-align: center; margin: auto;">
-						<div class="sb-sidenav-menu-heading">게시판 관리</div>
-						<a class="nav-link" style="padding-bottom: 28px;"
-							href="index.html"> -공지사항 </a>
-						<hr style="width: 90%; text-align: center; margin: auto;">
-						<div class="sb-sidenav-menu-heading">문의 관리</div>
-						<a class="nav-link" style="padding-bottom: 28px;"
-							href="index.html"> -상품문의 </a>
-					</div>
+                            <div class="sb-sidenav-menu-heading">메인</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_dashboard.do">
+                                -대시보드
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
+                            style="text-decoration-line:none; font-size:16px; padding:0;" 
+                            href="mng_member.do">회원 관리</a></div>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">상품 관리</div>
+                            <a class="nav-link" href="mng_prd.do">
+                                -상품 등록
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px;"href="mng_rev.do">
+                                -상품 후기
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">주문 관리</div>
+                            <a class="nav-link" href="mng_order_main.do">
+                                -주문 관리
+                            </a>
+                            <a class="nav-link" style="padding-top:0;"href="mng_cancel.do">
+                                -취소 관리
+                            </a>
+                            <a class="nav-link" style="padding-top:0; padding-bottom:28px" href="mng_deli.do">
+                                -배송 관리
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">게시판 관리</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_notice.do">
+                                -공지사항
+                            </a>
+                            <hr style="width:90%; text-align:center; margin:auto;">
+                            <div class="sb-sidenav-menu-heading">문의 관리</div>
+                            <a class="nav-link" style="padding-bottom:28px;" href="mng_qna.do">
+                                -상품문의
+                            </a>
+                        </div>
 				</div>
 			</nav>
 		</div>
@@ -215,7 +223,7 @@
 							<c:forEach items="${ orderPrdList }" var="orderPrd">
 								<tr class="orderTr" height="150px" style="border-bottom: 1px solid #777777;">
 									<td style="font-size: 16px;">
-										<img alt="img" src="${ orderPrd.thum }" width="120px">
+										<img alt="img" src="http://salad.sist.co.kr/common/images/product/${ orderPrd.thum }" width="120px">
 										<span><c:out value="${ orderPrd.prdName }" /></span>
 									</td>
 									<td style="font-size: 16px;">

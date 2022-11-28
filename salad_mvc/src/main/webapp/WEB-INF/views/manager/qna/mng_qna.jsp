@@ -324,7 +324,7 @@
 							<select name="subCate" id="subCate" style="width: 16%">
 								<option value="0">---서브 카테고리---</option>
 							</select>
-							<input type="text" name="keyword" id="keyword" value="" style="width: 50%" placeholder="내용을 입력해 주세요">
+							<input type="text" name="keyword" id="keyword" value="" style="width: 50%" placeholder="제목을 입력해 주세요">
 							<input type="text" style="display: none">
 							<input type="button" value="검색" class="button2" id="searchBtn" name="searchBtn" style="width: 14%">
 						</form>

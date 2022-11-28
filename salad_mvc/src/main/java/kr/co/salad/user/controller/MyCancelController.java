@@ -71,9 +71,8 @@ public class MyCancelController {
 		return jsonObj;
 	}//MyCancelListAjax
 	
-	@RequestMapping(value="/my_cancel_detail.do", method= GET)
+	@RequestMapping(value="/my_order_detail.do", method= GET)
 	public String searchMyCancelDetailForm(HttpSession session, MyCancelVO mcVO, Model model) {//취소 상세 페이지
-		//String url="user/mypage/cancel_view";
 		String url="user/board/popup_order_detail";
 		
 		String userId=(String)session.getAttribute("userId");//세션 가져오기
