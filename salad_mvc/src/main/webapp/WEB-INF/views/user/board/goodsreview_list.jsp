@@ -529,7 +529,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div  class="board_zone_tit board_zone_tit_realreview">
 
 			
-				<h2>리얼후기</h2>
+				<h2 style="text-align: center;  font-size: 40px;">리얼후기</h2>
 			
 
     </div>

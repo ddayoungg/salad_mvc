@@ -450,9 +450,10 @@ function edit() {//수정
 		                    -대시보드
 		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
-		                <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
-		                style="text-decoration-line:none; font-size:16px; padding:0;" 
-		                href="http://salad.sist.co.kr/mng_member.do">회원 관리</a></div>
+		                <div class="sb-sidenav-menu-heading">회원관리</div>
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_member.do">
+		                    -회원 관리
+		                </a>
 		                <hr style="width:90%; text-align:center; margin:auto;">
 		                <div class="sb-sidenav-menu-heading">상품 관리</div>
 		                <a class="nav-link" href="http://salad.sist.co.kr/mng_prd.do">
@@ -644,7 +645,7 @@ function edit() {//수정
 	                            	<div>주소 : 서울광역시 강남구 테헤란로 132 / 개인정보관리책임자 : 3조 / E-Mail : 3조@0000.co.kr</div>
 	                        	</div>
 	                        	<div>
-	                        		<img alt="img" src="img/saladLogo.png">
+	                        		<img alt="img" src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png">
 	                        	</div>
                         	</div>
                         </div>

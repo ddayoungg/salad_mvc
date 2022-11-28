@@ -336,7 +336,7 @@ function cancel(){
                             <th>주소</th>
                             <td>
                             	(<c:out value="${ deliData.deliZipcode }"/>)<br/>
-                            	<c:out value="${ deliData.deliAddr }"/>&nbsp;<c:out value="${ myData.deAddr }"/>
+                            	<c:out value="${ deliData.deliAddr }"/>&nbsp;<c:out value="${ deliData.deliDetailAddr }"/>
                             </td>
                         </tr>
 						<tr>

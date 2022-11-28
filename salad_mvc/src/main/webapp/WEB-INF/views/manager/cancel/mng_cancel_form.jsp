@@ -138,9 +138,10 @@
                                 -대시보드
                             </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
-                            <div style="padding:28px 16px 28px 16px;"><a class="sb-sidenav-menu-heading heading-link" 
-                            style="text-decoration-line:none; font-size:16px; padding:0;" 
-                            href="mng_member.do">회원 관리</a></div>
+		                <div class="sb-sidenav-menu-heading">회원관리</div>
+		                <a class="nav-link" style="padding-bottom:28px;" href="http://salad.sist.co.kr/mng_member.do">
+		                    -회원 관리
+		                </a>
                             <hr style="width:90%; text-align:center; margin:auto;">
                             <div class="sb-sidenav-menu-heading">상품 관리</div>
                             <a class="nav-link" href="mng_prd.do">

@@ -428,78 +428,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	
 	
 <body id="body" class="body-order body-order pc"  >
-<!-- Channel Plugin Scripts -->
-<script>
-  function parsePureNumber(number) {
-    var ch_pureNumber = number.replace(/[^0-9\.]+/g, '');
-    if (ch_pureNumber === "") {
-      return null;
-    }
-    return parseFloat(ch_pureNumber) || 0;
-  }
-  var settings = {
-    // action banner z index is 199997 ~ 199998
-    "zIndex": 100000,
-    "pluginKey": "ad67ea36-ae1a-452d-9419-cc8a83a650a3"
-  };
-  settings.memberId = "tester21";
-  settings.profile = {
-    "name": "테스터",
-    "mobileNumber": "010-8968-4952",
-    "email": "alfkdlej5@gmail.com",
-    "cartCount": parsePureNumber("2"),
-    "totalPurchaseCount": parsePureNumber("0"),
-    "totalPurchaseAmount": parsePureNumber("0원"),
-    "groupName": "포켓탐색 Lv.1",
-    "isAdult": "n",
-    "availableMileage": parsePureNumber("0원"),
-    "totalDeposit": parsePureNumber("0")
-  };
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  if (settings && settings.memberId && settings.memberId.indexOf('=gSess.memId') >= 0) {
-    console.error('You do not using godomall 5. please visit https://developers.channel.io/docs/guide-for-famous-builders and find correct one');
-  } else {
-    ChannelIO('boot', settings);
-  }
-</script>
-<!-- End Channel Plugin -->
 
 	<div class="top_area"></div>
-<div id="wrap" >
+
 
     <div id="header_warp" >
 		
@@ -795,7 +726,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	                           <tr>
 	                               <th scope="row"><span class="important">휴대폰 번호</span></th>
 	                               <td>
-	                                   <input type="text" id="orderCellPhone" name="orderCellPhone" value="${ orderInfo.phone }" maxlength="20" placeholder="-없이 입력하세요" />
+	                                   <input type="text" id="orderCellPhone" name="orderCellPhone" value="${ orderInfo.phone }" maxlength="11" placeholder="-없이 입력하세요" 
+	                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 	                               </td>
 	                           </tr>
 	                           <tr>
@@ -880,7 +812,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	                           <tr>
 	                               <th scope="row"><span class="important">휴대폰 번호</span></th>
 	                               <td>
-	                                   <input type="text" class="newShip" id="receiverCellPhone" value="${ orderInfo.phone }" name="receiverCellPhone"/>
+	                                   <input type="text" class="newShip" id="receiverCellPhone" value="${ orderInfo.phone }" name="receiverCellPhone"
+	                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" placeholder="- 없이 입력하세요."/>
 	                               </td>
 	                           </tr>
 	                           </tbody>
