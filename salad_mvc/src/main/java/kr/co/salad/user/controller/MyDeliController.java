@@ -61,7 +61,8 @@ public class MyDeliController {
 	@RequestMapping(value = "mypage_deli_edit_process.do",method = POST)
 	public String editDeliProcess(HttpSession session,MyDeliVO mdVO ,Model model) {
 		MyDeliVO dbmdVO=mdVO;
-		dbmdVO.setId("ekdud3674"); //技记措脚 
+		String userId=(String) session.getAttribute("userId");
+		dbmdVO.setId(userId); //技记措脚 
 		int resultFlag=mdService.editDeli(dbmdVO);
 		model.addAttribute("eMsg", true);
 		return "redirect:http://salad.sist.co.kr/delipopup.do";

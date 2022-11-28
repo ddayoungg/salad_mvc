@@ -496,7 +496,7 @@ function edit() {//수정
 							<div style="font-size:24px; color:rgb(51,51,51); font-weight:bold;">환영합니다! 3조 관리자님.</div>
 						</div>
 						<div>
-							<img src="images/socialMedia.png" width="130px">
+							<img src="http://salad.sist.co.kr/resources/mng_images/socialMedia.png" width="130px">
 						</div>
 						<div style="width:319px;"></div>
 					</div>
