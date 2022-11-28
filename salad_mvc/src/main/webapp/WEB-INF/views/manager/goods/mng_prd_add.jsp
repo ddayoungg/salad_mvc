@@ -87,8 +87,8 @@
 </style>
 
 <script type="text/javascript">
-idx=1;//파일 찾아보기 인덱스
-bodyIdx=1;//파일 찾아보기 인덱스
+idx=0;//파일 찾아보기 인덱스
+bodyIdx=0;//파일 찾아보기 인덱스
 
 $(function(){
 	
@@ -189,7 +189,7 @@ function gd_add_upload(imgType){
 	
 	var output="";
 	
-	if($("#upload"+imgType+"Box div").length>4){//img 파일 갯수 제한
+	if($("#upload"+imgType+"Box div").length>5){//img 파일 갯수 제한
 		return;
 	}//end if
 	
@@ -330,7 +330,6 @@ function nullChk(){
 	
 	//hidden에 값 set
 	$("#hiddSubCateNum").val($("#subCate").val());
-	
 	
 	if(!confirmMsg()) {//확인 메시지
 		return;
@@ -520,9 +519,6 @@ function save() {//등록
 										</div>
 										<span><strong>보조이미지</strong></span>
 										<div style="margin-top: 15px;">
-											<img id="imgOutput1" class="imgSmall" src="">
-											<input type="file" id="upFile1" name="upFile1" onchange="setFile(1, '')" class="file" title="찾아보기" />
-											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg1" name="prdImgArr"/>
 											<input type="button" id="addUploadBtn" class="button2" value="+ 추가">
 										</div>
 									</td>
@@ -532,15 +528,12 @@ function save() {//등록
 									<td id="uploadBodyBox">
 										<div style="margin-top: 15px;">
 											<img id="imgBodyOutput0" class="imgBig" src="">
-											대표이미지 
+											<span><strong>대표 이미지</strong></span>
 											<input type="file" id="upBodyFile0" name="upBodyFile0" onchange="setFile(0, 'Body')" class="file" title="찾아보기"/>
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdBodyImg0" name="prdBodyThum"/>
 										</div>
+										<span><strong>보조이미지</strong></span>
 										<div style="margin-top: 15px;">
-											<img id="imgBodyOutput1" class="imgSmall" src="">
-											보조이미지 
-											<input type="file" id="upBodyFile1" name="upBodyFile1" onchange="setFile(1, 'Body')" class="file" title="찾아보기" />
-											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdBodyImg1" name="prdBodyImgArr"/>
 											<input type="button" id="addUploadBodyBtn" class="button2" value="+ 추가">
 										</div>
 									</td>

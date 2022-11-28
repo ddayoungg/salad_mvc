@@ -88,8 +88,8 @@
 </style>
 
 <script type="text/javascript">
-idx=1;//파일 찾아보기 인덱스
-bodyIdx=1;//파일 찾아보기 인덱스
+idx=0;//파일 찾아보기 인덱스
+bodyIdx=0;//파일 찾아보기 인덱스
 
 firstView=true;//초기 화면 카테고리 세팅
 
@@ -211,7 +211,7 @@ function gd_add_upload(imgType){
 	
 	var output="";
 	
-	if($("#upload"+imgType+"Box div").length>4){//img 파일 갯수 제한
+	if($("#upload"+imgType+"Box div").length>5){//img 파일 갯수 제한
 		return;
 	}//end if
 	
@@ -542,22 +542,17 @@ function edit() {//수정
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.thum }" id="prdImg0" name="thum"/>
 										</div>
 										<span><strong>보조이미지</strong></span>
-										<div class="fileUploadSec" style="margin-top: 15px;">
-											<img id="imgOutput1" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdImgList[0]}">
-											<input type="file" id="upFile1" name="upFile1" onchange="setFile(1, '')" class="file" title="찾아보기" />
-											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdImgList[0] }" id="prdImg1" name="prdImgArr"/>
+										<div style="margin-top: 15px;">
 											<input type="button" id="addUploadBtn" class="button2" value="+ 추가">
 										</div>
 										<c:if test="${ prdData.prdImgList ne null }">
 											<c:forEach varStatus="status" var="prdImg" items="${ prdData.prdImgList }">
-												<c:if test="${ !status.first }"><!-- 첫 번째 보조 이미지 X -->
-													<div class="fileUploadSec" style="margin-top: 15px;">
-														<img id="imgOutput${ status.index+1 }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdImg }">
-														<input type="file" id="upFile${ status.index+1 }" name="upFile${ status.index+1 }" onchange="setFile('${ status.index+1 }', '')" class="file" title="찾아보기" />
-														<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index+1 }" value="${ prdImg }" name="prdImgArr"/>
-														<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
-													</div>
-												</c:if>
+												<div class="fileUploadSec" style="margin-top: 15px;">
+													<img id="imgOutput${ status.index }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdImg }">
+													<input type="file" id="upFile${ status.index }" name="upFile${ status.index }" onchange="setFile('${ status.index }', '')" class="file" title="찾아보기" />
+													<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index }" value="${ prdImg }" name="prdImgArr"/>
+													<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
+												</div>
 											</c:forEach>
 										</c:if>
 									</td>
@@ -572,22 +567,17 @@ function edit() {//수정
 											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdBodyThum }" id="prdBodyImg0" name="prdBodyThum"/>
 										</div>
 										<span><strong>보조이미지</strong></span>
-										<div class="fileBodyUploadSec" style="margin-top: 15px;">
-											<img id="imgBodyOutput1" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdData.prdBodyImgList[0] }">
-											<input type="file" id="upBodyFile1" name="upBodyFile1" onchange="setFile(1, 'Body')" class="file" title="찾아보기" />
-											<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" value="${ prdData.prdBodyImgList[0] }" id="prdBodyImg1" name="prdBodyImgArr"/>
+										<div style="margin-top: 15px;">
 											<input type="button" id="addUploadBodyBtn" class="button2" value="+ 추가">
 										</div>
 										<c:if test="${ prdData.prdBodyImgList ne null }">
 											<c:forEach varStatus="status" var="prdBodyImg" items="${ prdData.prdBodyImgList }">
-												<c:if test="${ !status.first }"><!-- 첫 번째 보조 이미지 X -->
-														<div class="fileBodyUploadSec" style="margin-top: 15px;">
-															<img id="imgBodyOutput${ status.index+1 }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdBodyImg }">
-															<input type="file" id="upBodyFile${ status.index+1 }" name="upFile${ status.index+1 }" onchange="setFile('${ status.index+1 }', 'Body')" class="file" title="찾아보기" />
-															<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index+1 }" value="${ prdBodyImg }" name="prdBodyImgArr"/>
-															<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
-														</div>
-													</c:if>
+												<div class="fileBodyUploadSec" style="margin-top: 15px;">
+													<img id="imgBodyOutput${ status.index }" class="imgSmall" src="http://salad.sist.co.kr/common/images/product/${ prdBodyImg }">
+													<input type="file" id="upBodyFile${ status.index }" name="upFile${ status.index }" onchange="setFile('${ status.index }', 'Body')" class="file" title="찾아보기" />
+													<input type="hidden" class="file_text" title="파일 첨부하기" readonly="readonly" id="prdImg${ status.index }" value="${ prdBodyImg }" name="prdBodyImgArr"/>
+													<input type="button" onclick="gd_remove_upload(this)" class="button2" value="- 삭제">
+												</div>
 											</c:forEach>
 										</c:if>
 									</td>

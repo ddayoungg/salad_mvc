@@ -5,7 +5,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>포켓샐러드 - 내가 찾던 식단관리!</title>
+    <title>샐러드월드 - 내가 찾던 식단관리!</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="신선한 샐러드를 언제 어디서나 간편하게 즐기는 포켓샐러드! 라이스&포켓닭까지 함께 즐겨보세요" />

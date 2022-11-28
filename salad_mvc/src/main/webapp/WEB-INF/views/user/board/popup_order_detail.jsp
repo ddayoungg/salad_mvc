@@ -6,7 +6,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>포켓샐러드 - 내가 찾던 식단관리!</title>
+    <title>샐러드월드 - 내가 찾던 식단관리!</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="신선한 샐러드를 언제 어디서나 간편하게 즐기는 포켓샐러드! 라이스&포켓닭까지 함께 즐겨보세요" />
@@ -98,10 +98,8 @@ $(function(){
 	})//closeBtn
 	
 	//주문 취소 버튼 클릭
-	$("#cancelBtn").on("click", function () {
-		if(confirm("주문을 취소 하시겠습니까?")){
-			$(".updateOrder").submit();
-		}
+	$("#cancelBtn").click(function (){
+		cancel();//취소 ajax
 	});
 	
 })//ready
@@ -109,15 +107,37 @@ $(function(){
 function loginChk() {
 		
 	var loginFlag=true;
-    	
+
 	<c:if test="${ sessionScope.userId eq null }">
 		alert("로그인을 해주세요.");
 		window.close();
 		loginFlag= false;
 	</c:if>
-		
+
 	return loginFlag;
 }//loginChk
+
+function cancel(){
+	
+	if(!loginChk()){
+		return;
+	}//end if
+	
+	if(confirm("주문을 취소 하시겠습니까?")){
+	$.ajax({
+		url : "cancel_order.do",
+		data : "orderNum=${param.orderNum}",
+		error:function( xhr ){
+			console.log(xhr.status);
+		},
+		success : function(xh){
+			alert("해당 주문이 취소되었습니다.");
+			opener.location.reload();
+			window.close();
+		}//success
+	});//ajax
+	}//confirm
+}//cancel
 
 </script>
     
@@ -345,11 +365,6 @@ function loginChk() {
             </div>
         </div>
         <!-- //order_view_info -->
-        
-		<!-- 수량 수정 form -->
-		<form action="cancel_order.do" method="get" class="updateOrder">
-			<input type="hidden" name="orderNum" value="${orderList.get(0).orderNum}">
-		</form>
             
     
 

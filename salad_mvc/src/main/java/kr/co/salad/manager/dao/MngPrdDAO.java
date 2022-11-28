@@ -1,20 +1,14 @@
 package kr.co.salad.manager.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
 import kr.co.salad.dao.handler.MyBatisHandler;
-import kr.co.salad.manager.domain.MngMemberDomain;
 import kr.co.salad.manager.domain.MngPrdDomain;
-import kr.co.salad.manager.vo.MngMemberVO;
 import kr.co.salad.manager.vo.MngPrdVO;
-import kr.co.salad.user.dao.PrdDetailRevDAO;
-import kr.co.salad.user.domain.PrdDetailRevDomain;
-import kr.co.salad.user.vo.PrdDetailRevVO;
 @Component
 public class MngPrdDAO {
 	
@@ -216,9 +210,9 @@ public class MngPrdDAO {
 		//2. 쿼리문 실행
 		int rowCnt=session.update("kr.co.salad.manager.dao.mapper.MngPrdMapper.updatePrd", mpVO);
 		if(rowCnt != 0) {
-			System.out.println("데이터가 추가 되었습니다.");
+			System.out.println("데이터가 업데이트 되었습니다.");
 		}else {
-			System.out.println("데이터 추가 실패했습니다.");
+			System.out.println("데이터 업데이트 실패했습니다.");
 			commitFlag=false;
 		}//end else
 		
@@ -226,7 +220,7 @@ public class MngPrdDAO {
 		
 		//DB에 저장된 수정 전 이미지 파일 삭제
 		prdImgCnt=session.delete("kr.co.salad.manager.dao.mapper.MngPrdMapper.deletePrdImg", mpVO.getPrdNum());
-		if(prdImgCnt != 0) {
+		if(prdImgCnt >= 0) {
 			System.out.println("데이터가 삭제 되었습니다.");
 		}else {
 			System.out.println("데이터 삭제 실패했습니다.");
@@ -251,7 +245,7 @@ public class MngPrdDAO {
 		
 		//DB에 저장된 수정 전 이미지 파일 삭제
 		prdBodyImgCnt=session.delete("kr.co.salad.manager.dao.mapper.MngPrdMapper.deletePrdBodyImg", mpVO.getPrdNum());
-		if(prdBodyImgCnt != 0) {
+		if(prdBodyImgCnt >= 0) {
 			System.out.println("데이터가 삭제 되었습니다.");
 		}else {
 			System.out.println("데이터 삭제 실패했습니다.");

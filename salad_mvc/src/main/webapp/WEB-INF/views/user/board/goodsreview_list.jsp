@@ -4,20 +4,20 @@
 <!doctype html>
 <html>
 <head>
-    <title>포켓샐러드 - 내가 찾던 식단관리!</title>
+    <title>샐러드월드 - 내가 찾던 식단관리!</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="" />
     <meta name="description" content="신선한 샐러드를 언제 어디서나 간편하게 즐기는 포켓샐러드! 라이스&포켓닭까지 함께 즐겨보세요" />
     <meta name="keywords" content="샐러드, 닭가슴살, 샐러드배달, 샐러드도시락, 다이어트도시락, 포켓닭, 탄단지, 다이어트, 다이어트식단, 식단관리" />
-    <meta name="csrf-token" content="MTY2Njg2MTQ2MzEzOTcxMjY4Nzk1ODM4NTkxMjY2ODkxMDUwMTM2OTE4" />
+    <meta name="csrf-token" content="MTY2NjY4NDQ1MDMyODY5OTU2MDc0MTg3OTYwODg5OTc4NzI4MjgxNDA0" />
    <meta name="facebook-domain-verification" content="l8vlpgoyq5exc97dfww64gqzmnialy" />
 	
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="포켓샐러드">
     <meta property="og:image" content="https://www.pocketsalad.co.kr/data/common/snsRepresentImage.jpg">
-    <meta property="og:url" content="https://www.pocketsalad.co.kr/board/list.jsp?bdId=goodsreview">
+    <meta property="og:url" content="https://www.pocketsalad.co.kr/member/join.jsp">
     <meta property="og:description" content="내가 찾던 식단관리!">
     <meta property="og:locale" content="ko_KR">
     <meta property="og:image:width" content="160">
@@ -32,10 +32,11 @@
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/reset.css?ts=1647562972">
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/common.css?ts=1659591193">
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/common/layer/layer.css?ts=1666243530">
-    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/layout/layout.css?ts=1666735347">
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/layout/layout.css?ts=1666674309">
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/goods/list.css?ts=1662515260">
 	<link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/button.css?ts=1644979979">
-    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/board/board.css?ts=1666743613" />
+	<link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/service/service.css?ts=1610501674" />
+    <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/member/member.css?ts=1662983268" />
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/js/jquery/chosen/chosen.css?ts=1662105386" />
     <link type="text/css" rel="stylesheet" href="http://salad.sist.co.kr/resources/css/custom.css?ts=1660281178" />
 
@@ -69,7 +70,8 @@
     <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery.iframeResizer.min.js?ts=1649920172"></script>
     <script type="text/javascript" defer src="http://salad.sist.co.kr/resources/js/slider/slick/slick.js?ts=1610501674"></script>
     <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/swiper.js?ts=1610501674"></script>
-<!-- 검색 시작 -->
+    
+    <!-- 검색 시작 -->
 <script type="text/javascript">
     $(function(){
     	
@@ -80,7 +82,7 @@
     	$("#keyword").keydown(function(keyNum){
     		//현재의 키보드의 입력값을 keyNum으로 받음
     		if(keyNum.keyCode == 13){ //keyCode=13 : Enter
-    			$("#topSearchBtn").click();
+    			$("#topSearchBtn").click()	
     		}//end if
     	});//keydown
     	
@@ -91,8 +93,10 @@
     }//searchEvent
     
 </script>
-<!-- 검색 끝 -->       
-<!-- 전체 카테고리 -->
+<!-- 검색 끝 -->
+    
+    
+    <!-- 전체 카테고리 -->
 <script type="text/javascript">
     $(function(){
     	
@@ -103,143 +107,6 @@
     });//ready
     
 </script>
-    
-    <script type="text/javascript">
-        // 고도몰5 통화정책
-        var gdCurrencyDecimal = 0;
-        var gdCurrencyDecimalFormat = '0';
-        var gdCurrencyCode = 'KRW';
-        var gdCurrencyAddDecimal = 0;
-        var gdCurrencyAddDecimalFormat = '';
-        var gdCurrencyAddCode = '';
-        var gdLocale = 'ko';
-        var gdCurrencySymbol = '';
-        var gdCurrencyString = '원';
-
-        // 환율변환 정책
-        fx.base = "KRW";
-        fx.settings = {
-            from : "KRW",
-            to : gdCurrencyCode
-        };
-        fx.rates = {
-            "KRW" : 1,
-            "USD" : 0.00069994680404289274,
-            "CNY" : 0.00505203597049610993,
-            "JPY" : 0.10453471597917668457,
-            "EUR" : 0.00071439797682492963,
-        }
-    </script>
-
-    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_common.js?ts=1610501674"></script>
-
-    <!-- Add script : start -->
-    <script type="text/javascript" src="/admin/gd_share/script/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-27T18%3A04%3A24%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3A%2285762%22%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22list.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
-    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_board_common.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/moment.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/locale/ko.js?v=2020120404"></script>
-    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/datetimepicker/bootstrap-datetimepicker.js?v=2020120404"></script>
-    <!-- Add script : end -->
-
-    
-
-    <style type="text/css">
-        body {
-        }
-
-        /* body > #wrap > #header_warp : 상단 영역 */
-        #header_warp {
-        }
-
-        /* body > #wrap > #container : 메인 영역 */
-        #container {
-        }
-
-        /* body > #wrap > #footer_wrap : 하단 영역 */
-        #footer_wrap {
-        }
-    </style>
-
-    <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/naver/naverCommonInflowScript.js?Path=/board/list.jsp&amp;Referer=https://www.pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-81300049-1');
-</script>
--->
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NS4V8GR');</script>
-<!-- End Google Tag Manager --><!-- Facebook Pixel Code -->
-        <script>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-        document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1469865633321623', {}, {'agent':'plgodo'});
-        fbq('track', 'PageView');
-        </script>
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469865633321623&ev=PageView&noscript=1"/></noscript>
-        <!-- DO NOT MODIFY -->
-        <!-- End Facebook Pixel Code --><!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '');
-        </script>
-
-        <!-- Criteo Loader -->
-        <script type="text/javascript" src="//dynamic.criteo.com/js/ld/ld.js?a=34297" async="true"></script>
-        <!-- END Criteo Loader -->
-        <script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/adfit/static/kp.js"></script>
-        <script type="text/javascript">
-            kakaoPixel('5900620314493041185').pageView();
-        </script>
-        <!-- This script is for AceCounter START --> 
-        <script language='javascript'> 
-            var _ag   = '0';            
-            var _id   = 'tester21';  
-            var _mr = 'single';       // ( 'single' , 'married') 
-            var _gd = '';            //  ('man' , 'woman')  
-        </script>
-        <!-- AceCounter END --><!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
-        <script language='javascript'>
-	        var _AceGID=(function(){var Inf=['gtc4.acecounter.com','8080','BS1A45883992363','AW','0','NaPm,Ncisy','ALL','0'];
-	        var _CI=(!_AceGID)?[]:_AceGID.val;var _N=0;var _T=new Image(0,0);if(_CI.join('.').indexOf(Inf[3])<0){ _T.src ='https://'+Inf[0]+'/?cookie'; _CI.push(Inf);  _N=_CI.length; } return {o: _N,val:_CI}; })();
-	        var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src='https:'+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
-        </script>
-        <!-- AceCounter Log Gathering Script End -->
-	
-	<!-- Google Shopping -->
-<meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
-<!-- Google Shopping -->
-	
-	
-	<!-- Global site tag (gtag.js) - Google Ads: 955276942 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-955276942"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-955276942');
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	setRevList(1);
@@ -324,10 +191,143 @@ function setRevList(currentPage){
 }//setRevList
 
 </script>
+    
+    <script type="text/javascript">
+        // 고도몰5 통화정책
+        var gdCurrencyDecimal = 0;
+        var gdCurrencyDecimalFormat = '0';
+        var gdCurrencyCode = 'KRW';
+        var gdCurrencyAddDecimal = 0;
+        var gdCurrencyAddDecimalFormat = '';
+        var gdCurrencyAddCode = '';
+        var gdLocale = 'ko';
+        var gdCurrencySymbol = '';
+        var gdCurrencyString = '원';
+
+        // 환율변환 정책
+        fx.base = "KRW";
+        fx.settings = {
+            from : "KRW",
+            to : gdCurrencyCode
+        };
+        fx.rates = {
+            "KRW" : 1,
+            "USD" : 0.00069994680404289274,
+            "CNY" : 0.00505203597049610993,
+            "JPY" : 0.10453471597917668457,
+            "EUR" : 0.00071439797682492963,
+        }
+    </script>
+
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_common.js?ts=1610501674"></script>
+
+    <!-- Add script : start -->
+    <script type="text/javascript" src="/admin/gd_share/script/visit/gd_visit.js?requestUrl=https%3A%2F%2Fcollector-statistics.nhn-commerce.com%2Fhttp.msg&requestData=%7B%22base_time%22%3A%222022-10-25T16%3A54%3A11%2B09%3A00%22%2C%22mall_id%22%3A%22652040%22%2C%22user_id%22%3Anull%2C%22refer%22%3A%22https%3A%5C%2F%5C%2Fwww.pocketsalad.co.kr%3A443%22%2C%22uri%22%3A%22join.jsp%22%2C%22domain%22%3A%22www.pocketsalad.co.kr%22%2C%22country%22%3A%22kr%22%2C%22solution%22%3A%22G5%22%7D&dummyData=?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/jquery-cookie/jquery.cookie.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/moment.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/moment/locale/ko.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_member2.js?v=2020120404"></script>
+    <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/datetimepicker/bootstrap-datetimepicker.js?v=2020120404"></script>
+    <!-- Add script : end -->
+
+    
+
+    <style type="text/css">
+        body {
+        }
+
+        /* body > #wrap > #header_warp : 상단 영역 */
+        #header_warp {
+        }
+
+        /* body > #wrap > #container : 메인 영역 */
+        #container {
+        }
+
+        /* body > #wrap > #footer_wrap : 하단 영역 */
+        #footer_wrap {
+        }
+    </style>
+
+    <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/naver/naverCommonInflowScript.js?Path=/member/join.jsp&amp;Referer=https://www.pocketsalad.co.kr:443&amp;AccountID=s_2dc21239d6a&amp;Inflow=pocketsalad.co.kr" id="naver-common-inflow-script"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81300049-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-81300049-1');
+</script>
+-->
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NS4V8GR');</script>
+<!-- End Google Tag Manager --><!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1469865633321623', {}, {'agent':'plgodo'});
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469865633321623&ev=PageView&noscript=1"/></noscript>
+        <!-- DO NOT MODIFY -->
+        <!-- End Facebook Pixel Code --><!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '');
+        </script>
+
+        <!-- Criteo Loader -->
+        <script type="text/javascript" src="//dynamic.criteo.com/js/ld/ld.js?a=34297" async="true"></script>
+        <!-- END Criteo Loader -->
+        <script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/adfit/static/kp.js"></script>
+        <script type="text/javascript">
+            kakaoPixel('5900620314493041185').pageView();
+        </script>
+        <!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
+        <script language='javascript'>
+	        var _AceGID=(function(){var Inf=['gtc4.acecounter.com','8080','BS1A45883992363','AW','0','NaPm,Ncisy','ALL','0'];
+	        var _CI=(!_AceGID)?[]:_AceGID.val;var _N=0;var _T=new Image(0,0);if(_CI.join('.').indexOf(Inf[3])<0){ _T.src ='https://'+Inf[0]+'/?cookie'; _CI.push(Inf);  _N=_CI.length; } return {o: _N,val:_CI}; })();
+	        var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src='https:'+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
+        </script>
+        <!-- AceCounter Log Gathering Script End -->
+	
+	<!-- Google Shopping -->
+<meta name="google-site-verification" content="B1k_K4m7BeZIxpICcT8HOm3BK9ixbegJkaPl0r8muA0" />
+<!-- Google Shopping -->
+	
+	
+	<!-- Global site tag (gtag.js) - Google Ads: 955276942 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-955276942"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-955276942');
+</script>
+
+	
+
 </head>
 	
 	
-<body id="body" class="body-board body-list pc"  >
+<body id="body" class="body-member body-join pc"  >
+
 
 	<div class="top_area"></div>
 <div id="wrap" >
@@ -358,7 +358,7 @@ function setRevList(currentPage){
 	  <div class="header_top">
 		  <div class="header_top_cont">
 			  	<div class="h1_logo">
-				<div class="logo_main"><a href="http://salad.sist.co.kr/index.do" ><img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="상단 로고" title="상단 로고"   /></a></div>
+				<div class="logo_main"><a href="index.do" ><img src="http://salad.sist.co.kr/resources/mng_images/saladLogo.png"  alt="상단 로고" title="상단 로고"   /></a></div>
 			</div>
             <!-- 멀티상점 선택 -->
             
@@ -366,7 +366,7 @@ function setRevList(currentPage){
 			<div class="header_search">
 				<div class="header_search_cont">
 
-<!-- 검색 폼 -->
+					<!-- 검색 폼 -->
 	<div class="top_search">
         <fieldset>
             <legend>검색폼</legend>
@@ -387,35 +387,39 @@ function setRevList(currentPage){
 				<!-- //header_search_cont -->
 			</div>
 			<!-- //header_search -->
-
 			<div class="top_member_box">
-
-				<ul class="list_1"><!-- 수정 -->
+			
+				<ul class="list_1">
 					<c:choose>
-						<c:when test="${ sessionScope.userId eq null }">
-							<li><a href="http://salad.sist.co.kr/login.do">로그인</a></li>
-							<li><a href="http://salad.sist.co.kr/join.do">회원가입</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><span style="color: #333; font-size: 15px;"><c:out value="${ sessionScope.userName }"/>님, 오늘도 건강한 하루 되세요.</span></li>
-							<li><a href="http://salad.sist.co.kr/logout_process.do">로그아웃</a></li>
-						</c:otherwise>
+					<c:when test="${empty userId }">
+						<li><a href="join.do">회원가입</a></li>
+						<li><a href="login.do">로그인</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><span style="color: #333; font-size: 15px;">${userName} 님, 오늘도 건강한 하루 되세요.</span></li>
+						<li><a href="logout_process.do">로그아웃</a></li>
+					</c:otherwise>
 					</c:choose>
 					<li class="cs">
-						<a href="http://salad.sist.co.kr/notice.do">고객센터</a>
+						고객센터
 						<div class="cs_in">
 							<ul >
-								<li><a href="http://salad.sist.co.kr/notice.do">공지사항</a></li>
-								<li><a href="http://salad.sist.co.kr/goodsreview_list.do">리얼후기</a></li>								
+								<li><a href="notice.do">공지사항</a></li>
+								<li><a href="goodsreview_list.do">리얼후기</a></li>								
 							</ul>
 						</div>
+
+
 					</li>
 
 				</ul>
 				<ul class="list_2">
-					<li><a href="http://salad.sist.co.kr/mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="마이페이지"></a></li>
-					<li class="cart"><a href="http://salad.sist.co.kr/cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+					<li><a href="mypage_pass.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cs_icn.png" alt="매이페이지"></a></li>
+					<li class="cart"><a href="cart.do"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/main/top_cart_icn.png" alt="장바구니"></a>
+
+
                     </li>
+
 				</ul>
 			</div>
         </div>
@@ -435,8 +439,7 @@ function setRevList(currentPage){
 <strong>ALL CATEGORY</strong>
 <a href="#void" id="allMenuToggle"><img src="http://salad.sist.co.kr/resources/images/common/btn/btn_allmenu_open.png" alt="전체메뉴보기"></a>
 </div>
-
-<div class="gnb_allmenu_wrap">
+	<div class="gnb_allmenu_wrap">
 <div class="gnb_allmenu" id="gnbAllMenu" style="display:none" >
 <div class="gnb_allmenu_box">
 <ul>
@@ -459,7 +462,7 @@ function setRevList(currentPage){
 
 <!-- 전체 카테고리 출력 레이어 끝 -->
 
-<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
+			<div class="gnb_left"><a href="#PREV" class="active">PREV</a></div>
 <div class="gnb_menu_box">
     <ul class="depth0 gnb_menu0">
         <c:forEach var="mainCate" items="${ mainCateList }">
@@ -473,9 +476,7 @@ function setRevList(currentPage){
 
             <!-- 상단 카테고리 출력 시작 -->
 
-
             </div>
-
 
         </div>
         <!-- //gnb -->
@@ -546,52 +547,13 @@ function setRevList(currentPage){
     <!-- //board_zone_cont -->
 </div>
 <!-- //board_zone_sec -->
-
-<form id="frmWritePassword">
-    <div id="lyPassword" class="dn layer_wrap password_layer" style="height: 226px">
-        <div class="layer_wrap_cont">
-            <div class="ly_tit">
-                <h4>비밀번호 인증</h4>
-            </div>
-            <div class="ly_cont">
-                <div class="scroll_box">
-                    <p>비밀번호를 입력해 주세요.</p>
-                    <input type="password" name="writerPw" class="text">
-                </div>
-                <!-- // -->
-                <div class="btn_center_box">
-                    <button type="button" class="btn_ly_password js_submit"><strong>확인</strong></button>
-                </div>
-            </div>
-            <!-- //ly_cont -->
-            <a href="#close" class="ly_close layer_close"><img src="https://atowertr6856.cdn-nhncommerce.com/data/skin/front/kaimen_pc_n/img/common/layer/btn_layer_close.png" alt="닫기"></a>
-        </div>
-        <!-- //layer_wrap_cont -->
-    </div>
-    <!-- //layer_wrap -->
-</form>
-
-<div id="layerDim" class="dn">&nbsp;</div>
-<script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_board_list.js" charset="utf-8"></script>
-<script>
-    $(document).ready(function () {
-        $('img.js_image_load').error(function () {
-            $(this).css('background', 'url("http://salad.sist.co.kr/resources/board/skin/default/img/etc/noimg.png") no-repeat center center');
-            $(this).attr('src', '/data/skin/front/kaimen_pc_n/img/etc/blank.gif');
-        })
-            .each(function () {
-                $(this).attr("src", $(this).attr("src"));
-            })
-    });
-</script>
 </div>
 <!-- //content -->
             </div>
             <!-- //sub_content -->
         </div>
         <!-- //본문 끝 contents -->
-    </div>
-    <!-- //container -->
+        </div>
 
     <div id="footer_wrap">
 <div id="footer">
@@ -737,21 +699,6 @@ var sTime = new Date().getTime();
     </div>
     <!-- //footer_wrap -->
 
-
-        <!-- 좌측 스크롤 배너 -->
-        <div id="scroll_left">
-
-        </div>
-        <!-- //scroll_left -->
-        <!-- //좌측 스크롤 배너 -->
-
-
-        <!-- 우측 스크롤 배너 -->
-
-
-    <!-- 퀵 검색 폼 -->
-    <!-- 퀵 검색 폼 -->
-
 </div>
 <!-- //wrap -->
 
@@ -797,7 +744,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             var deviceType = /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d";
             window.criteo_q.push(
                 { event: "setAccount", account: "34297" },
-                { event: "setEmail", email: "9360d2e2e294fd47c5ec8d55c10ae8d557df6cc1f970be3774fd17fc987d2895", hash_method: "sha256" },
+                { event: "setEmail", email: "", hash_method: "sha256" },
                 { event: "setZipcode", zipcode: "" },
                 { event: "setSiteType", type: deviceType },
                 { event: "addToCart", item: [
@@ -810,6 +757,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Criteo Cart Event Script -->
 
         
+
+<!-- Start Script for IFDO ( 회원분석 )-->
+<!-- 스크립트 생성 일시 = 2022 / 04 / 11 17:39:54 -->
 
 
 <!-- End Script for IFDO -->

@@ -61,12 +61,11 @@ public class MyOrderController {
 		return jsonObj;
 	}//MyCancelListAjax
 	
-	// 장바구니 수량 변경
-	@RequestMapping(value = "/cancel_order.do", method = GET)
-	public String cancelOrderProcess(HttpSession session, MyOrderVO moVO) {
+	@ResponseBody
+	@RequestMapping(value = "/cancel_order.do", method = GET, produces="application/json; charset=UTF-8")
+	public void cancelOrderProcess(HttpSession session, MyOrderVO moVO) {
 		moVO.setId((String)session.getAttribute("userId"));//세션 가져오기
 		mos.cancelOrder(moVO);
-		return "user/mypage/order_list";
 	}//editCartCntProcess
 
 }//class

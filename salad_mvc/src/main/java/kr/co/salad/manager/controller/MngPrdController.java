@@ -131,8 +131,6 @@ public class MngPrdController {
 		
 		List<String> prdImgList=new ArrayList<String>();
 		List<String> prdBodyImgList=new ArrayList<String>();
-		System.out.println("prdImgList 생성:"+prdImgList);
-		System.out.println("prdBodyImgList 생성:"+prdBodyImgList);
 		try {
 			MultipartRequest mr=new MultipartRequest(request, saveDir.getAbsolutePath(), maxSize, "UTF-8", new DefaultFileRenamePolicy());
 			
@@ -140,18 +138,21 @@ public class MngPrdController {
 			String[] prdImgArr=mr.getParameterValues("prdImgArr");
 			String[] prdBodyImgArr=mr.getParameterValues("prdBodyImgArr");
 			
-			for(String prdImg : prdImgArr) {
-				if(prdImg != null && !"".equals(prdImg)) {
-					prdImgList.add(prdImg);
-				}//end if
-			}//end for
+			if (prdImgArr!=null && !("".equals(prdImgArr))) {
+				for(String prdImg : prdImgArr) {
+					if(prdImg != null && !"".equals(prdImg)) {
+						prdImgList.add(prdImg);
+					}//end if
+				}//end for
+			}//end if
 			
-			for(String prdBodyImg : prdBodyImgArr) {
-				if(prdBodyImg != null && !"".equals(prdBodyImg)) {
-					System.out.println(prdBodyImg);
-					prdBodyImgList.add(prdBodyImg);
-				}//end if
-			}//end for
+			if (prdBodyImgArr !=null && !("".equals(prdBodyImgArr))) {
+				for(String prdBodyImg : prdBodyImgArr) {
+					if(prdBodyImg != null && !"".equals(prdBodyImg)) {
+						prdBodyImgList.add(prdBodyImg);
+					}//end if
+				}//end for
+			}//end if
 			
 			//3. Parameter를 받기(VO에 넣어야 한다면 VO를 생성하여 값을 넣는다.)
 			mpVO.setSubCateNum(Integer.parseInt(mr.getParameter("subCateNum")));
@@ -203,37 +204,39 @@ public class MngPrdController {
 	@ResponseBody
 	@RequestMapping(value="/edit_change_prd_process.do", method=POST, produces="application/json; charset=UTF-8")
 	public void editChangePrdProcess(HttpSession session, HttpServletRequest request) {
-		
+			
 		MngPrdVO mpVO=new MngPrdVO();
-		
+			
 		//2. FileUpload Component를 생성(cos.jar)
 		File saveDir=new File("/home/ubuntu/salad_mvc/common/images/product");
 		int maxSize=1024*1024*20;//byte * kb * mb * gb
-		
+			
 		List<String> prdImgList=new ArrayList<String>();
 		List<String> prdBodyImgList=new ArrayList<String>();
-		System.out.println("prdImgList 생성:"+prdImgList);
-		System.out.println("prdBodyImgList 생성:"+prdBodyImgList);
 		try {
 			MultipartRequest mr=new MultipartRequest(request, saveDir.getAbsolutePath(), maxSize, "UTF-8", new DefaultFileRenamePolicy());
-			
+				
 			//추가 이미지 set
 			String[] prdImgArr=mr.getParameterValues("prdImgArr");
 			String[] prdBodyImgArr=mr.getParameterValues("prdBodyImgArr");
-			
-			for(String prdImg : prdImgArr) {
-				if(prdImg != null && !"".equals(prdImg)) {
-					prdImgList.add(prdImg);
-				}//end if
-			}//end for
-			
-			for(String prdBodyImg : prdBodyImgArr) {
-				if(prdBodyImg != null && !"".equals(prdBodyImg)) {
-					System.out.println(prdBodyImg);
-					prdBodyImgList.add(prdBodyImg);
-				}//end if
-			}//end for
-			
+				
+				
+			if (prdImgArr!=null && !("".equals(prdImgArr))) {
+				for(String prdImg : prdImgArr) {
+					if(prdImg != null && !"".equals(prdImg)) {
+						prdImgList.add(prdImg);
+					}//end if
+				}//end for
+			}//end if
+				
+			if (prdBodyImgArr !=null && !("".equals(prdBodyImgArr))) {
+				for(String prdBodyImg : prdBodyImgArr) {
+					if(prdBodyImg != null && !"".equals(prdBodyImg)) {
+						prdBodyImgList.add(prdBodyImg);
+					}//end if
+				}//end for
+			}//end if
+				
 			//3. Parameter를 받기(VO에 넣어야 한다면 VO를 생성하여 값을 넣는다.)
 			mpVO.setSubCateNum(Integer.parseInt(mr.getParameter("subCateNum")));
 			mpVO.setPrdNum(Integer.parseInt(mr.getParameter("prdNum")));
@@ -242,21 +245,21 @@ public class MngPrdController {
 			mpVO.setPrdBodyThum(mr.getParameter("prdBodyThum"));
 			mpVO.setPrdDiscount(Integer.parseInt(mr.getParameter("prdDiscount")));
 			mpVO.setPrdPrice(Integer.parseInt(mr.getParameter("prdPrice")));
-			
+				
 			if(!prdImgList.isEmpty()) {
 				mpVO.setPrdImgList(prdImgList);
 			}//end if
 			if(!prdBodyImgList.isEmpty()) {
 				mpVO.setPrdBodyImgList(prdBodyImgList);
 			}//end if
-			
+				
 		} catch (IOException e) {
 			e.printStackTrace();
 		}//catch
-		
+			
 		//작성한 후기 내용 저장
 		mpService.editPrd(mpVO);
-		
+			
 	}//editChangePrdProcess
 	
 }//class
