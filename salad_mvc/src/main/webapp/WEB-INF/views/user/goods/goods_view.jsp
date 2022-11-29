@@ -79,7 +79,13 @@
     <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/gd_goods_view.js?v=2020120404"></script>
     <script type="text/javascript" src="http://salad.sist.co.kr/resources/js/jquery/chosen-imageselect/src/ImageSelect.jquery.js?v=2020120404"></script>
     <!-- Add script : end -->
-
+	
+	<!-- 슬라이더 -->
+	
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
+	
+	<!-- 슬라이더 -->
 <!-- 검색 시작 -->
 <script type="text/javascript">
     $(function(){
@@ -168,6 +174,8 @@ $(function(){
     setRevList(1);//ajax 후기 리스트
     
     setQnaList(1);//ajax 상품문의 리스트
+    
+    //$('.bxslider').bxSlider();
     
 });//ready
 
@@ -504,13 +512,19 @@ function revPopup(revNum) {//후기 팝업 띄우기
 		 output+="<span class='gds_rv_xbtn ly_close layer_close'><img src='http://salad.sist.co.kr/resources/images/main/close_btn.png' style='width: 30px;'/></span>";
 		 output+="<div class='cell cell1'>";
 		 output+="<div class='bx-wrapper' style='max-width: 100%;'><div class='bx-viewport' aria-live='polite' style='width: 100%; overflow: hidden; position: relative; height: 500px;'>";
-		 output+="<ul>";
-		 if(jsonObj.revImgThum != null) {//이미지가 존재 시
-			 output+="<li><img src='http://salad.sist.co.kr/common/images/review/"+jsonObj.revImgThum+"' style='max-width:500px'></li>";
-		 } else {//이미지가 없을 시 대체 사진
+		 
+		 output+="<ul class='bxslider'>";
+		 if(jsonObj.revImgList!=null) {
+		     $.each(jsonObj.revImgList, function(i, revImg){
+				 output+="<li ><img src='http://salad.sist.co.kr/common/images/review/"+ revImg +"' style='max-width:500px'></li>";
+		     });//each
+	     } else {//이미지가 없을 시 대체 사진
 			 output+="<li><img src='http://salad.sist.co.kr/resources/images/main/noimage.jpg' style='max-width:500px'></li>";
 		 }//end if
-	     output+="</ul></div><div class='bx-controls bx-has-controls-direction'><div class='bx-controls-direction'><a class='bx-prev' href=''>Prev</a><a class='bx-next' href=''>Next</a></div></div></div>";
+		 output+="</ul>";
+	     output+="</div>";
+	     output+="<div class='bx-controls bx-has-controls-direction'>";
+	     output+="</div></div>";
 		 output+="</div>";
 		 output+="<div class='cell cell2'>";
 		 output+="<div class='cell-all'>";				
@@ -553,6 +567,8 @@ function revPopup(revNum) {//후기 팝업 띄우기
 		$('#lyViewPop').empty().append(output);
 		$('#lyViewPop').find('>div').center();
 		setRevList($("#revCurrentPage").val());
+		
+		$('.bxslider').bxSlider();
     }//success
 });
 }//revNum
