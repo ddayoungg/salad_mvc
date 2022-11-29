@@ -1477,11 +1477,11 @@ $(function() {
 								<span class="more-plusrv-btn"><b>더보기<i></i></b></span>
 							</span>
 							
-							<span class="img">
-							<c:if test="${ bestRev.revImgList != null }">
-								<img src="http://salad.sist.co.kr/common/images/review/${ bestRev.revImgList[0] }" style="max-width:130px; height:100%;">
-							</c:if>
-							</span>
+							<c:if test="${ bestRev.revImgList != null || bestRev.revImgList != '' }">
+                        <span class="img">
+                           <img src="http://localhost/salad_mvc/common/images/review/${ bestRev.revImgList[0] }" style="max-width:130px; height:100%;">
+                        </span>
+                     </c:if>
 							
 						</span>
 					</a>
